@@ -1,4 +1,4 @@
-* Extracted by KLayout with SG13G2 LVS runset on : 17/11/2026 03:30
+* Extracted by KLayout with SG13G2 LVS runset on : 17/11/2026 20:43
 
 .SUBCKT ampcal_det cmp ct en gnd hold rep tn tp vdd vthn
 M$1 \$5 en gnd gnd sg13_lv_nmos L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u
@@ -35,13 +35,13 @@ M$21 vdd ct rep gnd sg13_lv_nmos L=0.13u W=1u AS=0.34p AD=0.34p PS=3.36u
 + PD=3.36u rfmode=0
 M$23 vdd tn hold gnd sg13_lv_nmos L=0.13u W=0.5u AS=0.17p AD=0.17p PS=1.68u
 + PD=1.68u rfmode=0
-M$25 \$36 \$21 \$23 gnd sg13_lv_nmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
+M$25 \$37 \$21 \$23 gnd sg13_lv_nmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
 + PD=7.06u rfmode=0
 M$27 cmp \$20 \$23 gnd sg13_lv_nmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
 + PD=7.06u rfmode=0
-M$29 \$36 \$36 vdd vdd sg13_lv_pmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
+M$29 \$37 \$37 vdd vdd sg13_lv_pmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
 + PD=7.06u rfmode=0
-M$31 cmp \$36 vdd vdd sg13_lv_pmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
+M$31 cmp \$37 vdd vdd sg13_lv_pmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
 + PD=7.06u rfmode=0
 R$33 \$20 vdd gnd rhigh w=0.5u l=6.96u ps=0u b=0 m=1
 R$34 \$21 vdd gnd rhigh w=0.5u l=6.96u ps=0u b=0 m=1

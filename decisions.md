@@ -908,3 +908,10 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   equal length, no M1 taps. Detector moves if its power drops still block them.
 - cfix re-trimmed for the resulting island C (≈ 39 fF per side, ≤ 50 fF allowed), with band
   margins and D20 landing re-checked.
+
+## 2026-11-17 — Detector re-pin
+- vco_var with mirror-placed pins accepted (ad495c2): DRC, KLayout LVS, netgen, dimensions,
+  fingers. Equal TM1 tank stubs: C ≈ 49.2 / 49.2 fF per side, mismatch ≈ 0 [HAND].
+- tn tap short (tn | vdd) caused by ampcal_det's vdd M2 at the tn site. ampcal_det is re-pinned:
+  tn / tp face pins clear of vdd and hold, re-proven. Detector taps at minimum width.
+- Island tank C stays ≤ 50 fF per side including taps; above that, a finding to the owner.

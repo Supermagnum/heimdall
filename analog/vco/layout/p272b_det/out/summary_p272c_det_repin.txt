@@ -1,0 +1,12 @@
+# P2.7.2c ampcal_det face re-pin (step 1)
+
+Face pins: tp (-12.85, 20.22), tn (-12.85, 49.98) [GDS]
+Escape: M2 via east jog x=29.55 (avoids SF M1 gnd bars that shorted gnd|tn|tp) [TOOL]
+
+DRC clean (density waived): PASS [TOOL]
+KLayout LVS: PASS [TOOL]
+netgen: PASS [TOOL]
+fingers: PASS [TOOL] (see summary_fingers_repin.txt)
+rhigh L: 6.96 um (cmp) / 78 um (bias) spice matches extract [TOOL]
+
+No device changes.

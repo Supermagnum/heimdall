@@ -1505,9 +1505,53 @@ Men_ss pd_ss en gnd gnd sg13_lv_nmos w=2.0u l=0.13u ng=1
             tap_to_tm1(bp_p["rep"], x_br, y_rep, add_via12=False)
 
         # ---- detector taps (tank west labels) ----
+        # Face pins on the west edge, clear of vdd/hold/internal M2: tp south
+        # of hold, tn north of vdd (mirror stagger). Island taps land here so
+        # they never sit on the vdd M2 bar [decisions 2026-11-17 Detector re-pin].
+        # Escape on M2 via an east jog: SF M1 gnd bars at y≈24 and y≈46 span
+        # the gate columns, so an M1 V/H from the gates shorts gnd|tn|tp [TOOL].
         if "taps" in routed:
-            for name in ("tp", "tn", "ct"):
-                self.pin_m1(c, sf_p[name][0], sf_p[name][1], name)
+            x_face = min(sf_bb.left, hc_bb.left) - 6.0
+            y_hold = sf_p["hold"][1]
+            y_vdd = sf_p["vdd"][1]
+            y_tp_f = y_hold - 12.0
+            y_tn_f = y_vdd + 10.5
+            x_tp, y_tp = sf_p["tp"]
+            x_tn, y_tn = sf_p["tn"]
+            # East of SF gnd bar (~25) and M2 stub ending x≈28.21 (M2.b 0.21)
+            x_jog = x_tn + 8.5
+            # Below gate-row M2 vias (bottom ≈ y_tp−1.03); keep ≥0.21 [TOOL M2.b]
+            y_tp_h = y_tp - 2.0
+
+            def m2_seg(xa, ya, xb, yb):
+                self.box_m2(c, min(xa, xb) - 0.20, min(ya, yb) - 0.20,
+                            max(xa, xb) + 0.20, max(ya, yb) + 0.20)
+
+            # tp: via12 → M2 south jog → east → south face Y → west → pin
+            via12_at(x_tp, y_tp)
+            m2_seg(x_tp, y_tp, x_tp, y_tp_h)
+            m2_seg(x_tp, y_tp_h, x_jog, y_tp_h)
+            m2_seg(x_jog, y_tp_h, x_jog, y_tp_f)
+            m2_seg(x_jog, y_tp_f, x_face, y_tp_f)
+            via12_at(x_face, y_tp_f)
+            self.pin_m1(c, x_face, y_tp_f, "tp")
+            self.say(
+                f"ampcal_det face tp ({x_face:.2f},{y_tp_f:.2f}) "
+                f"← M2 jog x={x_jog:.2f} from ({x_tp:.2f},{y_tp:.2f}) [HAND]"
+            )
+
+            # tn: via12 → M2 east → north face Y → west → pin
+            via12_at(x_tn, y_tn)
+            m2_seg(x_tn, y_tn, x_jog, y_tn)
+            m2_seg(x_jog, y_tn, x_jog, y_tn_f)
+            m2_seg(x_jog, y_tn_f, x_face, y_tn_f)
+            via12_at(x_face, y_tn_f)
+            self.pin_m1(c, x_face, y_tn_f, "tn")
+            self.say(
+                f"ampcal_det face tn ({x_face:.2f},{y_tn_f:.2f}) "
+                f"← M2 jog x={x_jog:.2f} from ({x_tn:.2f},{y_tn:.2f}) [HAND]"
+            )
+            self.pin_m1(c, sf_p["ct"][0], sf_p["ct"][1], "ct")
             self.pin_m1(c, sf_p["hold"][0], sf_p["hold"][1], "hold")
             self.pin_m1(c, sf_p["rep"][0], sf_p["rep"][1], "rep")
             self.pin_m1(c, sf_p["vdd"][0], sf_p["vdd"][1], "vdd")
