@@ -1,0 +1,67 @@
+patched vco_core_tank TM1.b notches (6 fills) [GDS]
+direct-pack LL bank=(-150.17, 0.0) core=(0.0, 282.77) var=(258.0, 327.075) det=(303.3, 323.315) tail=(258.0, 491.54499999999996) [HAND]
+place vco_bank bb=(-150.17,0;400.91,274.77)
+  pin g0 @ (-115.85,212.94)
+  pin g1 @ (-36.47,212.84)
+  pin g10 @ (153.03,125.45)
+  pin g11 @ (287.50,125.45)
+  pin g2 @ (44.95,212.81)
+  pin g3 @ (130.39,212.86)
+  pin g4 @ (223.42,212.85)
+  pin g5 @ (-115.91,34.66)
+  pin g6 @ (18.56,34.66)
+  pin g7 @ (153.03,34.66)
+  pin g8 @ (-115.91,125.45)
+  pin g9 @ (18.56,125.45)
+  pin gnd @ (400.56,0.25)
+  pin tn @ (132.62,273.77)
+  pin tp @ (112.62,273.77)
+  pin vbp @ (-149.17,86.29)
+place vco_core_tank bb=(0,282.77;254,715.26)
+  pin ct @ (127.00,385.65)
+  pin gnd @ (127.00,348.27)
+  pin tail @ (127.00,369.77)
+  pin tn @ (141.38,380.65)
+  pin tp @ (112.62,380.65)
+  pin vdd @ (127.00,388.65)
+place tail_block bb=(258,491.545;511.92,865.835)
+  pin code0 @ (371.29,586.81)
+  pin code1 @ (371.29,587.71)
+  pin code2 @ (371.29,588.61)
+  pin code3 @ (371.29,589.51)
+  pin code4 @ (371.29,590.41)
+  pin gnd @ (258.30,495.79)
+  pin tail @ (490.64,601.00)
+  pin vbp_tail @ (417.08,519.15)
+  pin vdd @ (501.42,596.16)
+place vco_var bb=(258,327.075;299.3,487.545)
+  pin W @ (260.00,327.32)
+  pin gnd @ (299.05,362.38)
+  pin tn @ (259.00,380.65)
+  pin tp @ (259.00,344.10)
+  pin vbp @ (270.29,485.19)
+place ampcal_det bb=(303.3,323.315;453.8,446.74)
+  pin cmp @ (387.32,385.29)
+  pin ct @ (326.73,386.90)
+  pin en @ (453.48,353.32)
+  pin gnd @ (311.55,369.54)
+  pin hold @ (317.94,375.54)
+  pin rep @ (331.72,372.54)
+  pin tn @ (336.60,380.65)
+  pin tp @ (316.86,380.65)
+  pin vdd @ (326.48,382.80)
+  pin vthn @ (388.89,367.73)
+outline bbox=(-150.17,0;511.92,865.835) area=0.5733 mm2 [GDS]
+power spines y_vdd=869.83 y_gnd=-4.00 x=[-152.2,513.9] w=4.0 [HAND]
+power tail_block.vdd col x=514.9
+power ampcal_det.vdd col x=456.8
+power vco_core_tank.gnd col x=-10.0
+power vco_bank.gnd col x=403.9
+power tail_block.gnd col x=254.0
+power vco_var.gnd col x=302.3
+power ampcal_det.gnd col x=299.3
+power M2.b notch fills applied [TOOL]
+ct→det.ct (326.7,386.9)
+ct TM1 port y=390.65 → (456.8,390.6)
+wrote /foss/designs/analog/vco/layout/p272c/out/vco_top.gds.gz
+wrote /foss/designs/analog/vco/layout/p272c/out/vco_top.spice

@@ -1,0 +1,68 @@
+# P2.7.2c — D20 ff landing + direct re-pack / join — STOP (2026-11-17)
+
+## Step 1 — ff landing at 0.955 V [MODEL/SCH]
+PASS.
+- ff compliance window (accepted P2.7.2c): 0.457–0.970 V [MODEL]
+- New ff landing high: 0.955 V inside window (+15 mV to top) [MODEL]
+- INL 3.0 ps; |ΔI_cp| 1.7 %; lock UP 2.97 ns [SCH]
+- Fractional spur VHF/UHF −118.2 / −125.9 dBc [MODEL] (limit −95)
+- Reference spur: not re-run; prior ≤ −109 dBc at 5 µA [MODEL]
+Artifacts: `analog/pll/step4/run_p272c_ff_land955.py`,
+`out/summary_p272c_ff_land955.txt`
+
+## Step 2 — routing plan + direct pack
+Written before place: `out/summary_direct_routing_plan.txt`.
+Assembler: V-stub-only bank→spine (no west corridor) in `build_assemble.py`.
+
+## Step 3 — join (DRC + LVS + netgen per group)
+| Group | DRC (density+M1.b waived) | KLayout LVS | netgen |
+|---|---|---|---|
+| place | PASS | FAIL | FAIL |
+| power | PASS (after M2.b pad/fill fix) | FAIL | FAIL |
+| ct | PASS (after TM1.a pin ≥2 µm) | FAIL | FAIL |
+| tail | PASS | FAIL | FAIL |
+| tn_tp | PASS (after TM1.b heal fills) | FAIL | FAIL |
+| vt | PASS (vt moved clear of gnd spine) | FAIL | FAIL |
+| controls | PASS | FAIL | FAIL |
+
+Extracted soft-connect / mega-short probe [TOOL]:
+- place: `ct|tn|tp`
+- +power: `cmp|gnd|vdd` and `ct|tn|tp`
+- +ct: merges to `cmp|ct|gnd|tn|tp|vdd`
+- +tail: adds `tail`
+- +vt: adds `W`/`vt`
+- +controls: adds `vbp`
+
+Full unique LVS vs `vco_top.sch` / hierarchical leaf spice: **FAIL**.
+Inductor fab/LVS diff, varactor dim script, finger script: **not re-run this stop**.
+
+## Step 4 — island C / mismatch / outline / die
+| Item | Value | Tag |
+|---|---|---|
+| Island C tn/tp | 32.1 / 34.8 fF | [HAND] L×0.10 fF/µm |
+| Budget | ≤ 37 fF / side | [HAND] trim assumption |
+| tn−tp ΔL | 26.8 µm | [GDS/HAND] |
+| Outline | 0.5733 mm² | [GDS] |
+| Die re-total | not updated (LVS gate open) | |
+
+PEX-RC on island routing: **not run**.
+
+## Specs
+Partial: decisions D20 landing recorded. Full § updates deferred until LVS unique match.
+
+## Decision needed
+How to clear the place-level `ct|tn|tp` extract short and the power-level
+`cmp|gnd|vdd` short (likely pin/via/spine soft-connects) before unique LVS.
+Options: (1) continue debug of pin export + power via landings on this pack;
+(2) revert to leaf-proven pin style from D22 join; (3) owner call.
+
+## Found, not done
+- Unique KLayout LVS + netgen on `vco_top`
+- Inductor fab/LVS GDS diff; varactor W/L/Nx; finger script; ct port proof list
+- `spec/vco-topology.md` §9, `pll-topology.md` D20, `p27-layout-notes.md`,
+  `p27-floorplan.md` §8, `phase2-plan.md` §3 final status lines
+- Island PEX-RC; die §8 re-total with art keep-out
+
+## Next run (expected)
+After LVS unique match on this direct pack: **P2.7.3 — VCO PEX and post-layout checks**.
+If LVS stays blocked: a focused P2.7.2c LVS-short fix run before P2.7.3.

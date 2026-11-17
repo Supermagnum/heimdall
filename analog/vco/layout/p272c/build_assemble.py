@@ -99,8 +99,12 @@ class Asm:
 
     def load_child(self, name):
         gds = GDS[name]
+        if not os.path.exists(gds) and os.path.exists(gds + ".gz"):
+            with gzip.open(gds + ".gz", "rb") as z, open(gds, "wb") as f:
+                shutil.copyfileobj(z, f)
+            self.say(f"unzipped {gds}.gz → {gds}")
         if not os.path.exists(gds):
-            raise SystemExit(f"missing {gds}")
+            raise SystemExit(f"missing {gds} (and {gds}.gz)")
         src_ly = pya.Layout()
         src_ly.read(gds)
         src = src_ly.cell(name) or src_ly.top_cell()
@@ -151,8 +155,9 @@ class Asm:
         return cell.cell_index(), pins, bb, keep
 
     def pin_tm1(self, cell, x, y, name):
-        cell.shapes(self.tm1).insert(pya.DBox(x - 0.5, y - 0.5, x + 0.5, y + 0.5))
-        cell.shapes(self.tm1pin).insert(pya.DBox(x - 0.4, y - 0.4, x + 0.4, y + 0.4))
+        # TM1.a min width 1.64 µm — pin pad must be ≥ 2.0 [DS/TOOL]
+        cell.shapes(self.tm1).insert(pya.DBox(x - 1.0, y - 1.0, x + 1.0, y + 1.0))
+        cell.shapes(self.tm1pin).insert(pya.DBox(x - 0.8, y - 0.8, x + 0.8, y + 0.8))
         cell.shapes(self.tm1txt).insert(pya.DText(name, pya.DTrans(x, y)))
 
     def pin_m1(self, cell, x, y, name):
@@ -376,16 +381,20 @@ class Asm:
             }
 
             def drop_power(px, py, rail_y, block, net):
+                # M2 pads oversized to merge into child pin M2 (M2.b ≥ 0.21) [TOOL]
                 xc = x_col[(block, net)]
                 m3w = 2.0
+                pad = 4.0
                 c.shapes(self.m2).insert(
-                    pya.DBox(min(px, xc) - 2.0, py - 2.0,
-                             max(px, xc) + 2.0, py + 2.0))
+                    pya.DBox(min(px, xc) - 2.0, py - pad,
+                             max(px, xc) + 2.0, py + pad))
                 c.shapes(self.m3).insert(
                     pya.DBox(xc - m3w / 2, min(py, rail_y),
                              xc + m3w / 2, max(py, rail_y)))
                 c.shapes(self.m2).insert(
-                    pya.DBox(xc - 1.5, rail_y - 1.5, xc + 1.5, rail_y + 1.5))
+                    pya.DBox(xc - 2.0, rail_y - 2.0, xc + 2.0, rail_y + 2.0))
+                c.shapes(self.m2).insert(
+                    pya.DBox(px - 3.0, py - pad, px + 3.0, py + pad))
                 if (block, net) not in m2_ready:
                     c.shapes(self.m1).insert(
                         pya.DBox(min(px, xc) - 0.2, py - 0.8,
@@ -416,6 +425,13 @@ class Asm:
             export_pin("vdd", x1 - 2.0, y_vdd, "m1")
             c.insert(pya.DCellInstArray(
                 vs12, pya.DTrans(pya.DVector(x1 - 2.0, y_vdd))))
+            # Surgical M2.b notch fills (drawing↔filler / pin edge) [TOOL DRC]
+            for box in (
+                (325.5, 385.5, 328.5, 386.5),   # ampcal_det.vdd pin edge
+                (10.5, 6.4, 12.0, 7.0),         # bank-area filler notch
+            ):
+                c.shapes(self.m2).insert(pya.DBox(*box))
+            self.say("power M2.b notch fills applied [TOOL]")
 
         # ---- ct: labelled TM1 port + stub to det.ct (clear of tn/tp tracks) ----
         if "ct" in routed and "ct" in cp:
@@ -426,14 +442,15 @@ class Asm:
             # East of det so CT TM1 does not sit in the core–tail M3 corridor
             x_ct_end = det_bb.right + 3.0
             self.strap_tm1(c, cx, cy, cx, y_ct, w=w_ct)
-            self.strap_tm1(c, cx, y_ct, x_ct_end, y_ct, w=w_ct)
+            # Extend H strap past pin so pin pad is fully enclosed (TM1.a) [TOOL]
+            self.strap_tm1(c, cx, y_ct, x_ct_end + 1.5, y_ct, w=w_ct)
             export_pin("ct", x_ct_end, y_ct, "tm1")
             if "ct" in dp:
                 dx, dy = dp["ct"]
                 self.strap_tm1(c, x_ct_end, y_ct, dx, y_ct, w=w_ct)
                 c.shapes(self.tm1).insert(
-                    pya.DBox(dx - 1.5, min(dy, y_ct) - 0.5,
-                             dx + 1.5, max(dy, y_ct) + 0.5))
+                    pya.DBox(dx - 1.5, min(dy, y_ct) - 1.0,
+                             dx + 1.5, max(dy, y_ct) + 1.0))
                 c.insert(pya.DCellInstArray(
                     vs1t, pya.DTrans(pya.DVector(dx, dy))))
                 self.say(f"ct→det.ct ({dx:.1f},{dy:.1f})")
@@ -497,7 +514,6 @@ class Asm:
                     continue
                 y_sp = track[net]
                 L = 0.0
-                # Spine X spans core / bank / var / det (no west escape column)
                 spine_xs = [pins[k][0] for k in ("core", "bank", "var", "det")
                             if k in pins]
                 tm1_pour(min(spine_xs), y_sp, max(spine_xs), y_sp)
@@ -508,10 +524,15 @@ class Asm:
                     px, py = pins[src]
                     tm1_pour(px, py, px, y_sp)
                     L += abs(py - y_sp)
+                    # Merge pad at pin (≥ 2.0) so stub meets child TM1 without
+                    # TM1.a/b notches [TOOL]
+                    c.shapes(self.tm1).insert(
+                        pya.DBox(px - 2.0, min(py, y_sp) - 1.0,
+                                 px + 2.0, max(py, y_sp) + 1.0))
                     if src in ("var", "det"):
                         for lyr in (self.m1, self.m2, self.tm1):
                             c.shapes(lyr).insert(
-                                pya.DBox(px - 0.8, py - 0.8, px + 0.8, py + 0.8))
+                                pya.DBox(px - 1.2, py - 1.2, px + 1.2, py + 1.2))
                         c.insert(pya.DCellInstArray(
                             vs1t, pya.DTrans(pya.DVector(px, py))))
                 lengths[net] = L
@@ -527,20 +548,36 @@ class Asm:
                     f"{lengths['tp']*Cp:.1f} fF (C'={Cp}) "
                     f"dL={abs(lengths['tn']-lengths['tp']):.1f} um [HAND]"
                 )
-            # Surgical TM1.b notch fills at known spine/core/det junctions [TOOL]
-            for box in (
-                (121.0, 385.4, 133.0, 386.4),   # core tn stub ↔ child TM1
-                (314.0, 382.8, 320.0, 384.0),   # det tp via landing
+            # Extra merge at core tn/tp child junctions (island coords) [TOOL]
+            for px, py, y_sp in (
+                (cp["tn"][0], cp["tn"][1], track["tn"]),
+                (cp["tp"][0], cp["tp"][1], track["tp"]),
             ):
-                c.shapes(self.tm1).insert(pya.DBox(*box))
+                c.shapes(self.tm1).insert(
+                    pya.DBox(px - 3.0, min(py, y_sp) - 1.5,
+                             px + 3.0, max(py, y_sp) + 1.5))
+            # TM1.b/a notch fills from iterative DRC heal (island µm) [TOOL]
+            for cx, cy in (
+                (261.51, 344.12), (261.51, 348.27), (261.51, 380.67),
+                (260.31, 343.03), (260.31, 379.58),
+                (315.26, 381.90), (318.46, 381.90), (316.86, 382.00),
+                (131.31, 384.40), (130.81, 384.40), (130.36, 385.07),
+                (3.81, -46.86),
+                (-7.12, 8.67), (-7.12, 12.81), (-7.12, 45.22),
+            ):
+                c.shapes(self.tm1).insert(
+                    pya.DBox(cx - 1.2, cy - 1.2, cx + 1.2, cy + 1.2))
+            self.say("tn/tp TM1.b heal fills applied [TOOL]")
 
-        # ---- vt shielded (south of bank; M3 column west of var, clear of tank stubs) ----
+        # ---- vt shielded (south of bank; clear of gnd spine at y_gnd≈−4) ----
         if "vt" in routed and "W" in vp:
             vx, vy = vp["W"]
-            y_vt = bank_bb.bottom - 6.0
+            # gnd spine occupies ≈ [y_gnd−2, y_gnd+2]; keep vt + shields below it
+            y_gnd = min(b.bottom for b in (
+                bank_bb, core_bb, var_bb, det_bb, tail_bb)) - 4.0
+            y_vt = y_gnd - 8.0  # shield at ±2.5 stays ≤ y_gnd−5.5 [TOOL LVS]
             x_west = min(bank_bb.left, var_bb.left) - 10.0
-            x_col = var_bb.left - 6.0  # 252: clear of tail M3 @ 260 and stubs
-            # M2 H from W pin to column, M3 V on column, M2 H west on y_vt
+            x_col = var_bb.left - 6.0  # clear of tail M3
             c.shapes(self.m2).insert(
                 pya.DBox(min(vx, x_col) - 0.2, vy - 1.0,
                          max(vx, x_col) + 0.2, vy + 1.0))
@@ -562,7 +599,8 @@ class Asm:
             export_pin("vt", x_west, y_vt, "m1")
             c.insert(pya.DCellInstArray(
                 vs12, pya.DTrans(pya.DVector(x_west, y_vt))))
-            self.say(f"vt shielded escape y={y_vt:.2f} x_col={x_col:.1f}")
+            self.say(f"vt shielded escape y={y_vt:.2f} (gnd_spine={y_gnd:.2f}) "
+                     f"x_col={x_col:.1f}")
 
         # ---- controls: vbp only on island; gates/codes exported ----
         if "controls" in routed:

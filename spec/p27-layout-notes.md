@@ -1,8 +1,10 @@
 # P2.7 layout notes
 
-Status: **P2.7.2c** PEX + fixed-C trim PASS; D20 owner window **FAIL** at ff (0.469–0.955 V, 0.06 % outside) [MODEL]; PN HAND PASS (+4.5 dB) [HAND].
-Next: owner decision on D20 window — re-pack blocked. Prior HAND gate FAIL (−29 MHz) superseded by
-extract+trim (`summary_p272c_pex_trim_stop.txt`). Chip art PASS. Blocks PASS.
+Status: **P2.7.2c** PEX + cfix trim PASS; D20 ff 0.955 V landing **PASS** vs compliance window
+[MODEL/SCH] (`summary_p272c_ff_land955.txt`). Direct bank–core pack: island C 32.1/34.8 fF
+[HAND], outline 0.5733 mm² [GDS], DRC clean through controls; **LVS FAIL** (extract
+mega-short from place `ct|tn|tp` and power `cmp|gnd|vdd` — `summary_p272c_direct_stop.txt`).
+Next: clear LVS shorts, then unique match. Chip art PASS. Blocks PASS.
 
 ---
 
@@ -751,8 +753,10 @@ island 37 fF, margins ≥ 40 MHz both ends [SCH]. Proceed to place the direct pa
 | Trim pick | 14.5 µm → cfix 157.7 fF | [SCH/PDK] |
 | Margins +par | top 102 / bot 93 MHz | [SCH] |
 | Overlap carries | PASS | [SCH] |
-| D20 / pnoise | D20 FAIL ff vs 0.25–0.95; PN HAND PASS | [MODEL/HAND] |
+| D20 / pnoise | ff 0.955 inside 0.457–0.970; spur −118.2; PN HAND +4.5 dB | [MODEL/SCH/HAND] |
 | Core DRC/LVS/netgen | PASS (stage d + TM1.b in cell) | [TOOL] |
+| Direct pack join | DRC PASS; LVS FAIL mega-short (see stop) | [TOOL] |
+| Island C / outline | 32.1/34.8 fF; ΔL 26.8 µm; 0.5733 mm² | [HAND/GDS] |
 
 ### P2.7.3 — PEX + post-layout VCO range / steps / PN bounds
 **Inputs:** P2.7.2 PEX.  

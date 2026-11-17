@@ -1,0 +1,28 @@
+# P2.7.2c direct join log (resume after TM1.a pin fix)
+
+## group place (nets=place)
+prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
+klayout=False netgen=False
+PASS group place (klayout=False netgen=False)
+
+## group power (nets=place,power)
+prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
+klayout=False netgen=False
+PASS group power (klayout=False netgen=False)
+
+## group ct (nets=place,power,ct)
+prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
+klayout=False netgen=False
+PASS group ct (klayout=False netgen=False)
+
+## group tail (nets=place,power,ct,tail)
+prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
+klayout=False netgen=False
+PASS group tail (klayout=False netgen=False)
+
+## group tn_tp (nets=place,power,ct,tail,tn_tp)
+prove: drc_clean=False non_density=['M1.b', 'TM1.a', 'TM1.b'] svaricap_M1.b=True
+klayout=False netgen=False
+STOP: DRC fail at tn_tp
+DRC clean (density waived): False  non-density=['M1.b', 'TM1.a', 'TM1.b'] svaricap_M1.b=True
+## group tn_tp
