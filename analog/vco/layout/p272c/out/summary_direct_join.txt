@@ -1,7 +1,100 @@
-# P2.7.2c direct join log
+# P2.7.2c join — ct TM2 west of spiral
 
 ## group place (nets=place)
-prove: drc_clean=False non_density=['M1.b', 'TM1.b'] svaricap_M1.b=True
+outline bbox=(-208.78,0;404.4,657.06) area=0.4029 mm2 [GDS]
+prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
 klayout=False netgen=False
 lvs_gds=vco_top_lvs.gds
-STOP: DRC fail at place
+pipes: []
+PASS group place (drc clean; lvs klayout=False netgen=False)
+
+## group power (nets=place,power)
+outline bbox=(-208.78,0;404.4,657.06) area=0.4029 mm2 [GDS]
+prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
+klayout=False netgen=False
+lvs_gds=vco_top_lvs.gds
+pipes: []
+PASS group power (drc clean; lvs klayout=False netgen=False)
+
+## group ct (nets=place,power,ct)
+outline bbox=(-208.78,0;404.4,657.06) area=0.4029 mm2 [GDS]
+ct TM2 west-of-spiral x_west=-80.7 y_ct=719.3 → det.ct (-53.3,529.8) [TOOL/GDS]
+ct TM2/TM1 port y=719.26 → (-80.7,719.3)
+prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
+klayout=False netgen=False
+lvs_gds=vco_top_lvs.gds
+pipes: []
+PASS group ct (drc clean; lvs klayout=False netgen=False)
+
+## group tail (nets=place,power,ct,tail)
+outline bbox=(-208.78,0;404.4,657.06) area=0.4029 mm2 [GDS]
+ct TM2 west-of-spiral x_west=-80.7 y_ct=719.3 → det.ct (-53.3,529.8) [TOOL/GDS]
+ct TM2/TM1 port y=719.26 → (-80.7,719.3)
+tail short M3 x_lift=139.8 w=4.0 µm L=91.0 µm R25=2.00 Ω R125=2.70 Ω J=1.00 mA/µm C≈9.1 fF pins=(78.2,369.8)→(146.8,392.2) [HAND/PDK/GDS]
+prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
+klayout=False netgen=False
+lvs_gds=vco_top_lvs.gds
+pipes: []
+PASS group tail (drc clean; lvs klayout=False netgen=False)
+
+## group tn_tp (nets=place,power,ct,tail,tn_tp)
+outline bbox=(-208.78,0;404.4,657.06) area=0.4029 mm2 [GDS]
+ct TM2 west-of-spiral x_west=-80.7 y_ct=719.3 → det.ct (-53.3,529.8) [TOOL/GDS]
+ct TM2/TM1 port y=719.26 → (-80.7,719.3)
+tail short M3 x_lift=139.8 w=4.0 µm L=91.0 µm R25=2.00 Ω R125=2.70 Ω J=1.00 mA/µm C≈9.1 fF pins=(78.2,369.8)→(146.8,392.2) [HAND/PDK/GDS]
+tn det thin M2→M1 tap w=0.5 x_west=-86.7 y_tap=462.3 y_appr=521.0 L_tap=274.1 [HAND/GDS]
+tp det thin M2→M1 tap w=0.5 x_west=-89.2 y_tap=459.8 y_appr=518.0 L_tap=233.1 [HAND/GDS]
+tn/tp island C≈37.6/34.0 fF (wide TM1 C'=0.10, M2 tap C'=0.05) [HAND]
+prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
+klayout=False netgen=False
+lvs_gds=vco_top_lvs.gds
+pipes: ['tn|tp']
+PASS group tn_tp (drc clean; lvs klayout=False netgen=False)
+
+## group vt (nets=place,power,ct,tail,tn_tp,vt)
+outline bbox=(-208.78,0;404.4,657.06) area=0.4029 mm2 [GDS]
+ct TM2 west-of-spiral x_west=-80.7 y_ct=719.3 → det.ct (-53.3,529.8) [TOOL/GDS]
+ct TM2/TM1 port y=719.26 → (-80.7,719.3)
+tail short M3 x_lift=139.8 w=4.0 µm L=91.0 µm R25=2.00 Ω R125=2.70 Ω J=1.00 mA/µm C≈9.1 fF pins=(78.2,369.8)→(146.8,392.2) [HAND/PDK/GDS]
+tn det thin M2→M1 tap w=0.5 x_west=-86.7 y_tap=462.3 y_appr=521.0 L_tap=274.1 [HAND/GDS]
+tp det thin M2→M1 tap w=0.5 x_west=-89.2 y_tap=459.8 y_appr=518.0 L_tap=233.1 [HAND/GDS]
+tn/tp island C≈37.6/34.0 fF (wide TM1 C'=0.10, M2 tap C'=0.05) [HAND]
+prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
+klayout=False netgen=False
+lvs_gds=vco_top_lvs.gds
+pipes: ['W|vt', 'tn|tp']
+STOP: LVS mega-short at vt
+
+# resume tn_tp after M2 underpass + west-col swap
+
+## group tn_tp (nets=place,power,ct,tail,tn_tp)
+outline bbox=(-208.78,0;404.4,657.06) area=0.4029 mm2 [GDS]
+ct TM2 west-of-spiral x_west=-80.7 y_ct=719.3 → det.ct (-53.3,529.8) [TOOL/GDS]
+ct TM2/TM1 port y=719.26 → (-80.7,719.3)
+tail short M3 x_lift=139.8 w=4.0 µm L=91.0 µm R25=2.00 Ω R125=2.70 Ω J=1.00 mA/µm C≈9.1 fF pins=(78.2,369.8)→(146.8,392.2) [HAND/PDK/GDS]
+tn det thin M2→M1 tap w=0.5 x_west=-89.2 y_tap=462.3 y_appr=521.0 L_tap=279.1 [HAND/GDS]
+tp M2 underpass to var x_stop=80.0→(82.8,463.3) [TOOL]
+tp det thin M2→M1 tap w=0.5 x_west=-86.7 y_tap=459.8 y_appr=518.0 L_tap=228.1 [HAND/GDS]
+tn/tp island C≈37.8/33.7 fF (wide TM1 C'=0.10, M2 tap C'=0.05) [HAND]
+prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
+klayout=False netgen=False
+lvs_gds=vco_top_lvs.gds
+pipes: ['tn|tp']
+STOP: tn|tp still shorted
+
+# resume tn_tp M1/M2 split taps + tn jog
+
+## group tn_tp (nets=place,power,ct,tail,tn_tp)
+ct TM2 west-of-spiral x_west=-80.7 y_ct=719.3 → det.ct (-53.3,529.8) [TOOL/GDS]
+ct TM2/TM1 port y=719.26 → (-80.7,719.3)
+tail short M3 x_lift=139.8 w=4.0 µm L=91.0 µm R25=2.00 Ω R125=2.70 Ω J=1.00 mA/µm C≈9.1 fF pins=(78.2,369.8)→(146.8,392.2) [HAND/PDK/GDS]
+tn jog east of var.tp x_jog=86.6 y_below=459.4 [TOOL]
+tn det thin M2 tap w=0.5 x_west=-89.2 y_tap=457.3 y_appr=521.0 L_tap=284.1 [HAND/GDS]
+tp M2 underpass to var x_stop=78.9→(82.8,463.3) [TOOL]
+tp det thin M1 tap w=0.5 x_west=-86.7 y_tap=454.8 y_appr=518.0 L_tap=233.1 [HAND/GDS]
+tn/tp island C≈38.9/34.0 fF (wide TM1 C'=0.10, M2 tap C'=0.05) [HAND]
+prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
+klayout=False netgen=False
+lvs_gds=vco_top_lvs.gds
+pipes: ['gnd|tn|tp|vdd']
+STOP: LVS mega-short at tn_tp: ['gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd', 'gnd|tn|tp|vdd']

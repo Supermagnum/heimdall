@@ -899,3 +899,12 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   band margins (≥ 40 MHz both ends) and the D20 landing re-checked. Above 50 fF, a finding to
   the owner.
 - gnd | vbp after the power step is root-caused before the join continues.
+
+## 2026-11-17 — Varactor pins for symmetric tank routing
+- Join place / power / ct / tail DRC clean; gnd | vbp fixed; ct on TM2 west of the spiral.
+  Outline 0.4029 mm² [GDS]; tail line L 91 µm, R 2.70 Ω (125 °C), J 1.0 mA/µm [PDK / HAND].
+- tn_tp mega-short caused by vco_var tn / tp pins at the same X (crossing, split layers). vco_var
+  is re-proven with separate, mirror-placed tn / tp pins; both tank stubs on the same layer,
+  equal length, no M1 taps. Detector moves if its power drops still block them.
+- cfix re-trimmed for the resulting island C (≈ 39 fF per side, ≤ 50 fF allowed), with band
+  margins and D20 landing re-checked.

@@ -1,6 +1,6 @@
 core+tank load LVS pin-only /foss/designs/analog/vco/layout/p272b/out/vco_core_tank_lvs.gds [TOOL]
 patched vco_core_tank TM1.b notches (6 fills) [GDS]
-direct-pack LL bank=(-208.78, 0.0) core=(0.0, 282.77) var=(140.78, 327.075) det=(186.07999999999998, 323.315) tail=(140.78, 491.54499999999996) [HAND]
+tail-next pack LL bank=(-208.78, 0.0) core=(0.0, 282.77) tail=(144.78, 282.77) var=(81.77, 446.26) det=(-76.73, 466.26) east_gap=8.0 [HAND]
 place vco_bank bb=(-208.78,0;342.3,274.77)
   pin g0 @ (-174.46,212.94)
   pin g1 @ (-95.08,212.84)
@@ -21,54 +21,57 @@ place vco_bank bb=(-208.78,0;342.3,274.77)
 place vco_core_tank bb=(0,282.77;136.78,438.26)
   pin ct @ (68.39,385.65)
   pin gnd @ (68.39,348.27)
-  pin tail @ (68.39,369.77)
+  pin tail @ (78.19,369.77)
   pin tn @ (82.77,380.65)
   pin tp @ (54.01,380.65)
-place tail_block bb=(140.78,491.545;394.7,865.835)
-  pin code0 @ (254.07,586.81)
-  pin code1 @ (254.07,587.71)
-  pin code2 @ (254.07,588.61)
-  pin code3 @ (254.07,589.51)
-  pin code4 @ (254.07,590.41)
-  pin gnd @ (141.08,495.79)
-  pin tail @ (373.42,601.00)
-  pin vbp_tail @ (299.86,519.15)
-  pin vdd @ (384.20,596.16)
-place vco_var bb=(140.78,327.075;182.08,487.545)
-  pin W @ (142.78,327.32)
-  pin gnd @ (181.83,362.38)
-  pin tn @ (141.78,380.65)
-  pin tp @ (141.78,344.10)
-  pin vbp @ (153.07,485.19)
-place ampcal_det bb=(186.08,323.315;336.58,446.74)
-  pin cmp @ (270.10,385.29)
-  pin ct @ (209.51,386.90)
-  pin en @ (336.26,353.32)
-  pin gnd @ (194.33,369.54)
-  pin hold @ (200.72,375.54)
-  pin rep @ (214.50,372.54)
-  pin tn @ (219.38,380.65)
-  pin tp @ (199.64,380.65)
-  pin vdd @ (209.25,382.80)
-  pin vthn @ (271.67,367.73)
-outline bbox=(-208.78,0;394.7,865.835) area=0.5225 mm2 [GDS]
-power spines y_vdd=869.83 y_gnd=-4.00 x=[-210.8,396.7] w=4.0 [HAND]
+place tail_block bb=(144.78,282.77;404.4,657.06)
+  pin code0 @ (263.77,378.04)
+  pin code1 @ (263.77,378.94)
+  pin code2 @ (263.77,379.84)
+  pin code3 @ (263.77,380.74)
+  pin code4 @ (263.77,381.64)
+  pin gnd @ (150.78,287.02)
+  pin tail @ (146.78,392.23)
+  pin vbp_tail @ (309.56,310.38)
+  pin vdd @ (393.90,387.38)
+place vco_var bb=(81.77,446.26;123.07,606.73)
+  pin W @ (83.77,446.51)
+  pin gnd @ (122.82,481.56)
+  pin tn @ (82.77,499.83)
+  pin tp @ (82.77,463.28)
+  pin vbp @ (94.06,604.38)
+place ampcal_det bb=(-76.73,466.26;73.77,589.685)
+  pin cmp @ (7.29,528.24)
+  pin ct @ (-53.30,529.85)
+  pin en @ (73.45,496.26)
+  pin gnd @ (-68.48,512.49)
+  pin hold @ (-62.09,518.49)
+  pin rep @ (-48.31,515.49)
+  pin tn @ (-43.43,523.60)
+  pin tp @ (-63.17,523.60)
+  pin vdd @ (-53.56,525.75)
+  pin vthn @ (8.86,510.68)
+outline bbox=(-208.78,0;404.4,657.06) area=0.4029 mm2 [GDS]
+power spines y_vdd=667.06 y_gnd=-4.00 x=[-210.8,406.4] w=4.0 [HAND]
 power drop filter=all
-power tail_block.vdd col x=397.7
-power ampcal_det.vdd col x=217.3
+power tail_block.vdd col x=407.4
+power ampcal_det.vdd col x=-45.6
 power vco_core_tank.gnd col x=-10.0
 power vco_bank.gnd col x=345.3
-power tail_block.gnd col x=136.8
-power vco_var.gnd col x=185.1
-power ampcal_det.gnd col x=182.1
+power tail_block.gnd col x=140.8
+power vco_var.gnd col x=126.1
+power ampcal_det.gnd col x=-80.7
 power M2.b notch fills applied [TOOL]
-ct→det.ct (209.5,386.9)
-ct TM1 port y=390.65 → (339.6,390.6)
-tail route ring x=-222.8 y_north=867.8
-tn TM1 direct spine y=383.15 x=[74.0,219.4] L=262.2 um w=2.0 (bank V-stub only) [GDS/HAND]
-tp TM1 direct spine y=375.65 x=[54.0,199.6] L=289.1 um w=2.0 (bank V-stub only) [GDS/HAND]
-tn/tp added C≈26.2/28.9 fF (C'=0.1) dL=26.8 um [HAND]
-tn/tp TM1.b heal fills applied [TOOL]
+ct TM2 west-of-spiral x_west=-80.7 y_ct=719.3 → det.ct (-53.3,529.8) [TOOL/GDS]
+ct TM2/TM1 port y=719.26 → (-80.7,719.3)
+tail short M3 x_lift=139.8 w=4.0 µm L=91.0 µm R25=2.00 Ω R125=2.70 Ω J=1.00 mA/µm C≈9.1 fF pins=(78.2,369.8)→(146.8,392.2) [HAND/PDK/GDS]
+tn jog east of var.tp x_jog=86.6 y_below=459.4 [TOOL]
+tn det thin M2 tap w=0.5 x_west=-89.2 y_tap=457.3 y_appr=521.0 L_tap=284.1 [HAND/GDS]
+tn wide L=246.5 µm C≈24.7 fF; tap L=284.1 µm C≈14.2 fF; total C≈38.9 fF [HAND/GDS]
+tp M2 underpass to var x_stop=78.9→(82.8,463.3) [TOOL]
+tp det thin M1 tap w=0.5 x_west=-86.7 y_tap=454.8 y_appr=518.0 L_tap=233.1 [HAND/GDS]
+tp wide L=223.3 µm C≈22.3 fF; tap L=233.1 µm C≈11.7 fF; total C≈34.0 fF [HAND/GDS]
+tn/tp island C≈38.9/34.0 fF (wide TM1 C'=0.10, M2 tap C'=0.05) [HAND]
 wrote /foss/designs/analog/vco/layout/p272c/out/vco_top_lvs.gds (pin-only inductor) [TOOL]
 wrote fab /foss/designs/analog/vco/layout/p272c/out/vco_top.gds with spiral from /foss/designs/analog/vco/layout/p272b/out/vco_core_tank.gds [TOOL]
 wrote /foss/designs/analog/vco/layout/p272c/out/vco_top.gds.gz

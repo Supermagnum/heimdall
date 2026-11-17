@@ -807,14 +807,14 @@ root-caused first.
 
 ```
 y↑
-        +--------+  ampcal_det (west of var; thin tn/tp taps)
+        +--------+  ampcal_det (north of var; thin tn/tp taps)
         |  DET   |
         +---+----+
             | thin taps (w≈0.5 µm)
         +---+----+  vco_var (X-align tn to core; short wide V)
         |  VAR   |
         +---+----+
-            | wide V (w=2 µm)
+            | wide V (w=2 µm)     ct jogs in core↔var alley
  +------+---+---+--------+
  | BANK |CORE|  | TAIL   |   tail west-face ← short M3 (L≈91 µm)
  +------+---+  |        |   east_gap=8; above bank
@@ -828,26 +828,30 @@ y↑
 | `vco_core_tank` | `(0, bank.top+8)` | East tail pin kept |
 | `tail_block` | `core.right+8`, above bank; pin near `core.tail` Y | Accepted short M3 w=4 |
 | `vco_var` | North of core; `var.tn.x ≈ core.tn.x` | Wide tn/tp; west-face pins |
-| `ampcal_det` | West of var (north of core) | Thin taps; cmp/en east of det |
+| `ampcal_det` | North of var; west of tail column | Thin taps; cmp/en away from tn/tp |
 
-**Length / C estimate [HAND]** (place coords from power build; C′=0.10 fF/µm
-@ w=2 for tank path; C′=0.05 @ w=0.5 for det taps):
+**Length / C estimate [HAND]** (updated from join build log; C′=0.10 fF/µm
+@ w=2 TM1 tank path; C′=0.05 @ w=0.5 M2/M1 det taps):
 
 | Path | L (µm) | C (fF) |
 |---|---|---|
-| bank↔core↔var tn (wide) | ≈ 235 | ≈ 23.5 |
-| bank↔core↔var tp (wide) | ≈ 218 | ≈ 21.8 |
-| det tap tn (thin) | ≈ 245 | ≈ 12.3 |
-| det tap tp (thin) | ≈ 236 | ≈ 11.8 |
-| **Island total tn / tp** | | **≈ 35.8 / 33.6** |
+| bank↔core↔var tn (wide, +jog) | ≈ 280 | ≈ 28.0 |
+| bank↔core↔var tp (wide+underpass) | ≈ 230 | ≈ 23.0 |
+| det tap tn (M2) | ≈ 284 | ≈ 14.2 |
+| det tap tp (M1) | ≈ 233 | ≈ 11.7 |
+| **Island total tn / tp** | | **≈ 38.9 / 34.0** [HAND] |
 
-Under 37 fF → **no cfix re-trim required** for this estimate. Budget headroom
-to 50 fF if routing grows. Tail: L≈91 µm, R125≈2.04 Ω, J=1.0, C≈6.9 fF
-[PDK/HAND] (unchanged acceptance).
+**> 37 fF** on tn → cfix re-trim required once LVS is clean (≤ 50 OK). Tail:
+L=91 µm, R125=2.70 Ω, J=1.0, C≈9.1 fF [PDK/HAND] (raised bus above bank).
+
+**Join status (2026-11-17) [TOOL]:** place/power/ct/tail DRC-clean. **ct** on
+TM2 west of l2n0 spiral (TM1 alley crossed tn/tp; M3 crossed power cols).
+**tn_tp** DRC-clean but LVS `gnd|tn|tp|vdd` after M1 det tap near power pads.
+Stop: `out/summary_p272c_var_det_stop.txt`. Unique LVS not reached.
 
 **Join order:** power → ct → tail → tn/tp → V_tune → controls → detector;
 DRC + both LVS after each. Parent metal must not cross child interiors
-(ct west of det; tn/tp ring above blocks; det taps outside).
+(ct west of spiral/det; tn jogs east of var.tp; det taps outside tank).
 
 ### P2.7.3 — PEX + post-layout VCO range / steps / PN bounds
 **Inputs:** P2.7.2 PEX.  

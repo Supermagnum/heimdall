@@ -1,0 +1,56 @@
+# P2.7.2c varactor / detector pack — stop (2026-11-17) [TOOL]
+
+## Pass criteria vs result
+
+| Step | Criterion | Result |
+|---|---|---|
+| 1 | gnd / vbp separate after power | **PASS** [TOOL] — no hard short; prior soft-connect class |
+| 2 | ASCII plan + C estimate in notes | **PASS** [HAND] — `spec/p27-layout-notes.md` plan present |
+| 3 | cfix if C 37–50 fF | **Not run** — estimate now ≈ 38.9 / 34.0 fF [HAND]; trim deferred until tn/tp LVS clean |
+| 4 | Join to unique LVS | **STOP at tn_tp** [TOOL] |
+| 5–6 | Report / floorplan §8 / topology §9 / phase2 §3 | **Partial** — stop note only |
+
+## Join log (this pack)
+
+| Group | DRC (density+M1.b waived) | LVS pipes |
+|---|---|---|
+| place | PASS | (opens) |
+| power | PASS | [] |
+| ct | PASS | [] — **ct on TM2 west of l2n0 spiral** (TM1 alley→tn/tp; M3→power cols) |
+| tail | PASS | [] — L≈91 µm, R125≈2.70 Ω, J=1.0 [HAND/PDK] |
+| tn_tp | PASS DRC | **FAIL** `gnd\|tn\|tp\|vdd` |
+| vt / controls | not reached | — |
+
+## Root cause at tn_tp (current)
+
+1. var.tn / var.tp share west-face X; tn V through var.tp Y → tn|tp. **Mitigated:** tn jogs east around var.tp; tp uses M2 underpass + M1 land (no TM1 on shared face).
+2. Same-layer west det taps crossed → tn|tp. **Tried:** M2 tn + M1 tp split.
+3. After M1 tp tap: extract shows **`gnd|tn|tp|vdd`** — M1 corridor / via into det power M1–M2 pads (gnd≈512.5 / vdd≈525.8) or branch via1t soft-connect. Not yet isolated with a POWER_DROPS / tap-only bisect.
+
+## Numbers [HAND/GDS/PDK]
+
+- Outline (place): (−208.78, 0; 404.4, 657) → 0.4029 mm²; ct port y≈719 extends north of that bbox when routed
+- Island C ≈ **38.9 / 34.0 fF** (wide TM1 C′=0.10, tap C′=0.05) — **> 37, ≤ 50** → cfix re-trim required once LVS clean
+- Tail: L=91 µm, R125=2.70 Ω (slightly over 2.5 target at raised bus), J=1.0 mA/µm, C≈9.1 fF
+- Extracted RC: **not run**
+
+## Decision needed
+
+How to land thin det taps without M1 hitting ampcal_det power pads / without returning to same-layer west-corridor shorts:
+
+- (A) Det face pins + short M2-only stubs south of power Y-band (no M1 west alley), or
+- (B) Move ampcal_det so tn/tp pins clear power drop pads, or
+- (C) Owner accepts a different var face-pin X for tp (re-prove vco_var) so tn V need not jog and taps shorten.
+
+## Found, not done
+
+- Unique KLayout LVS + netgen vs `vco_top.sch`
+- Inductor fab / LVS diff script, varactor dimension / finger scripts at full join
+- ct labelled-port sign-off at full assembly
+- cfix re-trim + band ≥40 MHz + D20 landing for C≈39 fF
+- floorplan §8 die re-total, topology §9, phase2-plan §3 updates
+- Commits for this job (ask before commit)
+
+## Next run (expected)
+
+**P2.7.3 — VCO PEX and post-layout checks** — only after P2.7.2c unique LVS.
