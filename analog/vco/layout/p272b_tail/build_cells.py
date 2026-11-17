@@ -1530,12 +1530,51 @@ Ccbf nbf gnd cap_cmim w=68.94u l=68.94u m=7
                         x_vdd + 2.5, y_alley + 0.30)
             self.pin_m1(c, x_vdd + 2.0, y_alley, "vdd")
 
-        # ---- tail port only (M1 stub east of mt — no M2 into mt body) ----
+        # ---- tail port: west face for short island run to the VCO core ----
+        # East stub rejected for the 4 mA line (L≈1.2 mm) [decisions
+        # 2026-11-17]. Escape west from the mt drain M2 (outside dense
+        # join M2/M3), pin on the west face [GDS/TOOL].
         if "tail" in routed:
+            # West face on M3: parent M2 into mt west edge shorted gnd|tail
+            # [TOOL LVS]. Lift on the drain M2 mid-bus, M3 west outside the
+            # cell (mt has no M3), drop at the face [GDS].
             tail_p = P(mt_p, ox_mt, oy_mt, "tail")
-            self.box_m1(c, tail_p[0], tail_p[1] - 0.20,
-                        tail_p[0] + 4.0, tail_p[1] + 0.20)
-            self.pin_m1(c, tail_p[0] + 3.5, tail_p[1], "tail")
+            y_t = tail_p[1]
+            x_lift = ox_mt + 40.0
+            x_face = -12.0
+            w_tail = 4.0  # ≥ 2.9 µm @125 °C / 4 mA [DS JMAX derate HAND]
+            # Via array 8×2 (≥15 @125 °C) [DS/HAND]; pads must enclose
+            # via edges (prior M1.b/M2.b at pad tops/bottoms) [TOOL DRC].
+            pitch = 0.50
+            n_row, n_col = 8, 2
+            y0 = y_t - 1.75
+            y1 = y0 + (n_row - 1) * pitch
+            pad_m = 0.35  # via half≈0.15 + M*.b enclosure [PDK/HAND]
+            self.box_m2(c, x_lift - 0.25 - pad_m,
+                        y0 - pad_m,
+                        x_lift - 0.25 + (n_col - 1) * pitch + pad_m,
+                        y1 + pad_m)
+            for i in range(n_row):
+                for j in range(n_col):
+                    self.place(c, vs23, x_lift - 0.25 + j * pitch,
+                               y0 + i * pitch)
+            self.box_m3(c, min(x_lift, x_face) - w_tail / 2, y_t - w_tail / 2,
+                        max(x_lift, x_face) + w_tail / 2, y_t + w_tail / 2)
+            # Drop at face: M3→M2→M1, vias south of west gnd M2 y≈77.6
+            fx0 = x_face + 0.2
+            fx1 = fx0 + (n_col - 1) * pitch
+            self.box_m3(c, fx0 - pad_m, y0 - pad_m, fx1 + pad_m, y1 + pad_m)
+            self.box_m2(c, fx0 - pad_m, y0 - pad_m, fx1 + pad_m, y1 + pad_m)
+            self.box_m1(c, fx0 - pad_m, y0 - pad_m, fx1 + pad_m, y1 + pad_m)
+            for i in range(n_row):
+                for j in range(n_col):
+                    vx = fx0 + j * pitch
+                    vy = y0 + i * pitch
+                    self.place(c, vs23, vx, vy)
+                    self.place(c, vs12, vx, vy)
+            self.pin_m1(c, x_face, y_t, "tail")
+            self.say(f"tail west-face pin @ ({x_face:.2f},{y_t:.2f}) "
+                     f"M3 w={w_tail:.1f} µm [HAND/GDS]")
 
         # ---- filter nbf ----
         # cmim [PDK]: bottom Metal5 (=gnd), top TopMetal1 (=nbf / TopVia1).

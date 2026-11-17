@@ -1,0 +1,63 @@
+# PDK metal / via numbers for the tail line (SG13G2)
+Source: SG13G2_os_process_spec.pdf Rev. 1.2 [DS], PDK commit a49358cc.
+Magic extract typ values match the process-spec targets [TOOL].
+
+## Sheet resistance R_s (target / typ @ ~25 °C) [DS §2.13]
+
+| Layer     | Name   | Min    | Typ    | Max    | Unit   |
+|-----------|--------|--------|--------|--------|--------|
+| Metal2    | RSMET2 | 73     | 88     | 103    | mΩ/sq  |
+| Metal3    | RSMET3 | 73     | 88     | 103    | mΩ/sq  |
+| Metal4    | RSMET4 | 73     | 88     | 103    | mΩ/sq  |
+| Metal5    | RSMET5 | 73     | 88     | 103    | mΩ/sq  |
+| TopMetal1 | RSTM1  | 15     | 18     | 21     | mΩ/sq  |
+| TopMetal2 | RSTM2  | 7.5    | 11     | 14.5   | mΩ/sq  |
+
+TC1 for M2–M5: 3500 ppm/K; TM1: 3700; TM2: 3800 [DS].
+At 125 °C vs 25 °C: R_125 ≈ R_25 × (1 + TC1×100e-6).
+  M2–M5: ×1.35; TM1: ×1.37; TM2: ×1.38 [HAND from DS TC1].
+
+## Via resistance (target / typ) [DS §2.14]
+
+| Via              | Name  | Min | Typ | Max | Unit  |
+|------------------|-------|-----|-----|-----|-------|
+| Via1 (M2–M1)     | RVIA1 | 5   | 9   | 20  | Ω/via |
+| Via2 (M3–M2)     | RVIA2 | 5   | 9   | 20  | Ω/via |
+| Via3 (M4–M3)     | RVIA3 | 5   | 9   | 20  | Ω/via |
+| Via4 (M5–M4)     | RVIA4 | 5   | 9   | 20  | Ω/via |
+| TopVia1 (TM1–M5) | RTV1  | 1   | 2.2 | 4   | Ω/via |
+| TopVia2 (TM2–TM1)| RTV2  | 0.5 | 1.1 | 2.2 | Ω/via |
+
+## Maximum current density (11 years @ 105 °C) [DS §2.15 / A.v]
+
+Published limit is **105 °C**, not 125 °C. For 125 °C use a derate; without Ea in the
+open PDK, take **0.7×** as a hand factor (Black's law, order-of-magnitude) [HAND].
+
+| Layer / via | Name      | Limit @105 °C [DS] | ≈ @125 °C [HAND 0.7×] |
+|-------------|-----------|--------------------|------------------------|
+| M2, w>0.3 µm | JMAXM2  | 2.0 mA/µm          | 1.4 mA/µm              |
+| M3, w>0.3 µm | JMAXM3  | 2.0 mA/µm          | 1.4 mA/µm              |
+| M4, w>0.3 µm | JMAXM4  | 2.0 mA/µm          | 1.4 mA/µm              |
+| M5, w>0.3 µm | JMAXM5  | 2.0 mA/µm          | 1.4 mA/µm              |
+| TopMetal1    | JMAXM6  | 15 mA/µm           | 10.5 mA/µm             |
+| TopMetal2    | JMAXM7  | 16 mA/µm           | 11.2 mA/µm             |
+| Via1–Via4    | JMAXVIA*| 0.4 mA/via         | 0.28 mA/via            |
+| TopVia1      | JMAXTVIA1| 1.4 mA/via        | 0.98 mA/via            |
+
+At I_tail = 4 mA: min width M3 @125 °C ≈ 4/1.4 ≈ 2.9 µm [HAND]; @105 °C ≈ 2.0 µm [DS].
+Via1/2 count at 4 mA @125 °C: ≥ ceil(4/0.28) = 15 vias [HAND].
+
+## Rejected route (9b9a5d2 stub path) — recomputed [HAND from DS]
+
+Geometry: L = 1171 µm, w = 2.0 µm, layer = M3 (majority), C'≈0.10 fF/µm → C≈117 fF
+[HAND prior]. Vias at ends ignored for the line R (order +few Ω).
+
+| Quantity | @25 °C typ | @125 °C typ | Target | Verdict |
+|----------|------------|-------------|--------|---------|
+| R_line = RSMET3×L/w | 0.088×1171/2 = **51.5 Ω** | 51.5×1.35 = **69.5 Ω** | ≤ ≈ 2.5 Ω | FAIL |
+| IR @ 4 mA | 206 mV | **278 mV** | small vs V_tail | FAIL |
+| J = I/w | 2.0 mA/µm | 2.0 mA/µm | ≤ 2.0 @105 / ≤1.4 @125 | FAIL @125 °C |
+| C | ≈ 117 fF | — | ≤ ≈ 20 fF | FAIL |
+| L | 1171 µm | — | ≤ ≈ 150 µm | FAIL |
+
+Electrical rejection confirmed with PDK numbers [DS/HAND].
