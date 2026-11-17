@@ -850,3 +850,11 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
 - D20 V_tune landing re-checked before the join; worst-corner PN [HAND] until P2.7.3.
 - P2.7.3 extracts the inductor pad C and the bank MIM top-plate parasitics left out here.
 - Chip work continues in github.com/Supermagnum/heimdall.
+
+## 2026-11-17 — D20 landing with trimmed cfix
+- With cfix 157.7 fF, D20 nearest-code landing: tt / ss within 0.25–0.95 V; ff 0.469–0.955 V
+  [MODEL / SCH]. PN margin +4.5 dB [HAND].
+- The landing gate is the per-corner compliance window accepted in P2.7.2c (pump INL ≤ 30 ps,
+  |ΔI_cp| ≤ 10 %, lock UP, spur within limit), not the nominal 0.25–0.95 V. The ff landing at
+  0.955 V is accepted if it is inside the ff compliance window with the spur within limit;
+  otherwise cfix is nudged and band margins re-checked.
