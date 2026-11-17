@@ -19,3 +19,5 @@ Port **W** in the LVS netlist is the SVaricap **well** pin (schematic **vt**), n
 - {'cell': 'SVaricap$1'}
 
 ## Result: PASS
+
+Wrote /foss/designs/analog/vco/layout/p272b_var/out/summary_svaricap_dims.txt

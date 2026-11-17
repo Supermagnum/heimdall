@@ -1,0 +1,16 @@
+17-Nov-2026 18:49:18 | INFO    | Your Klayout version is: KLayout 0.30.12 (required >= 0.30.5)
+17-Nov-2026 18:49:18 | INFO    | Running SG13G2 LVS checks on design /foss/designs/analog/vco/layout/p272b_var/out/sv_pair.gds on cell sv_pair
+17-Nov-2026 18:49:21 | INFO    | ==============================================================================
+17-Nov-2026 18:49:21 | INFO    | Important Summary
+17-Nov-2026 18:49:21 | INFO    | +------------------+--------------------------------------------------------------+
+17-Nov-2026 18:49:21 | INFO    | | Status           | PASS                                                         |
+17-Nov-2026 18:49:21 | INFO    | | Mode             | COMPARE                                                      |
+17-Nov-2026 18:49:21 | INFO    | | Outcome          | Comparison mode: PASS (netlists match).                      |
+17-Nov-2026 18:49:21 | INFO    | | Layout           | sv_pair.gds                                                  |
+17-Nov-2026 18:49:21 | INFO    | | Top Cell         | sv_pair                                                      |
+17-Nov-2026 18:49:21 | INFO    | | Results Dir      | /foss/designs/analog/vco/layout/p272b_var/out/lvs_sv_pair    |
+17-Nov-2026 18:49:21 | INFO    | | Warnings         | 0                                                            |
+17-Nov-2026 18:49:21 | INFO    | | Errors           | 0                                                            |
+17-Nov-2026 18:49:21 | INFO    | | Run Time (s)     | 3.754                                                        |
+17-Nov-2026 18:49:21 | INFO    | +------------------+--------------------------------------------------------------+
+17-Nov-2026 18:49:21 | INFO    | ==============================================================================

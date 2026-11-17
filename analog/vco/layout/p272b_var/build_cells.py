@@ -250,37 +250,48 @@ Cxv2 G1 W G2 sub! sg13_hv_svaricap w=3.74u l=0.3u Nx=10
         bb_n, _ = self.place(c, mim, 0.0, y_n)
         oy_n = y_n
 
-        # gnd pin EAST of shields (never share X with tank PLUS pins)
-        x_gnd = max(bb_p.right, bb_n.right) + 3.5
+        # gnd east of shields and of tn east-face tank pin (bb.right+4) [TOOL]
+        x_gnd = max(bb_p.right, bb_n.right) + 8.0
         y_gnd = 0.5 * (bb_p.bottom + bb_n.top)
         self.pin_m1(c, x_gnd, y_gnd, "gnd")
 
-        for bb, oy, tank, gate in (
-            (bb_p, oy_p, "tp", "vgp"),
-            (bb_n, oy_n, "tn", "vgn"),
+        # Mirror tank face pins: tp WEST of lower MIM, tn EAST of upper MIM.
+        # Same-X west pins forced a crossing jog on the island join [TOOL /
+        # decisions 2026-11-17 "Varactor pins for symmetric tank routing"].
+        for bb, oy, tank, gate, side in (
+            (bb_p, oy_p, "tp", "vgp", "west"),
+            (bb_n, oy_n, "tn", "vgn", "east"),
         ):
             x_plus = self.mim_plus[0]
             y_plus = oy + self.mim_plus[1]
             x_minus = self.mim_minus[0]
             y_minus = oy + self.mim_minus[1]
 
-            # PLUS → tank WEST, clear of M1 shield; TM1 ≥2 µm (TM1.a) [DS]
-            x_tank = bb.left - 4.0
+            # PLUS → tank face; TM1 ≥2 µm (TM1.a) [DS]
+            if side == "west":
+                x_tank = bb.left - 4.0
+                self.box_tm1(c, x_tank - 1.0, y_plus - 1.2, x_plus + 2.0, y_plus + 1.2)
+            else:
+                x_tank = bb.right + 4.0
+                self.box_tm1(c, x_plus - 2.0, y_plus - 1.2, x_tank + 1.0, y_plus + 1.2)
             self.box_tm1(c, x_plus - 2.0, y_plus - 2.5, x_plus + 2.0, y_plus + 2.5)
-            self.box_tm1(c, x_tank - 1.0, y_plus - 1.2, x_plus + 2.0, y_plus + 1.2)
             self.place(c, vs1t, x_tank, y_plus)
             self.box_m1(c, x_tank - 0.50, y_plus - 0.50, x_tank + 0.50, y_plus + 0.50)
             self.box_tm1(c, x_tank - 1.0, y_plus - 1.0, x_tank + 1.0, y_plus + 1.0)
             self.pin_m1(c, x_tank, y_plus - 2.0, tank)
             self.box_m1(c, x_tank - 0.30, y_plus - 2.0, x_tank + 0.30, y_plus)
 
-            # MINUS → gate on M2, drop M1 east of shield (near gnd but not on it)
+            # MINUS → gate on M2; drop M1 clear of tank pin and gnd
             self.box_m5(c, x_minus - 1.0, y_minus - 1.0, x_minus + 1.0, y_minus + 1.0)
             self.place(c, vs52, x_minus, y_minus)
             self.box_m2(c, x_minus - 0.40, y_minus - 0.40, x_minus + 0.40, y_minus + 0.40)
-            x_gate = bb.right + 2.0
-            self.box_m2(c, x_minus - 0.40, y_minus - 0.40, x_gate + 0.40, y_minus + 0.40)
-            # M1 drop for gate: between shield and gnd pin
+            if side == "west":
+                x_gate = bb.right + 2.0
+            else:
+                # tn tank pin is east; keep gate west of gnd, clear of east pin
+                x_gate = min(bb.right + 2.0, x_gnd - 2.0)
+            self.box_m2(c, min(x_minus, x_gate) - 0.40, y_minus - 0.40,
+                        max(x_minus, x_gate) + 0.40, y_minus + 0.40)
             self._via12(c, vs12, x_gate, y_minus)
             self.pin_m1(c, x_gate, y_minus - 1.5, gate)
             self.box_m1(c, x_gate - 0.25, y_minus - 1.5, x_gate + 0.25, y_minus)

@@ -1,0 +1,16 @@
+17-Nov-2026 18:50:51 | INFO    | Your Klayout version is: KLayout 0.30.12 (required >= 0.30.5)
+17-Nov-2026 18:50:51 | INFO    | Running SG13G2 LVS checks on design /foss/designs/analog/vco/layout/p272b_var/out/bias_r.gds on cell bias_r
+17-Nov-2026 18:50:54 | INFO    | ==============================================================================
+17-Nov-2026 18:50:54 | INFO    | Important Summary
+17-Nov-2026 18:50:54 | INFO    | +------------------+--------------------------------------------------------------+
+17-Nov-2026 18:50:54 | INFO    | | Status           | PASS                                                         |
+17-Nov-2026 18:50:54 | INFO    | | Mode             | COMPARE                                                      |
+17-Nov-2026 18:50:54 | INFO    | | Outcome          | Comparison mode: PASS (netlists match).                      |
+17-Nov-2026 18:50:54 | INFO    | | Layout           | bias_r.gds                                                   |
+17-Nov-2026 18:50:54 | INFO    | | Top Cell         | bias_r                                                       |
+17-Nov-2026 18:50:54 | INFO    | | Results Dir      | /foss/designs/analog/vco/layout/p272b_var/out/lvs_bias_r     |
+17-Nov-2026 18:50:54 | INFO    | | Warnings         | 0                                                            |
+17-Nov-2026 18:50:54 | INFO    | | Errors           | 0                                                            |
+17-Nov-2026 18:50:54 | INFO    | | Run Time (s)     | 2.734                                                        |
+17-Nov-2026 18:50:54 | INFO    | +------------------+--------------------------------------------------------------+
+17-Nov-2026 18:50:54 | INFO    | ==============================================================================
