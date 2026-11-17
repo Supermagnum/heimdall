@@ -1,0 +1,50 @@
+# P2.7.2c stop — varactor mirror pins; tn_tp LVS short at detector
+
+## Pass / fail by step
+1. vco_var mirror tn/tp pins (west/east): PASS — DRC (density+SVaricap M1.b waived),
+   KLayout LVS, netgen, dims, fingers. Commit ad495c2.
+2. Symmetric tank stubs + taps: DRC PASS on fab; island C≈49.2/49.2 fF mismatch≈0
+   [HAND]; stub L equal 168.5 µm TM1. LVS FAIL — short tn|tp|vdd [TOOL].
+3. cfix re-trim: not started (blocked on step 2 LVS).
+4. Join vt→controls unique LVS: not started.
+5. Specs / die re-total: not started.
+
+## What works
+- Mirror pins: tp @ west face, tn @ east face (e.g. local ≈(-9.6,8.6)/(30.9,45.2)).
+- Var raised above fab spiral TM1 underpass (y≳488) so stubs clear TM1.b [GDS/TOOL].
+- Stubs-only (SKIP_TAPS=1): DRC clean; no mega-short.
+- tp tap alone: no short. Island C ≤ 50 fF/side with mismatch≤1 fF after equalize.
+
+## What fails
+- Full tn_tp with both taps: KLayout/netgen short list includes tn,tp,vdd (sometimes
+  with ct/hold). Bisect: tn tap path is the trigger (tn|vdd alone).
+- Cause: ampcal_det pin cluster — tn (−108,552) sits ~10 µm east of vdd (−118,554);
+  child M2 at vdd Y extends to ≈−102 over the tn site; parent vdd drop pad previously
+  covered tn. Tightened drop + M1-only final to tn still shorts [TOOL GDS/LVS].
+- Residual TM1.b gone on latest DRC; only waived M1.b remains.
+
+## Numbers [tags]
+- Outline 0.4029 mm² [GDS] (unchanged).
+- Tail L 91 µm, R125 2.70 Ω, J 1.0 mA/µm [PDK/HAND].
+- Island C ≈ 49.2 fF/side, mismatch ≈ 0.00 fF [HAND] (C'=0.10 TM1 / 0.05 M2).
+- Extracted RC: not run.
+
+## Decision needed
+Choose one before join continues:
+A. Re-pin ampcal_det: bring tn/tp to clear face pins (away from vdd/hold/rep M2),
+   no device change to the detector schematic — layout pin move only.
+B. Move ampcal_det.vdd drop / column further east (or M3-only drop) and keep
+   child M2 out of the tn approach corridor; may need a det layout tweak.
+C. Defer detector taps: ship stubs-only tank join, wire det tn/tp later (opens on
+   those pins until then) — only if owner accepts incomplete detector connect.
+
+Recommend A (face pins) — same class of fix as the varactor pin move.
+
+## Found, not done
+- cfix re-trim for ≈49 fF; band/D20/core prove.
+- Join vt → controls to unique LVS; inductor/varactor scripts at full assembly.
+- Spec updates (vco-topology §9, p27-layout-notes, p27-floorplan §8, phase2-plan §3).
+- Push (ask first).
+
+## Next run
+After A/B/C: finish P2.7.2c join to unique LVS, then P2.7.3 VCO PEX and post-layout checks.
