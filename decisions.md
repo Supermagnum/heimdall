@@ -887,3 +887,15 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   may not.
 - Tail-line targets [HAND, confirmed with PDK values]: length ≤ ≈ 150 µm, R ≤ ≈ 2.5 Ω,
   current density within the PDK limit at 125 °C, C ≤ ≈ 20 fF.
+
+## 2026-11-17 — VCO island pack: varactor and detector
+- tail_block west-face pin and the short tail line accepted (53b069e): L ≈ 69–91 µm,
+  R ≈ 2.04 Ω at 125 °C, J 1.0 mA/µm, C ≈ 6.9 fF [PDK / HAND]. tail_block stays east of the core;
+  not reshaped again.
+- The varactor sits next to the tank (short, wide tn / tp, face pins where needed). The
+  detector may sit further away with thin tap lines (gate loads only); its tap C counts in the
+  island budget.
+- Island tank C budget raised to ≤ 50 fF per side if needed, absorbed by a cfix re-trim with
+  band margins (≥ 40 MHz both ends) and the D20 landing re-checked. Above 50 fF, a finding to
+  the owner.
+- gnd | vbp after the power step is root-caused before the join continues.
