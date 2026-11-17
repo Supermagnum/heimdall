@@ -615,26 +615,25 @@ class Asm:
                 f"pins=({x0:.1f},{y0:.1f})→({x1:.1f},{y1:.1f}) [HAND/PDK/GDS]"
             )
 
-        # ---- tn / tp: bank–core at tank Y; north spur for var/det ----
-        # Tail-next pack puts var/det north of core. One shared V riser from
-        # core to a north H spine (not per-pin V stubs) keeps island C ≤ 37 fF
-        # [HAND / decisions 2026-11-17]. No U-jog at det.ct (ct is west ring).
+        # ---- tn / tp: wide tank path to var; thin taps to detector ----
+        # decisions 2026-11-17: var next to tank (wide); det further (thin).
+        # Never H through det/var at pin Y [TOOL LVS].
         if "tn_tp" in routed:
             tank_y = cp["tn"][1]
             w_tank = 2.0
+            w_tap = 0.5
             hw = w_tank / 2
+            ht = w_tap / 2
             ct_x = cp["ct"][0] if "ct" in cp else tank_y
             ct_x_clear = ct_x + 4.0 + 1.64 + hw
-            # North ring ABOVE det/var (H at pin Y through det → mega-short)
-            # [TOOL LVS]. Both nets above the blocks; 8 µm apart [TOOL TM1.b].
-            y_over = max(det_bb.top, var_bb.top) + 4.0
             track_tank = {"tn": tank_y + 4.0, "tp": tank_y - 5.0}
-            track_north = {"tn": y_over, "tp": y_over + 8.0}
+            # Tap alley between core.top and var/det bottoms [HAND]
+            y_tap = min(var_bb.bottom, det_bb.bottom) - 2.0
 
-            def tm1_pour(x0, y0, x1, y1):
+            def pour(x0, y0, x1, y1, half):
                 c.shapes(self.tm1).insert(
-                    pya.DBox(min(x0, x1) - hw, min(y0, y1) - hw,
-                             max(x0, x1) + hw, max(y0, y1) + hw))
+                    pya.DBox(min(x0, x1) - half, min(y0, y1) - half,
+                             max(x0, x1) + half, max(y0, y1) + half))
 
             def pin_pad(px, py, y_sp, net, pad_x, tight):
                 if tight:
@@ -647,89 +646,93 @@ class Asm:
                 c.shapes(self.tm1).insert(
                     pya.DBox(px - pad_x, y0, px + pad_x, y1))
 
-            lengths = {}
+            lengths = {"tn": 0.0, "tp": 0.0}
+            C_tank = {}
+            C_tap = {}
             for net in ("tn", "tp"):
-                if net not in cp or net not in bp:
-                    self.say(f"{net}: need core+bank pins")
+                if net not in cp or net not in bp or net not in vp:
+                    self.say(f"{net}: need core+bank+var pins")
                     continue
                 y_tank = track_tank[net]
-                y_n = track_north[net]
-                L = 0.0
+                L_w = 0.0
+                L_t = 0.0
                 cx_p, cy_p = cp[net]
                 bx_p, by_p = bp[net]
-                # --- bank ↔ core at tank Y (short V stubs) ---
+                vx_p, vy_p = vp[net]
+                # --- bank ↔ core (wide) ---
                 x_join = max(cx_p, ct_x_clear) if net == "tn" else min(cx_p, bx_p)
                 if net == "tn":
                     y_h = by_p + 3.0
-                    tm1_pour(bx_p, by_p, bx_p, y_h)
-                    L += abs(y_h - by_p)
-                    tm1_pour(bx_p, y_h, x_join, y_h)
-                    L += abs(x_join - bx_p)
-                    tm1_pour(x_join, y_h, x_join, y_tank)
-                    L += abs(y_tank - y_h)
+                    pour(bx_p, by_p, bx_p, y_h, hw)
+                    L_w += abs(y_h - by_p)
+                    pour(bx_p, y_h, x_join, y_h, hw)
+                    L_w += abs(x_join - bx_p)
+                    pour(x_join, y_h, x_join, y_tank, hw)
+                    L_w += abs(y_tank - y_h)
                     pin_pad(bx_p, by_p, y_h, net, 2.5, tight=False)
-                    self.say(
-                        f"{net} bank jog pin→y={y_h:.2f}→x={x_join:.2f}→"
-                        f"tank track [TOOL]"
-                    )
                 else:
-                    tm1_pour(bx_p, by_p, bx_p, y_tank)
-                    L += abs(by_p - y_tank)
+                    pour(bx_p, by_p, bx_p, y_tank, hw)
+                    L_w += abs(by_p - y_tank)
                     pin_pad(bx_p, by_p, y_tank, net, 2.5, tight=False)
-                # core stub + pad
-                if net == "tn":
-                    tm1_pour(cx_p, cy_p, cx_p, y_tank)
-                    L += abs(y_tank - cy_p)
-                    pin_pad(cx_p, cy_p, y_tank, net, 2.0, tight=True)
-                else:
-                    tm1_pour(cx_p, cy_p, cx_p, y_tank)
-                    L += abs(cy_p - y_tank)
-                    pin_pad(cx_p, cy_p, y_tank, net, 2.0, tight=True)
-                # short H at tank between join and core
-                tm1_pour(x_join, y_tank, cx_p, y_tank)
-                L += abs(cx_p - x_join)
-                # fillet core L-corner
+                pour(cx_p, cy_p, cx_p, y_tank, hw)
+                L_w += abs(y_tank - cy_p)
+                pin_pad(cx_p, cy_p, y_tank, net, 2.0, tight=True)
+                pour(x_join, y_tank, cx_p, y_tank, hw)
+                L_w += abs(cx_p - x_join)
                 c.shapes(self.tm1).insert(
                     pya.DBox(cx_p - hw, y_tank - hw, cx_p + hw, y_tank + hw))
 
-                # --- north spur: V at core.x above blocks, H, drop to pins ---
-                tm1_pour(cx_p, y_tank, cx_p, y_n)
-                L += abs(y_n - y_tank)
-                c.shapes(self.tm1).insert(
-                    pya.DBox(cx_p - hw, y_n - hw, cx_p + hw, y_n + hw))
-                xs_n = [cx_p]
-                for src, pp in (("var", vp), ("det", dp)):
-                    if net not in pp:
-                        continue
-                    px, py = pp[net]
-                    xs_n.append(px)
-                    pad_x = 3.5 if src == "var" else 2.0
-                    # Drop from ring to pin outside the other net [TOOL]
-                    tm1_pour(px, y_n, px, py)
-                    L += abs(y_n - py)
-                    pin_pad(px, py, py, net, pad_x, tight=(src == "det"))
-                    c.shapes(self.tm1).insert(
-                        pya.DBox(px - hw, y_n - hw, px + hw, y_n + hw))
+                # --- wide to var (V along var.tn x; H if tp) ---
+                # Rise at cx_p to var pin Y, then H to var pin if needed
+                pour(cx_p, y_tank, cx_p, vy_p, hw)
+                L_w += abs(vy_p - y_tank)
+                if abs(vx_p - cx_p) > 0.05:
+                    pour(cx_p, vy_p, vx_p, vy_p, hw)
+                    L_w += abs(vx_p - cx_p)
+                pin_pad(vx_p, vy_p, vy_p, net, 3.5, tight=False)
+                for lyr in (self.m1, self.m2, self.tm1):
+                    c.shapes(lyr).insert(
+                        pya.DBox(vx_p - 1.2, vy_p - 1.2, vx_p + 1.2, vy_p + 1.2))
+                c.insert(pya.DCellInstArray(
+                    vs1t, pya.DTrans(pya.DVector(vx_p, vy_p))))
+
+                # --- thin tap to detector: alley south of det, west face ---
+                if net in dp:
+                    dx_p, dy_p = dp[net]
+                    x_west = det_bb.left - 3.0
+                    # branch from core V at y_tap (below det/var)
+                    pour(cx_p, y_tap, cx_p, y_tap, ht)  # ensure hit on riser
+                    pour(cx_p, y_tap, x_west, y_tap, ht)
+                    L_t += abs(x_west - cx_p)
+                    pour(x_west, y_tap, x_west, dy_p, ht)
+                    L_t += abs(dy_p - y_tap)
+                    pour(x_west, dy_p, dx_p, dy_p, ht)
+                    L_t += abs(dx_p - x_west)
+                    pin_pad(dx_p, dy_p, dy_p, net, 1.5, tight=True)
                     for lyr in (self.m1, self.m2, self.tm1):
                         c.shapes(lyr).insert(
-                            pya.DBox(px - 1.0, py - 1.0, px + 1.0, py + 1.0))
+                            pya.DBox(dx_p - 0.8, dy_p - 0.8,
+                                     dx_p + 0.8, dy_p + 0.8))
                     c.insert(pya.DCellInstArray(
-                        vs1t, pya.DTrans(pya.DVector(px, py))))
-                x_n0, x_n1 = min(xs_n), max(xs_n)
-                tm1_pour(x_n0, y_n, x_n1, y_n)
-                L += abs(x_n1 - x_n0)
-                lengths[net] = L
+                        vs1t, pya.DTrans(pya.DVector(dx_p, dy_p))))
+                    self.say(
+                        f"{net} det thin tap w={w_tap} via x_west={x_west:.1f} "
+                        f"y_tap={y_tap:.1f} L_tap={L_t:.1f} [HAND/GDS]"
+                    )
+
+                lengths[net] = L_w + L_t
+                C_tank[net] = L_w * 0.10
+                C_tap[net] = L_t * 0.05
                 self.say(
-                    f"{net} tank y={y_tank:.2f} north y={y_n:.2f} "
-                    f"x_n=[{x_n0:.1f},{x_n1:.1f}] L={L:.1f} um w={w_tank} "
-                    f"[GDS/HAND]"
+                    f"{net} wide L={L_w:.1f} µm C≈{C_tank[net]:.1f} fF; "
+                    f"tap L={L_t:.1f} µm C≈{C_tap[net]:.1f} fF; "
+                    f"total C≈{C_tank[net]+C_tap[net]:.1f} fF [HAND/GDS]"
                 )
-            if "tn" in lengths and "tp" in lengths:
-                Cp = 0.10  # fF/µm @ w=2 [HAND]
+            if C_tank and C_tap:
                 self.say(
-                    f"tn/tp added C≈{lengths['tn']*Cp:.1f}/"
-                    f"{lengths['tp']*Cp:.1f} fF (C'={Cp}) "
-                    f"dL={abs(lengths['tn']-lengths['tp']):.1f} um [HAND]"
+                    f"tn/tp island C≈{C_tank.get('tn',0)+C_tap.get('tn',0):.1f}/"
+                    f"{C_tank.get('tp',0)+C_tap.get('tp',0):.1f} fF "
+                    f"(wide C'=0.10, tap C'=0.05) [HAND]"
                 )
 
         # ---- vt shielded (south of bank; clear of gnd spine at y_gnd≈−4) ----

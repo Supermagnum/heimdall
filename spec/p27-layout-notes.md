@@ -1,12 +1,10 @@
 # P2.7 layout notes
 
-Status: **P2.7.2c tail-next-to-core STOP** (2026-11-17). Long tail rejected
-[decisions]; west-face pin PASS [TOOL]; short M3 corridor L≈69…91 µm /
-R125≈2.04 Ω / J=1.0 / C≈6.9 fF **meets** electrical targets [HAND/PDK/GDS].
-Unique LVS blocked: var/det vs tall east `tail_block` floorplan conflict
-(tn/tp C ≤ 37 fF vs child-metal shorts). See
-`analog/vco/layout/p272c/out/summary_p272c_tail_next_stop.txt`. Chip art
-PASS. Blocks PASS.
+Status: **P2.7.2c varactor / detector pack** (2026-11-17). Short east tail
+accepted (`53b069e`). `gnd|vbp` after power: separate [TOOL]
+(`summary_p272c_gnd_vbp.txt`). Island C budget ≤ 50 fF/side if needed
+[decisions]. Placement plan below; unique LVS in progress. Chip art PASS.
+Blocks PASS.
 
 ---
 
@@ -800,6 +798,56 @@ Full join stops when placing var/det with the east tail: east tn-aligned pack
 blocks the short tail Y; north pack needs parent TM1 that either exceeds the
 37 fF island budget or shorts through `ampcal_det` / `vco_var`. Owner decision
 on reshape vs C-budget vs face pins — `summary_p272c_tail_next_stop.txt`.
+
+#### P2.7.2c varactor / detector placement plan (2026-11-17) [HAND]
+
+**Decision:** var next to the tank (short, wide tn/tp); detector further with
+thin taps; island C ≤ 50 fF/side if needed; short east tail kept; `gnd|vbp`
+root-caused first.
+
+```
+y↑
+        +--------+  ampcal_det (west of var; thin tn/tp taps)
+        |  DET   |
+        +---+----+
+            | thin taps (w≈0.5 µm)
+        +---+----+  vco_var (X-align tn to core; short wide V)
+        |  VAR   |
+        +---+----+
+            | wide V (w=2 µm)
+ +------+---+---+--------+
+ | BANK |CORE|  | TAIL   |   tail west-face ← short M3 (L≈91 µm)
+ +------+---+  |        |   east_gap=8; above bank
+               +--------+
+ x→
+```
+
+| Block | Place (LL / rule) | Route notes |
+|---|---|---|
+| `vco_bank` | South; X-align `tp` to core | V stub only into tank spine |
+| `vco_core_tank` | `(0, bank.top+8)` | East tail pin kept |
+| `tail_block` | `core.right+8`, above bank; pin near `core.tail` Y | Accepted short M3 w=4 |
+| `vco_var` | North of core; `var.tn.x ≈ core.tn.x` | Wide tn/tp; west-face pins |
+| `ampcal_det` | West of var (north of core) | Thin taps; cmp/en east of det |
+
+**Length / C estimate [HAND]** (place coords from power build; C′=0.10 fF/µm
+@ w=2 for tank path; C′=0.05 @ w=0.5 for det taps):
+
+| Path | L (µm) | C (fF) |
+|---|---|---|
+| bank↔core↔var tn (wide) | ≈ 235 | ≈ 23.5 |
+| bank↔core↔var tp (wide) | ≈ 218 | ≈ 21.8 |
+| det tap tn (thin) | ≈ 245 | ≈ 12.3 |
+| det tap tp (thin) | ≈ 236 | ≈ 11.8 |
+| **Island total tn / tp** | | **≈ 35.8 / 33.6** |
+
+Under 37 fF → **no cfix re-trim required** for this estimate. Budget headroom
+to 50 fF if routing grows. Tail: L≈91 µm, R125≈2.04 Ω, J=1.0, C≈6.9 fF
+[PDK/HAND] (unchanged acceptance).
+
+**Join order:** power → ct → tail → tn/tp → V_tune → controls → detector;
+DRC + both LVS after each. Parent metal must not cross child interiors
+(ct west of det; tn/tp ring above blocks; det taps outside).
 
 ### P2.7.3 — PEX + post-layout VCO range / steps / PN bounds
 **Inputs:** P2.7.2 PEX.  
