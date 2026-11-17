@@ -1,0 +1,52 @@
+# P2.7.2c step 2 — cmp | gnd | vdd soft / hard connects [TOOL LVS]
+
+Date: 2026-11-17. Assembly: place + power, pin-only LVS core GDS.
+
+## Soft-connect report (KLayout extract pipes)
+
+No KLayout soft-connect report file was produced by the PDK runset under
+`out/lvs_*` (search: no soft-connect artifacts). Diagnosis used extracted
+`.cir` port pipes + hierarchical metal/via net tracer on `vco_top_lvs.gds`.
+
+Place-only extract: no `cmp|gnd|vdd` pipes; cmp, gnd, vdd separate [TOOL].
+Power-only before fix: `cmp|gnd|vdd` then (after cmp fix) `gnd|vdd` [TOOL].
+
+## Causes (not well/guard soft-connect)
+
+These were **hard metal shorts from parent power pads**, not n-well / guard-ring
+merges between neighbours.
+
+1. **cmp ↔ vdd (ampcal_det)**  
+   Cells: `ampcal_det` + top `vco_top` power routing.  
+   Parent M2 H-pad for `ampcal_det.vdd` used column `det.right+3` (x≈339.6)
+   with pad=4 µm, spanning x≈207→340 at y≈379–387. That pad covered child
+   cmp Via1/M2 at (270.10, 385.29) [TOOL net tracer].  
+   Fix: column `vdd_pin.x+8` (short stub); pad height 2 µm; drop east M2.b
+   notch fill that sat on the old long H-pad.
+
+2. **gnd ↔ vdd (tail_block)**  
+   Cells: `tail_block` + top power.  
+   Child has a vertical **gnd M2** at island x≈387 (y≈492–644) that crosses the
+   vdd pin row. Parent M2 pad for `tail_block.vdd` overlapped that strip while
+   Via1 tied parent M1 (on vdd pin) into the same M2 [TOOL; POWER_DROPS=
+   `tail_block.vdd` alone reproduced `gnd|vdd`]. Leaf `tail_block` LVS has
+   gnd and vdd separate [TOOL].  
+   Fix: M1-only pin→column; M2/Via2 only at column east of the cell (no
+   parent M2 over the cell east edge).
+
+## Wells / rings / pin texts
+
+- No evidence of neighbouring n-wells or guard rings merging after the closer
+  direct pack for these three nets [TOOL: place-only clean; shorts only after
+  power metal].  
+- Stray `vdd` text on core LVS GDS filtered from the assembler pin map so it
+  cannot appear as a TOP_PORTS island pin [TOOL].
+
+## Pass (power-only)
+
+- Extract pipes: none involving cmp / gnd / vdd [TOOL]
+  (`out/lvs_probe3_all_default`, `out/lvs_vco_top`).  
+- Ports cmp, gnd, vdd present and separate [TOOL].  
+- DRC clean with density + SVaricap M1.b waived [TOOL]
+  (`summary_prove_vco_top.txt`: `drc_clean=True`).  
+- Unique KLayout/netgen LVS: FAIL (expected — opens until full join) [TOOL].

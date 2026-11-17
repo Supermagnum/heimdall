@@ -147,6 +147,9 @@ class Asm:
                     tp = sh.trans() * t
                     pins[nm] = (tp.x * src_ly.dbu, tp.y * src_ly.dbu)
         keep = KEEP_PINS.get(name, set())
+        # Drop non-keeper texts from pin map (e.g. stray vdd on core LVS GDS)
+        # so TOP_PORTS logging cannot invent island pins [TOOL LVS].
+        pins = {k: v for k, v in pins.items() if k in keep}
         for L, D in ((8, 25), (8, 2), (126, 25), (126, 2)):
             lyr = self.ly.layer(L, D)
             # clear all pin texts/markers; re-add keepers after place via top
@@ -375,10 +378,14 @@ class Asm:
                      f"x=[{x0:.1f},{x1:.1f}] w={w_pwr} [HAND]")
 
             # Fixed unique M3 columns (avoid tail@256 shorting gnd@256) [TOOL LVS]
+            # ampcal_det.vdd: short stub east of pin only — a column at det.right
+            # made an M2 H-pad (pad=4) span x≈209→340 at y≈383 and short child
+            # cmp Via1/M2 at (270,385) into vdd [TOOL LVS net tracer].
             x_col = {
                 ("tail_block", "vdd"): tail_bb.right + 3.0,
                 ("tail_block", "gnd"): tail_bb.left - 4.0,
-                ("ampcal_det", "vdd"): det_bb.right + 3.0,
+                ("ampcal_det", "vdd"): (
+                    dp["vdd"][0] + 8.0 if "vdd" in dp else det_bb.left - 8.0),
                 ("ampcal_det", "gnd"): det_bb.left - 4.0,
                 ("vco_core_tank", "gnd"): core_bb.left - 10.0,
                 ("vco_bank", "gnd"): bank_bb.right + 3.0,
@@ -391,36 +398,69 @@ class Asm:
 
             def drop_power(px, py, rail_y, block, net):
                 # M2 pads oversized to merge into child pin M2 (M2.b ≥ 0.21) [TOOL]
+                # Keep pad height small on ampcal_det.vdd so it cannot cover cmp.
+                # tail_block.vdd: do NOT extend M2 west of the pin into the cell —
+                # child gnd M2 plane ends ~0.5 µm west of the vdd pin M2; a fat
+                # pad (px−2 … xc) shorted vdd→gnd [TOOL LVS; POWER_DROPS probe].
                 xc = x_col[(block, net)]
                 m3w = 2.0
-                pad = 4.0
-                c.shapes(self.m2).insert(
-                    pya.DBox(min(px, xc) - 2.0, py - pad,
-                             max(px, xc) + 2.0, py + pad))
+                if (block, net) == ("ampcal_det", "vdd"):
+                    pad = 2.0
+                else:
+                    pad = 4.0
+                if (block, net) == ("tail_block", "vdd") and xc >= px:
+                    # M1 pin→column only; M2/Via2 only at column east of cell.
+                    # Child has a vertical gnd M2 at x≈387 crossing y_vdd pin; any
+                    # parent M2 over the cell east edge shorts vdd→gnd [TOOL LVS].
+                    c.shapes(self.m1).insert(
+                        pya.DBox(px - 0.25, py - 0.8, xc + 0.25, py + 0.8))
+                    c.shapes(self.m2).insert(
+                        pya.DBox(xc - 2.0, py - 1.0, xc + 2.0, py + 1.0))
+                    c.insert(pya.DCellInstArray(
+                        vs12, pya.DTrans(pya.DVector(xc, py))))
+                else:
+                    c.shapes(self.m2).insert(
+                        pya.DBox(min(px, xc) - 2.0, py - pad,
+                                 max(px, xc) + 2.0, py + pad))
+                    c.shapes(self.m2).insert(
+                        pya.DBox(px - 3.0, py - pad, px + 3.0, py + pad))
+                    if (block, net) not in m2_ready:
+                        c.shapes(self.m1).insert(
+                            pya.DBox(min(px, xc) - 0.2, py - 0.8,
+                                     max(px, xc) + 0.2, py + 0.8))
+                        c.insert(pya.DCellInstArray(
+                            vs12, pya.DTrans(pya.DVector(xc, py))))
                 c.shapes(self.m3).insert(
                     pya.DBox(xc - m3w / 2, min(py, rail_y),
                              xc + m3w / 2, max(py, rail_y)))
                 c.shapes(self.m2).insert(
                     pya.DBox(xc - 2.0, rail_y - 2.0, xc + 2.0, rail_y + 2.0))
-                c.shapes(self.m2).insert(
-                    pya.DBox(px - 3.0, py - pad, px + 3.0, py + pad))
-                if (block, net) not in m2_ready:
-                    c.shapes(self.m1).insert(
-                        pya.DBox(min(px, xc) - 0.2, py - 0.8,
-                                 max(px, xc) + 0.2, py + 0.8))
-                    c.insert(pya.DCellInstArray(
-                        vs12, pya.DTrans(pya.DVector(xc, py))))
                 c.insert(pya.DCellInstArray(
                     vs23, pya.DTrans(pya.DVector(xc, py))))
                 c.insert(pya.DCellInstArray(
                     vs23, pya.DTrans(pya.DVector(xc, rail_y))))
                 self.say(f"power {block}.{net} col x={xc:.1f}")
 
+            # Optional filter for short debug: POWER_DROPS=all|none|vdd|gnd|block.net,...
+            drop_filter = os.environ.get("POWER_DROPS", "all").strip().lower()
+            self.say(f"power drop filter={drop_filter}")
+
+            def want(block, net):
+                if drop_filter in ("all", ""):
+                    return True
+                if drop_filter == "none":
+                    return False
+                if drop_filter == net:
+                    return True
+                return f"{block}.{net}" in {
+                    x.strip() for x in drop_filter.split(",")
+                }
+
             for src, blk in (
                 (tpins, "tail_block"),
                 (dp, "ampcal_det"),
             ):
-                if "vdd" in src:
+                if "vdd" in src and want(blk, "vdd"):
                     drop_power(src["vdd"][0], src["vdd"][1], y_vdd, blk, "vdd")
             for src, blk in (
                 (cp, "vco_core_tank"),
@@ -429,18 +469,21 @@ class Asm:
                 (vp, "vco_var"),
                 (dp, "ampcal_det"),
             ):
-                if "gnd" in src:
+                if "gnd" in src and want(blk, "gnd"):
                     drop_power(src["gnd"][0], src["gnd"][1], y_gnd, blk, "gnd")
-            export_pin("vdd", x1 - 2.0, y_vdd, "m1")
-            c.insert(pya.DCellInstArray(
-                vs12, pya.DTrans(pya.DVector(x1 - 2.0, y_vdd))))
+            if want("_top", "vdd"):
+                export_pin("vdd", x1 - 2.0, y_vdd, "m1")
+                c.insert(pya.DCellInstArray(
+                    vs12, pya.DTrans(pya.DVector(x1 - 2.0, y_vdd))))
             # Surgical M2.b notch fills (drawing↔filler / pin edge) [TOOL DRC]
-            for box in (
-                (325.5, 385.5, 328.5, 386.5),   # ampcal_det.vdd pin edge
-                (10.5, 6.4, 12.0, 7.0),         # bank-area filler notch
-            ):
-                c.shapes(self.m2).insert(pya.DBox(*box))
-            self.say("power M2.b notch fills applied [TOOL]")
+            # Dropped former ampcal east fill (325.5,385.5)–(328.5,386.5): it sat
+            # on the long vdd H-pad that shorted cmp and would orphan-short child M2.
+            if drop_filter == "all":
+                for box in (
+                    (10.5, 6.4, 12.0, 7.0),         # bank-area filler notch
+                ):
+                    c.shapes(self.m2).insert(pya.DBox(*box))
+                self.say("power M2.b notch fills applied [TOOL]")
 
         # ---- ct: labelled TM1 port + stub to det.ct (clear of tn/tp tracks) ----
         if "ct" in routed and "ct" in cp:
