@@ -6,7 +6,7 @@ Human decisions of 2026-10-17. LinHT hardware facts remain provisional until Rev
 
 The single-cell 3.0-4.2 V assumption is withdrawn.
 
-- Repeater: regulated backplane rails. `docs/RF-modules.md` r0.3 names +12 V for the external PA, +5 V, +3.3 V, and +1.8 V. Those names are the host rails, not a finished RFIC pinout.
+- Repeater: regulated backplane rails. [SDR-repeater `docs/RF-modules.md`](https://github.com/Supermagnum/SDR-repeater/blob/main/docs/RF-modules.md) r0.3 names +12 V for the external PA, +5 V, +3.3 V, and +1.8 V. Those names are the host rails, not a finished RFIC pinout.
 - LinHT: the public README describes a 2S pack, a BQ25792 charger, and a TPS565242 5 V buck. The RFIC is fed from regulated rails on that board, not from the cells.
 - The RFIC specification must include tolerance to buck-regulator ripple and to the spurs of those regulators. No ripple amplitude has been measured.
 

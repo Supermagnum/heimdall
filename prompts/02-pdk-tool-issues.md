@@ -1,6 +1,6 @@
 # Prompt 02 — Check the design against known PDK and tool issues
 
-You are working in the SDR multiband repeater repository (https://github.com/Supermagnum/SDR-repeater). It contains the design of **HT13G-M**, an open RFIC on **IHP SG13G2** (130 nm SiGe BiCMOS). The chip is pin-compatible with the Semtech SX1255, covers **130–175 MHz and 400–480 MHz**, and is used in the repeater modules and in the LinHT handheld.
+You are working in the **heimdall** repository (https://github.com/Supermagnum/heimdall), the home of **HT13G-M**, an open RFIC on **IHP SG13G2** (130 nm SiGe BiCMOS). The chip is pin-compatible with the Semtech SX1255, covers **130–175 MHz and 400–480 MHz**, and is used in the repeater modules and in the LinHT handheld. System / repeater / PCB work lives in [SDR-repeater](https://github.com/Supermagnum/SDR-repeater) (LinHT remains read-only context; never clone or push LinHT).
 
 **Your job in this session:** find every known bug in the IHP SG13G2 open PDK and in the tools the flow uses that can affect this design, and record whether it is fixed, worked around, or still open. **Do not change the design, the PDK pin or the container pin.**
 

@@ -1,6 +1,6 @@
 # Prompt 06 — Do the next design step (one item only)
 
-You are working in the SDR multiband repeater repository (https://github.com/Supermagnum/SDR-repeater). It contains the design of **HT13G-M**, an open RFIC on **IHP SG13G2** (130 nm SiGe BiCMOS). The chip is pin-compatible with the Semtech SX1255, covers **130–175 MHz and 400–480 MHz**, and is used in the repeater modules and in the LinHT handheld.
+You are working in the **heimdall** repository (https://github.com/Supermagnum/heimdall), the home of **HT13G-M**, an open RFIC on **IHP SG13G2** (130 nm SiGe BiCMOS). The chip is pin-compatible with the Semtech SX1255, covers **130–175 MHz and 400–480 MHz**, and is used in the repeater modules and in the LinHT handheld. System / repeater / PCB work lives in [SDR-repeater](https://github.com/Supermagnum/SDR-repeater) (LinHT remains read-only context; never clone or push LinHT).
 
 **Your job in this session:** do the single next open item of the RFIC design work, then stop for review.
 
@@ -12,9 +12,8 @@ You are working in the SDR multiband repeater repository (https://github.com/Sup
 - **Topologies and architecture choices are made by the human owner.** You write a topology memo with options and a proposal, then stop. Do not start a schematic for a block whose topology is not recorded as accepted in `decisions.md` or the block's memo.
 - **Do not reverse an accepted decision** (D1–D20 and any later ones; D19 = loop filter 60 kHz / 55°, D20 = 8-bit VCO bank with nearest-code calibration and V_tune monitor). If a result shows a decision is wrong, write it up as a finding with numbers and a proposal, and stop.
 - **Never clone, fork, or push to the LinHT repository.**
-- **Do not write host-side calibration code** (`host/gr4/`) until the owner says so.
-- **The `PCB/` folder belongs to the owner.** Do not edit, re-save, re-annotate or reformat `PCB/sdr-repeater/sdr-repeater.kicad_sch`, `.kicad_pcb` or `.kicad_pro`. KiCad backups (`*-backups/`), `fp-info-cache` and `*.kicad_prl` are git-ignored since 2026-10-25; never commit them or force-add them. Do not change the library files in `PCB/footprints-symbols/`. Proposed schematic or layout changes go in a report (`reports/pcb-pinout-check-*.md`).
-- **Every PCB part must be on SnapEDA** (CAD symbol and footprint available). New symbols and footprints come from SnapEDA in the same format as the ones already in `PCB/footprints-symbols/`. Only propose them; the owner adds them.
+- **Do not write host-side calibration code** until the owner says so (host/runtime contracts may live in SDR-repeater `docs/runtime/`; there is no host tree in heimdall).
+- **PCB work is not in this repository.** Module PCB and BOM live in [SDR-repeater](https://github.com/Supermagnum/SDR-repeater) (`PCB/`). Do not invent a local `PCB/` tree here. Pinout / parts prompts 04–05 stay in SDR-repeater.
 - **Everything needed to build the RFIC must be in the GitHub repo** (owner rule 2026-10-25 in `decisions.md`, "Repository contents"). If something is only on your machine or in a container, it is not done. That means:
   - xschem `.sch` schematics with an SVG/PDF export of each, from P2.7;
   - netlists, simulation decks, and the run summaries `out/summary_*.txt`;
@@ -41,7 +40,7 @@ Before you start:
 
 When the item is done, update the relevant spec's status line and results section, and `spec/phase2-plan.md` §3.
 
-State on 2026-10-31 (check the files, they win over this line): P2.0–P2.6 are accepted. Open point 2 (start-up bypass) done 2026-10-31. **Next: open point 1 (V_tune monitor), then one UHF LO-floor method attempt.** Check `decisions.md` and `spec/phase2-plan.md` before you start.
+State on 2026-11-17 (check the files, they win over this line): P2.0–P2.6 are accepted. **P2.7.2c** tank PEX + cfix trim accepted. **Next: P2.7.2c direct bank–core re-pack and join** (after D20 + worst-corner PN with new cfix). Check `decisions.md` and `spec/phase2-plan.md` before you start.
 
 1. **P2.6 result review gate.** If `decisions.md` does not record the P2.6 result as accepted, **stop here**. Give the owner a one-page summary of the P2.6 table and these four open points:
    1. V_tune window monitor comparators (D20) are not yet designed.
@@ -87,7 +86,7 @@ Out of scope for you: building or measuring the board filter, choosing parts for
 ## When you stop
 
 1. Commit the output files named above, with a clear message. Do not push to any repository other than this one.
-2. Give the owner a short summary:
+2. Do not push unless the owner asks. Give the owner a short summary:
    - what you did and what you found;
    - what failed or is uncertain;
    - **what decision or review the owner needs to make next**;

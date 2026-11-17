@@ -1,6 +1,6 @@
 # Prompt 01 — Audit the RFIC work and verify the recorded results
 
-You are working in the SDR multiband repeater repository (https://github.com/Supermagnum/SDR-repeater). It contains the design of **HT13G-M**, an open RFIC on **IHP SG13G2** (130 nm SiGe BiCMOS). The chip is pin-compatible with the Semtech SX1255, covers **130–175 MHz and 400–480 MHz**, and is used in the repeater modules and in the LinHT handheld.
+You are working in the **heimdall** repository (https://github.com/Supermagnum/heimdall), the home of **HT13G-M**, an open RFIC on **IHP SG13G2** (130 nm SiGe BiCMOS). The chip is pin-compatible with the Semtech SX1255, covers **130–175 MHz and 400–480 MHz**, and is used in the repeater modules and in the LinHT handheld. System / repeater / PCB work lives in [SDR-repeater](https://github.com/Supermagnum/SDR-repeater) (LinHT remains read-only context; never clone or push LinHT).
 
 **Your job in this session:** find out from the files what is done, re-run the scripts that produce the key results, and check them against their limits. **Do no new design work.**
 

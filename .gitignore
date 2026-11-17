@@ -71,9 +71,5 @@ vacask_*.txt
 rtl/afe/cocotb/sim_build/
 rtl/afe/cocotb/results.xml
 **/results.xml
-# KiCad automatic backups and caches
-*-backups/
-fp-info-cache
-*.kicad_prl
 __pycache__/
 *.pyc

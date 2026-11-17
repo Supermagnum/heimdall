@@ -1,4 +1,4 @@
-# Project handoff — SDR repeater / LinHT RFIC
+# Project handoff — heimdall / HT13G-M RFIC
 
 **State as of:** 19 October 2026. Reference layout: **`phase1l`** (signed off; pin-map RTL of 2026-10-19). Phase 2 plan: `spec/phase2-plan.md` (draft for review). RF front-end requirements drafted in `spec/rf-frontend.md` (branch `phase2/rf-spec`); VACASK phase-noise analysis validated (`analog/pn-validation/`).
 **Purpose:** let an RF/IC engineer (or an AI agent under human review) pick up the work, reproduce every result, and see what is solid, what is provisional and what is open.
@@ -44,9 +44,9 @@ Paths are relative to the repository root. This file lives in `docs/`.
 | Path | Content |
 |---|---|
 | `decisions.md` | Human decisions with date and rationale |
-| `spec/` | Baseline decisions, I2S clocking, **derived RX/TX limits**, **RF front-end requirements** (`rf-frontend.md`) |
+| `spec/` | Chip specs. Masters: `derived-limits.md`, `baseline-decisions.md`. `rf-frontend.md` is a read-only snapshot of the SDR-repeater master |
 | `analog/pn-validation/` | VACASK phase-noise validation (passed 2026-10-19) |
-| `docs/` | System and RF-module documents |
+| `docs/` | Chip handoff (this file). System / RF-module docs live in [SDR-repeater](https://github.com/Supermagnum/SDR-repeater) |
 | `rtl/digital/` | Digital back end RTL, `config.yaml`, `constraints.sdc`, `pdn_cfg.tcl`, `notes.md` (register map) |
 | `rtl/cocotb/` | Testbenches: `run_sim.py`, `test_backend.py`, `test_power.py`, `gate_sim.py` |
 | `reports/` | Review gates, EM report, Magic DRC waiver |
@@ -79,7 +79,7 @@ DRC flag name in this PDK: `--minimum_drc` (the old `--precheck_drc` is deprecat
 Host prerequisites: Docker running, user in the `docker` group.
 
 ```bash
-cd SDR-repeater
+cd heimdall
 docker run -it --rm -v "$PWD":/foss/designs \
   -v ~/.gitconfig:/headless/.gitconfig:ro \
   hpretl/iic-osic-tools:2026.10 --skip bash

@@ -841,3 +841,12 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   If the fixed capacitor is too small to absorb the parasitics, a finding to the owner.
 - P2.7.2c continues with the direct bank–core re-pack (≈ 32–37 fF / side [HAND]), after the
   trim.
+
+## 2026-11-17 — Fixed tank capacitor trim
+- Extracted tank parasitics [PEX-RC]: core 20.6 / 23.7 fF, bank wiring 28.1 / 36.9 fF; budget
+  97.5 fF / side with island routing 37 fF [HAND].
+- Fixed tank capacitor trimmed 16 → 14.5 µm (192 → 157.7 fF): band margins top 102 / bottom
+  93 MHz, overlap pass [SCH]. Accepted.
+- D20 V_tune landing re-checked before the join; worst-corner PN [HAND] until P2.7.3.
+- P2.7.3 extracts the inductor pad C and the bank MIM top-plate parasitics left out here.
+- Chip work continues in github.com/Supermagnum/heimdall.
