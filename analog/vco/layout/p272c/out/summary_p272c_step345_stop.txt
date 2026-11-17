@@ -1,0 +1,82 @@
+# P2.7.2c steps 3–5 — direct join unique LVS — STOP (2026-11-17)
+
+## Steps 1–2 (prior commits; this job inherits)
+| Step | Result | Tag |
+|---|---|---|
+| 1 pin-only LVS core GDS | PASS — place extract no ct\|tn\|tp pipes | [TOOL] 48dd481 |
+| 2 power soft-connect | PASS — no cmp\|gnd\|vdd pipes; DRC clean | [TOOL] 4f88c95 |
+
+## Step 3 — Replay net groups to unique LVS
+
+### Per-group DRC (density + SVaricap M1.b waived) [TOOL]
+| Group | DRC | Extract pipes (progressive) |
+|---|---|---|
+| place | PASS | none |
+| power | PASS | none |
+| ct | PASS (after raise H-strap above core) | none (was ct\|tn) |
+| tail | PASS DRC; **LVS pipes** | gnd\|tail\|tn\|tp\|vdd |
+| tn_tp | PASS DRC (TM1 keep-outs / U-jog) | mega merge grows |
+| vt | PASS DRC | adds W\|vt |
+| controls | PASS DRC | W\|gnd\|tail\|tn\|tp\|vbp\|vdd\|vt |
+
+Full-assembly prove: `drc_clean=True` non_density=['M1.b'] [TOOL]
+`summary_prove_vco_top.txt`, `summary_drc_lvs_controls.txt`.
+
+### Unique LVS / netgen vs vco_top.sch
+**FAIL** [TOOL]. Mega-short extract port
+`W|gnd|tail|tn|tp|vbp|vdd|vt` (`out/lvs_vco_top/vco_top_lvs_extracted.cir`).
+netgen: device/net count mismatch; "Netlists do not match."
+
+### Soft-connect / short causes found this job [TOOL]
+1. **ct\|tn (fixed):** parent ct H-strap at tank_y+10 (≈390.65) crossed core tn TM1
+   plate (to y≈438). Fix: y_ct = core_bb.top+3; drop to det.ct east of core/var.
+2. **tail\|* (open):** parent tail M2 through core merges child M2 (dense at
+   tail-pin row). M1 escape + alley-north path still leaves
+   gnd\|tail\|tn\|tp\|vdd after place+ct+tail. Needs a clear tail escape that
+   does not touch core/bank metals (owner call / next fix run).
+3. **Power cmp\|gnd\|vdd:** remains clean from step 2 when power-only [TOOL].
+
+### Inductor fab/LVS diff
+**PASS** [TOOL] — `out/summary_fab_lvs_core_diff.txt` (only l2n0_em in fab).
+
+### Varactor dims / fingers / ct port
+- Fingers: **PASS** [TOOL] — `p272b_var/check_fingers.py` →
+  `out/summary_finger_check.txt` (Nx=10, nmos_ngs OK).
+- ct as top port: labelled TM1 at (339.6, 441.3) after raise [GDS]; unique LVS
+  cannot confirm until mega-short cleared. Core pin-only extract still omits ct
+  as a device port (inductor black-box) [TOOL] — known pin-only limit.
+- Varactor W/L vs sch: not re-measured as a separate dim script this stop;
+  leaf vco_var join already accepted P2.7.2b [GDS].
+
+## Step 4 — Island C / mismatch / outline / die
+
+| Item | Value | Tag |
+|---|---|---|
+| Island routing C tn/tp | 27.9 / 28.9 fF | [HAND] L×0.10 fF/µm from assembler |
+| Budget | ≤ 37 fF / side | [HAND] trim assumption |
+| tn−tp ΔL | 9.8 µm | [GDS/HAND] |
+| Outline bbox | (−208.78,0;394.7,865.835) | [GDS] |
+| Outline area | 0.5225 mm² | [GDS] |
+| Die re-total §8 | updated with 0.5225; LVS gate still open | [GDS/HAND] |
+
+PEX-RC on island routing: **tool did not run**.
+
+## Step 5 — Specs
+Updated: `spec/vco-topology.md` §9 status, `spec/pll-topology.md` D20 note,
+`spec/p27-layout-notes.md` (inductor LVS + soft-connect causes),
+`spec/p27-floorplan.md` §8, `spec/phase2-plan.md` §3.
+
+## Decision needed
+How to clear the **tail** parent-route mega-short (gnd\|tail\|tn\|tp\|vdd) without
+drawing M2/M3 through the core or bank. Options: (1) dedicated M1/TM1 conduit
+cell through a keep-out corridor; (2) move core.tail pin to the east edge in a
+core re-spin; (3) owner call.
+
+## Found, not done
+- Unique KLayout LVS + netgen on `vco_top`
+- Island PEX-RC
+- P2.7.3 VCO PEX / post-layout checks (blocked on unique LVS)
+
+## Next run (expected)
+**P2.7.2c-tail-escape** (focused) then **P2.7.3 — VCO PEX and post-layout checks**
+once unique LVS passes.

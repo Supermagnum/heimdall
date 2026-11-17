@@ -1,4 +1,4 @@
-* Extracted by KLayout with SG13G2 LVS runset on : 17/11/2026 05:15
+* Extracted by KLayout with SG13G2 LVS runset on : 17/11/2026 08:34
 
 .SUBCKT vco_top G1 G2 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb0 bb1 bb10 bb11 bb2
 + bb3 bb4 bb5 bb6 bb7 bb8 bb9 code0 code1 code2 code3 code4 en g0 g1 g10 g11 g2
@@ -21,86 +21,86 @@ M$205 bb7 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 M$206 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt g7 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=308.5u AS=59.07775p
 + AD=59.07775p PS=349.885u PD=349.885u rfmode=0
-M$307 bb8 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$95
+M$307 bb8 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$101
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=1.25u AS=0.425p
 + AD=0.425p PS=3.18u PD=3.18u rfmode=0
-M$308 \$95 g8 \$88 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
+M$308 \$101 g8 \$94 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
 + W=308.5u AS=59.07775p AD=59.07775p PS=349.885u PD=349.885u rfmode=0
-M$408 \$88 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb8
+M$408 \$94 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb8
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=1.25u AS=0.425p
 + AD=0.425p PS=3.18u PD=3.18u rfmode=0
-M$409 bb9 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$96
+M$409 bb9 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$102
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=1.25u AS=0.425p
 + AD=0.425p PS=3.18u PD=3.18u rfmode=0
-M$410 \$96 g9 \$90 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
+M$410 \$102 g9 \$96 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
 + W=308.5u AS=59.07775p AD=59.07775p PS=349.885u PD=349.885u rfmode=0
-M$510 \$90 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb9
+M$510 \$96 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb9
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=1.25u AS=0.425p
 + AD=0.425p PS=3.18u PD=3.18u rfmode=0
-M$511 bb10 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$97
+M$511 bb10 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$103
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=1.25u AS=0.425p
 + AD=0.425p PS=3.18u PD=3.18u rfmode=0
-M$512 \$97 g10 \$92 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
+M$512 \$103 g10 \$98 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
 + W=308.5u AS=59.07775p AD=59.07775p PS=349.885u PD=349.885u rfmode=0
-M$612 \$92 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb10
+M$612 \$98 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb10
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=1.25u AS=0.425p
 + AD=0.425p PS=3.18u PD=3.18u rfmode=0
-M$613 bb11 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$98
+M$613 bb11 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$104
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=1.25u AS=0.425p
 + AD=0.425p PS=3.18u PD=3.18u rfmode=0
 M$614 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + sg13_lv_nmos L=0.13u W=74.25u AS=16.845p AD=16.845p PS=102.58u PD=102.58u
 + rfmode=0
-M$615 \$98 g11 \$94 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
+M$615 \$104 g11 \$100 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
 + W=308.5u AS=59.07775p AD=59.07775p PS=349.885u PD=349.885u rfmode=0
 M$715 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
-+ \$14 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=309.75u
++ \$19 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=309.75u
 + AS=59.50275p AD=59.50275p PS=353.065u PD=353.065u rfmode=0
-M$815 \$94 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb11
+M$815 \$100 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb11
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=1.25u AS=0.425p
 + AD=0.425p PS=3.18u PD=3.18u rfmode=0
-M$817 bb0 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$183
+M$817 bb0 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$189
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p
 + AD=0.1005p PS=1.34u PD=1.34u rfmode=0
-M$818 \$183 g0 \$178 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
+M$818 \$189 g0 \$184 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
 + W=10.32u AS=2.3478p AD=2.3478p PS=14.72u PD=14.72u rfmode=0
-M$822 \$178 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb0
+M$822 \$184 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb0
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p
 + AD=0.1005p PS=1.34u PD=1.34u rfmode=0
-M$823 bb1 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$184
+M$823 bb1 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$190
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p
 + AD=0.1005p PS=1.34u PD=1.34u rfmode=0
-M$824 \$184 g1 \$179 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
+M$824 \$190 g1 \$185 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
 + W=19.8u AS=4.13325p AD=4.13325p PS=25.615u PD=25.615u rfmode=0
-M$832 \$179 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb1
+M$832 \$185 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb1
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p
 + AD=0.1005p PS=1.34u PD=1.34u rfmode=0
-M$833 bb2 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$185
+M$833 bb2 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$191
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p
 + AD=0.1005p PS=1.34u PD=1.34u rfmode=0
-M$834 \$185 g2 \$180 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
+M$834 \$191 g2 \$186 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
 + W=39.12u AS=7.79955p AD=7.79955p PS=47.945u PD=47.945u rfmode=0
-M$850 \$180 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb2
+M$850 \$186 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb2
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p
 + AD=0.1005p PS=1.34u PD=1.34u rfmode=0
-M$860 bb3 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$186
+M$860 bb3 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$192
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=0.31u AS=0.1054p
 + AD=0.1054p PS=1.3u PD=1.3u rfmode=0
-M$869 \$186 g3 \$181 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
+M$869 \$192 g3 \$187 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
 + W=77.5u AS=15.1p AD=15.1p PS=92.08u PD=92.08u rfmode=0
-M$901 \$181 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb3
+M$901 \$187 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb3
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=0.31u AS=0.1054p
 + AD=0.1054p PS=1.3u PD=1.3u rfmode=0
-M$902 bb4 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$187
+M$902 bb4 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$193
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=0.62u AS=0.2108p
 + AD=0.2108p PS=1.92u PD=1.92u rfmode=0
-M$903 \$187 g4 \$182 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
+M$903 \$193 g4 \$188 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u
 + W=154.38u AS=29.7057p AD=29.7057p PS=180.73u PD=180.73u rfmode=0
-M$965 \$549 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$965 \$555 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + sg13_lv_nmos L=4u W=480u AS=94.2p AD=94.2p PS=537.68u PD=537.68u rfmode=0
-M$1013 \$182 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb4
+M$1013 \$188 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt bb4
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=0.62u AS=0.2108p
 + AD=0.2108p PS=1.92u PD=1.92u rfmode=0
 M$1014 G1 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
@@ -119,312 +119,312 @@ M$1024 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + sg13_lv_nmos L=0.5u W=4u AS=1.36p AD=1.36p PS=9.36u PD=9.36u rfmode=0
 M$1025 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
-+ \$299 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.5u W=8u AS=2.12p
++ \$305 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.5u W=8u AS=2.12p
 + AD=2.12p PS=14.12u PD=14.12u rfmode=0
-M$1027 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt hold \$297
+M$1027 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt hold \$303
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.5u W=4u AS=1.06p AD=1.06p
 + PS=7.06u PD=7.06u rfmode=0
 M$1029 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + sg13_lv_nmos L=2u W=8u AS=2.72p AD=2.72p PS=17.36u PD=17.36u rfmode=0
-M$1080 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt vthn \$297
+M$1080 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt vthn \$303
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.5u W=4u AS=1.06p AD=1.06p
 + PS=7.06u PD=7.06u rfmode=0
-M$1082 \$384 \$373 \$376 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=2u
+M$1082 \$390 \$379 \$382 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=2u
 + W=8u AS=2.12p AD=2.12p PS=13.06u PD=13.06u rfmode=0
-M$1085 \$370 \$412 \$376 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=2u
+M$1085 \$376 \$418 \$382 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=2u
 + W=8u AS=2.12p AD=2.12p PS=13.06u PD=13.06u rfmode=0
-M$1088 \$283 en W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1088 \$289 en W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=2u AS=0.68p
 + AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1089 \$298 \$298 \$283 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=1u
+M$1089 \$304 \$304 \$289 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=1u
 + W=1u AS=0.34p AD=0.34p PS=2.68u PD=2.68u rfmode=0
-M$1090 \$284 en W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1090 \$290 en W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=2u AS=0.68p
 + AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1091 hold \$298 \$284 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=1u
+M$1091 hold \$304 \$290 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=1u
 + W=1u AS=0.34p AD=0.34p PS=2.68u PD=2.68u rfmode=0
-M$1092 \$285 en W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1092 \$291 en W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=2u AS=0.68p
 + AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1093 rep \$298 \$285 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=1u
+M$1093 rep \$304 \$291 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=1u
 + W=1u AS=0.34p AD=0.34p PS=2.68u PD=2.68u rfmode=0
-M$1094 \$370 vbp_tail W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1094 \$376 vbp_tail W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=20u AS=4.55p
 + AD=4.55p PS=26.82u PD=26.82u rfmode=0
-M$1098 \$286 en W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1098 \$292 en W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=2u AS=0.68p
 + AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1099 \$297 \$298 \$286 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=1u
+M$1099 \$303 \$304 \$292 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=1u
 + W=5.5u AS=1.4575p AD=1.4575p PS=9.31u PD=9.31u rfmode=0
-M$1101 \$287 en W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1101 \$293 en W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=0.13u W=2u AS=0.68p
 + AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1102 \$299 \$298 \$287 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=1u
+M$1102 \$305 \$304 \$293 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_nmos L=1u
 + W=5.5u AS=1.4575p AD=1.4575p PS=9.31u PD=9.31u rfmode=0
 M$1104 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + sg13_lv_pmos L=0.5u W=8u AS=2.12p AD=2.12p PS=14.12u PD=14.12u rfmode=0
-M$1108 \$377 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1108 \$383 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1109 \$373 \$405 \$377 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1109 \$379 \$411 \$383 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1110 \$378 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1110 \$384 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1111 \$373 \$405 \$378 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1111 \$379 \$411 \$384 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1112 \$379 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1112 \$385 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1113 \$373 \$405 \$379 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1113 \$379 \$411 \$385 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1114 \$380 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1114 \$386 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1115 \$373 \$405 \$380 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1115 \$379 \$411 \$386 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1116 \$381 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1116 \$387 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1117 \$373 \$405 \$381 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1117 \$379 \$411 \$387 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1118 \$382 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1118 \$388 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1119 \$373 \$405 \$382 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1119 \$379 \$411 \$388 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1120 \$383 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1120 \$389 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1121 \$373 \$405 \$383 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1121 \$379 \$411 \$389 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1122 \$404 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1122 \$410 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1123 \$373 \$405 \$404 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1123 \$379 \$411 \$410 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1124 \$406 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1124 \$412 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1125 \$373 \$405 \$406 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1125 \$379 \$411 \$412 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1126 \$407 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1126 \$413 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1127 \$373 \$405 \$407 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1127 \$379 \$411 \$413 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1128 \$408 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1128 \$414 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1129 \$373 \$405 \$408 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1129 \$379 \$411 \$414 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1130 \$409 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1130 \$415 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1131 \$373 \$405 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1131 \$379 \$411 \$415 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1132 \$410 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1132 \$416 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1133 \$373 \$405 \$410 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1133 \$379 \$411 \$416 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1134 \$411 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1134 \$417 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1135 \$373 \$405 \$411 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1135 \$379 \$411 \$417 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1136 \$427 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1136 \$433 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1137 \$447 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1137 \$453 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1138 \$373 \$405 \$427 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1138 \$379 \$411 \$433 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1139 \$373 code4 \$447 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1139 \$379 code4 \$453 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1140 \$448 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1140 \$454 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1141 \$428 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1141 \$434 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1142 \$373 code3 \$448 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1142 \$379 code3 \$454 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1143 \$373 \$405 \$428 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1143 \$379 \$411 \$434 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1144 \$429 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1144 \$435 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1145 \$449 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1145 \$455 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1146 \$373 \$405 \$429 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1146 \$379 \$411 \$435 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1147 \$373 code2 \$449 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1147 \$379 code2 \$455 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1148 \$450 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1148 \$456 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1149 \$430 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1149 \$436 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1150 \$373 \$405 \$430 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1150 \$379 \$411 \$436 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1151 \$373 code4 \$450 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1151 \$379 code4 \$456 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1152 \$431 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1152 \$437 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1153 \$451 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1153 \$457 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1154 \$373 \$405 \$431 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1154 \$379 \$411 \$437 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1155 \$373 code3 \$451 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1155 \$379 code3 \$457 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1156 \$452 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1156 \$458 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1157 \$373 code4 \$452 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1157 \$379 code4 \$458 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1158 \$453 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1158 \$459 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1159 \$373 code1 \$453 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1159 \$379 code1 \$459 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1160 \$454 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1160 \$460 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1161 \$373 code4 \$454 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1161 \$379 code4 \$460 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1162 \$384 \$384 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1162 \$390 \$390 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=4u AS=1.06p AD=1.06p
 + PS=7.06u PD=7.06u rfmode=0
-M$1164 \$370 \$384 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1164 \$376 \$390 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=4u AS=1.06p AD=1.06p
 + PS=7.06u PD=7.06u rfmode=0
-M$1166 \$471 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1166 \$477 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1167 \$373 code4 \$471 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1167 \$379 code4 \$477 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1168 \$473 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1168 \$479 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1169 \$373 code0 \$473 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1169 \$379 code0 \$479 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1170 \$475 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1170 \$481 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1171 \$373 code4 \$475 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1171 \$379 code4 \$481 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1172 \$477 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1172 \$483 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1173 \$373 code3 \$477 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1173 \$379 code3 \$483 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1174 \$478 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1174 \$484 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1175 \$373 code4 \$478 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1175 \$379 code4 \$484 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1176 \$479 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1176 \$485 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1177 \$373 code2 \$479 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1177 \$379 code2 \$485 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1178 \$480 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1178 \$486 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1179 \$373 code3 \$480 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1179 \$379 code3 \$486 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1180 \$482 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1180 \$488 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1181 \$373 code4 \$482 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1181 \$379 code4 \$488 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1182 \$500 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1182 \$506 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1183 \$373 code4 \$500 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1183 \$379 code4 \$506 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1184 \$501 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1184 \$507 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1185 \$373 code3 \$501 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1185 \$379 code3 \$507 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1186 \$502 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1186 \$508 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1187 \$373 code2 \$502 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1187 \$379 code2 \$508 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1188 \$503 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1188 \$509 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1189 \$373 code4 \$503 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1189 \$379 code4 \$509 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1190 \$504 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1190 \$510 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1191 \$373 code3 \$504 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1191 \$379 code3 \$510 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1192 \$505 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1192 \$511 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1193 \$373 code4 \$505 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1193 \$379 code4 \$511 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1194 \$506 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1194 \$512 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1195 \$373 code1 \$506 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1195 \$379 code1 \$512 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1196 \$507 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1196 \$513 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1197 \$373 code4 \$507 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1197 \$379 code4 \$513 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1198 \$524 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1198 \$530 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1199 \$373 code4 \$524 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1199 \$379 code4 \$530 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1200 \$525 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1200 \$531 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1201 \$373 \$548 \$525 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1201 \$379 \$554 \$531 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1202 \$526 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1202 \$532 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1203 \$373 code3 \$526 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1203 \$379 code3 \$532 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1204 \$527 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1204 \$533 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1205 \$373 code4 \$527 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1205 \$379 code4 \$533 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1206 \$528 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1206 \$534 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1207 \$373 code4 \$528 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1207 \$379 code4 \$534 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1208 \$529 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1208 \$535 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1209 \$373 code2 \$529 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1209 \$379 code2 \$535 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1210 \$530 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1210 \$536 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1211 \$373 code3 \$530 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1211 \$379 code3 \$536 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
-M$1212 \$531 \$403 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+M$1212 \$537 \$409 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1213 \$373 code4 \$531 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
+M$1213 \$379 code4 \$537 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt sg13_lv_pmos
 + L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u PD=4.68u rfmode=0
 R$1214 bb5 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u b=0 m=2
@@ -434,45 +434,45 @@ R$1218 bb7 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u b=0 m=2
 R$1220 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1221 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$14
+R$1221 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$19
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1222 bb8 \$95 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u b=0
+R$1222 bb8 \$101 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
++ b=0 m=1
+R$1223 bb8 \$94 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u b=0
 + m=1
-R$1223 bb8 \$88 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u b=0
+R$1224 bb9 \$102 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
++ b=0 m=1
+R$1225 bb9 \$96 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u b=0
 + m=1
-R$1224 bb9 \$96 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u b=0
-+ m=1
-R$1225 bb9 \$90 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u b=0
-+ m=1
-R$1226 bb10 \$97 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
+R$1226 bb10 \$103 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
 + b=0 m=1
-R$1227 bb10 \$92 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
+R$1227 bb10 \$98 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
 + b=0 m=1
-R$1228 bb11 \$98 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
+R$1228 bb11 \$104 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
 + b=0 m=1
-R$1229 bb11 \$94 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
+R$1229 bb11 \$100 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
 + b=0 m=1
-R$1230 bb0 \$183 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
+R$1230 bb0 \$189 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
 + b=0 m=1
-R$1231 bb0 \$178 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
+R$1231 bb0 \$184 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
 + b=0 m=1
-R$1232 bb1 \$184 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
+R$1232 bb1 \$190 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
 + b=0 m=1
-R$1233 bb1 \$179 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
+R$1233 bb1 \$185 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
 + b=0 m=1
-R$1234 bb2 \$185 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
+R$1234 bb2 \$191 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
 + b=0 m=1
-R$1235 bb2 \$180 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
+R$1235 bb2 \$186 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
 + b=0 m=1
-R$1236 bb3 \$186 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
+R$1236 bb3 \$192 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
 + b=0 m=1
-R$1237 bb3 \$181 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
+R$1237 bb3 \$187 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
 + b=0 m=1
-R$1238 bb4 \$187 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
+R$1238 bb4 \$193 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
 + b=0 m=1
-R$1239 bb4 \$182 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
+R$1239 bb4 \$188 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=5u l=60.8u ps=0u
 + b=0 m=1
-R$1240 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$257
+R$1240 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$263
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=2u l=15.2u ps=0u b=0 m=1
 R$1241 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt G1 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + rhigh w=0.5u l=42.095u ps=0.18u b=16 m=1
@@ -480,73 +480,73 @@ R$1242 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt G2 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + rhigh w=0.5u l=42.095u ps=0.18u b=16 m=1
 R$1243 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=0.5u l=6.96u ps=0u b=0 m=2
-R$1245 \$298 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+R$1245 \$304 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=0.5u l=78u ps=0u b=0 m=1
-R$1246 \$370 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
+R$1246 \$376 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rhigh w=0.5u l=21.285u ps=0.18u b=16 m=1
 C$1247 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + cap_cmim w=68.94u l=68.94u A=4752.7236p P=275.76u m=7
-C$1251 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$179 cap_cmim w=3.92u l=3.92u
+C$1250 rep W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt cap_cmim w=16.27u l=16.27u
++ A=264.7129p P=65.08u m=1
+C$1252 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$185 cap_cmim w=3.92u l=3.92u
 + A=15.3664p P=15.68u m=1
-C$1254 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$183 cap_cmim w=2.81u l=2.81u
-+ A=7.8961p P=11.24u m=1
+C$1254 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
++ cap_cmim w=5.71u l=5.71u A=32.6041p P=22.84u m=1
 C$1255 hold W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt cap_cmim w=16.27u l=16.27u
 + A=264.7129p P=65.08u m=1
-C$1257 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
-+ cap_cmim w=5.71u l=5.71u A=32.6041p P=22.84u m=1
-C$1258 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$178 cap_cmim w=2.81u l=2.81u
+C$1256 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$184 cap_cmim w=2.81u l=2.81u
 + A=7.8961p P=11.24u m=1
-C$1259 rep W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt cap_cmim w=16.27u l=16.27u
-+ A=264.7129p P=65.08u m=1
-C$1260 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$184 cap_cmim w=3.92u l=3.92u
+C$1258 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$190 cap_cmim w=3.92u l=3.92u
 + A=15.3664p P=15.68u m=1
-C$1261 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$185 cap_cmim w=5.53u l=5.53u
+C$1259 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$191 cap_cmim w=5.53u l=5.53u
 + A=30.5809p P=22.12u m=1
-C$1262 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$180 cap_cmim w=5.53u l=5.53u
+C$1260 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$186 cap_cmim w=5.53u l=5.53u
 + A=30.5809p P=22.12u m=1
+C$1261 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$189 cap_cmim w=2.81u l=2.81u
++ A=7.8961p P=11.24u m=1
 C$1263 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rfcmim w=15.71u l=15.71u A=246.8041p
 + P=62.84u m=7 wfeed=5u
-C$1270 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$14
+C$1270 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$19
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rfcmim w=15.71u l=15.71u A=246.8041p
 + P=62.84u m=1 wfeed=5u
-C$1271 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$95
+C$1271 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$101
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rfcmim w=15.71u l=15.71u A=246.8041p
 + P=62.84u m=1 wfeed=5u
-C$1272 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$88
+C$1272 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$94
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rfcmim w=15.71u l=15.71u A=246.8041p
 + P=62.84u m=1 wfeed=5u
-C$1273 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$96
+C$1273 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$102
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rfcmim w=15.71u l=15.71u A=246.8041p
 + P=62.84u m=1 wfeed=5u
-C$1274 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$90
+C$1274 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$96
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rfcmim w=15.71u l=15.71u A=246.8041p
 + P=62.84u m=1 wfeed=5u
-C$1275 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$97
+C$1275 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$103
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rfcmim w=15.71u l=15.71u A=246.8041p
 + P=62.84u m=1 wfeed=5u
-C$1276 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$92
+C$1276 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$98
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rfcmim w=15.71u l=15.71u A=246.8041p
 + P=62.84u m=1 wfeed=5u
-C$1277 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$98
+C$1277 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$104
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rfcmim w=15.71u l=15.71u A=246.8041p
 + P=62.84u m=1 wfeed=5u
-C$1278 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$94
+C$1278 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$100
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rfcmim w=15.71u l=15.71u A=246.8041p
 + P=62.84u m=1 wfeed=5u
-C$1279 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$257
-+ W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rfcmim w=16u l=16u A=256p P=64u m=2
+C$1279 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$263
++ W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rfcmim w=14.5u l=14.5u A=210.25p P=58u m=2
 + wfeed=5u
-C$1280 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$186
+C$1280 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$192
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rfcmim w=7.87u l=7.87u A=61.9369p P=31.48u
 + m=1 wfeed=5u
-C$1281 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$181
+C$1281 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$187
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rfcmim w=7.87u l=7.87u A=61.9369p P=31.48u
 + m=1 wfeed=5u
-C$1283 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$187
+C$1283 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$193
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rfcmim w=11.12u l=11.12u A=123.6544p
 + P=44.48u m=1 wfeed=5u
-C$1284 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$182
+C$1284 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt \$188
 + W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt rfcmim w=11.12u l=11.12u A=123.6544p
 + P=44.48u m=1 wfeed=5u
 C$1285 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt G2 W|cmp|ct|gnd|tail|tn|tp|vbp|vdd|vt

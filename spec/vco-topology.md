@@ -1,6 +1,6 @@
 # VCO topology memo (P2.3)
 
-Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** tank PEX + fixed-C trim PASS (bands+overlap); D20/PN not re-run this job. Next: direct bank–core re-pack/join. See §9.
+Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** tank PEX + cfix trim PASS; D20 ff 0.955 V PASS [MODEL/SCH]; direct pack DRC clean through controls; **unique LVS FAIL** (tail-route mega-short — `summary_p272c_step345_stop.txt`). Next: clear tail escape, then P2.7.3. See §9.
 
 ---
 
@@ -261,7 +261,18 @@ Overlap monotonic at carries: PASS [SCH].
 D20 landing and worst-corner pnoise: **not re-run** this job [TOOL].
 
 **Core layout:** stage d rebuild; TM1.b notches in cell; DRC / KLayout LVS /
-netgen PASS (`summary_assemble_trim.txt`). Next: **direct bank–core re-pack**.
+netgen PASS (`summary_assemble_trim.txt`).
+
+### P2.7.2c direct pack join (2026-11-17) [TOOL/GDS/HAND]
+
+D20 ff landing 0.955 V accepted vs ff window 0.457–0.970 V [MODEL/SCH].
+Pin-only inductor LVS GDS: place/power extract clean (no ct|tn|tp or cmp|gnd|vdd
+pipes) [TOOL]. Full assembly **DRC clean** (density + SVaricap M1.b waived)
+[TOOL]. Island C ≈ 27.9/28.9 fF/side, ΔL 9.8 µm [HAND]; outline **0.5225 mm²**
+[GDS]. **Unique LVS/netgen FAIL** — extract mega-short
+`W|gnd|tail|tn|tp|vbp|vdd|vt` from tail parent routing through core/bank metals
+[TOOL] (`summary_p272c_step345_stop.txt`). ct H-strap raise fixed prior ct|tn.
+Inductor fab/LVS diff PASS; varactor fingers PASS [TOOL].
 
 ### D9 filter capacitor notes (2026-11-13) — MIM kept; MOS swing cause
 

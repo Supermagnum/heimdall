@@ -366,7 +366,9 @@ class Asm:
             bots = [info["bb"].bottom for info in self.place_info.values()]
             lefts = [info["bb"].left for info in self.place_info.values()]
             rights = [info["bb"].right for info in self.place_info.values()]
-            y_vdd = max(tops) + 4.0
+            # +10 leaves room for tail north M2 ring at max(tops)+2 without
+            # overlapping this spine (was +4 → tail|vdd short) [TOOL LVS]
+            y_vdd = max(tops) + 10.0
             y_gnd = min(bots) - 4.0
             x0, x1 = min(lefts) - 2.0, max(rights) + 2.0
             w_pwr = 4.0
@@ -489,9 +491,10 @@ class Asm:
         if "ct" in routed and "ct" in cp:
             cx, cy = cp["ct"]
             w_ct = 2.0
-            tank_y = cp["tn"][1]
-            y_ct = tank_y + 10.0
-            # East of det so CT TM1 does not sit in the core–tail M3 corridor
+            # Core tn/tp TM1 plates extend to core_bb.top (≈438). An H strap at
+            # tank_y+10 (≈390) crossed tn TM1 → extract ct|tn [TOOL LVS].
+            # Run north of the core, then east; drop to det.ct outside core.x.
+            y_ct = max(cp["tn"][1] + 10.0, core_bb.top + 3.0)
             x_ct_end = det_bb.right + 3.0
             self.strap_tm1(c, cx, cy, cx, y_ct, w=w_ct)
             # Extend H strap past pin so pin pad is fully enclosed (TM1.a) [TOOL]
@@ -499,13 +502,19 @@ class Asm:
             export_pin("ct", x_ct_end, y_ct, "tm1")
             if "ct" in dp:
                 dx, dy = dp["ct"]
-                self.strap_tm1(c, x_ct_end, y_ct, dx, y_ct, w=w_ct)
+                # Drop east of core/var before going south to det.ct pin
+                x_drop = max(dx, core_bb.right + 4.0, var_bb.right + 2.0)
+                self.strap_tm1(c, x_ct_end, y_ct, x_drop, y_ct, w=w_ct)
+                self.strap_tm1(c, x_drop, y_ct, x_drop, dy, w=w_ct)
+                self.strap_tm1(c, x_drop, dy, dx, dy, w=w_ct)
                 c.shapes(self.tm1).insert(
-                    pya.DBox(dx - 1.5, min(dy, y_ct) - 1.0,
-                             dx + 1.5, max(dy, y_ct) + 1.0))
+                    pya.DBox(dx - 1.5, dy - 1.0, dx + 1.5, dy + 1.0))
                 c.insert(pya.DCellInstArray(
                     vs1t, pya.DTrans(pya.DVector(dx, dy))))
-                self.say(f"ct→det.ct ({dx:.1f},{dy:.1f})")
+                self.say(
+                    f"ct→det.ct via x_drop={x_drop:.1f} ({dx:.1f},{dy:.1f}) "
+                    f"[TOOL]"
+                )
             self.say(f"ct TM1 port y={y_ct:.2f} → ({x_ct_end:.1f},{y_ct:.1f})")
 
         # ---- tail ----
@@ -517,41 +526,90 @@ class Asm:
             y_north = max(
                 core_bb.top, bank_bb.top, tail_bb.top, var_bb.top, det_bb.top
             ) + 2.0
-            # keep below vdd rail if power already placed
-            y_north = min(y_north, max(
-                core_bb.top, bank_bb.top, tail_bb.top, var_bb.top, det_bb.top
-            ) + 2.0)
-            c.shapes(self.m2).insert(
-                pya.DBox(min(x0, xm), y0 - 1.0, max(x0, xm), y0 + 1.0))
-            c.shapes(self.m3).insert(
-                pya.DBox(xm - 1.0, min(y0, y_north), xm + 1.0, max(y0, y_north)))
-            c.shapes(self.m2).insert(
-                pya.DBox(min(xm, x1), y_north - 1.0, max(xm, x1), y_north + 1.0))
-            c.shapes(self.m3).insert(
-                pya.DBox(x1 - 1.0, min(y_north, y1), x1 + 1.0, max(y_north, y1)))
-            c.shapes(self.m2).insert(
+            # Power spine is at max(tops)+10; ring at +2 stays clear [TOOL LVS]
+            # Escape on M1 through core (M2/M3 dense → prior tail|tp/gnd/tn
+            # shorts) [TOOL LVS]; via to M2/M3 only in core–var alley.
+            x_alley = (core_bb.right + var_bb.left) / 2.0
+            c.shapes(self.m1).insert(
+                pya.DBox(min(x0, x_alley), y0 - 0.5,
+                         max(x0, x_alley), y0 + 0.5))
+            c.shapes(self.m1).insert(
                 pya.DBox(x0 - 0.5, y0 - 0.5, x0 + 0.5, y0 + 0.5))
             c.shapes(self.m2).insert(
-                pya.DBox(x1 - 0.5, y1 - 0.5, x1 + 0.5, y1 + 0.5))
-            c.insert(pya.DCellInstArray(vs12, pya.DTrans(pya.DVector(x0, y0))))
-            c.insert(pya.DCellInstArray(vs23, pya.DTrans(pya.DVector(xm, y0))))
-            c.insert(pya.DCellInstArray(vs23, pya.DTrans(pya.DVector(xm, y_north))))
+                pya.DBox(x_alley - 1.0, y0 - 1.0, x_alley + 1.0, y0 + 1.0))
+            c.insert(pya.DCellInstArray(vs12, pya.DTrans(pya.DVector(x_alley, y0))))
+            c.shapes(self.m3).insert(
+                pya.DBox(x_alley - 1.0, min(y0, y_north),
+                         x_alley + 1.0, max(y0, y_north)))
+            c.insert(pya.DCellInstArray(vs23, pya.DTrans(pya.DVector(x_alley, y0))))
+            c.shapes(self.m2).insert(
+                pya.DBox(min(x_alley, x1), y_north - 1.0,
+                         max(x_alley, x1), y_north + 1.0))
+            c.insert(pya.DCellInstArray(vs23, pya.DTrans(pya.DVector(x_alley, y_north))))
+            c.shapes(self.m3).insert(
+                pya.DBox(x1 - 1.0, min(y_north, y1), x1 + 1.0, max(y_north, y1)))
             c.insert(pya.DCellInstArray(vs23, pya.DTrans(pya.DVector(x1, y_north))))
+            c.shapes(self.m2).insert(
+                pya.DBox(x1 - 0.5, y1 - 0.5, x1 + 0.5, y1 + 0.5))
             c.insert(pya.DCellInstArray(vs12, pya.DTrans(pya.DVector(x1, y1))))
-            self.say(f"tail route ring x={xm:.1f} y_north={y_north:.1f}")
+            self.say(
+                f"tail route M1-escape alley={x_alley:.1f} "
+                f"y_north={y_north:.1f} [TOOL]"
+            )
 
-        # ---- tn / tp: direct pack — H spine + V stubs; bank = V stub only ----
+        # ---- tn / tp: direct pack — H spine + V stubs; bank jog clear of ct ----
         if "tn_tp" in routed:
             tank_y = cp["tn"][1]
-            # Separate y tracks; pitch keeps TM1.b ≥ 1.64 [DS]
-            track = {"tn": tank_y + 2.5, "tp": tank_y - 5.0}
+            # Core child CT TM1 occupies ≈(64.4–72.4, y≥384.65) [GDS]. Parent tn
+            # must keep ≥1.64 µm to that wall [DS TM1.b] — do not heal/fill it
+            # (that would short tn↔ct). Bank tn pin sits at x≈74.0, so the bank
+            # stub jogs east below the CT keep-out before rising to the spine.
+            #
+            # tn track above pins, tp below. Core/det share pin y=tank_y so
+            # pads/stubs there must not overhang toward the other net [TOOL].
+            # det.tp via_stack TM1 top ≈ pin+0.82; need spine_bot ≥ that+1.64
+            # → track_tn ≥ tank_y + 0.82 + 1.64 + 1 ≈ tank_y + 3.5; use +4.0.
+            # Spine under det.ct is U-jogged south (see below) so the higher
+            # track does not hit the ct via [TOOL TM1.b].
+            track = {"tn": tank_y + 4.0, "tp": tank_y - 5.0}
             w_tank = 2.0
             hw = w_tank / 2
+            # CT keep-out: no parent tn with x < ct_x_clear and y > ct_y_clear
+            ct_x_clear = 72.39 + 1.64 + hw  # spine centre ≥ this
+            ct_y_clear = 384.65 - 1.64       # bank stub top below CT
 
             def tm1_pour(x0, y0, x1, y1):
                 c.shapes(self.tm1).insert(
                     pya.DBox(min(x0, x1) - hw, min(y0, y1) - hw,
                              max(x0, x1) + hw, max(y0, y1) + hw))
+
+            def tm1_stub(px, py, y_sp, net, tight):
+                # Vertical stub pin→track. When tight, do not extend ±hw past
+                # the pin toward the opposite net (that ate the tn/tp gap) [TOOL]
+                if abs(y_sp - py) < 1e-9:
+                    return
+                if tight and net == "tp":  # track below pin: stub top = pin
+                    y_top, y_bot = py, y_sp - hw
+                elif tight and net == "tn":  # track above pin: stub bot = pin
+                    y_top, y_bot = y_sp + hw, py
+                else:
+                    y_top, y_bot = max(py, y_sp) + hw, min(py, y_sp) - hw
+                c.shapes(self.tm1).insert(
+                    pya.DBox(px - hw, min(y_bot, y_top),
+                             px + hw, max(y_bot, y_top)))
+
+            def pin_pad(px, py, y_sp, net, pad_x, tight):
+                # tight=True (core/det): no overhang past pin toward other net.
+                # tight=False (var/bank): full pad so child MIM/metal merges [TOOL]
+                if tight:
+                    if net == "tn":
+                        y0, y1 = py - 0.3, max(py, y_sp) + 1.0
+                    else:
+                        y0, y1 = min(py, y_sp) - 1.0, py + 0.3
+                else:
+                    y0, y1 = min(py, y_sp) - 1.0, max(py, y_sp) + 1.0
+                c.shapes(self.tm1).insert(
+                    pya.DBox(px - pad_x, y0, px + pad_x, y1))
 
             lengths = {}
             for net in ("tn", "tp"):
@@ -566,32 +624,89 @@ class Asm:
                     continue
                 y_sp = track[net]
                 L = 0.0
-                spine_xs = [pins[k][0] for k in ("core", "bank", "var", "det")
-                            if k in pins]
-                tm1_pour(min(spine_xs), y_sp, max(spine_xs), y_sp)
-                L += max(spine_xs) - min(spine_xs)
+                # Spine: for tn, start east of CT keep-out (not at bank x)
+                xs_east = [pins[k][0] for k in ("core", "var", "det") if k in pins]
+                if net == "tn":
+                    x_lo = max(min(xs_east), ct_x_clear)
+                else:
+                    x_lo = min(pins[k][0] for k in pins)
+                x_hi = max(pins[k][0] for k in pins)
+                # tn: break spine under det.ct via (TM1 bottom ≈386.08); bridge
+                # south at y_bypass so west (core/var) still meets det.tn [TOOL]
+                if net == "tn" and "ct" in dp:
+                    cx = dp["ct"][0]
+                    # via TM1 ≈(cx±0.82); keep spine tips ≥1.64 away incl. hw
+                    gap = (cx - 5.0, cx + 5.0)
+                    y_bypass = tank_y - 1.5  # between tp track and tn track
+                    if x_lo < gap[0]:
+                        tm1_pour(x_lo, y_sp, gap[0], y_sp)
+                        L += gap[0] - x_lo
+                    if gap[1] < x_hi:
+                        tm1_pour(gap[1], y_sp, x_hi, y_sp)
+                        L += x_hi - gap[1]
+                    # U-jog south under ct: down / H / up (stop at spine centre)
+                    c.shapes(self.tm1).insert(
+                        pya.DBox(gap[0] - hw, min(y_sp, y_bypass) - hw,
+                                 gap[0] + hw, y_sp))
+                    c.shapes(self.tm1).insert(
+                        pya.DBox(gap[1] - hw, min(y_sp, y_bypass) - hw,
+                                 gap[1] + hw, y_sp))
+                    tm1_pour(gap[0], y_bypass, gap[1], y_bypass)
+                    L += 2 * abs(y_sp - y_bypass) + (gap[1] - gap[0])
+                    self.say(
+                        f"tn spine U-jog under det.ct "
+                        f"x=[{gap[0]:.1f},{gap[1]:.1f}] y_bypass={y_bypass:.2f} "
+                        f"[TOOL]"
+                    )
+                else:
+                    tm1_pour(x_lo, y_sp, x_hi, y_sp)
+                    L += x_hi - x_lo
+
                 for src in ("core", "bank", "var", "det"):
                     if src not in pins:
                         continue
                     px, py = pins[src]
-                    tm1_pour(px, py, px, y_sp)
-                    L += abs(py - y_sp)
-                    # Merge pad at pin (≥ 2.0) so stub meets child TM1 without
-                    # TM1.a/b notches [TOOL]
-                    c.shapes(self.tm1).insert(
-                        pya.DBox(px - 2.0, min(py, y_sp) - 1.0,
-                                 px + 2.0, max(py, y_sp) + 1.0))
+                    # var: reach mim_couple TM1 (≈ pin.x+3); bank: merge child bar
+                    pad_x = 3.5 if src == "var" else (2.5 if src == "bank" else 2.0)
+                    tight = src in ("core", "det")
+                    if net == "tn" and src == "bank":
+                        # East first at pin y (below CT), then V up — a tall
+                        # stub at bank.x overlaps core CT in x [TOOL TM1.b]
+                        x_join = x_lo
+                        y_h = py + 3.0
+                        tm1_pour(px, py, px, y_h)
+                        L += abs(y_h - py)
+                        tm1_pour(px, y_h, x_join, y_h)
+                        L += abs(x_join - px)
+                        tm1_pour(x_join, y_h, x_join, y_sp)
+                        L += abs(y_sp - y_h)
+                        pin_pad(px, py, y_h, net, pad_x, tight=False)
+                        self.say(
+                            f"tn bank jog pin→y={y_h:.2f}→x={x_join:.2f}→"
+                            f"track (clear of core CT) [TOOL]"
+                        )
+                    else:
+                        tm1_stub(px, py, y_sp, net, tight)
+                        L += abs(py - y_sp)
+                        pin_pad(px, py, y_sp, net, pad_x, tight)
                     if src in ("var", "det"):
+                        # Via landing: det.tp must not reach toward tn spine [TOOL]
+                        if src == "det" and net == "tp":
+                            y_via0, y_via1 = py - 1.2, py + 0.4
+                        elif src == "det" and net == "tn":
+                            y_via0, y_via1 = py - 0.4, py + 1.2
+                        else:
+                            y_via0, y_via1 = py - 1.2, py + 1.2
                         for lyr in (self.m1, self.m2, self.tm1):
                             c.shapes(lyr).insert(
-                                pya.DBox(px - 1.2, py - 1.2, px + 1.2, py + 1.2))
+                                pya.DBox(px - 1.2, y_via0, px + 1.2, y_via1))
                         c.insert(pya.DCellInstArray(
                             vs1t, pya.DTrans(pya.DVector(px, py))))
                 lengths[net] = L
                 self.say(
                     f"{net} TM1 direct spine y={y_sp:.2f} "
-                    f"x=[{min(spine_xs):.1f},{max(spine_xs):.1f}] "
-                    f"L={L:.1f} um w={w_tank} (bank V-stub only) [GDS/HAND]"
+                    f"x=[{x_lo:.1f},{x_hi:.1f}] "
+                    f"L={L:.1f} um w={w_tank} [GDS/HAND]"
                 )
             if "tn" in lengths and "tp" in lengths:
                 Cp = 0.10  # fF/µm @ w=2 [HAND]
@@ -601,24 +716,26 @@ class Asm:
                     f"dL={abs(lengths['tn']-lengths['tp']):.1f} um [HAND]"
                 )
             # Extra merge at core tn/tp child junctions (island coords) [TOOL]
-            for px, py, y_sp in (
-                (cp["tn"][0], cp["tn"][1], track["tn"]),
-                (cp["tp"][0], cp["tp"][1], track["tp"]),
+            for px, py, y_sp, net in (
+                (cp["tn"][0], cp["tn"][1], track["tn"], "tn"),
+                (cp["tp"][0], cp["tp"][1], track["tp"], "tp"),
             ):
+                if net == "tn":
+                    y0, y1 = py - 0.3, max(py, y_sp) + 1.5
+                else:
+                    y0, y1 = min(py, y_sp) - 1.5, py + 0.3
                 c.shapes(self.tm1).insert(
-                    pya.DBox(px - 3.0, min(py, y_sp) - 1.5,
-                             px + 3.0, max(py, y_sp) + 1.5))
-            # TM1.b/a notch fills from iterative DRC heal (island µm) [TOOL]
-            for cx, cy in (
-                (261.51, 344.12), (261.51, 348.27), (261.51, 380.67),
-                (260.31, 343.03), (260.31, 379.58),
-                (315.26, 381.90), (318.46, 381.90), (316.86, 382.00),
-                (131.31, 384.40), (130.81, 384.40), (130.36, 385.07),
-                (3.81, -46.86),
-                (-7.12, 8.67), (-7.12, 12.81), (-7.12, 45.22),
+                    pya.DBox(px - 3.0, y0, px + 3.0, y1))
+            # Same-net heals: ampcal east bar; var pad↔mim_couple bridges [TOOL]
+            c.shapes(self.tm1).insert(
+                pya.DBox(314.0, 380.5, 320.0, 383.5))
+            for box in (
+                # var tp: close 0.5 µm notch pad-top ↔ mim at y≈344.4–344.9
+                (138.5, 343.0, 149.0, 349.5),
+                # var tn: same at tank row
+                (138.5, 379.5, 149.0, 386.0),
             ):
-                c.shapes(self.tm1).insert(
-                    pya.DBox(cx - 1.2, cy - 1.2, cx + 1.2, cy + 1.2))
+                c.shapes(self.tm1).insert(pya.DBox(*box))
             self.say("tn/tp TM1.b heal fills applied [TOOL]")
 
         # ---- vt shielded (south of bank; clear of gnd spine at y_gnd≈−4) ----

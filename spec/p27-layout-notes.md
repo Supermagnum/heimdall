@@ -1,10 +1,10 @@
 # P2.7 layout notes
 
-Status: **P2.7.2c** PEX + cfix trim PASS; D20 ff 0.955 V landing **PASS** vs compliance window
-[MODEL/SCH] (`summary_p272c_ff_land955.txt`). Direct bank–core pack: island C 32.1/34.8 fF
-[HAND], outline 0.5733 mm² [GDS], DRC clean through controls; **LVS FAIL** (extract
-mega-short from place `ct|tn|tp` and power `cmp|gnd|vdd` — `summary_p272c_direct_stop.txt`).
-Next: clear LVS shorts, then unique match. Chip art PASS. Blocks PASS.
+Status: **P2.7.2c** PEX + cfix trim PASS; D20 ff 0.955 V **PASS** [MODEL/SCH]. Direct pack:
+island C 27.9/28.9 fF [HAND], outline **0.5225 mm²** [GDS], **DRC clean** through
+controls; place/power pipes cleared (pin-only core + power M2 stubs). **LVS FAIL** —
+tail-route mega-short `gnd|tail|tn|tp|vdd`… (`summary_p272c_step345_stop.txt`).
+Next: clear tail escape, unique LVS, then P2.7.3. Chip art PASS. Blocks PASS.
 
 ---
 
@@ -755,8 +755,10 @@ island 37 fF, margins ≥ 40 MHz both ends [SCH]. Proceed to place the direct pa
 | Overlap carries | PASS | [SCH] |
 | D20 / pnoise | ff 0.955 inside 0.457–0.970; spur −118.2; PN HAND +4.5 dB | [MODEL/SCH/HAND] |
 | Core DRC/LVS/netgen | PASS (stage d + TM1.b in cell) | [TOOL] |
-| Direct pack join | DRC PASS; LVS FAIL mega-short (see stop) | [TOOL] |
-| Island C / outline | 32.1/34.8 fF; ΔL 26.8 µm; 0.5733 mm² | [HAND/GDS] |
+| Direct pack join | DRC PASS; LVS FAIL tail mega-short | [TOOL] |
+| Island C / outline | 27.9/28.9 fF; ΔL 9.8 µm; **0.5225 mm²** | [HAND/GDS] |
+| Inductor fab/LVS diff | PASS (pin-only; only l2n0_em in fab) | [TOOL] |
+| Soft-connect causes | ct\|tn fixed (H-strap vs core tn TM1); power cmp\|gnd\|vdd fixed (M2 stubs); **tail** M2/M3 through core/bank still merges gnd\|tail\|tn\|tp\|vdd | [TOOL] |
 
 ### P2.7.3 — PEX + post-layout VCO range / steps / PN bounds
 **Inputs:** P2.7.2 PEX.  

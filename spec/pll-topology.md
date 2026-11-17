@@ -454,3 +454,5 @@ Pump compliance re-measured at pad supplies (ss 1.108 / tt 1.200 / ff 1.295 V [H
 | ff | 1.295 | 0.341–1.250 |
 
 Holds with D18 offset off: tt 0.577 / ss 0.524 / ff 0.636 V [SCH]. D20 nearest landing inside those windows at every corner [MODEL] (`summary_p272c_gate.txt`). Closed-loop model corners updated in `analog/pll/p26/step1/closed_loop.py`.
+
+**D20 ff landing with trimmed cfix (2026-11-17) [MODEL/SCH]:** ff high **0.955 V** inside the accepted ff compliance window **0.457–0.970 V**; INL 3.0 ps; |ΔI_cp| 1.7 %; fractional spur VHF/UHF −118.2 / −125.9 dBc [MODEL]. Recorded in `decisions.md` "D20 ff landing, direct pack"; deck `analog/pll/step4/run_p272c_ff_land955.py`.

@@ -1,0 +1,4 @@
+bypass_pair: PASS — nmos_ngs=[2, 2] expect [2,2]
+sv_pair: PASS — SVaricap_inst=2 cells=['SVaricap'] expect 2; Nx=10 each [SCH #753]
+vco_var: PASS — nmos_ngs=[2, 2] expect [2,2]; SVaricap_inst=2 cells=['SVaricap$1'] expect 2; Nx=10 each [SCH #753]
+Wrote /foss/designs/analog/vco/layout/p272b_var/out/summary_finger_check.txt
