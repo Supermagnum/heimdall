@@ -858,3 +858,13 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   |ΔI_cp| ≤ 10 %, lock UP, spur within limit), not the nominal 0.25–0.95 V. The ff landing at
   0.955 V is accepted if it is inside the ff compliance window with the spur within limit;
   otherwise cfix is nudged and band margins re-checked.
+
+## 2026-11-17 — D20 ff landing, direct pack
+- D20 ff landing 0.955 V accepted: inside the ff compliance window 0.457–0.970 V, INL 3.0 ps,
+  spur −118.2 dBc [MODEL / SCH].
+- Direct bank–core pack kept: DRC clean per group; island routing C 32.1 / 34.8 fF per side
+  [HAND] within the 37 fF budget; outline 0.5733 mm² [GDS].
+- Unique LVS not met. ct | tn | tp at placement is checked first against the LVS setup (the
+  assembly must use the pin-only inductor GDS, as for core + tank); cmp | gnd | vdd soft
+  connects are traced through the KLayout soft-connect report (well / guard-ring merging
+  between blocks placed closer).
