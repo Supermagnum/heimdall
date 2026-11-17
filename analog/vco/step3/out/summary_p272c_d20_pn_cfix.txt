@@ -1,0 +1,9 @@
+# P2.7.2c — D20 + PN with trimmed cfix
+
+cfix = 157.6875 fF [SCH/range.json]
+D20 0.25–0.95: FAIL [MODEL]
+  tt: 0.353–0.945 V margin +0.103/+0.005 PASS
+  ss: 0.280–0.941 V margin +0.030/+0.009 PASS
+  ff: 0.469–0.955 V margin +0.219/-0.005 FAIL
+PN HAND: L_new≈-120.5 dBc/Hz, margin +4.5 dB (PASS)
+Overall: FAIL

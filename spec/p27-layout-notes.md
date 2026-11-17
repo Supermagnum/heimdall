@@ -1,7 +1,7 @@
 # P2.7 layout notes
 
-Status: **P2.7.2c** PEX + fixed-C trim PASS (bands+overlap); D20/PN deferred.
-Next: direct bank–core re-pack/join. Prior HAND gate FAIL (−29 MHz) superseded by
+Status: **P2.7.2c** PEX + fixed-C trim PASS; D20 owner window **FAIL** at ff (0.469–0.955 V, 0.06 % outside) [MODEL]; PN HAND PASS (+4.5 dB) [HAND].
+Next: owner decision on D20 window — re-pack blocked. Prior HAND gate FAIL (−29 MHz) superseded by
 extract+trim (`summary_p272c_pex_trim_stop.txt`). Chip art PASS. Blocks PASS.
 
 ---
@@ -751,7 +751,7 @@ island 37 fF, margins ≥ 40 MHz both ends [SCH]. Proceed to place the direct pa
 | Trim pick | 14.5 µm → cfix 157.7 fF | [SCH/PDK] |
 | Margins +par | top 102 / bot 93 MHz | [SCH] |
 | Overlap carries | PASS | [SCH] |
-| D20 / pnoise | not re-run | [TOOL] |
+| D20 / pnoise | D20 FAIL ff vs 0.25–0.95; PN HAND PASS | [MODEL/HAND] |
 | Core DRC/LVS/netgen | PASS (stage d + TM1.b in cell) | [TOOL] |
 
 ### P2.7.3 — PEX + post-layout VCO range / steps / PN bounds
