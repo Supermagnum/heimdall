@@ -4,6 +4,16 @@
 
 Chip art cell text remains **HEIMDALL X1** for this migration (repo name is heimdall).
 
+## Chip art
+
+Standalone TopMetal2 cell (not placed on the die until Phase 5). Art text on the die is **HEIMDALL X1** (repo name: heimdall).
+
+| Art raster (from outlines) | GDS TopMetal2 render |
+|---|---|
+| ![HEIMDALL X1 art raster](analog/chipart/out/art_raster.png) | ![chip_art GDS render](analog/chipart/out/chip_art.png) |
+
+Source: [`graphic/graphic.svg`](graphic/graphic.svg), outlines [`graphic/graphic_outlines.svg`](graphic/graphic_outlines.svg). Build: `analog/chipart/build_art.py`. Spec: `spec/chip-art.md`.
+
 ## Status
 
 Phase 0–1 digital back end signed off. Phase 2 LO/VCO/PLL in progress: P2.0–P2.6 accepted; **P2.7.2c** tank PEX + fixed-C trim accepted (cfix 157.7 fF, margins 102/93 MHz [SCH]). Next: direct bank–core re-pack and join, then P2.7.3 VCO PEX. Live decision log: `decisions.md`. Handoff and reproduce steps: `docs/HANDOFF.md`.
