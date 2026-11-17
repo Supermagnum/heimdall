@@ -1,0 +1,46 @@
+# P2.7.2c — tail block next to the core — STOP (2026-11-17)
+
+## Pass criteria vs steps
+
+| Step | Criterion | Result |
+|---|---|---|
+| 1 | PDK R_s / J / via; recompute rejected route | **PASS** [DS/HAND] — `summary_pdk_tail_line.txt`. Rejected L=1171 µm / w=2: R125≈69.5 Ω, IR≈278 mV, J=2.0, C≈117 fF — FAIL vs targets. |
+| 2 | Re-place tail next to core; layout notes | **PARTIAL** [GDS/HAND] — pack coded: bank south, core, tail east (pin-near, above bank), var/det north. Notes updated. |
+| 3 | Short tail line ≤150 µm / R≤2.5 Ω / J OK / C≤20 fF; face pin + re-prove | **PASS geometry** [HAND/PDK/GDS]: L=68.6…91 µm (pin-align or bank-clear), M3 w=4, R125≈2.04 Ω, J=1.00 mA/µm, C≈6.9 fF. `tail_block` west-face pin **PASS** DRC/KLayout/netgen/fingers (`53b069e`). |
+| 4 | Replay joins → unique LVS + scripts | **STOP** [TOOL] — place/power/ct/tail reached DRC-clean in an earlier pack iteration; tn_tp (and later place after det moves) hit DRC TM1.b and/or mega-shorts when routing tank nets past the moved var/det. Unique LVS **not** reached. Fab/LVS diff, varactor scripts, ct labelled-port full sign-off **not** re-run at a clean full join. |
+| 5–6 | Report numbers; specs; commit | This stop file + notes; commits for face pin + in-progress assemble. Floorplan §8 / phase2-plan / vco-topology **not** closed (no accepted full join). |
+
+## Tail line (best measured this run) [HAND/PDK/GDS]
+
+- pins core.tail (78.19, 369.77) → tail west-face (146.78, ~370…392)
+- L ≈ 68.6 µm (Y-aligned) … ≈ 91 µm (tail raised above bank)
+- R25 ≈ 1.51 Ω; R125 ≈ 2.04 Ω; J = 1.00 mA/µm; C ≈ 6.9 fF
+- Targets: L≤≈150, R≤≈2.5, J≤≈1.4 @125 °C, C≤≈20 — **met on the short corridor alone**
+
+## What failed / uncertain
+
+- **Floorplan conflict:** east-of-core slot cannot hold both a pin-aligned `tail_block` (374 µm tall) and tn-aligned var/det without either (a) lengthening tn/tp island C above 37 fF, or (b) parent TM1 running through child metal (cmp|ct|… / tn|tp mega-shorts).
+- **tn_tp:** north-spur rewrite not DRC/LVS clean; prior east pack tn/tp pattern does not apply.
+- **gnd|vbp** soft-connect / extract pipe seen after power in some runs — not chased to root.
+- Extracted RC for island C: **not run**.
+
+## Decision needed
+
+Choose one (or combine):
+
+1. **Reshape / shrink `tail_block`** so a short east face fits beside `core.tail` without blocking the east tn/tp strip; or
+2. **Raise the island C budget** and park var/det east of the tall tail (accept longer tn/tp); or
+3. **Add face pins on ampcal_det / vco_var** for ct and tn/tp so parent routes never cross child interiors; or
+4. **Hold** the short-tail geometry as a proven corridor and keep the prior east pack for unique LVS (long tail rejected — not acceptable electrically).
+
+## Found, not done
+
+- Unique LVS of `vco_top` vs `vco_top.sch`
+- Full-assembly DRC clean at tn_tp / vt / controls
+- Island routing C ≤ 37 fF per side with the tail-next pack
+- Inductor fab/LVS diff + varactor dimension/finger scripts on a signed-off top
+- `spec/p27-floorplan.md` §8 die re-total and `spec/vco-topology.md` §9 / `phase2-plan.md` §3 close-out
+
+## Next run (expected)
+
+**P2.7.3 — VCO PEX and post-layout checks** — only after P2.7.2c unique LVS is accepted. If the owner picks a floorplan option above, the immediate next run stays **P2.7.2c** (finish joins) under that decision.

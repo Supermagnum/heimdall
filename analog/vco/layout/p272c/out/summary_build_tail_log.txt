@@ -1,6 +1,13 @@
+routed groups: ['ct', 'place', 'power', 'tail']
+Technology SG13_dev is loaded.
+GRID : 0.01
+GRID inverse : 100.0
+EPSILON1  : 0.001
+EPSILON2  : 1e-9
+Success.
 core+tank load LVS pin-only /foss/designs/analog/vco/layout/p272b/out/vco_core_tank_lvs.gds [TOOL]
 patched vco_core_tank TM1.b notches (6 fills) [GDS]
-direct-pack LL bank=(-208.78, 0.0) core=(0.0, 282.77) var=(140.78, 327.075) det=(186.07999999999998, 323.315) tail=(140.78, 491.54499999999996) [HAND]
+tail-next pack LL bank=(-208.78, 0.0) core=(0.0, 282.77) tail=(144.78, 260.30999999999995) var=(81.77, 446.26) det=(-13.719999999999999, 614.73) east_gap=8.0 [HAND]
 place vco_bank bb=(-208.78,0;342.3,274.77)
   pin g0 @ (-174.46,212.94)
   pin g1 @ (-95.08,212.84)
@@ -21,50 +28,50 @@ place vco_bank bb=(-208.78,0;342.3,274.77)
 place vco_core_tank bb=(0,282.77;136.78,438.26)
   pin ct @ (68.39,385.65)
   pin gnd @ (68.39,348.27)
-  pin tail @ (68.39,369.77)
+  pin tail @ (78.19,369.77)
   pin tn @ (82.77,380.65)
   pin tp @ (54.01,380.65)
-place tail_block bb=(140.78,491.545;394.7,865.835)
-  pin code0 @ (254.07,586.81)
-  pin code1 @ (254.07,587.71)
-  pin code2 @ (254.07,588.61)
-  pin code3 @ (254.07,589.51)
-  pin code4 @ (254.07,590.41)
-  pin gnd @ (141.08,495.79)
-  pin tail @ (373.42,601.00)
-  pin vbp_tail @ (299.86,519.15)
-  pin vdd @ (384.20,596.16)
-place vco_var bb=(140.78,327.075;182.08,487.545)
-  pin W @ (142.78,327.32)
-  pin gnd @ (181.83,362.38)
-  pin tn @ (141.78,380.65)
-  pin tp @ (141.78,344.10)
-  pin vbp @ (153.07,485.19)
-place ampcal_det bb=(186.08,323.315;336.58,446.74)
-  pin cmp @ (270.10,385.29)
-  pin ct @ (209.51,386.90)
-  pin en @ (336.26,353.32)
-  pin gnd @ (194.33,369.54)
-  pin hold @ (200.72,375.54)
-  pin rep @ (214.50,372.54)
-  pin tn @ (219.38,380.65)
-  pin tp @ (199.64,380.65)
-  pin vdd @ (209.25,382.80)
-  pin vthn @ (271.67,367.73)
-outline bbox=(-208.78,0;394.7,865.835) area=0.5225 mm2 [GDS]
-power spines y_vdd=869.83 y_gnd=-4.00 x=[-210.8,396.7] w=4.0 [HAND]
+place tail_block bb=(144.78,260.31;404.4,634.6)
+  pin code0 @ (263.77,355.58)
+  pin code1 @ (263.77,356.48)
+  pin code2 @ (263.77,357.38)
+  pin code3 @ (263.77,358.28)
+  pin code4 @ (263.77,359.18)
+  pin gnd @ (150.78,264.56)
+  pin tail @ (146.78,369.77)
+  pin vbp_tail @ (309.56,287.92)
+  pin vdd @ (393.90,364.92)
+place vco_var bb=(81.77,446.26;123.07,606.73)
+  pin W @ (83.77,446.51)
+  pin gnd @ (122.82,481.56)
+  pin tn @ (82.77,499.83)
+  pin tp @ (82.77,463.28)
+  pin vbp @ (94.06,604.38)
+place ampcal_det bb=(-13.72,614.73;136.78,738.155)
+  pin cmp @ (70.30,676.71)
+  pin ct @ (9.71,678.32)
+  pin en @ (136.46,644.74)
+  pin gnd @ (-5.47,660.96)
+  pin hold @ (0.92,666.96)
+  pin rep @ (14.70,663.96)
+  pin tn @ (19.58,672.07)
+  pin tp @ (-0.16,672.07)
+  pin vdd @ (9.46,674.22)
+  pin vthn @ (71.87,659.14)
+outline bbox=(-208.78,0;404.4,738.155) area=0.4526 mm2 [GDS]
+power spines y_vdd=748.15 y_gnd=-4.00 x=[-210.8,406.4] w=4.0 [HAND]
 power drop filter=all
-power tail_block.vdd col x=397.7
-power ampcal_det.vdd col x=217.3
+power tail_block.vdd col x=407.4
+power ampcal_det.vdd col x=17.5
 power vco_core_tank.gnd col x=-10.0
 power vco_bank.gnd col x=345.3
-power tail_block.gnd col x=136.8
-power vco_var.gnd col x=185.1
-power ampcal_det.gnd col x=182.1
+power tail_block.gnd col x=140.8
+power vco_var.gnd col x=126.1
+power ampcal_det.gnd col x=-17.7
 power M2.b notch fills applied [TOOL]
-ct→det.ct (209.5,386.9)
-ct TM1 port y=390.65 → (339.6,390.6)
-tail route ring x=-222.8 y_north=867.8
+ct→det.ct via x_west=-17.7 x_drop=-17.7 (9.7,678.3) [TOOL]
+ct TM1 port y=758.15 → (139.8,758.2)
+tail short M3 x_lift=139.8 w=4.0 µm L=68.6 µm R25=1.51 Ω R125=2.04 Ω J=1.00 mA/µm C≈6.9 fF pins=(78.2,369.8)→(146.8,369.8) [HAND/PDK/GDS]
 wrote /foss/designs/analog/vco/layout/p272c/out/vco_top_lvs.gds (pin-only inductor) [TOOL]
 wrote fab /foss/designs/analog/vco/layout/p272c/out/vco_top.gds with spiral from /foss/designs/analog/vco/layout/p272b/out/vco_core_tank.gds [TOOL]
 wrote /foss/designs/analog/vco/layout/p272c/out/vco_top.gds.gz

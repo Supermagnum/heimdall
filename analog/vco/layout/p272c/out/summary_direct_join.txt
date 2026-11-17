@@ -1,48 +1,7 @@
 # P2.7.2c direct join log
 
 ## group place (nets=place)
-prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
+prove: drc_clean=False non_density=['M1.b', 'TM1.b'] svaricap_M1.b=True
 klayout=False netgen=False
 lvs_gds=vco_top_lvs.gds
-PASS group place (drc clean; lvs klayout=False netgen=False)
-
-## group power (nets=place,power)
-prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
-klayout=False netgen=False
-lvs_gds=vco_top_lvs.gds
-NOTE: LVS not unique yet at power (klayout=False netgen=False) — continue
-PASS group power (drc clean; lvs klayout=False netgen=False)
-
-## group ct (nets=place,power,ct)
-prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
-klayout=False netgen=False
-lvs_gds=vco_top_lvs.gds
-NOTE: LVS not unique yet at ct (klayout=False netgen=False) — continue
-PASS group ct (drc clean; lvs klayout=False netgen=False)
-
-## group tail (nets=place,power,ct,tail)
-prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
-klayout=False netgen=False
-lvs_gds=vco_top_lvs.gds
-NOTE: LVS not unique yet at tail (klayout=False netgen=False) — continue
-PASS group tail (drc clean; lvs klayout=False netgen=False)
-
-## group tn_tp (nets=place,power,ct,tail,tn_tp)
-prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
-klayout=False netgen=False
-lvs_gds=vco_top_lvs.gds
-NOTE: LVS not unique yet at tn_tp (klayout=False netgen=False) — continue
-PASS group tn_tp (drc clean; lvs klayout=False netgen=False)
-
-## group vt (nets=place,power,ct,tail,tn_tp,vt)
-prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
-klayout=False netgen=False
-lvs_gds=vco_top_lvs.gds
-NOTE: LVS not unique yet at vt (klayout=False netgen=False) — continue
-PASS group vt (drc clean; lvs klayout=False netgen=False)
-
-## group controls (nets=place,power,ct,tail,tn_tp,vt,controls)
-prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
-klayout=False netgen=False
-lvs_gds=vco_top_lvs.gds
-STOP: KLayout LVS fail at full join (controls)
+STOP: DRC fail at place

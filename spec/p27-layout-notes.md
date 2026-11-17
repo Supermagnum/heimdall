@@ -1,11 +1,12 @@
 # P2.7 layout notes
 
-Status: **P2.7.2c tail escape STOP** (2026-11-17). Core+tank east tail pin PASS
-[TOOL]. Island corridor M3 (above vdd spine) LVS-clean until M2 enters
-`tail_block` → `gnd|tn` [TOOL]; see `summary_p272c_tail_escape_stop.txt`.
-Island C 27.9/28.9 fF [HAND], outline **0.5225 mm²** [GDS]. Tail route attempt
-L≈1.1 mm, C≈110 fF [HAND]; extracted RC not run. Next: `tail_block` face pin
-stub, unique LVS, then P2.7.3. Chip art PASS. Blocks PASS.
+Status: **P2.7.2c tail-next-to-core STOP** (2026-11-17). Long tail rejected
+[decisions]; west-face pin PASS [TOOL]; short M3 corridor L≈69…91 µm /
+R125≈2.04 Ω / J=1.0 / C≈6.9 fF **meets** electrical targets [HAND/PDK/GDS].
+Unique LVS blocked: var/det vs tall east `tail_block` floorplan conflict
+(tn/tp C ≤ 37 fF vs child-metal shorts). See
+`analog/vco/layout/p272c/out/summary_p272c_tail_next_stop.txt`. Chip art
+PASS. Blocks PASS.
 
 ---
 
@@ -760,6 +761,45 @@ island 37 fF, margins ≥ 40 MHz both ends [SCH]. Proceed to place the direct pa
 | Island C / outline | 27.9/28.9 fF; ΔL 9.8 µm; **0.5225 mm²** | [HAND/GDS] |
 | Inductor fab/LVS diff | PASS (pin-only; only l2n0_em in fab) | [TOOL] |
 | Soft-connect causes | ct\|tn fixed (H-strap vs core tn TM1); power cmp\|gnd\|vdd fixed (M2 stubs); **tail** M2/M3 through core/bank still merges gnd\|tail\|tn\|tp\|vdd | [TOOL] |
+
+#### P2.7.2c tail block next to the core (2026-11-17) [HAND/PDK/GDS]
+
+**Decision:** long ≈1171 µm / ≈117 fF M3 corridor rejected (IR @ 4 mA, J @125 °C,
+tail-node C). Place `tail_block` next to the core east tail pin; move small
+blocks if needed; low-current lines may stay long.
+
+**PDK numbers** (`p272c/out/summary_pdk_tail_line.txt`): RSMET2–5 typ 88 mΩ/sq;
+RSTM1 18; Via1–4 typ 9 Ω; JMAX M2–5 2.0 mA/µm @105 °C → ≈1.4 @125 °C [HAND 0.7×];
+≥15 vias @4 mA / 125 °C. Rejected route recomputed: R125≈69.5 Ω, IR≈278 mV,
+J=2.0 mA/µm, C≈117 fF — FAIL vs targets.
+
+**`tail_block` west-face pin [TOOL]:** M3 escape from mt drain mid-bus
+(`x_lift = ox_mt+40`), west face pin @ (−12, 73.81) w=4 µm; DRC clean (density
+waived), KLayout LVS + netgen unique, fingers PASS (`53b069e`).
+
+**Re-pack plan [HAND]:**
+
+| Block | Place |
+|---|---|
+| `vco_bank` | South of core; X-align `bank.tp` = `core.tp` (unchanged) |
+| `vco_core_tank` | `(0, bank.top + 8)` |
+| `tail_block` | East of core (`east_gap=8`); west-face pin Y-aligned to `core.tail` |
+| `vco_var` | North of core; X-align `var.tn` ≈ `core.tn` |
+| `ampcal_det` | West of var (still north of core) |
+
+**Tail line [HAND/PDK]:** M2 from core pin → lift at `core.right+3` → Via2 array
+(≥15) → M3 w=4 µm H to west-face pin. Expected L≈70 µm, R125≈1.9 Ω, J=1.0
+mA/µm, C≈7 fF — inside targets. Filtered gate node stays inside `tail_block`.
+
+**tn/tp:** north spur to var/det; bank still V-stub only; keep island C ≤ 37 fF
+per side [HAND]. Replay net groups: power → ct → tail → tn/tp → V_tune →
+controls → detector; DRC + both LVS after each.
+
+**STOP (same day) [TOOL/HAND]:** short corridor alone is electrically OK.
+Full join stops when placing var/det with the east tail: east tn-aligned pack
+blocks the short tail Y; north pack needs parent TM1 that either exceeds the
+37 fF island budget or shorts through `ampcal_det` / `vco_var`. Owner decision
+on reshape vs C-budget vs face pins — `summary_p272c_tail_next_stop.txt`.
 
 ### P2.7.3 — PEX + post-layout VCO range / steps / PN bounds
 **Inputs:** P2.7.2 PEX.  
