@@ -173,4 +173,6 @@ Rough Phase-5 squeeze check against the SX1255-compatible **MLPQ-W 5 × 5 mm** p
 
 **P2.7.2c direct pack (2026-11-17 later) [GDS/HAND/TOOL]:** outline as built **0.5225 mm²** [GDS] (bbox −208.78…394.7 × 0…865.835). Island routing C ≈ 27.9/28.9 fF/side [HAND] under ≤ 37. DRC clean through controls; unique LVS still FAIL (tail mega-short — `summary_p272c_step345_stop.txt`). Die re-total vs §8 table: VCO island row uses **0.5225** [GDS] in place of 0.5743; synth island still fits ≈ 2.5 × 2.5 mm [HAND]. Art keep-out unchanged (Phase 5).
 
+**P2.7.2c tail escape STOP (2026-11-17) [GDS/HAND/TOOL]:** core east pin PASS; corridor/north-ring M3 stub LVS-clean; pin entry into `tail_block` → `gnd|tn`. Hold die row **0.5225 mm²** [GDS] until unique LVS. Tail C≈110 fF [HAND] for attempted path. Detail: `summary_p272c_tail_escape_stop.txt`.
+
 **Flag:** the §1 sketch of a **1.6 × 1.6 mm** active core **does not fit** the Phase 3/4 RX+TX + synth + digital + pads tally. Before Phase 5, plan on a die closer to **≥ ~2.2 × 2.2 mm** (≈ 4.8 mm²) or tighten RX/TX area after topology.

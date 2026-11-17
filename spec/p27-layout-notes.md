@@ -1,10 +1,11 @@
 # P2.7 layout notes
 
-Status: **P2.7.2c** PEX + cfix trim PASS; D20 ff 0.955 V **PASS** [MODEL/SCH]. Direct pack:
-island C 27.9/28.9 fF [HAND], outline **0.5225 mm²** [GDS], **DRC clean** through
-controls; place/power pipes cleared (pin-only core + power M2 stubs). **LVS FAIL** —
-tail-route mega-short `gnd|tail|tn|tp|vdd`… (`summary_p272c_step345_stop.txt`).
-Next: clear tail escape, unique LVS, then P2.7.3. Chip art PASS. Blocks PASS.
+Status: **P2.7.2c tail escape STOP** (2026-11-17). Core+tank east tail pin PASS
+[TOOL]. Island corridor M3 (above vdd spine) LVS-clean until M2 enters
+`tail_block` → `gnd|tn` [TOOL]; see `summary_p272c_tail_escape_stop.txt`.
+Island C 27.9/28.9 fF [HAND], outline **0.5225 mm²** [GDS]. Tail route attempt
+L≈1.1 mm, C≈110 fF [HAND]; extracted RC not run. Next: `tail_block` face pin
+stub, unique LVS, then P2.7.3. Chip art PASS. Blocks PASS.
 
 ---
 

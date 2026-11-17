@@ -28,21 +28,21 @@ NOTE: LVS not unique yet at tail (klayout=False netgen=False) — continue
 PASS group tail (drc clean; lvs klayout=False netgen=False)
 
 ## group tn_tp (nets=place,power,ct,tail,tn_tp)
-prove: drc_clean=False non_density=['M1.b', 'TM1.b'] svaricap_M1.b=True
+prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
 klayout=False netgen=False
 lvs_gds=vco_top_lvs.gds
-STOP: DRC fail at tn_tp
-PASS group tn_tp (drc clean after CT keep-out routing)
+NOTE: LVS not unique yet at tn_tp (klayout=False netgen=False) — continue
+PASS group tn_tp (drc clean; lvs klayout=False netgen=False)
 
 ## group vt (nets=place,power,ct,tail,tn_tp,vt)
 prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
 klayout=False netgen=False
 lvs_gds=vco_top_lvs.gds
-PASS group vt (drc clean; intermediate LVS expected open)
+NOTE: LVS not unique yet at vt (klayout=False netgen=False) — continue
+PASS group vt (drc clean; lvs klayout=False netgen=False)
 
 ## group controls (nets=place,power,ct,tail,tn_tp,vt,controls)
 prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
 klayout=False netgen=False
 lvs_gds=vco_top_lvs.gds
-run_drc_lvs_exit=1
-STOP: KLayout LVS fail at full join klayout=False netgen=False
+STOP: KLayout LVS fail at full join (controls)

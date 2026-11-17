@@ -264,8 +264,11 @@ class Asm:
         core_tn_y = (
             core_pins0["tn"][1] + (core_ll[1] - core_bb0.bottom)
         )
+        # 12 µm core–east gap: dedicated M3 tail corridor (no metal through
+        # core/bank) [decisions P2.7.2c tail escape]. tn/tp still meet budget.
+        east_gap = 12.0
         var_ll = (
-            core_bb.right + 4.0,
+            core_bb.right + east_gap,
             core_tn_y - var_pins0["tn"][1] + var_bb0.bottom,
         )
         var_bb, var_tr = self.place_ll(
@@ -276,12 +279,13 @@ class Asm:
         )
         det_bb, det_tr = self.place_ll(
             c, kids["ampcal_det"]["cid"], det_ll[0], det_ll[1])
-        tail_ll = (core_bb.right + 4.0, var_bb.top + 4.0)
+        # Tail NE of core, west-aligned with corridor; no closer without hitting var
+        tail_ll = (core_bb.right + east_gap, var_bb.top + 4.0)
         tail_bb, tail_tr = self.place_ll(
             c, kids["tail_block"]["cid"], tail_ll[0], tail_ll[1])
         self.say(
             f"direct-pack LL bank={bank_ll} core={core_ll} var={var_ll} "
-            f"det={det_ll} tail={tail_ll} [HAND]"
+            f"det={det_ll} tail={tail_ll} east_gap={east_gap} [HAND]"
         )
 
         def island_pins(name, tr):
@@ -385,7 +389,10 @@ class Asm:
             # cmp Via1/M2 at (270,385) into vdd [TOOL LVS net tracer].
             x_col = {
                 ("tail_block", "vdd"): tail_bb.right + 3.0,
-                ("tail_block", "gnd"): tail_bb.left - 4.0,
+                # Was left-4 ≈144.8; collided with tail corridor. Keep clear of
+                # x_col=core.right+3 and its M2 climb [TOOL LVS].
+                ("tail_block", "gnd"): min(tail_bb.left - 16.0,
+                                           core_bb.right - 8.0),
                 ("ampcal_det", "vdd"): (
                     dp["vdd"][0] + 8.0 if "vdd" in dp else det_bb.left - 8.0),
                 ("ampcal_det", "gnd"): det_bb.left - 4.0,
@@ -517,44 +524,99 @@ class Asm:
                 )
             self.say(f"ct TM1 port y={y_ct:.2f} → ({x_ct_end:.1f},{y_ct:.1f})")
 
-        # ---- tail ----
+        # ---- tail: M3 escape outside all child bboxes ----
+        # Prior H at mid-height crossed var/det on M3 → mega-short
+        # G1|G2|W|gnd|tail|tn|tp|vbp|vdd|vt [TOOL LVS]. Stay in the core–var
+        # corridor, then north of every block (below the vdd spine).
         if "tail" in routed and "tail" in cp and "tail" in tpins:
             x0, y0 = cp["tail"]
             x1, y1 = tpins["tail"]
-            # Ring north of island: west M3 → north M2 → drop to pin (no east corridor)
-            xm = min(core_bb.left, bank_bb.left) - 14.0
-            y_north = max(
-                core_bb.top, bank_bb.top, tail_bb.top, var_bb.top, det_bb.top
-            ) + 2.0
-            # Power spine is at max(tops)+10; ring at +2 stays clear [TOOL LVS]
-            # Escape on M1 through core (M2/M3 dense → prior tail|tp/gnd/tn
-            # shorts) [TOOL LVS]; via to M2/M3 only in core–var alley.
-            x_alley = (core_bb.right + var_bb.left) / 2.0
-            c.shapes(self.m1).insert(
-                pya.DBox(min(x0, x_alley), y0 - 0.5,
-                         max(x0, x_alley), y0 + 0.5))
-            c.shapes(self.m1).insert(
-                pya.DBox(x0 - 0.5, y0 - 0.5, x0 + 0.5, y0 + 0.5))
-            c.shapes(self.m2).insert(
-                pya.DBox(x_alley - 1.0, y0 - 1.0, x_alley + 1.0, y0 + 1.0))
-            c.insert(pya.DCellInstArray(vs12, pya.DTrans(pya.DVector(x_alley, y0))))
-            c.shapes(self.m3).insert(
-                pya.DBox(x_alley - 1.0, min(y0, y_north),
-                         x_alley + 1.0, max(y0, y_north)))
-            c.insert(pya.DCellInstArray(vs23, pya.DTrans(pya.DVector(x_alley, y0))))
-            c.shapes(self.m2).insert(
-                pya.DBox(min(x_alley, x1), y_north - 1.0,
-                         max(x_alley, x1), y_north + 1.0))
-            c.insert(pya.DCellInstArray(vs23, pya.DTrans(pya.DVector(x_alley, y_north))))
-            c.shapes(self.m3).insert(
-                pya.DBox(x1 - 1.0, min(y_north, y1), x1 + 1.0, max(y_north, y1)))
-            c.insert(pya.DCellInstArray(vs23, pya.DTrans(pya.DVector(x1, y_north))))
-            c.shapes(self.m2).insert(
-                pya.DBox(x1 - 0.5, y1 - 0.5, x1 + 0.5, y1 + 0.5))
-            c.insert(pya.DCellInstArray(vs12, pya.DTrans(pya.DVector(x1, y1))))
+            w = 2.0
+            # Mid-gap (≈142.8) abutted tail_block.gnd power M3 at left-4
+            # (≈144.8) → gnd|tn|vdd [TOOL LVS]. Stay near core.right.
+            x_col = core_bb.right + 3.0
+            tops = [core_bb.top, bank_bb.top, var_bb.top, det_bb.top,
+                    tail_bb.top]
+            # Power M3 columns run up to y_vdd=max(tops)+10. An M3 H at
+            # max(tops)+2 crossed those columns → gnd|tail|tn|vdd [TOOL LVS].
+            # Keep the ring above the spine (and column tops).
+            y_north = max(tops) + 16.0  # = y_vdd + 6
+            # East of every block (and of tail.vdd col at right+3). m3d V that
+            # ended inside the tail cell → tn|vdd [TOOL bisect]; stay outside.
+            x_drop = max(
+                tail_bb.right, det_bb.right, var_bb.right, x1
+            ) + 16.0
+            # M2 climbs only above core/var/det (not into tail gnd M2 pads).
+            # vs23 only (no vs12): M1 landing joined gnd|tn [TOOL bisect].
+            # M3 continues past the vdd spine to y_north.
+            y_lift = max(core_bb.top, var_bb.top, det_bb.top) + 2.0
+            if y_lift >= tail_bb.bottom - 1.0:
+                y_lift = min(y_lift, tail_bb.bottom - 3.0)
+            parts = set(
+                x.strip()
+                for x in os.environ.get(
+                    # Default stops east of the cell (LVS-clean). m2drop/endvia
+                    # into the pin → gnd|tn until tail_block gets a face stub.
+                    "TAIL_PARTS", "m2,via,m3v,m3h,m3d"
+                ).split(",")
+                if x.strip()
+            )
+            m2w = 0.7
+            if "m2" in parts:
+                c.shapes(self.m2).insert(
+                    pya.DBox(min(x0, x_col) - 0.3, y0 - m2w / 2,
+                             max(x0, x_col) + 0.3, y0 + m2w / 2))
+                c.shapes(self.m2).insert(
+                    pya.DBox(x_col - m2w / 2, min(y0, y_lift),
+                             x_col + m2w / 2, max(y0, y_lift)))
+                c.shapes(self.m2).insert(
+                    pya.DBox(x_col - 0.5, y_lift - 0.5,
+                             x_col + 0.5, y_lift + 0.5))
+            if "via" in parts:
+                c.insert(pya.DCellInstArray(
+                    vs23, pya.DTrans(pya.DVector(x_col, y_lift))))
+            if "m3v" in parts:
+                c.shapes(self.m3).insert(
+                    pya.DBox(x_col - w / 2, min(y_lift, y_north),
+                             x_col + w / 2, max(y_lift, y_north)))
+            if "m3h" in parts:
+                # H above all cells to the east drop column
+                c.shapes(self.m3).insert(
+                    pya.DBox(min(x_col, x_drop) - w / 2, y_north - w / 2,
+                             max(x_col, x_drop) + w / 2, y_north + w / 2))
+            # Child has a vertical M2 at x≈395 spanning y≈492–644; an H at
+            # pin Y from the east hits it → gnd|tn [TOOL LVS / GDS]. Jog above.
+            y_jog = max(y1, 650.0)
+            if "m3d" in parts:
+                c.shapes(self.m3).insert(
+                    pya.DBox(x_drop - w / 2, min(y_north, y_jog),
+                             x_drop + w / 2, max(y_north, y_jog)))
+                c.shapes(self.m2).insert(
+                    pya.DBox(x_drop - 0.5, y_jog - 0.5,
+                             x_drop + 0.5, y_jog + 0.5))
+                c.insert(pya.DCellInstArray(
+                    vs23, pya.DTrans(pya.DVector(x_drop, y_jog))))
+            if "m2drop" in parts:
+                c.shapes(self.m2).insert(
+                    pya.DBox(min(x1, x_drop) - 0.25, y_jog - 0.25,
+                             max(x1, x_drop) + 0.25, y_jog + 0.25))
+                c.shapes(self.m2).insert(
+                    pya.DBox(x1 - 0.25, min(y_jog, y1),
+                             x1 + 0.25, max(y_jog, y1)))
+            if "endvia" in parts:
+                c.shapes(self.m2).insert(
+                    pya.DBox(x1 - 0.35, y1 - 0.35, x1 + 0.35, y1 + 0.35))
+            L_tot = (
+                abs(x_col - x0) + abs(y_lift - y0) + abs(y_north - y_lift)
+                + abs(x_drop - x_col) + abs(y_jog - y_north)
+                + abs(x_drop - x1) + abs(y_jog - y1)
+            )
+            C_tail = L_tot * 0.10  # [HAND] C'≈0.10 fF/µm M3
             self.say(
-                f"tail route M1-escape alley={x_alley:.1f} "
-                f"y_north={y_north:.1f} [TOOL]"
+                f"tail route M2→lift M3 x_col={x_col:.1f} y_lift={y_lift:.1f} "
+                f"y_north={y_north:.1f} x_drop={x_drop:.1f} w={w:.1f} µm "
+                f"L={L_tot:.1f} µm C≈{C_tail:.1f} fF parts={sorted(parts)} "
+                f"[HAND/GDS]"
             )
 
         # ---- tn / tp: direct pack — H spine + V stubs; bank jog clear of ct ----

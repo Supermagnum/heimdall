@@ -1,0 +1,66 @@
+# P2.7.2c tail escape — STOP (2026-11-17)
+
+## Pass criteria vs results
+
+### 1. Core + tank tail port east; re-prove
+PASS [TOOL]
+- Pair-east pin @ (9.80, −61.49) local → abs ≈ (78.19, 369.77) [GDS]
+- DRC hard PASS; KLayout LVS (pin-only) PASS; netgen PASS; fab/LVS GDS diff PASS
+- Commit 228a61b (after ac8e14c)
+
+### 2. Shortest tail route; L/W/C; maybe move tail block
+PARTIAL [HAND/GDS/TOOL]
+- Corridor route built: M2 from core.tail → lift @ core.right+3 /
+  y_lift≈489.5 → M3 above vdd spine (y_north=max(tops)+16) → east drop
+  x_drop=max(rights)+16 → jog y=650 → pin attempt
+- w = 2.0 µm M3; L ≈ 1096 µm; C ≈ 110 fF [HAND] C'≈0.10 fF/µm M3
+  (full attempted path; extracted RC: not run)
+- east_gap = 12 µm; tail not moved closer (would hit var; tn/tp unchanged)
+- LVS soft-connect pipes: route is CLEAN through east via (TAIL_PARTS
+  without m2drop). Final M2 entry into tail_block.tail → gnd|tn [TOOL]
+
+### 3. Replay from tail → unique LVS
+FAIL at tail pin entry [TOOL]
+- place / power / ct: DRC clean (density + SVaricap M1.b waived); no pipes
+- tail route without pin entry: no pipes
+- any M2 into the child pin (north drop, east H at pin Y, east jog above
+  child M2 @ x≈395): PIPES ['gnd|tn']
+- Full controls unique LVS: not reached
+- Varactor dim / finger scripts / ct labelled port: not re-run this stop
+- Extracted RC: not run
+
+### 4. Report numbers
+- Island routing C: 27.9 / 28.9 fF per side [HAND] (unchanged from prior pack)
+- tn − tp mismatch: not re-extracted this run
+- Tail route C: ≈ 110 fF [HAND] for the attempted path (stub-only shorter)
+- Outline: 0.5225 mm² class bbox still (−208.78…≈418 × 0…≈882 with taller
+  north ring) — re-measure after pin-entry fix [GDS]
+- Die §8: hold 0.5225 until unique LVS
+
+### Bisect notes (POWER_DROPS=all, TAIL_PARTS)
+- m2: []
+- m2,via (vs23 at lift): []
+- +m3v +m3h: []
+- +m3d (east V + vs23): []
+- +m2drop into pin: ['gnd|tn']
+Child blockers [GDS]: vertical M2 @ x≈395 spanning y≈492–644; long M2 @
+y≈596 to x≈390; 22× M3 inside tail_block (do not pierce with parent M3).
+
+## Decision needed
+Add a dedicated tail escape stub on tail_block (north or east face) that
+lands only on the drain/tail net and reaches outside the dense M2/M3, then
+retry the island M2/M3 landing. Do not keep probing random parent jogs into
+the closed pin.
+
+## Found, not done
+- Unique LVS / netgen match of vco_top.sch
+- Full join replay past a clean tail connection
+- Extracted RC for island / tail
+- Varactor dimension + finger scripts at full assembly
+- Spec §8 outline re-total after a passing join
+- Push to origin (ask first)
+
+## Next run
+P2.7.2c-tail-pin-stub (expected before P2.7.3): open p272b_tail for a
+clear face pin; then resume unique LVS. After that: P2.7.3 VCO PEX and
+post-layout checks.

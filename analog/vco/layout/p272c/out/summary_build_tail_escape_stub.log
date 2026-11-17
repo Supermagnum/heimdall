@@ -1,0 +1,78 @@
+routed groups: ['ct', 'place', 'power', 'tail']
+Technology SG13_dev is loaded.
+GRID : 0.01
+GRID inverse : 100.0
+EPSILON1  : 0.001
+EPSILON2  : 1e-9
+Success.
+core+tank load LVS pin-only /foss/designs/analog/vco/layout/p272b/out/vco_core_tank_lvs.gds [TOOL]
+patched vco_core_tank TM1.b notches (6 fills) [GDS]
+direct-pack LL bank=(-208.78, 0.0) core=(0.0, 282.77) var=(148.78, 327.075) det=(194.07999999999998, 323.315) tail=(148.78, 491.54499999999996) east_gap=12.0 [HAND]
+place vco_bank bb=(-208.78,0;342.3,274.77)
+  pin g0 @ (-174.46,212.94)
+  pin g1 @ (-95.08,212.84)
+  pin g10 @ (94.42,125.45)
+  pin g11 @ (228.89,125.45)
+  pin g2 @ (-13.66,212.81)
+  pin g3 @ (71.78,212.86)
+  pin g4 @ (164.81,212.85)
+  pin g5 @ (-174.52,34.66)
+  pin g6 @ (-40.05,34.66)
+  pin g7 @ (94.42,34.66)
+  pin g8 @ (-174.52,125.45)
+  pin g9 @ (-40.05,125.45)
+  pin gnd @ (341.95,0.25)
+  pin tn @ (74.01,273.77)
+  pin tp @ (54.01,273.77)
+  pin vbp @ (-207.78,86.29)
+place vco_core_tank bb=(0,282.77;136.78,438.26)
+  pin ct @ (68.39,385.65)
+  pin gnd @ (68.39,348.27)
+  pin tail @ (78.19,369.77)
+  pin tn @ (82.77,380.65)
+  pin tp @ (54.01,380.65)
+place tail_block bb=(148.78,491.545;402.7,865.835)
+  pin code0 @ (262.07,586.81)
+  pin code1 @ (262.07,587.71)
+  pin code2 @ (262.07,588.61)
+  pin code3 @ (262.07,589.51)
+  pin code4 @ (262.07,590.41)
+  pin gnd @ (149.08,495.79)
+  pin tail @ (381.42,601.00)
+  pin vbp_tail @ (307.86,519.15)
+  pin vdd @ (392.20,596.16)
+place vco_var bb=(148.78,327.075;190.08,487.545)
+  pin W @ (150.78,327.32)
+  pin gnd @ (189.83,362.38)
+  pin tn @ (149.78,380.65)
+  pin tp @ (149.78,344.10)
+  pin vbp @ (161.07,485.19)
+place ampcal_det bb=(194.08,323.315;344.58,446.74)
+  pin cmp @ (278.10,385.29)
+  pin ct @ (217.51,386.90)
+  pin en @ (344.26,353.32)
+  pin gnd @ (202.33,369.54)
+  pin hold @ (208.72,375.54)
+  pin rep @ (222.50,372.54)
+  pin tn @ (227.38,380.65)
+  pin tp @ (207.64,380.65)
+  pin vdd @ (217.25,382.80)
+  pin vthn @ (279.67,367.73)
+outline bbox=(-208.78,0;402.7,865.835) area=0.5294 mm2 [GDS]
+power spines y_vdd=875.83 y_gnd=-4.00 x=[-210.8,404.7] w=4.0 [HAND]
+power drop filter=all
+power tail_block.vdd col x=405.7
+power ampcal_det.vdd col x=225.3
+power vco_core_tank.gnd col x=-10.0
+power vco_bank.gnd col x=345.3
+power tail_block.gnd col x=128.8
+power vco_var.gnd col x=193.1
+power ampcal_det.gnd col x=190.1
+power M2.b notch fills applied [TOOL]
+ct→det.ct via x_drop=217.5 (217.5,386.9) [TOOL]
+ct TM1 port y=441.26 → (347.6,441.3)
+tail route M2→lift M3 x_col=139.8 y_lift=489.5 y_north=881.8 x_drop=418.7 w=2.0 µm L=1170.7 µm C≈117.1 fF parts=['m2', 'm3d', 'm3h', 'm3v', 'via'] [HAND/GDS]
+wrote /foss/designs/analog/vco/layout/p272c/out/vco_top_lvs.gds (pin-only inductor) [TOOL]
+wrote fab /foss/designs/analog/vco/layout/p272c/out/vco_top.gds with spiral from /foss/designs/analog/vco/layout/p272b/out/vco_core_tank.gds [TOOL]
+wrote /foss/designs/analog/vco/layout/p272c/out/vco_top.gds.gz
+wrote /foss/designs/analog/vco/layout/p272c/out/vco_top.spice

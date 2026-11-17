@@ -1,6 +1,6 @@
 # VCO topology memo (P2.3)
 
-Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** tank PEX + cfix trim PASS; D20 ff 0.955 V PASS [MODEL/SCH]; direct pack DRC clean through controls; **unique LVS FAIL** (tail-route mega-short — `summary_p272c_step345_stop.txt`). Next: clear tail escape, then P2.7.3. See §9.
+Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** east core tail pin PASS; corridor M3 stub LVS-clean; **STOP** on M2 into `tail_block.tail` (`summary_p272c_tail_escape_stop.txt`). Next: face pin stub on tail_block, unique LVS, then P2.7.3. See §9.
 
 ---
 
