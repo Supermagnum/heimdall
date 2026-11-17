@@ -1,0 +1,11 @@
+# P2.7.2c — D20 + PN with trimmed cfix [SCH/MODEL/HAND]
+
+Sizing: LSB 6.190 fF, cfix 157.6875 fF, nbits=8, bank_arch=d24 [SCH/range.json]
+
+# Carries / bank grid with trimmed cfix [SCH]
+
+
+## Grid mos_ss/cap_wcs/85 C, V_pad=1.108 V [SCH]
+
+| code | f@0.65 (GHz) | KVCO (MHz/V) |
+|---|---|---|
