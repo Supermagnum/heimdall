@@ -185,9 +185,10 @@ class Asm:
         # rename l2n0 pad texts would fight hierarchy; ignore_top_ports covers p|tp
         self.box(top, self.tm1, x_tp - w_tank / 2, y_via - 2.5, x_tp + w_tank / 2, y_via)
         self.box(top, self.tm1, x_tn - w_tank / 2, y_via - 2.5, x_tn + w_tank / 2, y_via)
-        # promote tail/gnd pins to top
+        # promote tail/gnd pins to top (tail already east on the pair) [HAND]
         self.pin_m1(top, x_tail, y_tail - 1.0, "tail")
         self.box(top, self.m1, x_tail - 0.25, y_tail - 1.0, x_tail + 0.25, y_tail + 0.3)
+        self.say(f"tail top pin @ ({x_tail:.2f},{y_tail - 1.0:.2f}) east exit [GDS]")
         self.pin_m1(top, x_gnd, y_gnd - 1.0, "gnd")
         self.box(top, self.m1, x_gnd - 0.25, y_gnd - 1.0, x_gnd + 0.25, y_gnd + 0.3)
 

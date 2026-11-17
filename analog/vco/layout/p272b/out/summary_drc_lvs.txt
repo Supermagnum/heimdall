@@ -1,4 +1,4 @@
-# P2.7.2b re-spin stage heimdall_verify — vco_core_tank DRC / LVS
+# P2.7.2b re-spin stage ? — vco_core_tank DRC / LVS
 
 ## DRC
 - violated: none
@@ -8,9 +8,9 @@
 ## KLayout LVS
 - layout: `vco_core_tank_lvs.gds` (inductor black-box; spiral stripped if _lvs)
 - PASS
-- extracted: `/foss/designs/analog/vco/layout/p272b/out/lvs_vco_core_tank_heimdall_verify/vco_core_tank_lvs_extracted.cir`
+- extracted: `/foss/designs/analog/vco/layout/p272b/out/lvs_vco_core_tank_?/vco_core_tank_lvs_extracted.cir`
 ```
-* Extracted by KLayout with SG13G2 LVS runset on : 17/11/2026 06:16
+* Extracted by KLayout with SG13G2 LVS runset on : 17/11/2026 11:18
 
 .SUBCKT vco_core_tank gnd tail tn tp
 M$1 gnd gnd gnd gnd sg13_lv_nmos L=0.13u W=8u AS=2.72p AD=2.72p PS=17.36u
@@ -32,7 +32,7 @@ C$21 tn \$9 gnd rfcmim w=14.5u l=14.5u A=210.25p P=58u m=1 wfeed=5u
   Circuits match uniquely.
   Property errors were found.
 
-## Summary stage heimdall_verify
+## Summary stage ?
 - DRC hard: PASS
 - KLayout LVS: PASS
 - netgen: PASS

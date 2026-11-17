@@ -214,14 +214,23 @@ class Pair:
             self.box(top, self.m1, c.left, y_tail, c.right, c.bottom)
             # via centred on col (1×1 landing stays on this M1 only)
             self.place(top, vs12, 0.5 * (c.left + c.right) - 0.05, y_tail)
+        # M2 bus across sources; east exit faces the tail block (no west corridor
+        # through core/bank) [decisions 2026-11-17 P2.7.2c tail escape].
+        x_tail_pin = src2[-1].right + 2.0
         self.box(top, self.m2,
                  src1[0].left - 0.3, y_tail - 0.15,
-                 src2[-1].right + 0.3, y_tail + 0.55)
-        # pin via centre → M1 stub south of M2 bus
-        self.place(top, vs12, -0.05, y_tail - 1.5)
-        self.box(top, self.m2, -0.25, y_tail - 1.5, 0.25, y_tail + 0.55)
-        self.box(top, self.m1, -0.25, y_tail - 2.5, 0.25, y_tail - 1.3)
-        self.pin_m1(top, 0.0, y_tail - 2.3, "tail")
+                 x_tail_pin + 0.3, y_tail + 0.55)
+        # pin via at east end → M1 stub south of M2 bus
+        self.place(top, vs12, x_tail_pin - 0.05, y_tail - 1.5)
+        self.box(top, self.m2,
+                 x_tail_pin - 0.25, y_tail - 1.5,
+                 x_tail_pin + 0.25, y_tail + 0.55)
+        self.box(top, self.m1,
+                 x_tail_pin - 0.25, y_tail - 2.5,
+                 x_tail_pin + 0.25, y_tail - 1.3)
+        self.pin_m1(top, x_tail_pin, y_tail - 2.3, "tail")
+        self.say(f"tail pin east @ ({x_tail_pin:.2f},{y_tail - 2.3:.2f}) "
+                 f"[HAND/GDS facing tail block]")
 
         # --- Drains → tank: M1 drop to y_dr only on drain cols; via+M2 outboard ---
         # Source verticals also cross y_dr — never put M1 horizontal at y_dr.

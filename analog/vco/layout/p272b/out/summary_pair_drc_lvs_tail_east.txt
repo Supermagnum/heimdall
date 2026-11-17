@@ -1,0 +1,49 @@
++ python3 /foss/pdks/ihp-sg13g2/libs.tech/klayout/tech/drc/run_drc.py --path=/foss/designs/analog/vco/layout/p272b/out/vco_xc_pair.gds --topcell=vco_xc_pair --run_dir=/foss/designs/analog/vco/layout/p272b/out/drc_vco_xc_pair --density
+  exit 2; log /foss/designs/analog/vco/layout/p272b/out/drc_vco_xc_pair.log
++ python3 /foss/pdks/ihp-sg13g2/libs.tech/klayout/tech/lvs/run_lvs.py --layout=/foss/designs/analog/vco/layout/p272b/out/vco_xc_pair.gds --netlist=/foss/designs/analog/vco/layout/p272b/out/vco_xc_pair.spice --topcell=vco_xc_pair --run_dir=/foss/designs/analog/vco/layout/p272b/out/lvs_vco_xc_pair --disable_tap_extraction --ignore_top_ports_mismatch --combine_devices --top_lvl_pins
+  exit 0; log /foss/designs/analog/vco/layout/p272b/out/lvs_vco_xc_pair.log
++ netgen -batch source /foss/designs/analog/vco/layout/p272b/out/netgen_vco_xc_pair.tcl
+  exit 0; log /foss/designs/analog/vco/layout/p272b/out/netgen_vco_xc_pair.log
++ klayout -b -r /foss/designs/analog/vco/layout/p272b/out/_klayout_shot_pair.py -rd out=/foss/designs/analog/vco/layout/p272b/out -rd name=vco_xc_pair
+  exit 0; log /foss/designs/analog/vco/layout/p272b/out/render_vco_xc_pair.log
+# P2.7.2b re-spin — vco_xc_pair DRC / LVS
+
+## DRC
+- violated: none
+- density (waived): none
+- hard: none → PASS
+
+## KLayout LVS
+- PASS
+- extracted: `/foss/designs/analog/vco/layout/p272b/out/lvs_vco_xc_pair/vco_xc_pair_extracted.cir`
+```
+* Extracted by KLayout with SG13G2 LVS runset on : 17/11/2026 11:18
+
+.SUBCKT vco_xc_pair gnd tail tn tp
+M$1 gnd gnd gnd gnd sg13_lv_nmos L=0.13u W=8u AS=2.72p AD=2.72p PS=17.36u
++ PD=17.36u rfmode=0
+M$2 tp tn tail gnd sg13_lv_nmos L=0.13u W=32u AS=6.68p AD=6.68p PS=39.34u
++ PD=39.34u rfmode=0
+M$10 tn tp tail gnd sg13_lv_nmos L=0.13u W=32u AS=6.68p AD=6.68p PS=39.34u
++ PD=39.34u rfmode=0
+.ENDS vco_xc_pair
+```
+
+## netgen
+- PASS
+  Contents of circuit 1:  Circuit: 'vco_xc_pair'
+  Circuit vco_xc_pair contains 3 device instances.
+  Circuit contains 4 nets.
+  Contents of circuit 2:  Circuit: 'vco_xc_pair'
+  Circuit vco_xc_pair contains 3 device instances.
+  Circuit contains 4 nets.
+  Circuit 1 contains 3 devices, Circuit 2 contains 3 devices.
+  Circuit 1 contains 4 nets,    Circuit 2 contains 4 nets.
+  Final result: 
+  Circuits match uniquely.
+
+## Summary
+- DRC hard: PASS
+- KLayout LVS: PASS
+- netgen: PASS
+

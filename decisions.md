@@ -868,3 +868,12 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   assembly must use the pin-only inductor GDS, as for core + tank); cmp | gnd | vdd soft
   connects are traced through the KLayout soft-connect report (well / guard-ring merging
   between blocks placed closer).
+
+## 2026-11-17 — P2.7.2c tail escape
+- Pin-only inductor LVS flow and power soft-connect fixes accepted; full direct pack DRC clean
+  (density and SVaricap M1.b waived); island routing C 27.9 / 28.9 fF per side [HAND],
+  outline 0.5225 mm² [GDS].
+- Unique LVS blocked by the tail route (crosses core / bank). Fix: move the core + tail port
+  to face the tail block (core + tank re-proven); no corridor between core and bank. Tail route
+  length and C reported for P2.7.3.
+- Final sign-off of vco_top includes the varactor dimension and finger scripts.
