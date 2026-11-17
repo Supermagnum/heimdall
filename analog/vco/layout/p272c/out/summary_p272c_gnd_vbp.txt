@@ -1,0 +1,32 @@
+# P2.7.2c — gnd | vbp after power (2026-11-17) [TOOL]
+
+## Method
+- Build `place` then `place,power` with pin-only LVS GDS.
+- KLayout extract `.cir` port list + pipe scan; device lines that name both nets.
+- Parent/child M1–M3 net tracer around `bank.vbp` (−207.78, 86.29).
+- No PDK soft-connect report file under `out/lvs_*` (same as prior power soft-connect note).
+
+## Result (power-only) — PASS
+- Extract pipes: **none** [TOOL] (`out/_ext_power.cir`).
+- Ports `gnd` and `vbp` present and **separate** on `.SUBCKT vco_top` [TOOL].
+- No parent M2/M3 box covers both `bank.vbp` and a `gnd` pin site [TOOL tracer].
+- DRC clean (density + SVaricap M1.b waived) [TOOL].
+- Unique LVS: FAIL as expected (opens until full join) [TOOL].
+
+## What looked like gnd|vbp before
+1. **Mega-short residue (ct / tn pack failures):** earlier north-det / through-cell TM1
+   runs produced pipes such as `cmp|ct|…|vbp|vdd` or a lone `gnd|vbp` after partial
+   fixes. Those were hard metal merges on other nets, not a power-spine short [TOOL].
+2. **Device terminals (not a net merge):** bank MOS lines like
+   `M$… gnd vbp bb1 gnd` are gate=`vbp`, bulk/drain=`gnd` — normal schematic
+   connectivity; LVS keeps net names distinct [TOOL extract].
+
+## Cause for the power step
+**No hard short and no extract soft-connect between `gnd` and `vbp` on the current
+tail-next pack after power.** Prior `gnd|vbp` sightings were from later-route
+shorts or from reading gate/bulk co-occurrence as a pipe. Power drops for
+`tail_block.vdd` / `ampcal_det.vdd` stay on the patterns that cleared `gnd|vdd`
+and `cmp|vdd` (`summary_p272c_power_softconnect.txt`).
+
+## Pass criteria
+- gnd and vbp separate after power-only LVS extract: **PASS** [TOOL]
