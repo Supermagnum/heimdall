@@ -1,0 +1,34 @@
+# P2.7.2c — direct bank–core re-pack routing plan (written before place) [HAND]
+
+Source: spec/p27-layout-notes.md "P2.7.2c next re-pack"; decisions.md
+"Fixed tank capacitor trim" (island budget 37 fF [HAND]); owner Prompt 06
+2026-11-17 (ff landing gate + join).
+
+## Place
+| Block | Rule |
+|---|---|
+| vco_bank | South of core; X-align bank.tp.x = core.tp.x |
+| vco_core_tank | (0, bank.top + 8 µm) |
+| vco_var / ampcal_det | East of core; Y-align tn to core.tn |
+| tail_block | East of core, north of var; unique M3 X clear of power/vt |
+
+## Net corridors (every net its own)
+| Net | Corridor |
+|---|---|
+| tn / tp | Separate y tracks on TM1 w=2; bank joins by **V stub only** at pin X through the 8 µm corridor (no west ring) |
+| ct | Labelled LVS-checked top port (TM1); stub to det.ct |
+| V_tune (vt) | Shielded M2 escape south of bank; no cross tn/tp |
+| controls | South of bank / east of det; away from tn/tp |
+| power | M2 H spines; unique M3 columns per pin |
+
+## Join order
+place → power → ct → tail → tn_tp → vt → controls
+DRC + KLayout LVS + netgen after each; stop at first failure.
+
+## Budget
+Island routing C ≤ 37 fF / side [HAND] (trim assumes this).
+tn−tp mismatch reported from build lengths.
+
+## Pass after full join
+DRC clean (density + SVaricap M1.b waived); KLayout LVS + netgen uniquely
+match vco_top.sch; inductor fab/LVS diff; varactor dims; ct as port; fingers.

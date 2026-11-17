@@ -1,0 +1,31 @@
+# P2.7.2c — ff landing at 0.955 V with trimmed cfix [SCH]+[MODEL]
+
+ff compliance / prior landing window: 0.457–0.970 V [MODEL] (P2.7.2c gate).
+
+New ff landing high: 0.955 V [MODEL] (cfix 157.7 fF).
+
+0.955 V inside ff window: YES (margin to top +0.015 V) [MODEL].
+
+Q(dt) 1–5 ns, offset on, bias generator, I_cp 100 µA. Spur from pll_behav (D19 loop) [MODEL].
+
+| V_tune | INL (ps) | Lock (ns) | Slope | ΔI_cp (%) | Spur VHF/UHF (dBc) | PASS |
+|---|---|---|---|---|---|---|
+| 0.955 | 3.0 | 2.97 | 1.116 | +1.7 | -118.2/-125.9 | PASS |
+| 0.636 mid | 0.3 | 2.77 | 1.098 | +0.0 | -125.2/-126.0 | ref |
+
+## Gate checks
+
+| Check | Result | Limit | Tag |
+|---|---|---|---|
+| Inside ff window 0.457–0.97 | YES | window | [MODEL] |
+| INL | 3.0 ps | ≤ 30 ps | [SCH] |
+| |ΔI_cp| | 1.7 % | ≤ 10 % | [SCH] |
+| Lock UP | 2.97 ns | > 0 | [SCH] |
+| Fractional boundary spur VHF | -118.2 dBc | ≤ −95 dBc | [MODEL] |
+| Fractional boundary spur UHF | -125.9 dBc | ≤ −95 dBc | [MODEL] |
+| Reference spur | not re-run this job | TX ≤ −67 / RX ≤ −84; prior ≤ −109 at 5 µA | [MODEL prior] |
+
+## Verdict
+
+PASS — 0.955 V inside ff compliance window; INL / ΔI_cp / UP / boundary spur within accepted limits. Proceed to direct re-pack.
+

@@ -218,8 +218,9 @@ class Asm:
             cid, pins, bb, keep = self.load_child(name)
             kids[name] = {"cid": cid, "pins": pins, "bb0": bb, "keep": keep}
 
-        # Re-pack: bank south X-aligned to tank; var/det east Y-aligned; tail NE
-        # (spec/p27-layout-notes.md P2.7.2c re-pack plan) [HAND]
+        # Direct bank–core re-pack: bank south X-aligned; var/det east Y-aligned;
+        # tail NE; tn/tp bank join = V stub only (no west corridor)
+        # (spec/p27-layout-notes.md P2.7.2c next re-pack) [HAND]
         gap = 8.0
         core_pins0 = kids["vco_core_tank"]["pins"]
         bank_pins0 = kids["vco_bank"]["pins"]
@@ -262,7 +263,7 @@ class Asm:
         tail_bb, tail_tr = self.place_ll(
             c, kids["tail_block"]["cid"], tail_ll[0], tail_ll[1])
         self.say(
-            f"re-pack LL bank={bank_ll} core={core_ll} var={var_ll} "
+            f"direct-pack LL bank={bank_ll} core={core_ll} var={var_ll} "
             f"det={det_ll} tail={tail_ll} [HAND]"
         )
 
@@ -470,10 +471,10 @@ class Asm:
             c.insert(pya.DCellInstArray(vs12, pya.DTrans(pya.DVector(x1, y1))))
             self.say(f"tail route ring x={xm:.1f} y_north={y_north:.1f}")
 
-        # ---- tn / tp (solid TM1 Manhattan pours; pitch 8 → edge gap 6 ≥ 1.64) ----
+        # ---- tn / tp: direct pack — H spine + V stubs; bank = V stub only ----
         if "tn_tp" in routed:
             tank_y = cp["tn"][1]
-            # tn top edge must stay ≤ det.ct.y − 1.64 − pour margin [DS/TOOL]
+            # Separate y tracks; pitch keeps TM1.b ≥ 1.64 [DS]
             track = {"tn": tank_y + 2.5, "tp": tank_y - 5.0}
             w_tank = 2.0
             hw = w_tank / 2
@@ -484,8 +485,6 @@ class Asm:
                              max(x0, x1) + hw, max(y0, y1) + hw))
 
             lengths = {}
-            # Separate west escapes for tn/tp (shared column shorted them) [TOOL LVS]
-            x_esc = {"tn": core_bb.left - 3.0, "tp": core_bb.left - 7.0}
             for net in ("tn", "tp"):
                 pins = {}
                 for label, pp in (
@@ -497,37 +496,29 @@ class Asm:
                     self.say(f"{net}: need ≥2 pins, have {len(pins)}")
                     continue
                 y_sp = track[net]
-                xe = x_esc[net]
                 L = 0.0
-                spine_pts = [pins[k] for k in ("core", "var", "det") if k in pins]
-                spine_pts.append((xe, y_sp))
-                xs = [p[0] for p in spine_pts]
-                tm1_pour(min(xs), y_sp, max(xs), y_sp)
-                L += max(xs) - min(xs)
-                if "core" in pins:
-                    px, py = pins["core"]
-                    tm1_pour(px, py, px, y_sp)
-                    L += abs(py - y_sp)
-                if "bank" in pins:
-                    px, py = pins["bank"]
-                    tm1_pour(px, py, xe, py)
-                    tm1_pour(xe, py, xe, y_sp)
-                    L += abs(xe - px) + abs(y_sp - py)
-                for src in ("var", "det"):
+                # Spine X spans core / bank / var / det (no west escape column)
+                spine_xs = [pins[k][0] for k in ("core", "bank", "var", "det")
+                            if k in pins]
+                tm1_pour(min(spine_xs), y_sp, max(spine_xs), y_sp)
+                L += max(spine_xs) - min(spine_xs)
+                for src in ("core", "bank", "var", "det"):
                     if src not in pins:
                         continue
                     px, py = pins[src]
                     tm1_pour(px, py, px, y_sp)
                     L += abs(py - y_sp)
-                    for lyr in (self.m1, self.m2, self.tm1):
-                        c.shapes(lyr).insert(
-                            pya.DBox(px - 0.8, py - 0.8, px + 0.8, py + 0.8))
-                    c.insert(pya.DCellInstArray(
-                        vs1t, pya.DTrans(pya.DVector(px, py))))
+                    if src in ("var", "det"):
+                        for lyr in (self.m1, self.m2, self.tm1):
+                            c.shapes(lyr).insert(
+                                pya.DBox(px - 0.8, py - 0.8, px + 0.8, py + 0.8))
+                        c.insert(pya.DCellInstArray(
+                            vs1t, pya.DTrans(pya.DVector(px, py))))
                 lengths[net] = L
                 self.say(
-                    f"{net} TM1 spine y={y_sp:.2f} x=[{min(xs):.1f},{max(xs):.1f}] "
-                    f"L={L:.1f} um w={w_tank} via_esc={xe:.1f} [GDS/HAND]"
+                    f"{net} TM1 direct spine y={y_sp:.2f} "
+                    f"x=[{min(spine_xs):.1f},{max(spine_xs):.1f}] "
+                    f"L={L:.1f} um w={w_tank} (bank V-stub only) [GDS/HAND]"
                 )
             if "tn" in lengths and "tp" in lengths:
                 Cp = 0.10  # fF/µm @ w=2 [HAND]
