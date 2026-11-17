@@ -877,3 +877,13 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   to face the tail block (core + tank re-proven); no corridor between core and bank. Tail route
   length and C reported for P2.7.3.
 - Final sign-off of vco_top includes the varactor dimension and finger scripts.
+
+## 2026-11-17 — Tail route rejected, tail block next to the core
+- Core + tank with east tail pin accepted (228a61b): DRC, KLayout LVS (pin-only), netgen,
+  fab / LVS diff.
+- Tail route of ≈ 1171 µm (w 2 µm, ≈ 117 fF [HAND]) rejected on electrical grounds: IR drop at
+  4 mA, current density, tail-node C. The tail block is placed next to the core tail pin; small
+  blocks and control ports move if needed. Low-current lines may be long; the 4 mA tail line
+  may not.
+- Tail-line targets [HAND, confirmed with PDK values]: length ≤ ≈ 150 µm, R ≤ ≈ 2.5 Ω,
+  current density within the PDK limit at 125 °C, C ≤ ≈ 20 fF.
