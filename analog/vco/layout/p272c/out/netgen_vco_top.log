@@ -146,14 +146,14 @@ Circuit vco_top contains 250 device instances.
   Class: cap_cmim              instances:  10
 Circuit contains 142 nets.
 Contents of circuit 2:  Circuit: 'vco_top'
-Circuit vco_top contains 238 device instances.
+Circuit vco_top contains 241 device instances.
   Class: sg13_hv_svaricap      instances:   2
-  Class: cap_rfcmim            instances:  22
+  Class: cap_rfcmim            instances:  23
   Class: rhigh                 instances:  33
   Class: sg13_lv_pmos          instances: 106
-  Class: sg13_lv_nmos          instances:  65
+  Class: sg13_lv_nmos          instances:  67
   Class: cap_cmim              instances:  10
-Circuit contains 139 nets.
+Circuit contains 141 nets.
 
 Circuit was modified by parallel/series device merging.
 New circuit summary:
@@ -168,21 +168,21 @@ Circuit vco_top contains 239 device instances.
   Class: cap_cmim              instances:  10
 Circuit contains 142 nets.
 Contents of circuit 2:  Circuit: 'vco_top'
-Circuit vco_top contains 235 device instances.
+Circuit vco_top contains 238 device instances.
   Class: sg13_hv_svaricap      instances:   1
-  Class: cap_rfcmim            instances:  22
+  Class: cap_rfcmim            instances:  23
   Class: rhigh                 instances:  33
   Class: sg13_lv_pmos          instances: 106
-  Class: sg13_lv_nmos          instances:  63
+  Class: sg13_lv_nmos          instances:  65
   Class: cap_cmim              instances:  10
-Circuit contains 139 nets.
+Circuit contains 141 nets.
 
-Circuit 1 contains 239 devices, Circuit 2 contains 235 devices. *** MISMATCH ***
-Circuit 1 contains 142 nets,    Circuit 2 contains 139 nets. *** MISMATCH ***
+Circuit 1 contains 239 devices, Circuit 2 contains 238 devices. *** MISMATCH ***
+Circuit 1 contains 142 nets,    Circuit 2 contains 141 nets. *** MISMATCH ***
 
 
 Final result: 
-Netlists do not match.
-Port matching may fail to disambiguate symmetries.
+Top level cell failed pin matching.
+
 Logging to file "/foss/designs/analog/vco/layout/p272c/out/netgen_vco_top.json" disabled
 LVS Done.

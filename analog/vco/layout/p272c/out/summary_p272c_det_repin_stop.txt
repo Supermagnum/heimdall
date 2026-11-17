@@ -1,0 +1,42 @@
+# P2.7.2c stop — detector re-pin + min-width taps
+
+## Pass / fail by step
+1. ampcal_det face re-pin: PASS — DRC (density waived), KLayout LVS, netgen,
+   fingers, rhigh L. Face pins mirror-staggered: tp (−12.85, 20.22),
+   tn (−13.85, 49.98); M2 east-jog escapes [GDS/TOOL]. Commit 2650677 (+ X-stagger).
+2. Min-width taps + island C: DRC PASS (density + SVaricap M1.b waived);
+   island C ≈ 35.6 / 35.6 fF per side, mismatch ≈ 0.00 fF [HAND]
+   (TM1 C'=0.10, M2 tap w=0.20 C'=0.020). No mega-short after gnd-drop /
+   H–V cross fixes [TOOL]. KLayout LVS / netgen: FAIL (see below).
+3. cfix re-trim: not started (blocked on tn_tp unique LVS).
+4. Join vt→controls unique LVS: not started.
+5. Specs / die re-total: not started.
+
+## Numbers [tags]
+- Outline 0.4029 mm² [GDS].
+- Tail L 91 µm, R125 2.70 Ω, J 1.0 mA/µm [PDK/HAND].
+- Island C ≈ 35.6 fF/side (≤ 50) mismatch ≈ 0 [HAND].
+- Extracted RC: not run.
+
+## What fails / uncertain
+- Unique LVS at tn_tp: schematic 24× cap_rfcmim vs layout 23; device
+  count 239 vs 238 after merge [TOOL netgen]. Same class of miss with
+  SKIP_TAPS=1 (stubs-only) — not introduced by the taps.
+- Duplicate pin warnings g1/g2 in netgen [TOOL].
+- Render PNG exit 1 (non-blocking if svg present).
+
+## Decision needed
+Root-cause the missing layout rfcmim (and duplicate g* pins) before cfix /
+join continues. Options: fix the disconnected MIM in a child cell or the
+hierarchical spice; or accept a temporary pin-only waiver (not recommended).
+
+## Found, not done
+- cfix re-trim for 35.6 fF; band ≥40 MHz / D20 / core+tank prove.
+- Join vt → controls to unique LVS; inductor/varactor scripts at full assembly.
+- Spec updates (vco-topology §9, vco-amplitude-cal, p27-layout-notes,
+  p27-floorplan §8, phase2-plan §3).
+- Push (ask first).
+
+## Next run
+After rfcmim LVS root-cause: finish P2.7.2c (cfix + join to unique LVS),
+then P2.7.3 VCO PEX and post-layout checks.

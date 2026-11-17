@@ -481,13 +481,29 @@ class Asm:
                         c.shapes(self.m2).insert(
                             pya.DBox(px - 1.2, py - pad, px + 1.2, py + pad))
                         pad = 1.2  # smaller Y so less overlap with tn H
+                    elif (block, net) == ("ampcal_det", "gnd"):
+                        # Face tn/tp V columns sit between gnd pin and the west
+                        # column; a fat M2 H (pad=4) shorted gnd|tn|tp [TOOL].
+                        # M1 pin→column; M2/Via1 only at the column.
+                        c.shapes(self.m1).insert(
+                            pya.DBox(min(px, xc) - 0.25, py - 0.8,
+                                     max(px, xc) + 0.25, py + 0.8))
+                        c.shapes(self.m2).insert(
+                            pya.DBox(xc - 2.0, py - 1.0, xc + 2.0, py + 1.0))
+                        c.shapes(self.m2).insert(
+                            pya.DBox(px - 1.2, py - 1.0, px + 1.2, py + 1.0))
+                        c.insert(pya.DCellInstArray(
+                            vs12, pya.DTrans(pya.DVector(px, py))))
+                        c.insert(pya.DCellInstArray(
+                            vs12, pya.DTrans(pya.DVector(xc, py))))
                     else:
                         c.shapes(self.m2).insert(
                             pya.DBox(min(px, xc) - 2.0, py - pad,
                                      max(px, xc) + 2.0, py + pad))
                         c.shapes(self.m2).insert(
                             pya.DBox(px - 3.0, py - pad, px + 3.0, py + pad))
-                    if (block, net) not in m2_ready:
+                    if (block, net) not in m2_ready and (
+                            block, net) != ("ampcal_det", "gnd"):
                         c.shapes(self.m1).insert(
                             pya.DBox(min(px, xc) - 0.2, py - 0.8,
                                      max(px, xc) + 0.2, py + 0.8))
@@ -671,17 +687,14 @@ class Asm:
             # Shared ring Y south of the var cell (not under its body) so the
             # H does not scrape var TM1 → TM1.b / shorts [TOOL / decisions].
             y_ring = var_bb.bottom - (2 * hw + 1.64 + 0.2)
-            # Taps: both M2; stay west of det.left until pin Y, then short H
-            # into the pin (no V through the cell — that hit hold/rep/vdd)
-            # [TOOL LVS gnd|hold|rep|tp|vdd].
-            # Branch Y well below stub y_ring / var so TM1 branch pads do not
-            # scrape stub metal (TM1.b at ≈490) [TOOL].
-            y_tap_base = min(det_bb.bottom - 4.0, y_ring - 8.0)
-            y_tap_net = {"tn": y_tap_base, "tp": y_tap_base - 2.5}
-            x_west_net = {
-                "tn": det_bb.left - 14.0,
-                "tp": det_bb.left - 11.0,
-            }
+            # Taps: M2 min width; shortest path from stub corner to west-face
+            # pins [decisions 2026-11-17 Detector re-pin]. Branch at y_ring
+            # (TM1 stub already there), H west south of det, V on face column.
+            w_tap = 0.20  # above M2.a 0.16 so drawn width survives grid [DS/TOOL]
+            ht = w_tap / 2
+            # East pin (tp) H ABOVE west pin (tn) H so east V never crosses west H
+            # [TOOL LVS tn|tp from H/V cross].
+            y_tap_net = {"tp": y_ring, "tn": y_ring - 2.0}
 
             def pour(x0, y0, x1, y1, half):
                 c.shapes(self.tm1).insert(
@@ -787,94 +800,65 @@ class Asm:
                 self._stub_L[net] = L_stub
                 self._stub_geom[net] = (cx_p, x_face, y_ring, hw, net)
 
-                # --- thin det taps: both on M2 (no M1 route) [decisions] ---
-                # SKIP_TAPS=1 bisects stubs-only vs taps [TOOL]
+                # --- min-width det taps to west-face pins [decisions] ---
+                # Path: via at stub column → H west at y_tap → V on staggered
+                # face column → short H into pin. Separate V columns: shared
+                # pin-X V merged tn|tp [TOOL LVS].
+                # SKIP_TAPS=1|tn|tp bisects [TOOL].
                 skip_taps = os.environ.get("SKIP_TAPS", "").strip().lower()
                 if net in dp and skip_taps not in ("1", "all", net):
                     dx_p, dy_p = dp[net]
                     y_tap = y_tap_net[net]
-                    x_west = x_west_net[net]
+                    # Column on the face pin X (tn west of tp after re-pin).
+                    x_col = dx_p
 
                     def pour_l(x0, y0, x1, y1):
                         c.shapes(self.m2).insert(
                             pya.DBox(min(x0, x1) - ht, min(y0, y1) - ht,
                                      max(x0, x1) + ht, max(y0, y1) + ht))
 
-                    c.shapes(self.tm1).insert(
-                        pya.DBox(cx_p - 1.0, y_tap - 1.0, cx_p + 1.0, y_tap + 1.0))
+                    # TM1 bridge from stub V (ends at y_ring) down to y_tap
+                    pour(cx_p, y_ring, cx_p, y_tap, max(hw, 1.0))
+                    # Tight via landing — fat 1×1 pads bridged parallel H [TOOL]
+                    pad = ht + 0.05
                     c.shapes(self.m2).insert(
-                        pya.DBox(cx_p - 1.0, y_tap - 1.0, cx_p + 1.0, y_tap + 1.0))
+                        pya.DBox(cx_p - pad, y_tap - pad,
+                                 cx_p + pad, y_tap + pad))
                     c.insert(pya.DCellInstArray(
                         vs2t, pya.DTrans(pya.DVector(cx_p, y_tap))))
 
-                    # South alley → west column → into pin.
-                    # tp: H at pin Y (V at tp.X hits hold).
-                    # tn: H below the vdd power-drop column (col at vdd.x+8
-                    # goes pin→y_vdd; H above it shorted tn|vdd) [TOOL].
-                    pour_l(cx_p, y_tap, x_west, y_tap)
-                    L_t += abs(x_west - cx_p)
-                    # Approach from NORTH of the pin cluster (above ct):
-                    # tn must not H across the vdd power column (x≈vdd+8,
-                    # y pin→rail) — stop west of it, V down, short H to pin
-                    # [TOOL LVS ct|tn|tp|vdd].
-                    y_ct = dp["ct"][1] if "ct" in dp else dy_p + 6.0
-                    y_h = y_ct + (6.0 if net == "tn" else 3.0)
-                    pour_l(x_west, y_tap, x_west, y_h)
-                    L_t += abs(y_h - y_tap)
-                    if net == "tn" and "vdd" in dp:
-                        # Stop west of vdd M2 (child bar ≈x to -102 at vdd Y).
-                        # Via to M1 there; final H on M1 only so tap M2 cannot
-                        # touch vdd M2 at the tn pin [TOOL LVS tn|vdd].
-                        x_col = dp["vdd"][0] + 8.0
-                        x_stop = min(x_col - 3.0, dx_p - 6.0)
-                        pour_l(x_west, y_h, x_stop, y_h)
-                        L_t += abs(x_stop - x_west)
-                        pour_l(x_stop, y_h, x_stop, dy_p)
-                        L_t += abs(dy_p - y_h)
-                        c.shapes(self.m2).insert(
-                            pya.DBox(x_stop - 0.42, dy_p - 0.42,
-                                     x_stop + 0.42, dy_p + 0.42))
-                        c.shapes(self.m1).insert(
-                            pya.DBox(x_stop - 0.42, dy_p - 0.42,
-                                     x_stop + 0.42, dy_p + 0.42))
-                        c.insert(pya.DCellInstArray(
-                            vs12, pya.DTrans(pya.DVector(x_stop, dy_p))))
-                        c.shapes(self.m1).insert(
-                            pya.DBox(min(x_stop, dx_p) - 0.25, dy_p - 0.25,
-                                     max(x_stop, dx_p) + 0.25, dy_p + 0.25))
-                        L_t += abs(dx_p - x_stop)
-                        c.shapes(self.m1).insert(
-                            pya.DBox(dx_p - 0.30, dy_p - 0.30,
-                                     dx_p + 0.30, dy_p + 0.30))
-                    else:
-                        pour_l(x_west, y_h, dx_p, y_h)
-                        L_t += abs(dx_p - x_west)
-                        pour_l(dx_p, y_h, dx_p, dy_p)
-                        L_t += abs(dy_p - y_h)
-                        c.shapes(self.m1).insert(
-                            pya.DBox(dx_p - 0.42, dy_p - 0.42,
-                                     dx_p + 0.42, dy_p + 0.42))
-                        c.shapes(self.m2).insert(
-                            pya.DBox(dx_p - 0.42, dy_p - 0.42,
-                                     dx_p + 0.42, dy_p + 0.42))
-                        c.insert(pya.DCellInstArray(
-                            vs12, pya.DTrans(pya.DVector(dx_p, dy_p))))
+                    pour_l(cx_p, y_tap, x_col, y_tap)
+                    L_t += abs(x_col - cx_p)
+                    pour_l(x_col, y_tap, x_col, dy_p)
+                    L_t += abs(dy_p - y_tap)
+                    pour_l(x_col, dy_p, dx_p, dy_p)
+                    L_t += abs(dx_p - x_col)
+                    c.shapes(self.m1).insert(
+                        pya.DBox(dx_p - 0.30, dy_p - 0.30,
+                                 dx_p + 0.30, dy_p + 0.30))
+                    c.shapes(self.m2).insert(
+                        pya.DBox(dx_p - 0.30, dy_p - 0.30,
+                                 dx_p + 0.30, dy_p + 0.30))
+                    c.insert(pya.DCellInstArray(
+                        vs12, pya.DTrans(pya.DVector(dx_p, dy_p))))
                     self.say(
-                        f"{net} det thin M2 tap w={w_tap} "
-                        f"x_west={x_west:.1f} y_h={y_h:.1f} "
-                        f"pin=({dx_p:.1f},{dy_p:.1f}) L_tap={L_t:.1f} [HAND/GDS]"
+                        f"{net} det M2 tap w={w_tap} "
+                        f"L_tap={L_t:.1f} x_col={x_col:.1f} "
+                        f"→({dx_p:.1f},{dy_p:.1f}) [HAND/GDS]"
                     )
 
                 lengths[net] = L_w + L_t
+                # M2 w=0.16 ≈ C' 0.016 fF/µm [HAND scale from 0.05@0.5]
+                C_tap_per_um = 0.05 * (w_tap / 0.5)
                 C_tank[net] = L_w * 0.10
-                C_tap[net] = L_t * 0.05  # M2 w=0.5 [HAND]
+                C_tap[net] = L_t * C_tap_per_um
                 if not hasattr(self, "_tap_L"):
                     self._tap_L = {}
                     self._tap_geom = {}
                 self._tap_L[net] = L_t
-                if net in dp:
-                    self._tap_geom[net] = (
-                        x_west_net[net], y_tap_net[net], ht)
+                if L_t > 0 and net in dp:
+                    # Equalize from the face column (not pin X into gnd) [TOOL]
+                    self._tap_geom[net] = (x_col, y_tap_net[net], ht)
                 self.say(
                     f"{net} wide L={L_w:.1f} µm C≈{C_tank[net]:.1f} fF; "
                     f"tap L={L_t:.1f} µm C≈{C_tap[net]:.1f} fF; "
@@ -909,7 +893,8 @@ class Asm:
                 )
                 self._stub_L = {}
                 self._stub_geom = {}
-            # Equalize tap lengths (M2 spur west of short tap) [HAND]
+            # Equalize tap lengths: M2 spur EAST of face (toward core), never
+            # west into ampcal_det.gnd column [TOOL LVS gnd|tn|tp].
             if getattr(self, "_tap_L", None) and len(self._tap_L) == 2:
                 Lt_n = self._tap_L.get("tn", 0.0)
                 Lt_p = self._tap_L.get("tp", 0.0)
@@ -919,13 +904,14 @@ class Asm:
                     xw, yt, half_t = self._tap_geom[short]
                     c.shapes(self.m2).insert(
                         pya.DBox(
-                            xw - dLt - half_t, yt - half_t,
-                            xw + half_t, yt + half_t))
-                    C_tap[short] = C_tap.get(short, 0.0) + dLt * 0.05
+                            xw - half_t, yt - half_t,
+                            xw + dLt + half_t, yt + half_t))
+                    c_pu = 0.05 * (w_tap / 0.5)
+                    C_tap[short] = C_tap.get(short, 0.0) + dLt * c_pu
                     lengths[short] = lengths.get(short, 0.0) + dLt
                     self._tap_L[short] += dLt
                     self.say(
-                        f"{short} tap equalize spur +{dLt:.1f} µm "
+                        f"{short} tap equalize spur EAST +{dLt:.1f} µm "
                         f"→ L_tap={self._tap_L[short]:.1f} [HAND]"
                     )
                 self._tap_L = {}
@@ -961,7 +947,8 @@ class Asm:
                 self.say(
                     f"tn/tp island C≈{C_tot['tn']:.1f}/{C_tot['tp']:.1f} fF "
                     f"mismatch≈{mismatch:.2f} fF "
-                    f"(wide TM1 C'=0.10, M2 tap C'=0.05) [HAND]"
+                    f"(wide TM1 C'=0.10, M2 tap C'={0.05*(w_tap/0.5):.3f}) "
+                    f"[HAND]"
                 )
 
         # ---- vt shielded (south of bank; clear of gnd spine at y_gnd≈−4) ----
