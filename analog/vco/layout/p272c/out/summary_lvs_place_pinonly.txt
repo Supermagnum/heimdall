@@ -1,0 +1,20 @@
+# P2.7.2c — place-only LVS with pin-only inductor [TOOL]
+
+## Setup
+- Assembler loads `p272b/out/vco_core_tank_lvs.gds` (spiral `l2n0_em` removed).
+- Writes `vco_top_lvs.gds` (pin-only) and `vco_top.gds` (fab core + spiral restored).
+- `run_drc_lvs.py` extracts LVS from `vco_top_lvs.gds` only.
+- Core fab/LVS diff: **PASS** (`compare_fab_lvs_gds.py`; only `l2n0_em` in fab).
+
+## Extracted top ports (place-only)
+No pipe-joined shorts. Ports include separate `tn`, `tn$1`, `tp`, `tp$1`
+(unjoined blocks). `ct` not listed as a device-connected port — same as accepted
+core leaf extract (`.SUBCKT vco_core_tank gnd tail tn tp` has no `ct`) [TOOL].
+Layout has labelled TM1 `ct` pin with metal under the text [GDS].
+
+## Pass criterion (ct, tn, tp separate)
+**PASS** — prior fab-spiral extract had `ct|tn|tp`; pin-only extract has no such merge.
+
+## Outline note
+Island outline 0.5225 mm² [GDS] with LVS core bbox (no spiral extent); fab top
+restores spiral for DRC/fab. Pin local coords identical fab vs LVS [GDS].

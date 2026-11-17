@@ -67,9 +67,12 @@ print("rendered", name, "bbox", bb)
 
 
 def prove(cell: str) -> dict:
-    gds = os.path.join(OUT, f"{cell}.gds")
+    gds = os.path.join(OUT, f"{cell}.gds")  # fab (spiral) — DRC
+    gds_lvs = os.path.join(OUT, f"{cell}_lvs.gds")  # pin-only inductor — LVS
+    if not os.path.exists(gds_lvs):
+        gds_lvs = gds
     spice = os.path.join(OUT, f"{cell}.spice")
-    res = {"cell": cell}
+    res = {"cell": cell, "gds_lvs": gds_lvs}
     drc_dir = os.path.join(OUT, f"drc_{cell}")
     os.makedirs(drc_dir, exist_ok=True)
     res["drc"] = run([
@@ -88,12 +91,14 @@ def prove(cell: str) -> dict:
     cell_log = os.path.join(lvs_dir, f"{cell}.log")
     if os.path.exists(cell_log):
         open(cell_log, "w").close()
+    # LVS always on pin-only inductor GDS (spiral DC-shorts tn/tp/ct) [TOOL]
     res["klayout_lvs"] = run([
-        "python3", PDK_LVS, f"--layout={gds}", f"--netlist={spice}",
+        "python3", PDK_LVS, f"--layout={gds_lvs}", f"--netlist={spice}",
         f"--topcell={cell}", f"--run_dir={lvs_dir}",
         "--disable_tap_extraction", "--ignore_top_ports_mismatch",
         "--combine_devices", "--top_lvl_pins",
     ], os.path.join(OUT, f"lvs_klayout_{cell}.log"))
+    print(f"  LVS layout={os.path.basename(gds_lvs)}", flush=True)
     # PDK run_lvs can print Status PASS from a stale run; trust the cell log.
     kl_cell = open(cell_log, errors="ignore").read() if os.path.exists(cell_log) else ""
     # Last match wins
@@ -167,6 +172,7 @@ def main():
         f"drc_clean={r['drc_clean']} non_density={r['drc_non_density']} "
         f"svaricap_M1.b={r.get('drc_svaricap_m1b')}\n"
         f"klayout={r['klayout_pass']} netgen={r['netgen_pass']}\n"
+        f"lvs_gds={os.path.basename(r.get('gds_lvs') or '')}\n"
     )
     ok = r["drc_clean"] and r["klayout_pass"] and r["netgen_pass"]
     return 0 if ok else 1

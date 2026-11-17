@@ -25,13 +25,16 @@ import pya  # noqa: E402
 import sg13g2_pycell_lib  # noqa: E402
 
 DBU = 0.001
-GDS = {
+# Fab GDS keeps the EM spiral (l2n0_em). LVS uses pin-only core (spiral stripped).
+GDS_FAB = {
     "vco_core_tank": os.path.join(ROOT, "p272b", "out", "vco_core_tank.gds"),
     "vco_bank": os.path.join(ROOT, "p272b_bank", "out", "vco_bank.gds"),
     "tail_block": os.path.join(ROOT, "p272b_tail", "out", "tail_block.gds"),
     "vco_var": os.path.join(ROOT, "p272b_var", "out", "vco_var.gds"),
     "ampcal_det": os.path.join(ROOT, "p272b_det", "out", "ampcal_det.gds"),
 }
+GDS_LVS_CORE = os.path.join(ROOT, "p272b", "out", "vco_core_tank_lvs.gds")
+GDS = dict(GDS_FAB)  # default load paths; core swapped to LVS when present
 SPICE_LEAF = {
     "vco_core_tank": os.path.join(ROOT, "p272b", "out", "vco_core_tank.spice"),
     "vco_bank": os.path.join(ROOT, "p272b_bank", "out", "vco_bank.spice"),
@@ -98,7 +101,13 @@ class Asm:
         return bb0.transformed(tr), tr
 
     def load_child(self, name):
-        gds = GDS[name]
+        # Core + tank: prefer pin-only LVS GDS so spiral cannot short ct/tn/tp
+        # in extraction; fab spiral is re-added when writing fab top [TOOL].
+        if name == "vco_core_tank" and os.path.exists(GDS_LVS_CORE):
+            gds = GDS_LVS_CORE
+            self.say(f"core+tank load LVS pin-only {gds} [TOOL]")
+        else:
+            gds = GDS[name]
         if not os.path.exists(gds) and os.path.exists(gds + ".gz"):
             with gzip.open(gds + ".gz", "rb") as z, open(gds, "wb") as f:
                 shutil.copyfileobj(z, f)
@@ -646,9 +655,22 @@ class Asm:
                 self.say(f"vbp bank↔var via y_ctrl={y_ctrl:.1f}")
             self.say("controls: gate/code pins exported; AFE buses at synthesizer top")
 
-        # write GDS
+        # LVS GDS: pin-only inductor (what extract must see) [TOOL]
+        gds_lvs = os.path.join(OUT, "vco_top_lvs.gds")
+        self.ly.write(gds_lvs)
+        self.say(f"wrote {gds_lvs} (pin-only inductor) [TOOL]")
+
+        # Fab GDS: same island routing, fab core with l2n0_em spiral [TOOL]
         gds = os.path.join(OUT, "vco_top.gds")
-        self.ly.write(gds)
+        fab_core = GDS_FAB["vco_core_tank"]
+        if not os.path.exists(fab_core) and os.path.exists(fab_core + ".gz"):
+            with gzip.open(fab_core + ".gz", "rb") as z, open(fab_core, "wb") as f:
+                shutil.copyfileobj(z, f)
+        if os.path.exists(fab_core):
+            self._write_fab_with_spiral(fab_core, gds_lvs, gds)
+        else:
+            shutil.copyfile(gds_lvs, gds)
+            self.say(f"wrote {gds} (copy of LVS; no fab core) [TOOL]")
         with open(gds, "rb") as f, gzip.open(gds + ".gz", "wb") as z:
             shutil.copyfileobj(f, z)
         self.say(f"wrote {gds}.gz")
@@ -656,6 +678,36 @@ class Asm:
         open(os.path.join(OUT, "summary_build_log.txt"), "w").write(
             "\n".join(self.log) + "\n")
         return outline
+
+    def _write_fab_with_spiral(self, fab_core_gds, gds_lvs, gds_out):
+        """Copy LVS top, replace pin-only core instance with fab core + spiral."""
+        ly = pya.Layout()
+        ly.read(gds_lvs)
+        top = ly.top_cell()
+        core_inst = None
+        for inst in top.each_inst():
+            if inst.cell.name.startswith("vco_core_tank"):
+                core_inst = inst
+                break
+        if core_inst is None:
+            shutil.copyfile(gds_lvs, gds_out)
+            self.say("fab write: no core instance; copied LVS [TOOL]")
+            return
+        tr = core_inst.dcplx_trans
+        src = pya.Layout()
+        src.read(fab_core_gds)
+        src_top = src.cell("vco_core_tank") or src.top_cell()
+        new_cell = ly.create_cell("vco_core_tank_fab")
+        new_cell.copy_tree(src_top)
+        for L, D in ((8, 25), (126, 25), (8, 2), (126, 2)):
+            lyr = ly.layer(L, D)
+            for s in list(new_cell.shapes(lyr).each()):
+                if s.is_text() or (L, D) in ((8, 2), (126, 2)):
+                    new_cell.shapes(lyr).erase(s)
+        core_inst.delete()
+        top.insert(pya.DCellInstArray(new_cell.cell_index(), tr))
+        ly.write(gds_out)
+        self.say(f"wrote fab {gds_out} with spiral from {fab_core_gds} [TOOL]")
 
     def write_spice(self):
         """Hierarchical LVS spice from proven leaf netlists [TOOL]."""
