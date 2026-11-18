@@ -1,6 +1,6 @@
 # VCO topology memo (P2.3)
 
-Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** closed. **P2.7.3a** accepted: Magic full-RC extract; frequency on schematic + wiring C/R lumped **[PEX-RC lumped]** (not full 17.5k spice); wiring 68.2 fF/side; 15-corner margins ≥ 40 MHz. Full-cell bbox **0.4624 mm²** [GDS]. Next: **P2.7.3b** post-layout PN. See §9.
+Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** closed. **P2.7.3a** accepted. **P2.7.3b** PN PASS **[PEX-RC lumped]**: worst +2.2 dB @ 1 MHz (ss85 4.20 with bounds); duplex worst +1.8 dB vs −136 (VHF 175). Next: **P2.7.3c** swing / D22 / transient peak. See §9.
 
 ---
 
@@ -347,8 +347,7 @@ Svaricap extract 2-terminal [TOOL].
 
 **Tank** (`summary_pex_vco_tank.txt`): wiring add **62.5 / 68.2 fF** tn/tp
 (headline **68.22**); series R **0.24 Ω**; hand side was **96.2 fF** (−28 fF)
-[PEX-RC/HAND]. Tail wiring 31.4 fF vs hand 9.9 (mixed with cbf area — open for
-P2.7.3b) [PEX-RC].
+[PEX-RC/HAND].
 
 **Frequency [PEX-RC lumped]** (`summary_pex_vco_range.txt`): **not** a full
 post-layout run of the 17.5k spice. Schematic PDK devices + extracted wiring
@@ -356,7 +355,42 @@ C/R lumped per tank net. 15 corners PASS (worst top **143 MHz**, bot **78 MHz**)
 overlap PASS; boundary ≤½ LSB PASS; D20 proxy PASS [PEX-RC lumped].
 
 **Die** (`summary_pex_vco_die.txt`): full-cell bbox **0.4624 mm²** [GDS] →
-`spec/p27-floorplan.md` §8. Next: **P2.7.3b** PN.
+`spec/p27-floorplan.md` §8.
+
+### P2.7.3b — post-layout VCO phase noise (2026-11-18) — PASS
+
+**Parasitics** (`layout/p272c/out/summary_pex_vco_pn_parasitics.txt`) [PEX-RC]:
+- Tail for PN separated from cbf/filter: **C_tail_pn = 9.55 fF** (wiring-all
+  31.4 fF; anon ≥5 fF 21.84 fF treated as filter-like, excluded). Hand 9.9 fF.
+- Pad residual after sub−Σ(MIM plates): **0 / 0 fF**; pad C carried by L2n0 EM
+  `cp` + wiring add, not a separate term [PEX-RC/EM].
+- Couplings ≥1 fF: tn−tp 29.2; tp−vbp 10.8; tn/tp−tail 4.4/4.0; tp−vt 2.8 fF.
+
+**PN netlist [PEX-RC lumped]:** schematic PDK devices + L2n0 EM + lumped C_side
+68.22 fF / R 0.24 Ω + C_tail_pn + couplings ≥1 fF. Bank bypass omitted (PSS);
+tail+var bypass on. Magic 2-terminal svaricap **not** used — schematic
+4-terminal PDK svaricap kept [TOOL].
+
+**PSS / pnoise** (`summary_pex_vco_pn.txt`) [PEX-RC lumped]: all five points
+converge. With bank +0.59 [SCH] + det 0 [HAND] + CML +0.5 [HAND]:
+
+| point | L@100 kHz | L@1 MHz (→w/ bounds) | limit | margin |
+|---|---:|---:|---:|---:|
+| ss85 4.20 | −88.1 | −119.3 → −118.2 | −116 | **+2.2** |
+| tt 3.65 | −92.6 | −122.4 → −121.3 | −116 | +5.3 |
+| tt 4.20 | −87.9 | −119.3 → −118.2 | −115 | +3.2 |
+| tt 3.12 | −97.8 | −125.1 → −124.0 | −116 | +8.0 |
+| tt 3.20 | −96.8 | −124.8 → −123.7 | −115 | +8.7 |
+
+**Duplex** (`summary_pex_duplex_pn.txt`) [MODEL]: post-layout VCO curve + D19 /
+CP FoM −203.8 / LO floors. Worst **VHF 175 MHz −137.8 dBc/Hz, +1.8 dB** vs −136
+(was +2.8 SCH). PASS.
+
+**Hand bounds:** not re-simulated in the PEX netlist (bank omitted for PSS);
+kept [SCH]/[HAND] as above [TOOL].
+
+Next: **P2.7.3c** swing, D22 calibration and transient peak on the extracted
+netlist.
 
 ### D9 filter capacitor notes (2026-11-13) — MIM kept; MOS swing cause
 

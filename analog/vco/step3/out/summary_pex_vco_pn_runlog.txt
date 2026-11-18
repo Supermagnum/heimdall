@@ -1,0 +1,40 @@
+  ss85_4.20: code=30 itail=3.52 mA …
+    f=4.116 Amp=1.25 L@100k=-88.1 L@1M=-119.3
+  tt_3.65: code=99 itail=3.91 mA …
+    f=3.591 Amp=1.17 L@100k=-92.6 L@1M=-122.4
+  tt_4.20: code=30 itail=3.52 mA …
+    f=4.110 Amp=1.29 L@100k=-87.9 L@1M=-119.3
+  tt_3.12: code=203 itail=4.00 mA …
+  pss fail tt_3.12 reltol=1e-6 npts=16000 harm=32: ["Analysis 'pn' aborted."]
+    f=3.084 Amp=1.00 L@100k=-97.8 L@1M=-125.1
+  tt_3.20: code=184 itail=4.00 mA …
+    f=3.161 Amp=1.03 L@100k=-96.8 L@1M=-124.8
+# P2.7.3b post-layout VCO phase noise [PEX-RC lumped]
+
+Netlist: schematic PDK devices + L2n0 EM + extracted wiring C/R (C_side=68.22 fF, R=0.240 Ω) + C_tail_pn=9.55 fF + couplings ≥1 fF (vt/vbp/vdd/tail). Bank bypass omitted; tail+var bypass on [PEX-RC lumped / TOOL]. Magic svaricap not used (2-terminal); schematic 4-terminal PDK svaricap kept [TOOL].
+
+Source lump: `/foss/designs/analog/vco/step3/../layout/p272c/out/pex_pn_lumped.json`
+
+## PSS / pnoise results [PEX-RC lumped]
+
+| tag | MOS | T | f0 | code | L@100 kHz | L@1 MHz | limit | margin | ok |
+|---|---|---|---:|---:|---:|---:|---:|---:|---|
+| ss85_4.20 | mos_ss | 85 | 4.116 | 30 | -88.1 | -119.3 (→-118.2 w/ bounds) | -116 | +2.2 | yes |
+| tt_3.65 | mos_tt | 27 | 3.591 | 99 | -92.6 | -122.4 (→-121.3 w/ bounds) | -116 | +5.3 | yes |
+| tt_4.20 | mos_tt | 27 | 4.110 | 30 | -87.9 | -119.3 (→-118.2 w/ bounds) | -115 | +3.2 | yes |
+| tt_3.12 | mos_tt | 27 | 3.084 | 203 | -97.8 | -125.1 (→-124.0 w/ bounds) | -116 | +8.0 | yes |
+| tt_3.20 | mos_tt | 27 | 3.161 | 184 | -96.8 | -124.8 (→-123.7 w/ bounds) | -115 | +8.7 | yes |
+
+Bounds added to L@1 MHz: bank-switch +0.59 dB [SCH], detector +0.0 dB [HAND], CML +0.5 dB [HAND].
+
+Worst margin @ 1 MHz (with bounds): +2.2 dB [PEX-RC lumped PSS]
+
+PN gate: PASS [PEX-RC lumped PSS]
+
+## Hand bounds (bank / detector / CML)
+
+- Bank-switch: not re-simulated in PEX netlist (bank devices omitted for PSS); use accepted +0.59 dB [SCH].
+- Detector: +0.0 dB [HAND] (powered down in hold).
+- CML load: +0.5 dB [HAND] (PSS with CML ÷N fails).
+
+Wrote /foss/designs/analog/vco/step3/out/summary_pex_vco_pn.txt

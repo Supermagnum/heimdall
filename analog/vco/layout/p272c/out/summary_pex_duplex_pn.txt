@@ -1,0 +1,25 @@
+# P2.7.3b system PN at duplex — post-layout VCO [PEX-RC lumped + MODEL]
+
+VCO L(1 MHz) from bank-omitted PSS on schematic + PEX lumped C/R/tail/couplings, plus bank-switch +0.59 dB [SCH], detector +0.0 [HAND], CML +0.5 [HAND] (total +1.09 dB). Magic 2-terminal svaricap not used; PDK 4-terminal schematic svaricap kept [TOOL].
+
+VCO curve (with bounds) [PEX-RC lumped+SCH/HAND]:
+- 3.12 GHz → -124.0 dBc/Hz
+- 3.40 GHz → -122.7 dBc/Hz
+- 3.65 GHz → -121.3 dBc/Hz
+- 3.90 GHz → -119.9 dBc/Hz
+- 4.20 GHz → -118.2 dBc/Hz
+
+Loop: D19 60 kHz / 55°. CP FoM -203.8 dBc/Hz, 1/f 79 kHz [SCH summary_cp tt 50 µA]. LO floors VHF -154.0 / UHF -150.1 [SCH p26]. Limit −136 dBc/Hz (25 W).
+
+| Ref | Band | RF (MHz) | VCO (GHz) | L(1 MHz) VCO | PN duplex | VCO / CP / R / SD | LO floor | Total | Limit | Margin |
+|---|---|---:|---:|---:|---:|---|---:|---:|---:|---:|
+| 32 | VHF | 130 | 3.120 | -124.0 | -141.8 | -145.8 / -148.5 / -146.1 / -160.6 | -154.0 | -141.6 | -136 | +5.6 |
+| 32 | VHF | 175 | 4.200 | -118.2 | -137.9 | -139.9 / -145.9 / -144.8 / -160.6 | -154.0 | -137.8 | -136 | +1.8 |
+| 32 | UHF | 400 | 3.200 | -123.7 | -146.6 | -147.3 / -168.2 / -155.7 / -162.8 | -150.1 | -145.0 | -136 | +9.0 |
+| 32 | UHF | 480 | 3.840 | -120.2 | -143.5 | -143.9 / -166.6 / -154.9 / -162.8 | -150.1 | -142.6 | -136 | +6.6 |
+| 36 | VHF | 130 | 3.120 | -124.0 | -142.1 | -145.8 / -149.0 / -146.6 / -163.2 | -154.0 | -141.9 | -136 | +5.9 |
+| 36 | VHF | 175 | 4.200 | -118.2 | -138.1 | -139.9 / -146.5 / -145.3 / -163.2 | -154.0 | -138.0 | -136 | +2.0 |
+| 36 | UHF | 400 | 3.200 | -123.7 | -146.7 | -147.3 / -168.7 / -156.2 / -165.4 | -150.1 | -145.1 | -136 | +9.1 |
+| 36 | UHF | 480 | 3.840 | -120.2 | -143.6 | -143.9 / -167.1 / -155.4 / -165.4 | -150.1 | -142.7 | -136 | +6.7 |
+
+**Worst:** VHF 175 MHz @ ref 32 MHz — total -137.8 dBc/Hz, margin +1.8 dB (was +2.8 dB SCH at VHF 175 MHz). VCO L(1 MHz) -118.2 at 4.200 GHz [PEX-RC lumped+bounds]. Gate vs −136: PASS.

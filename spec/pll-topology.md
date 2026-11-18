@@ -410,6 +410,8 @@ All within the 150 µs maximum of `spec/rf-frontend.md` (50 µs typical is met o
 
 All band edges meet the 25 W limit (−136 dBc/Hz); the 5 W limit (−129) with 10 dB or more. The tightest case is the top of VHF, where the VCO (its weakest band) dominates; the next two items are the loop-filter resistors and the charge pump. **Step 2 done.** Next: step 3 (transistor-level interface check), step 4 (spurs and summary), and the V_tune monitor comparators (D20).
 
+**P2.7.3b update (2026-11-18) [PEX-RC lumped+MODEL]** (`analog/vco/step3/run_p273b_duplex_pn.py`, `summary_pex_duplex_pn.txt`): same D19 / CP FoM −203.8 / LO floors; VCO L(1 MHz) from bank-omitted PSS with PEX lumped parasitics plus bank/det/CML bounds. Worst **VHF 175 MHz −137.8 dBc/Hz (+1.8 dB)** vs −136 (was +2.8 with SCH VCO). PASS.
+
 ### Step 3 (prepared): transistor-level closed loop
 
 `analog/pll/p26/step3/run_p26s3.py`: VCO (8-bit trimmed bank), LO buffer, CML ÷3 with the D15 enable, converter, a TSPC ripple ÷32 in place of the MMD (integer-N; the MMD and Σ-Δ are RTL), PFD, charge pump with bias generator and offset pair, the D19 loop filter scaled to 10 × the bandwidth (C / 100, R × 10) so that a few µs of transient show the loop pulling in from power-on. VCO 3.456 GHz = 3 × 32 × 36 MHz. Checks: lock, polarity, V_tune, the locked UP / DN widths, no oscillation of the loop or the bias generator.
@@ -439,7 +441,7 @@ The R3 / C3 pole (≈ 480 kHz) takes 36–38 dB off the offset-current ripple at
 | Band calibration | 8-bit bank with even steps (0.24–0.29 V of V_tune), finer counter, nearest code (D20): V_tune lands in 0.34–0.82 V at all corners; 38.8 µs | window 0.25–0.95 V (pre-D21) |
 | Band calibration at VR_ANA1 (P2.7.2c) | D24 bank + offset-off hold; pad supplies 1.108 / 1.200 / 1.295 V [HAND]; landing tt 0.361–0.936 / ss 0.244–0.897 / ff 0.457–0.970 V [MODEL] | window edges = pump 10 % compliance [SCH]: tt 0.265–1.150, ss 0.202–1.050, ff 0.341–1.250 V (`summary_compliance_vrana1.txt`) |
 | Wake | calibration + settling to 10 Hz at RF: 83–120 µs (model); with D22 amp cal **109–130 µs** `[MODEL]` (`wake_timing.py`) | ≤ 150 µs |
-| Phase noise at the duplex offset | −138.8 … −145.3 dBc/Hz at RF, worst +2.8 dB (VHF 175 MHz) | −136 dBc/Hz (25 W) |
+| Phase noise at the duplex offset | −138.8 … −145.3 dBc/Hz at RF, worst +2.8 dB (VHF 175 MHz) [P2.6 SCH]. **P2.7.3b post-layout:** −137.8 … −145.1, worst **+1.8 dB** (VHF 175) with PEX-lumped VCO + bounds (`summary_pex_duplex_pn.txt`) [PEX-RC lumped+MODEL] | −136 dBc/Hz (25 W) |
 | Spurs | reference −109 dBc, boundary −123 dBc | −67 / −95 dBc |
 | Transistor-level loop | locks from power-on (scaled filter), polarity and interfaces right | — |
 | Charge-pump noise | FoM −204 dBc/Hz (accepted; options recorded) | P2.2 assumed −218 |

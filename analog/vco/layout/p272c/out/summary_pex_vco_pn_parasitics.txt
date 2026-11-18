@@ -1,0 +1,58 @@
+# P2.7.3b PN parasitics from P2.7.3a Magic .ext [PEX-RC]
+
+Source: `out/pex_vco_top/vco_top.ext` [PEX-RC].
+
+## 1) Tail-node C vs cbf / filter node
+
+- Method: no nbf label: keep tn/tp/supply/small; filter-like (≥5 fF anon) = 21.84 fF excluded [PEX-RC].
+- Tail wiring add (all partners): **31.39 fF** [PEX-RC]
+- C(tail−tn)/C(tail−tp): 4.44 / 4.05 fF [PEX-RC]
+- C(tail−nbf): 0.00 fF; nbf substrate: 0.00 fF [PEX-RC]
+- Tail substrate node C: 86.23 fF [PEX-RC]
+- **C_tail for PN (separated): 9.55 fF** (hand line 9.9 fF) [PEX-RC]/[HAND]
+- Note: cbf (7× cmim) belongs on the bias-filter node (nbf), not the oscillating tail; do not load the PN tail with cbf area [PDK/SCH].
+
+Top tail coupling partners:
+- `a_31814_81142#`: 21.837 fF
+- `tn`: 4.438 fF
+- `tp`: 4.047 fF
+- `vdd`: 1.053 fF
+- `a_34917_74438#`: 0.009 fF
+- `ct`: 0.007 fF
+- `code4`: 0.000 fF
+- `code3`: 0.000 fF
+- `code2`: 0.000 fF
+- `code1`: 0.000 fF
+- `code0`: 0.000 fF
+- `a_32417_64534#`: 0.000 fF
+
+## 2) Inductor pad C vs substrate / MIM plate
+
+- sub(tn/tp) − Σ(cap_* W·L·1.5 on port) [PEX-RC/PDK]
+- Substrate tn/tp: 234.82 / 243.18 fF [PEX-RC]
+- MIM plate Σ on tn/tp (spice parse): 3945.9 / 3945.9 fF [PDK]
+- **Pad residual tn/tp: 0.00 / 0.00 fF** [PEX-RC]
+- Note: MIM plate Σ ≫ substrate node C because PDK devices already exclude
+  most plate area from Magicsubstrate; raw sub−Σ floors at 0. Pad C for PN
+  is carried by L2n0 EM `cp` + wiring add, not a separate pad term [PEX-RC/EM].
+
+## 3) Coupling > 1 fF (tn/tp ↔ vt, controls, tail, supply)
+
+| C (fF) | from | to |
+|---:|---|---|
+| 29.24 | tp | tn |
+| 29.24 | tn | tp |
+| 10.75 | tp | vbp |
+| 4.44 | tn | tail |
+| 4.05 | tp | tail |
+| 3.50 | tn | a_11699_111481# |
+| 3.31 | tn | vbp |
+| 2.78 | tp | vt |
+| 2.58 | tp | a_14478_60116# |
+
+## PN lumped bundle
+
+- C_side (wiring max) = **68.22 fF**, R = **0.240 Ω** [PEX-RC]
+- C_tail_pn = **9.55 fF** [PEX-RC]
+- Explicit: C(tn−tp)=29.24, C(tn/tp−vt)=0.40/2.78, C(tn/tp−vbp)=3.31/10.75, C(tn/tp−vdd)=0.49/0.26, C(tail−tn/tp)=4.44/4.05 fF [PEX-RC]
+- Wrote `out/pex_pn_lumped.json`

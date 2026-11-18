@@ -1021,3 +1021,13 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
 - Open for P2.7.3b: tail-node C (31.4 fF extracted, mixed with cbf area) separated from the
   filter node; varactor mapped to the 4-terminal PDK device where a fuller netlist is needed;
   inductor pad C separated from the substrate / MIM mix.
+
+## 2026-11-18 — P2.7.3b accepted
+- Post-layout VCO PN [PEX-RC lumped]: all five PSS / pnoise points converge and pass; worst ss
+  85 °C 4.20 GHz −118.2 dBc/Hz at 1 MHz (+2.2 dB with bank +0.59 [SCH] and CML +0.5 [HAND] bounds;
+  detector off in operation). L(100 kHz) −88.1 dBc/Hz.
+- Duplex-offset PN worst VHF 175 MHz −137.8 dBc/Hz, +1.8 dB against −136 (was +2.8 dB [SCH])
+  [MODEL]. The remaining 1.8 dB is the budget for the PLL / divider / LO-routing post-layout
+  effects; those checks report against it.
+- Tail-node C 9.55 fF (filter node separate). Full 17.5k-element PSS and in-PSS bank / CML
+  devices not required for the gate.

@@ -1,12 +1,9 @@
 # P2.7 layout notes
 
-Status: **P2.7.2c unique LVS PASS (KLayout + netgen); step-2 @35.6 PASS** (2026-11-18). Sign-off
-reference is flattened `vco_top.sch` + `lvs_setup.tcl`. vbp join accepted;
-tail clear of tn (L=99 µm, R125=2.35 Ω, C≈9.9 fF) [GDS/PDK/HAND]; intermediate
-checks = DRC + no named `|` + **pin fan-out** PASS; **KLayout + netgen unique
-PASS** after case/grid/`ps` setup (`summary_p272c_klayout_diff_step2_pass.txt`).
-Assemble outline 0.4029 mm²; island C 35.6 fF step-2 PASS [GDS/SCH/TOOL]. Next:
-P2.7.3 PEX. Chip art PASS. Blocks PASS.
+Status: **P2.7.3a** accepted; **P2.7.3b** PN PASS **[PEX-RC lumped]** (2026-11-18).
+Sign-off reference flattened `vco_top.sch` + `lvs_setup.tcl`. Full-cell bbox
+0.4624 mm² [GDS]. Next: **P2.7.3c** swing / D22 / transient peak. Chip art PASS.
+Blocks PASS.
 
 ---
 
@@ -57,7 +54,7 @@ VACASK SCH re-run done 2026-10-31 (`reports/sch-rerun-2026-10-31.md`): VCO range
 
 **VCO pnoise:** off-state **bank** bypass MOS break VACASK PSS (`summary_pss_bypass_parts.txt`; tail/var OK). Bank-omitted PN accepted to start layout: tt 3.65 −122.7 / ss85 4.20 −119.4 dBc/Hz @ 1 MHz (`summary_pn_nobank.txt`). Off-switch noise bound **closed 2026-11-01** (`summary_bound_bank_switch.txt`): tt +0.59 dB (margin +6.1 dB); ss85 Δ +0.006 dB. Detector PN bound `[HAND]` ≈ 0 dB powered down (D22); CML load `[HAND]` ≤ +0.3 dB on top of buffer +0.14 dB (`summary_real_load.txt`).
 
-**Post-layout VCO phase noise:** bank-omitted PEX + the three `[HAND]`/`[SCH]` bounds (bank switch, detector, CML), until VACASK PSS converges with those devices.
+**Post-layout VCO phase noise:** P2.7.3b PASS — bank-omitted PSS with PEX lumped C/R + the three `[HAND]`/`[SCH]` bounds (bank switch, detector, CML); Magic 2-term svaricap not used.
 
 P2.3 closed 2026-11-11 (real LO load; D1 keep NMOS).
 
@@ -913,14 +910,23 @@ Schematic PDK devices + extracted wiring C/R lumped per tank net. 15-corner
 margins ≥ 40 MHz (worst top **143 MHz**, bot **78 MHz**); overlap PASS;
 boundary ≤½ LSB PASS; D20 proxy PASS.  
 **Die:** full-cell bbox **0.4624 mm²** [GDS] → floorplan §8.  
-**Next:** P2.7.3b post-layout PN (separate tail vs cbf C; map svaricap if needed).
+**Next:** P2.7.3b (done below).
 
-#### P2.7.3b — phase noise (open)
-**Inputs:** P2.7.3a PEX / lumped.  
-**Outputs:** `out/summary_pex_vco_pn.txt`.  
+#### P2.7.3b — phase noise (2026-11-18) — PASS [PEX-RC lumped]
+**Inputs:** P2.7.3a PEX / `pex_pn_lumped.json`.  
+**Parasitics** (`summary_pex_vco_pn_parasitics.txt`): C_tail_pn **9.55 fF**
+(separated from cbf/filter anon 21.84 fF); pad residual **0**; couplings ≥1 fF
+listed [PEX-RC].  
+**Netlist:** sch PDK + L2n0 EM + lumped C/R/tail/couplings; bank bypass omitted;
+PDK 4-terminal svaricap (Magic 2-term not used) [TOOL].  
+**Outputs:** `summary_pex_vco_pn.txt`, `summary_pex_duplex_pn.txt`,
+`pex_pn_l1m.json`.  
 **Pass:**
-- PN: bank-omitted PEX pnoise + bank-switch bound (≤ +0.59 dB tt) + detector `[HAND]` + CML `[HAND]` ≤ +0.5 dB → still meet **−116 / −115 dBc/Hz @ 1 MHz** and duplex totals; ss85 worst margin stays **> 0** (today ≈ +3.3 dB SCH).
-**Re-run:** bank-omitted PSS/pnoise at tt 3.65 and ss85 4.20.
+- PSS/pnoise all five points; with bank +0.59 [SCH] + det 0 + CML +0.5 [HAND]:
+  worst **+2.2 dB** (ss85 4.20, −118.2 vs −116) [PEX-RC lumped].
+- Duplex worst **+1.8 dB** at VHF 175 (−137.8 vs −136) [MODEL] (was +2.8 SCH).
+**Hand bounds** not re-sim'd in PEX netlist (bank omitted); kept [SCH]/[HAND].  
+**Next:** P2.7.3c swing / D22 / transient peak.
 
 ### P2.7.4 — xschem + layout: LO buffer, CML ÷2/÷3, converter, TSPC/Johnson
 **Inputs:** `analog/lo/step3/`; floorplan.  
