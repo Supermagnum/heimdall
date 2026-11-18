@@ -58,289 +58,39 @@ Class vco_top (1):  Merged 3 parallel devices.
 Subcircuit summary:
 Circuit 1: vco_top                         |Circuit 2: vco_top                         
 -------------------------------------------|-------------------------------------------
-sg13_lv_nmos (75->65)                      |sg13_lv_nmos (65->63) **Mismatch**         
-cap_rfcmim (24)                            |cap_rfcmim (24->22) **Mismatch**           
+sg13_lv_nmos (75->65)                      |sg13_lv_nmos (67->65)                      
+cap_rfcmim (24)                            |cap_rfcmim (24)                            
 rhigh (33)                                 |rhigh (33)                                 
 cap_cmim (16->10)                          |cap_cmim (16->10)                          
 sg13_hv_svaricap (2->1)                    |sg13_hv_svaricap (2->1)                    
 sg13_lv_pmos (106)                         |sg13_lv_pmos (106)                         
-Number of devices: 239 **Mismatch**        |Number of devices: 235 **Mismatch**        
-Number of nets: 142 **Mismatch**           |Number of nets: 139 **Mismatch**           
+Number of devices: 239                     |Number of devices: 239                     
+Number of nets: 144 **Mismatch**           |Number of nets: 145 **Mismatch**           
 ---------------------------------------------------------------------------------------
 NET mismatches: Class fragments follow (with fanout counts):
 Circuit 1: vco_top                         |Circuit 2: vco_top                         
 
 ---------------------------------------------------------------------------------------
-Net: tail                                  |Net: tail                                  
-  sg13_lv_nmos/(drain|source) = 3          |  sg13_lv_nmos/(drain|source) = 1          
+Net: tp                                    |Net: tp                                    
+  sg13_lv_nmos/gate = 2                    |  sg13_lv_nmos/gate = 2                    
+  sg13_lv_nmos/(drain|source) = 1          |  sg13_lv_nmos/(drain|source) = 1          
+  cap_cmim/top = 3                         |  cap_cmim/top = 3                         
+  cap_rfcmim/1 = 11                        |  cap_rfcmim/1 = 11                        
                                            |                                           
-Net: tn                                    |Net: \$14                                  
-  sg13_lv_nmos/gate = 2                    |  sg13_lv_nmos/(drain|source) = 2          
-  sg13_lv_nmos/(drain|source) = 1          |  rhigh/(1|2) = 1                          
-  cap_rfcmim/1 = 11                        |  cap_rfcmim/2 = 1                         
-  cap_cmim/top = 3                         |                                           
-                                           |                                           
-Net: tp                                    |Net: \$18                                  
+Net: tn                                    |Net: tn                                    
+  sg13_lv_nmos/gate = 2                    |  sg13_lv_nmos/gate = 2                    
   sg13_lv_nmos/(drain|source) = 1          |  sg13_lv_nmos/(drain|source) = 2          
-  sg13_lv_nmos/gate = 2                    |  rhigh/(1|2) = 1                          
-  cap_rfcmim/1 = 11                        |  cap_rfcmim/2 = 1                         
-  cap_cmim/top = 3                         |                                           
+  cap_cmim/top = 3                         |  cap_cmim/top = 3                         
+  cap_rfcmim/1 = 11                        |  cap_rfcmim/1 = 11                        
                                            |                                           
-Net: vco_core_tank:c/fx                    |Net: \$15                                  
-  cap_rfcmim/2 = 2                         |  sg13_lv_nmos/(drain|source) = 2          
-  rhigh/(1|2) = 1                          |  rhigh/(1|2) = 1                          
-                                           |  cap_rfcmim/2 = 1                         
-                                           |                                           
-Net: vco_bank:b/b10                        |Net: \$19                                  
-  cap_rfcmim/2 = 1                         |  sg13_lv_nmos/(drain|source) = 2          
-  sg13_lv_nmos/(drain|source) = 2          |  rhigh/(1|2) = 1                          
-  rhigh/(1|2) = 1                          |  cap_rfcmim/2 = 1                         
-                                           |                                           
-Net: vco_bank:b/a10                        |Net: \$16                                  
-  cap_rfcmim/2 = 1                         |  sg13_lv_nmos/(drain|source) = 2          
-  sg13_lv_nmos/(drain|source) = 2          |  rhigh/(1|2) = 1                          
-  rhigh/(1|2) = 1                          |  cap_rfcmim/2 = 1                         
-                                           |                                           
-Net: vco_bank:b/a3                         |Net: \$96                                  
-  cap_rfcmim/2 = 1                         |  sg13_lv_nmos/(drain|source) = 2          
-  sg13_lv_nmos/(drain|source) = 2          |  rhigh/(1|2) = 1                          
-  rhigh/(1|2) = 1                          |  cap_rfcmim/2 = 1                         
-                                           |                                           
-Net: vco_bank:b/b3                         |Net: \$103                                 
-  cap_rfcmim/2 = 1                         |  sg13_lv_nmos/(drain|source) = 2          
-  sg13_lv_nmos/(drain|source) = 2          |  rhigh/(1|2) = 1                          
-  rhigh/(1|2) = 1                          |  cap_rfcmim/2 = 1                         
-                                           |                                           
-Net: vco_bank:b/a4                         |Net: \$98                                  
-  cap_rfcmim/2 = 1                         |  sg13_lv_nmos/(drain|source) = 2          
-  sg13_lv_nmos/(drain|source) = 2          |  rhigh/(1|2) = 1                          
-  rhigh/(1|2) = 1                          |  cap_rfcmim/2 = 1                         
-                                           |                                           
-Net: vco_bank:b/b4                         |Net: \$104                                 
-  cap_rfcmim/2 = 1                         |  sg13_lv_nmos/(drain|source) = 2          
-  sg13_lv_nmos/(drain|source) = 2          |  rhigh/(1|2) = 1                          
-  rhigh/(1|2) = 1                          |  cap_rfcmim/2 = 1                         
-                                           |                                           
-Net: vco_bank:b/a5                         |Net: \$100                                 
-  cap_rfcmim/2 = 1                         |  sg13_lv_nmos/(drain|source) = 2          
-  sg13_lv_nmos/(drain|source) = 2          |  rhigh/(1|2) = 1                          
-  rhigh/(1|2) = 1                          |  cap_rfcmim/2 = 1                         
-                                           |                                           
-Net: vco_bank:b/b5                         |Net: \$105                                 
-  cap_rfcmim/2 = 1                         |  sg13_lv_nmos/(drain|source) = 2          
-  sg13_lv_nmos/(drain|source) = 2          |  rhigh/(1|2) = 1                          
-  rhigh/(1|2) = 1                          |  cap_rfcmim/2 = 1                         
-                                           |                                           
-Net: vco_bank:b/a6                         |Net: \$102                                 
-  cap_rfcmim/2 = 1                         |  sg13_lv_nmos/(drain|source) = 2          
-  sg13_lv_nmos/(drain|source) = 2          |  rhigh/(1|2) = 1                          
-  rhigh/(1|2) = 1                          |  cap_rfcmim/2 = 1                         
-                                           |                                           
-Net: vco_bank:b/b6                         |Net: \$194                                 
-  cap_rfcmim/2 = 1                         |  sg13_lv_nmos/(drain|source) = 2          
-  sg13_lv_nmos/(drain|source) = 2          |  rhigh/(1|2) = 1                          
-  rhigh/(1|2) = 1                          |  cap_rfcmim/2 = 1                         
-                                           |                                           
-Net: vco_bank:b/a7                         |Net: \$189                                 
-  cap_rfcmim/2 = 1                         |  sg13_lv_nmos/(drain|source) = 2          
-  sg13_lv_nmos/(drain|source) = 2          |  rhigh/(1|2) = 1                          
-  rhigh/(1|2) = 1                          |  cap_rfcmim/2 = 1                         
-                                           |                                           
-Net: vco_bank:b/b7                         |Net: \$195                                 
-  cap_rfcmim/2 = 1                         |  sg13_lv_nmos/(drain|source) = 2          
-  sg13_lv_nmos/(drain|source) = 2          |  rhigh/(1|2) = 1                          
-  rhigh/(1|2) = 1                          |  cap_rfcmim/2 = 1                         
-                                           |                                           
-Net: vco_bank:b/a8                         |Net: \$190                                 
-  cap_rfcmim/2 = 1                         |  sg13_lv_nmos/(drain|source) = 2          
-  sg13_lv_nmos/(drain|source) = 2          |  rhigh/(1|2) = 1                          
-  rhigh/(1|2) = 1                          |  cap_rfcmim/2 = 1                         
-                                           |                                           
-Net: hold                                  |Net: hold                                  
+Net: tail                                  |Net: tail                                  
   sg13_lv_nmos/(drain|source) = 3          |  sg13_lv_nmos/(drain|source) = 2          
-  cap_cmim/top = 1                         |  cap_cmim/top = 1                         
-  sg13_lv_nmos/gate = 1                    |  sg13_lv_nmos/gate = 1                    
-                                           |                                           
-Net: vco_bank:b/a9                         |Net: \$581                                 
-  cap_rfcmim/2 = 1                         |  sg13_lv_nmos/gate = 2                    
-  sg13_lv_nmos/(drain|source) = 2          |                                           
-  rhigh/(1|2) = 1                          |                                           
-                                           |                                           
-Net: vco_bank:b/b9                         |Net: \$298                                 
-  cap_rfcmim/2 = 1                         |  rhigh/(1|2) = 1                          
-  sg13_lv_nmos/(drain|source) = 2          |  cap_rfcmim/2 = 1                         
-  rhigh/(1|2) = 1                          |                                           
                                            |                                           
 Net: vbp                                   |Net: vbp                                   
   sg13_lv_nmos/gate = 26                   |  sg13_lv_nmos/gate = 24                   
                                            |                                           
-Net: gnd                                   |Net: gnd                                   
-  sg13_lv_nmos/bulk = 65                   |  sg13_lv_nmos/bulk = 63                   
-  sg13_lv_nmos/(drain|source) = 10         |  sg13_lv_nmos/(drain|source) = 14         
-  sg13_lv_nmos/gate = 4                    |  sg13_lv_nmos/gate = 4                    
-  cap_rfcmim/3 = 24                        |  cap_rfcmim/3 = 22                        
-  rhigh/(1|2) = 3                          |  rhigh/(1|2) = 5                          
-  rhigh/3 = 33                             |  rhigh/3 = 33                             
-  cap_rfcmim/1 = 2                         |  cap_rfcmim/1 = 2                         
-  sg13_hv_svaricap/4 = 1                   |  sg13_hv_svaricap/4 = 1                   
-  cap_cmim/bottom = 4                      |  cap_cmim/bottom = 4                      
-                                           |  cap_rfcmim/2 = 1                         
-                                           |                                           
-Net: vco_bank:b/a11                        |Net: tn|tp|vdd                             
-  cap_rfcmim/2 = 1                         |  sg13_lv_nmos/(drain|source) = 4          
-  sg13_lv_nmos/(drain|source) = 2          |  sg13_lv_nmos/gate = 2                    
-  rhigh/(1|2) = 1                          |  sg13_lv_pmos/(drain|source) = 55         
-                                           |  sg13_lv_pmos/bulk = 106                  
-                                           |  rhigh/(1|2) = 3                          
-                                           |  cap_cmim/top = 6                         
-                                           |  cap_rfcmim/1 = 20                        
-                                           |                                           
-Net: vco_bank:b/b11                        |(no matching net)                          
-  cap_rfcmim/2 = 1                         |                                           
-  sg13_lv_nmos/(drain|source) = 2          |                                           
-  rhigh/(1|2) = 1                          |                                           
-                                           |                                           
-Net: vco_bank:b/b8                         |(no matching net)                          
-  cap_rfcmim/2 = 1                         |                                           
-  sg13_lv_nmos/(drain|source) = 2          |                                           
-  rhigh/(1|2) = 1                          |                                           
-                                           |                                           
-Net: vdd                                   |(no matching net)                          
-  sg13_lv_pmos/(drain|source) = 55         |                                           
-  sg13_lv_pmos/bulk = 106                  |                                           
-  sg13_lv_nmos/(drain|source) = 3          |                                           
-  rhigh/(1|2) = 3                          |                                           
----------------------------------------------------------------------------------------
-DEVICE mismatches: Class fragments follow (with node fanout counts):
-Circuit 1: vco_top                         |Circuit 2: vco_top                         
-
----------------------------------------------------------------------------------------
-Instance: vco_core_tank:c/sg13_lv_nmos:m1  |Instance: sg13_lv_nmos:$823                
-  (drain,source) = (17,3)                  |  (drain,source) = (149,149)               
-  gate = 17                                |  gate = 149                               
-  bulk = 146                               |  bulk = 149                               
-                                           |                                           
-Instance: vco_core_tank:c/sg13_lv_nmos:m2  |Instance: sg13_lv_nmos:$824                
-  (drain,source) = (17,3)                  |  (drain,source) = (196,4)                 
-  gate = 17                                |  gate = 196                               
-  bulk = 146                               |  bulk = 149                               
-                                           |                                           
-Instance: vco_core_tank:c/sg13_lv_nmos:dum |Instance: sg13_lv_nmos:$880                
-  (drain,source) = (146,146)               |  (drain,source) = (196,1)                 
-  gate = 146                               |  gate = 196                               
-  bulk = 146                               |  bulk = 149                               
-                                           |                                           
-Instance: ampcal_det:d/sg13_lv_nmos:mdtp   |Instance: cap_rfcmim:$1263                 
-  (drain,source) = (167,5)                 |  1 = 196                                  
-  gate = 17                                |  2 = 149                                  
-  bulk = 146                               |  3 = 149                                  
-                                           |                                           
-                                           |                                           
-Instance: ampcal_det:d/sg13_lv_nmos:mdtn   |Instance: cap_rfcmim:$1264                 
-  (drain,source) = (167,5)                 |  1 = 196                                  
-  gate = 17                                |  2 = 4                                    
-  bulk = 146                               |  3 = 149                                  
-                                           |                                           
-                                           |                                           
-Instance: vco_core_tank:c/cap_rfcmim:xf1   |Instance: cap_rfcmim:$1265                 
-  1 = 17                                   |  1 = 196                                  
-  2 = 3                                    |  2 = 4                                    
-  3 = 146                                  |  3 = 149                                  
-                                           |                                           
-Instance: vco_core_tank:c/cap_rfcmim:xf2   |Instance: cap_rfcmim:$1266                 
-  1 = 17                                   |  1 = 196                                  
-  2 = 3                                    |  2 = 4                                    
-  3 = 146                                  |  3 = 149                                  
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb3p       |Instance: cap_rfcmim:$1267                 
-  1 = 17                                   |  1 = 196                                  
-  2 = 4                                    |  2 = 4                                    
-  3 = 146                                  |  3 = 149                                  
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb3n       |Instance: cap_rfcmim:$1268                 
-  1 = 17                                   |  1 = 196                                  
-  2 = 4                                    |  2 = 4                                    
-  3 = 146                                  |  3 = 149                                  
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb4p       |Instance: cap_rfcmim:$1272                 
-  1 = 17                                   |  1 = 196                                  
-  2 = 4                                    |  2 = 4                                    
-  3 = 146                                  |  3 = 149                                  
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb4n       |Instance: cap_rfcmim:$1273                 
-  1 = 17                                   |  1 = 196                                  
-  2 = 4                                    |  2 = 4                                    
-  3 = 146                                  |  3 = 149                                  
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb5p       |Instance: cap_rfcmim:$1274                 
-  1 = 17                                   |  1 = 196                                  
-  2 = 4                                    |  2 = 4                                    
-  3 = 146                                  |  3 = 149                                  
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb5n       |Instance: cap_rfcmim:$1275                 
-  1 = 17                                   |  1 = 196                                  
-  2 = 4                                    |  2 = 4                                    
-  3 = 146                                  |  3 = 149                                  
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb6p       |Instance: cap_rfcmim:$1276                 
-  1 = 17                                   |  1 = 196                                  
-  2 = 4                                    |  2 = 4                                    
-  3 = 146                                  |  3 = 149                                  
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb6n       |Instance: cap_rfcmim:$1277                 
-  1 = 17                                   |  1 = 196                                  
-  2 = 4                                    |  2 = 4                                    
-  3 = 146                                  |  3 = 149                                  
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb7p       |Instance: cap_rfcmim:$1278                 
-  1 = 17                                   |  1 = 196                                  
-  2 = 4                                    |  2 = 4                                    
-  3 = 146                                  |  3 = 149                                  
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb7n       |Instance: cap_rfcmim:$1279                 
-  1 = 17                                   |  1 = 196                                  
-  2 = 4                                    |  2 = 2                                    
-  3 = 146                                  |  3 = 149                                  
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb8p       |Instance: cap_rfcmim:$1282                 
-  1 = 17                                   |  1 = 196                                  
-  2 = 4                                    |  2 = 4                                    
-  3 = 146                                  |  3 = 149                                  
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb8n       |Instance: cap_rfcmim:$1283                 
-  1 = 17                                   |  1 = 196                                  
-  2 = 4                                    |  2 = 4                                    
-  3 = 146                                  |  3 = 149                                  
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb9p       |Instance: cap_rfcmim:$1285                 
-  1 = 17                                   |  1 = 196                                  
-  2 = 4                                    |  2 = 4                                    
-  3 = 146                                  |  3 = 149                                  
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb9n       |Instance: cap_rfcmim:$1286                 
-  1 = 17                                   |  1 = 196                                  
-  2 = 4                                    |  2 = 4                                    
-  3 = 146                                  |  3 = 149                                  
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb10p      |(no matching instance)                     
-  1 = 17                                   |                                           
-  2 = 4                                    |                                           
-  3 = 146                                  |                                           
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb10n      |(no matching instance)                     
-  1 = 17                                   |                                           
-  2 = 4                                    |                                           
-  3 = 146                                  |                                           
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb11p      |(no matching instance)                     
-  1 = 17                                   |                                           
-  2 = 4                                    |                                           
-  3 = 146                                  |                                           
-                                           |                                           
-Instance: vco_bank:b/cap_rfcmim:xb11n      |(no matching instance)                     
-  1 = 17                                   |                                           
-  2 = 4                                    |                                           
-  3 = 146                                  |                                           
+(no matching net)                          |Net: \$581                                 
+                                           |  sg13_lv_nmos/gate = 2                    
 ---------------------------------------------------------------------------------------
 Netlists do not match.
 Port matching may fail to disambiguate symmetries.
@@ -348,13 +98,40 @@ Port matching may fail to disambiguate symmetries.
 Subcircuit pins:
 Circuit 1: vco_top                         |Circuit 2: vco_top                         
 -------------------------------------------|-------------------------------------------
-tp                                         |tail **Mismatch**                          
-tn                                         |(no pin, node is \$14)                     
-tail                                       |(no pin, node is \$18)                     
-gnd                                        |(no pin, node is \$19)                     
-vbp                                        |(no pin, node is \$16)                     
-Cell pin lists are equivalent.
+tp                                         |tp                                         
+tn                                         |tail **Mismatch**                          
+tail                                       |(no pin, node is \$581)                    
+vbp                                        |vbp                                        
+code1                                      |code1                                      
+rep                                        |rep                                        
+cmp                                        |cmp                                        
+hold                                       |hold                                       
+en                                         |en                                         
+code4                                      |code4                                      
+code3                                      |code3                                      
+vdd                                        |vdd                                        
+code2                                      |code2                                      
+gnd                                        |gnd                                        
+ct                                         |ct                                         
+vthn                                       |vthn                                       
+vbp_tail                                   |vbp_tail                                   
+g3                                         |g5 **Mismatch**                            
+g4                                         |g6 **Mismatch**                            
+g5                                         |g7 **Mismatch**                            
+g6                                         |g8 **Mismatch**                            
+g7                                         |g9 **Mismatch**                            
+g8                                         |g10 **Mismatch**                           
+g9                                         |g11 **Mismatch**                           
+g10                                        |g3 **Mismatch**                            
+g11                                        |g4 **Mismatch**                            
+g0                                         |g0                                         
+g1                                         |g1                                         
+g2                                         |g2                                         
+code0                                      |code0                                      
+vt                                         |vt                                         
+(no pin, node is vbp)                      |tn                                         
+---------------------------------------------------------------------------------------
+Cell pin lists for vco_top and vco_top altered to match.
 Device classes vco_top and vco_top are equivalent.
 
-Final result: Netlists do not match.
-Port matching may fail to disambiguate symmetries.
+Final result: Top level cell failed pin matching.

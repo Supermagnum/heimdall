@@ -23,7 +23,7 @@ line number 176 = '.subckt cbf nbf gnd'
 Missing .ENDS statement on subcircuit.
 line number 178 = '.subckt tail_block tail vdd gnd vbp_tail nb nbf pbias xraw code_gnd code0 code1 code2 code3 code4 code_vdd ss tail_f'
 Missing .ENDS statement on subcircuit.
-line number 187 = '.subckt vco_var tp tn W vbp gnd G1 G2'
+line number 187 = '.subckt vco_var tp tn W vbp gnd vgp vgn'
 Call to undefined subcircuit sg13_hv_svaricap
 Creating placeholder cell definition.
 Missing .ENDS statement on subcircuit.
@@ -133,8 +133,6 @@ Logging to file "/foss/designs/analog/vco/layout/p272c/out/netgen_vco_top.json" 
 Circuit rhigh contains no devices.
 Circuit cap_rfcmim contains no devices.
 Circuit sg13_hv_svaricap contains no devices.
-Duplicate pin g1 in cell vco_top (1)
-Duplicate pin g2 in cell vco_top (1)
 
 Contents of circuit 1:  Circuit: 'vco_top'
 Circuit vco_top contains 250 device instances.
@@ -144,16 +142,16 @@ Circuit vco_top contains 250 device instances.
   Class: sg13_lv_pmos          instances: 106
   Class: sg13_lv_nmos          instances:  75
   Class: cap_cmim              instances:  10
-Circuit contains 142 nets.
+Circuit contains 144 nets.
 Contents of circuit 2:  Circuit: 'vco_top'
-Circuit vco_top contains 241 device instances.
+Circuit vco_top contains 242 device instances.
   Class: sg13_hv_svaricap      instances:   2
-  Class: cap_rfcmim            instances:  23
+  Class: cap_rfcmim            instances:  24
   Class: rhigh                 instances:  33
   Class: sg13_lv_pmos          instances: 106
   Class: sg13_lv_nmos          instances:  67
   Class: cap_cmim              instances:  10
-Circuit contains 141 nets.
+Circuit contains 145 nets.
 
 Circuit was modified by parallel/series device merging.
 New circuit summary:
@@ -166,19 +164,19 @@ Circuit vco_top contains 239 device instances.
   Class: sg13_lv_pmos          instances: 106
   Class: sg13_lv_nmos          instances:  65
   Class: cap_cmim              instances:  10
-Circuit contains 142 nets.
+Circuit contains 144 nets.
 Contents of circuit 2:  Circuit: 'vco_top'
-Circuit vco_top contains 238 device instances.
+Circuit vco_top contains 239 device instances.
   Class: sg13_hv_svaricap      instances:   1
-  Class: cap_rfcmim            instances:  23
+  Class: cap_rfcmim            instances:  24
   Class: rhigh                 instances:  33
   Class: sg13_lv_pmos          instances: 106
   Class: sg13_lv_nmos          instances:  65
   Class: cap_cmim              instances:  10
-Circuit contains 141 nets.
+Circuit contains 145 nets.
 
-Circuit 1 contains 239 devices, Circuit 2 contains 238 devices. *** MISMATCH ***
-Circuit 1 contains 142 nets,    Circuit 2 contains 141 nets. *** MISMATCH ***
+Circuit 1 contains 239 devices, Circuit 2 contains 239 devices.
+Circuit 1 contains 144 nets,    Circuit 2 contains 145 nets. *** MISMATCH ***
 
 
 Final result: 

@@ -1,0 +1,6 @@
+cfix=157.6875 island=35.6 C_side=96.13 [SCH/range.json]
+  top: f=4.3040 GHz margin=104.0 MHz Amp=1.44 PASS=True
+  bot: f=3.0279 GHz margin=92.1 MHz Amp=1.09 PASS=True
+Wrote /foss/designs/analog/vco/step3/out/summary_p272c_band_d20_island35p6.txt
+Wrote /foss/designs/analog/vco/step3/../layout/p272c/out/summary_p272c_band_d20_island35p6.txt
+OVERALL PASS

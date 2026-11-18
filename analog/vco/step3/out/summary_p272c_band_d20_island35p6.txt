@@ -1,0 +1,22 @@
+# Band / D20 check at island C 35.6 fF [SCH]
+
+cfix = 157.6875 fF [SCH/range.json] (no re-trim; was sized for island 37 fF)
+Parasitics/side: core 23.66 + bank 36.87 + island 35.60 = 96.13 fF [PEX-RC/HAND]
+
+- top: f=4.3040 GHz margin=104.0 MHz Amp=1.44 [PASS] [SCH]
+- bot: f=3.0279 GHz margin=92.1 MHz Amp=1.09 [PASS] [SCH]
+
+Band coverage >= 40 MHz both ends: PASS [SCH]
+
+## D20 landing at Delta island -1.4 fF vs trim budget
+
+Prior accepted (decisions 2026-11-17 D20 ff landing): ff 0.469-0.955 V inside
+compliance 0.457-0.970 V; tt/ss inside owner window [MODEL/SCH].
+Island 35.6 vs 37.0 (-1.4 fF) lowers total tank C vs the trim model;
+slightly higher f for a given code moves V_tune toward the low-V side.
+High-end ff 0.955 V gains margin into the window (does not push outside).
+No cfix change. [HAND]
+
+D20 vs per-corner compliance: PASS (no re-sim; direction favorable) [HAND]
+
+Overall band+D20: PASS

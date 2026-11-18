@@ -1,9 +1,8 @@
 # P2.7 layout notes
 
-Status: **P2.7.2c varactor / detector pack** (2026-11-17). Short east tail
-accepted (`53b069e`). `gnd|vbp` after power: separate [TOOL]
-(`summary_p272c_gnd_vbp.txt`). Island C budget ≤ 50 fF/side if needed
-[decisions]. Placement plan below; unique LVS in progress. Chip art PASS.
+Status: **P2.7.2c rfcmim/join STOP** (2026-11-18). rfcmim 24=24 + g1/g2 unique
+PASS; band@35.6 PASS; outline 0.4029 mm²; island C 35.6/35.6 fF [GDS/SCH/TOOL].
+Unique LVS FAIL at tn_tp (`summary_p272c_rfcmim_join_stop.txt`). Chip art PASS.
 Blocks PASS.
 
 ---

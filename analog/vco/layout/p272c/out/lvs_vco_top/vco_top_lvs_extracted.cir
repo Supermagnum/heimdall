@@ -1,61 +1,60 @@
-* Extracted by KLayout with SG13G2 LVS runset on : 17/11/2026 21:10
+* Extracted by KLayout with SG13G2 LVS runset on : 18/11/2026 03:57
 
-.SUBCKT vco_top G1 G2 W bb0 bb1 bb10 bb11 bb2 bb3 bb4 bb5 bb6 bb7 bb8 bb9 cmp
-+ code0 code1 code2 code3 code4 ct en g0 g1 g10 g11 g2 g3 g4 g5 g6 g7 g8 g9 gnd
-+ hold rep tail tn tp vbp vbp_tail vdd vthn
-M$1 bb5 vbp gnd gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p PS=3.18u
+.SUBCKT vco_top cmp code0 code1 code2 code3 code4 ct en g0 g1 g10 g11 g2 g3 g4
++ g5 g6 g7 g8 g9 gnd hold rep tail tn tp vbp vbp_tail vdd vt vthn
+M$1 \$11 vbp \$18 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p PS=3.18u
 + PD=3.18u rfmode=0
-M$2 gnd g5 \$14 gnd sg13_lv_nmos L=0.13u W=308.5u AS=59.07775p AD=59.07775p
+M$2 \$18 g5 \$14 gnd sg13_lv_nmos L=0.13u W=308.5u AS=59.07775p AD=59.07775p
 + PS=349.885u PD=349.885u rfmode=0
-M$102 \$14 vbp bb5 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
+M$102 \$14 vbp \$11 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
 + PS=3.18u PD=3.18u rfmode=0
-M$103 bb6 vbp \$18 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
+M$103 \$12 vbp \$19 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
 + PS=3.18u PD=3.18u rfmode=0
-M$104 \$18 g6 \$15 gnd sg13_lv_nmos L=0.13u W=308.5u AS=59.07775p AD=59.07775p
+M$104 \$19 g6 \$15 gnd sg13_lv_nmos L=0.13u W=308.5u AS=59.07775p AD=59.07775p
 + PS=349.885u PD=349.885u rfmode=0
-M$204 \$15 vbp bb6 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
+M$204 \$15 vbp \$12 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
 + PS=3.18u PD=3.18u rfmode=0
-M$205 bb7 vbp \$19 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
+M$205 \$13 vbp \$20 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
 + PS=3.18u PD=3.18u rfmode=0
-M$206 \$19 g7 \$16 gnd sg13_lv_nmos L=0.13u W=308.5u AS=59.07775p AD=59.07775p
+M$206 \$20 g7 \$16 gnd sg13_lv_nmos L=0.13u W=308.5u AS=59.07775p AD=59.07775p
 + PS=349.885u PD=349.885u rfmode=0
-M$306 \$16 vbp bb7 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
+M$306 \$16 vbp \$13 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
 + PS=3.18u PD=3.18u rfmode=0
-M$307 bb8 vbp gnd gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p PS=3.18u
-+ PD=3.18u rfmode=0
-M$308 gnd g8 \$97 gnd sg13_lv_nmos L=0.13u W=308.5u AS=59.07775p AD=59.07775p
+M$307 \$97 vbp \$105 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
++ PS=3.18u PD=3.18u rfmode=0
+M$308 \$105 g8 \$98 gnd sg13_lv_nmos L=0.13u W=308.5u AS=59.07775p AD=59.07775p
 + PS=349.885u PD=349.885u rfmode=0
-M$408 \$97 vbp bb8 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
+M$408 \$98 vbp \$97 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
 + PS=3.18u PD=3.18u rfmode=0
-M$409 bb9 vbp \$104 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
+M$409 \$99 vbp \$106 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
 + PS=3.18u PD=3.18u rfmode=0
-M$410 \$104 g9 \$99 gnd sg13_lv_nmos L=0.13u W=308.5u AS=59.07775p AD=59.07775p
-+ PS=349.885u PD=349.885u rfmode=0
-M$510 \$99 vbp bb9 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
-+ PS=3.18u PD=3.18u rfmode=0
-M$511 bb10 vbp \$105 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
-+ PS=3.18u PD=3.18u rfmode=0
-M$512 \$105 g10 \$101 gnd sg13_lv_nmos L=0.13u W=308.5u AS=59.07775p
+M$410 \$106 g9 \$100 gnd sg13_lv_nmos L=0.13u W=308.5u AS=59.07775p
 + AD=59.07775p PS=349.885u PD=349.885u rfmode=0
-M$612 \$101 vbp bb10 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
+M$510 \$100 vbp \$99 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
 + PS=3.18u PD=3.18u rfmode=0
-M$613 bb11 vbp \$106 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
+M$511 \$101 vbp \$107 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
 + PS=3.18u PD=3.18u rfmode=0
-M$614 gnd gnd \$20 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
-+ PS=3.18u PD=3.18u rfmode=0
-M$615 \$106 g11 \$103 gnd sg13_lv_nmos L=0.13u W=308.5u AS=59.07775p
+M$512 \$107 g10 \$102 gnd sg13_lv_nmos L=0.13u W=308.5u AS=59.07775p
 + AD=59.07775p PS=349.885u PD=349.885u rfmode=0
-M$715 \$20 gnd \$17 gnd sg13_lv_nmos L=0.13u W=308.5u AS=59.07775p AD=59.07775p
+M$612 \$102 vbp \$101 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
++ PS=3.18u PD=3.18u rfmode=0
+M$613 \$103 vbp \$108 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
++ PS=3.18u PD=3.18u rfmode=0
+M$614 gnd gnd \$21 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
++ PS=3.18u PD=3.18u rfmode=0
+M$615 \$108 g11 \$104 gnd sg13_lv_nmos L=0.13u W=308.5u AS=59.07775p
++ AD=59.07775p PS=349.885u PD=349.885u rfmode=0
+M$715 \$21 gnd \$17 gnd sg13_lv_nmos L=0.13u W=308.5u AS=59.07775p AD=59.07775p
 + PS=349.885u PD=349.885u rfmode=0
-M$815 \$103 vbp bb11 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
+M$815 \$104 vbp \$103 gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
 + PS=3.18u PD=3.18u rfmode=0
 M$816 \$17 gnd gnd gnd sg13_lv_nmos L=0.13u W=1.25u AS=0.425p AD=0.425p
 + PS=3.18u PD=3.18u rfmode=0
-M$817 bb0 vbp \$192 gnd sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p AD=0.1005p
+M$817 \$184 vbp \$194 gnd sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p AD=0.1005p
 + PS=1.34u PD=1.34u rfmode=0
-M$818 \$192 g0 \$187 gnd sg13_lv_nmos L=0.13u W=10.32u AS=2.3478p AD=2.3478p
+M$818 \$194 g0 \$185 gnd sg13_lv_nmos L=0.13u W=10.32u AS=2.3478p AD=2.3478p
 + PS=14.72u PD=14.72u rfmode=0
-M$822 \$187 vbp bb0 gnd sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p AD=0.1005p
+M$822 \$185 vbp \$184 gnd sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p AD=0.1005p
 + PS=1.34u PD=1.34u rfmode=0
 M$823 gnd gnd gnd gnd sg13_lv_nmos L=0.13u W=9u AS=3.06p AD=3.06p PS=20.72u
 + PD=20.72u rfmode=0
@@ -65,356 +64,357 @@ M$825 vdd ct rep gnd sg13_lv_nmos L=0.13u W=1u AS=0.34p AD=0.34p PS=3.36u
 + PD=3.36u rfmode=0
 M$827 vdd tn hold gnd sg13_lv_nmos L=0.13u W=0.5u AS=0.17p AD=0.17p PS=1.68u
 + PD=1.68u rfmode=0
-M$829 bb1 vbp \$193 gnd sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p AD=0.1005p
+M$829 \$186 vbp \$195 gnd sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p AD=0.1005p
 + PS=1.34u PD=1.34u rfmode=0
-M$830 \$193 g1 \$188 gnd sg13_lv_nmos L=0.13u W=19.8u AS=4.13325p AD=4.13325p
+M$830 \$195 g1 \$187 gnd sg13_lv_nmos L=0.13u W=19.8u AS=4.13325p AD=4.13325p
 + PS=25.615u PD=25.615u rfmode=0
 M$838 gnd gnd gnd gnd sg13_lv_nmos L=0.5u W=4u AS=1.36p AD=1.36p PS=9.36u
 + PD=9.36u rfmode=0
-M$839 \$188 vbp bb1 gnd sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p AD=0.1005p
+M$839 \$187 vbp \$186 gnd sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p AD=0.1005p
 + PS=1.34u PD=1.34u rfmode=0
-M$840 \$525 hold \$524 gnd sg13_lv_nmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
+M$840 \$527 hold \$526 gnd sg13_lv_nmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
 + PD=7.06u rfmode=0
-M$842 \$550 \$526 \$528 gnd sg13_lv_nmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
+M$842 \$552 \$528 \$530 gnd sg13_lv_nmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
 + PD=7.06u rfmode=0
-M$844 cmp \$525 \$528 gnd sg13_lv_nmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
+M$844 cmp \$527 \$530 gnd sg13_lv_nmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
 + PD=7.06u rfmode=0
-M$846 \$526 vthn \$524 gnd sg13_lv_nmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
+M$846 \$528 vthn \$526 gnd sg13_lv_nmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
 + PD=7.06u rfmode=0
-M$849 \$510 en gnd gnd sg13_lv_nmos L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$849 \$512 en gnd gnd sg13_lv_nmos L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$850 \$527 \$527 \$510 gnd sg13_lv_nmos L=1u W=1u AS=0.34p AD=0.34p PS=2.68u
+M$850 \$529 \$529 \$512 gnd sg13_lv_nmos L=1u W=1u AS=0.34p AD=0.34p PS=2.68u
 + PD=2.68u rfmode=0
-M$851 \$511 en gnd gnd sg13_lv_nmos L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$851 \$513 en gnd gnd sg13_lv_nmos L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$852 hold \$527 \$511 gnd sg13_lv_nmos L=1u W=1u AS=0.34p AD=0.34p PS=2.68u
+M$852 hold \$529 \$513 gnd sg13_lv_nmos L=1u W=1u AS=0.34p AD=0.34p PS=2.68u
 + PD=2.68u rfmode=0
-M$853 \$512 en gnd gnd sg13_lv_nmos L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$853 \$514 en gnd gnd sg13_lv_nmos L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$854 rep \$527 \$512 gnd sg13_lv_nmos L=1u W=1u AS=0.34p AD=0.34p PS=2.68u
+M$854 rep \$529 \$514 gnd sg13_lv_nmos L=1u W=1u AS=0.34p AD=0.34p PS=2.68u
 + PD=2.68u rfmode=0
-M$855 \$513 en gnd gnd sg13_lv_nmos L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$855 \$515 en gnd gnd sg13_lv_nmos L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$856 bb2 vbp \$194 gnd sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p AD=0.1005p
+M$856 \$188 vbp \$196 gnd sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p AD=0.1005p
 + PS=1.34u PD=1.34u rfmode=0
-M$857 \$524 \$527 \$513 gnd sg13_lv_nmos L=1u W=5.5u AS=1.4575p AD=1.4575p
+M$857 \$526 \$529 \$515 gnd sg13_lv_nmos L=1u W=5.5u AS=1.4575p AD=1.4575p
 + PS=9.31u PD=9.31u rfmode=0
-M$859 \$514 en gnd gnd sg13_lv_nmos L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$859 \$516 en gnd gnd sg13_lv_nmos L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$860 \$528 \$527 \$514 gnd sg13_lv_nmos L=1u W=5.5u AS=1.4575p AD=1.4575p
+M$860 \$530 \$529 \$516 gnd sg13_lv_nmos L=1u W=5.5u AS=1.4575p AD=1.4575p
 + PS=9.31u PD=9.31u rfmode=0
-M$862 \$194 g2 \$189 gnd sg13_lv_nmos L=0.13u W=39.12u AS=7.79955p AD=7.79955p
+M$862 \$196 g2 \$189 gnd sg13_lv_nmos L=0.13u W=39.12u AS=7.79955p AD=7.79955p
 + PS=47.945u PD=47.945u rfmode=0
-M$878 \$189 vbp bb2 gnd sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p AD=0.1005p
+M$878 \$189 vbp \$188 gnd sg13_lv_nmos L=0.13u W=0.15u AS=0.1005p AD=0.1005p
 + PS=1.34u PD=1.34u rfmode=0
 M$880 tp tn tail gnd sg13_lv_nmos L=0.13u W=32u AS=6.68p AD=6.68p PS=39.34u
 + PD=39.34u rfmode=0
-M$888 G1 \$583 \$586 gnd sg13_lv_nmos L=0.13u W=5u AS=1.325p AD=1.325p PS=8.56u
-+ PD=8.56u rfmode=0
-M$890 bb3 vbp \$195 gnd sg13_lv_nmos L=0.13u W=0.31u AS=0.1054p AD=0.1054p
+M$888 \$503 \$581 \$584 gnd sg13_lv_nmos L=0.13u W=5u AS=1.325p AD=1.325p
++ PS=8.56u PD=8.56u rfmode=0
+M$890 \$190 vbp \$197 gnd sg13_lv_nmos L=0.13u W=0.31u AS=0.1054p AD=0.1054p
 + PS=1.3u PD=1.3u rfmode=0
 M$891 tn tp tail gnd sg13_lv_nmos L=0.13u W=32u AS=6.68p AD=6.68p PS=39.34u
 + PD=39.34u rfmode=0
-M$899 G2 \$583 \$586 gnd sg13_lv_nmos L=0.13u W=5u AS=1.325p AD=1.325p PS=8.56u
-+ PD=8.56u rfmode=0
-M$901 \$195 g3 \$190 gnd sg13_lv_nmos L=0.13u W=77.5u AS=15.1p AD=15.1p
+M$899 \$563 \$581 \$584 gnd sg13_lv_nmos L=0.13u W=5u AS=1.325p AD=1.325p
++ PS=8.56u PD=8.56u rfmode=0
+M$901 \$197 g3 \$191 gnd sg13_lv_nmos L=0.13u W=77.5u AS=15.1p AD=15.1p
 + PS=92.08u PD=92.08u rfmode=0
-M$933 \$190 vbp bb3 gnd sg13_lv_nmos L=0.13u W=0.31u AS=0.1054p AD=0.1054p
+M$933 \$191 vbp \$190 gnd sg13_lv_nmos L=0.13u W=0.31u AS=0.1054p AD=0.1054p
 + PS=1.3u PD=1.3u rfmode=0
-M$934 tn \$490 gnd gnd sg13_lv_nmos L=4u W=480u AS=94.2p AD=94.2p PS=537.68u
+M$934 tn \$492 gnd gnd sg13_lv_nmos L=4u W=480u AS=94.2p AD=94.2p PS=537.68u
 + PD=537.68u rfmode=0
-M$982 bb4 vbp \$196 gnd sg13_lv_nmos L=0.13u W=0.62u AS=0.2108p AD=0.2108p
+M$982 \$192 vbp \$198 gnd sg13_lv_nmos L=0.13u W=0.62u AS=0.2108p AD=0.2108p
 + PS=1.92u PD=1.92u rfmode=0
-M$983 \$196 g4 \$191 gnd sg13_lv_nmos L=0.13u W=154.38u AS=29.7057p AD=29.7057p
+M$983 \$198 g4 \$193 gnd sg13_lv_nmos L=0.13u W=154.38u AS=29.7057p AD=29.7057p
 + PS=180.73u PD=180.73u rfmode=0
-M$1045 \$191 vbp bb4 gnd sg13_lv_nmos L=0.13u W=0.62u AS=0.2108p AD=0.2108p
+M$1045 \$193 vbp \$192 gnd sg13_lv_nmos L=0.13u W=0.62u AS=0.2108p AD=0.2108p
 + PS=1.92u PD=1.92u rfmode=0
 M$1046 gnd gnd gnd gnd sg13_lv_nmos L=2u W=8u AS=2.72p AD=2.72p PS=17.36u
 + PD=17.36u rfmode=0
-M$1095 \$282 \$265 \$274 gnd sg13_lv_nmos L=2u W=8u AS=2.12p AD=2.12p PS=13.06u
+M$1095 \$283 \$267 \$275 gnd sg13_lv_nmos L=2u W=8u AS=2.12p AD=2.12p PS=13.06u
 + PD=13.06u rfmode=0
-M$1097 \$261 \$307 \$274 gnd sg13_lv_nmos L=2u W=8u AS=2.12p AD=2.12p PS=13.06u
+M$1097 \$263 \$309 \$275 gnd sg13_lv_nmos L=2u W=8u AS=2.12p AD=2.12p PS=13.06u
 + PD=13.06u rfmode=0
-M$1100 \$261 vbp_tail \$490 gnd sg13_lv_nmos L=0.13u W=20u AS=4.55p AD=4.55p
+M$1100 \$263 vbp_tail \$492 gnd sg13_lv_nmos L=0.13u W=20u AS=4.55p AD=4.55p
 + PS=26.82u PD=26.82u rfmode=0
-M$1104 \$275 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1104 \$276 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1105 \$265 \$306 \$275 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1105 \$267 \$308 \$276 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1106 \$276 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1106 \$277 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1107 \$265 \$306 \$276 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1107 \$267 \$308 \$277 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1108 \$277 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1108 \$278 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1109 \$265 \$306 \$277 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1109 \$267 \$308 \$278 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1110 \$278 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1110 \$279 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1111 \$265 \$306 \$278 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1111 \$267 \$308 \$279 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1112 \$279 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1112 \$280 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1113 \$265 \$306 \$279 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1113 \$267 \$308 \$280 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1114 \$280 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1114 \$281 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1115 \$265 \$306 \$280 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1115 \$267 \$308 \$281 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1116 \$281 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1116 \$282 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1117 \$265 \$306 \$281 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1117 \$267 \$308 \$282 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1118 \$308 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1118 \$310 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1119 \$265 \$306 \$308 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1119 \$267 \$308 \$310 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1120 \$309 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1120 \$311 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1121 \$265 \$306 \$309 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1121 \$267 \$308 \$311 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1122 \$310 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1122 \$312 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1123 \$265 \$306 \$310 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1123 \$267 \$308 \$312 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1124 \$311 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1124 \$313 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1125 \$265 \$306 \$311 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1125 \$267 \$308 \$313 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1126 \$312 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1126 \$314 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1127 \$265 \$306 \$312 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1127 \$267 \$308 \$314 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1128 \$313 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1128 \$315 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1129 \$265 \$306 \$313 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1129 \$267 \$308 \$315 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1130 \$314 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1130 \$316 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1131 \$265 \$306 \$314 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1131 \$267 \$308 \$316 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1132 \$332 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1132 \$334 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1133 \$351 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1133 \$353 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1134 \$265 code4 \$351 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1134 \$267 code4 \$353 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1135 \$265 \$306 \$332 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1135 \$267 \$308 \$334 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1136 \$352 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1136 \$354 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1137 \$333 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1137 \$335 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1138 \$265 \$306 \$333 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1138 \$267 \$308 \$335 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1139 \$265 code3 \$352 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1139 \$267 code3 \$354 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1140 \$334 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1140 \$336 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1141 \$353 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1141 \$355 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1142 \$265 code2 \$353 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1142 \$267 code2 \$355 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1143 \$265 \$306 \$334 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1143 \$267 \$308 \$336 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1144 \$335 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1144 \$337 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1145 \$354 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1145 \$356 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1146 \$265 \$306 \$335 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1146 \$267 \$308 \$337 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1147 \$265 code4 \$354 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1147 \$267 code4 \$356 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1148 \$336 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1148 \$338 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1149 \$355 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1149 \$357 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1150 \$265 code3 \$355 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1150 \$267 code3 \$357 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1151 \$265 \$306 \$336 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1151 \$267 \$308 \$338 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1152 \$356 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1152 \$358 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1153 \$265 code4 \$356 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1153 \$267 code4 \$358 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1154 \$357 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1154 \$359 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1155 \$265 code1 \$357 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1155 \$267 code1 \$359 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1156 \$358 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1156 \$360 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1157 \$265 code4 \$358 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1157 \$267 code4 \$360 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1158 \$282 \$282 vdd vdd sg13_lv_pmos L=2u W=4u AS=1.06p AD=1.06p PS=7.06u
+M$1158 \$283 \$283 vdd vdd sg13_lv_pmos L=2u W=4u AS=1.06p AD=1.06p PS=7.06u
 + PD=7.06u rfmode=0
-M$1160 \$261 \$282 vdd vdd sg13_lv_pmos L=2u W=4u AS=1.06p AD=1.06p PS=7.06u
+M$1160 \$263 \$283 vdd vdd sg13_lv_pmos L=2u W=4u AS=1.06p AD=1.06p PS=7.06u
 + PD=7.06u rfmode=0
-M$1162 \$391 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1162 \$393 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1163 \$265 code4 \$391 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1163 \$267 code4 \$393 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1164 \$392 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1164 \$394 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1165 \$265 code0 \$392 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1165 \$267 code0 \$394 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1166 \$393 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1166 \$395 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1167 \$265 code4 \$393 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1167 \$267 code4 \$395 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1168 \$394 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1168 \$396 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1169 \$265 code3 \$394 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1169 \$267 code3 \$396 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1170 \$395 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1170 \$397 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1171 \$265 code4 \$395 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1171 \$267 code4 \$397 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1172 \$396 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1172 \$398 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1173 \$265 code2 \$396 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1173 \$267 code2 \$398 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1174 \$397 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1174 \$399 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1175 \$265 code3 \$397 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1175 \$267 code3 \$399 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1176 \$398 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1176 \$400 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1177 \$265 code4 \$398 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1177 \$267 code4 \$400 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1178 \$416 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1178 \$418 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1179 \$265 code4 \$416 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1179 \$267 code4 \$418 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1180 \$417 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1180 \$419 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1181 \$265 code3 \$417 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1181 \$267 code3 \$419 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1182 \$418 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1182 \$420 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1183 \$265 code2 \$418 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1183 \$267 code2 \$420 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1184 \$419 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1184 \$421 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1185 \$265 code4 \$419 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1185 \$267 code4 \$421 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1186 \$420 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1186 \$422 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1187 \$265 code3 \$420 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1187 \$267 code3 \$422 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1188 \$421 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1188 \$423 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1189 \$265 code4 \$421 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1189 \$267 code4 \$423 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1190 \$422 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1190 \$424 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1191 \$265 code1 \$422 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1191 \$267 code1 \$424 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1192 \$423 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1192 \$425 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1193 \$265 code4 \$423 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1193 \$267 code4 \$425 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1194 \$445 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1194 \$447 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1195 \$265 code4 \$445 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1195 \$267 code4 \$447 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1196 \$446 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1196 \$448 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1197 \$265 \$470 \$446 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1197 \$267 \$472 \$448 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1198 \$447 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1198 \$449 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1199 \$265 code3 \$447 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1199 \$267 code3 \$449 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1200 \$448 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1200 \$450 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1201 \$265 code4 \$448 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1201 \$267 code4 \$450 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1202 \$449 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1202 \$451 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1203 \$265 code4 \$449 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1203 \$267 code4 \$451 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1204 \$450 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1204 \$452 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1205 \$265 code2 \$450 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1205 \$267 code2 \$452 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1206 \$451 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1206 \$453 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1207 \$265 code3 \$451 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1207 \$267 code3 \$453 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1208 \$452 \$301 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
+M$1208 \$454 \$303 vdd vdd sg13_lv_pmos L=2u W=2u AS=0.68p AD=0.68p PS=4.68u
 + PD=4.68u rfmode=0
-M$1209 \$265 code4 \$452 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
+M$1209 \$267 code4 \$454 vdd sg13_lv_pmos L=0.13u W=2u AS=0.68p AD=0.68p
 + PS=4.68u PD=4.68u rfmode=0
-M$1210 \$550 \$550 vdd vdd sg13_lv_pmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
+M$1210 \$552 \$552 vdd vdd sg13_lv_pmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
 + PD=7.06u rfmode=0
-M$1212 cmp \$550 vdd vdd sg13_lv_pmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
+M$1212 cmp \$552 vdd vdd sg13_lv_pmos L=0.5u W=4u AS=1.06p AD=1.06p PS=7.06u
 + PD=7.06u rfmode=0
-R$1214 bb5 gnd gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1215 bb5 \$14 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1216 bb6 \$18 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1217 bb6 \$15 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1218 bb7 \$19 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1219 bb7 \$16 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1220 gnd \$20 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1214 \$11 \$18 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1215 \$11 \$14 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1216 \$12 \$19 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1217 \$12 \$15 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1218 \$13 \$20 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1219 \$13 \$16 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1220 gnd \$21 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
 R$1221 gnd \$17 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1222 bb8 gnd gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1223 bb8 \$97 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1224 bb9 \$104 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1225 bb9 \$99 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1226 bb10 \$105 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1227 bb10 \$101 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1228 bb11 \$106 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1229 bb11 \$103 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1230 bb0 \$192 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1231 bb0 \$187 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1232 bb1 \$193 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1233 bb1 \$188 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1234 bb2 \$194 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1235 bb2 \$189 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1236 bb3 \$195 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1237 bb3 \$190 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1238 bb4 \$196 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1239 bb4 \$191 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
-R$1240 gnd \$272 gnd rhigh w=2u l=15.2u ps=0u b=0 m=1
-R$1241 \$261 \$490 gnd rhigh w=0.5u l=21.285u ps=0.18u b=16 m=1
-R$1242 \$525 vdd gnd rhigh w=0.5u l=6.96u ps=0u b=0 m=1
-R$1243 \$526 vdd gnd rhigh w=0.5u l=6.96u ps=0u b=0 m=1
-R$1244 \$527 vdd gnd rhigh w=0.5u l=78u ps=0u b=0 m=1
-R$1245 \$586 G1 gnd rhigh w=0.5u l=42.095u ps=0.18u b=16 m=1
-R$1246 \$586 G2 gnd rhigh w=0.5u l=42.095u ps=0.18u b=16 m=1
-C$1247 \$490 gnd cap_cmim w=68.94u l=68.94u A=4752.7236p P=275.76u m=7
+R$1222 \$97 \$105 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1223 \$97 \$98 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1224 \$99 \$106 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1225 \$99 \$100 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1226 \$101 \$107 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1227 \$101 \$102 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1228 \$103 \$108 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1229 \$103 \$104 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1230 \$184 \$194 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1231 \$184 \$185 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1232 \$186 \$195 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1233 \$186 \$187 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1234 \$188 \$196 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1235 \$188 \$189 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1236 \$190 \$197 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1237 \$190 \$191 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1238 \$192 \$198 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1239 \$192 \$193 gnd rhigh w=5u l=60.8u ps=0u b=0 m=1
+R$1240 gnd \$302 gnd rhigh w=2u l=15.2u ps=0u b=0 m=1
+R$1241 \$263 \$492 gnd rhigh w=0.5u l=21.285u ps=0.18u b=16 m=1
+R$1242 \$527 vdd gnd rhigh w=0.5u l=6.96u ps=0u b=0 m=1
+R$1243 \$528 vdd gnd rhigh w=0.5u l=6.96u ps=0u b=0 m=1
+R$1244 \$529 vdd gnd rhigh w=0.5u l=78u ps=0u b=0 m=1
+R$1245 \$584 \$503 gnd rhigh w=0.5u l=42.095u ps=0.18u b=16 m=1
+R$1246 \$584 \$563 gnd rhigh w=0.5u l=42.095u ps=0.18u b=16 m=1
+C$1247 \$492 gnd cap_cmim w=68.94u l=68.94u A=4752.7236p P=275.76u m=7
 C$1248 hold gnd cap_cmim w=16.27u l=16.27u A=264.7129p P=65.08u m=1
 C$1249 cmp gnd cap_cmim w=5.71u l=5.71u A=32.6041p P=22.84u m=1
 C$1250 rep gnd cap_cmim w=16.27u l=16.27u A=264.7129p P=65.08u m=1
-C$1251 tp \$192 cap_cmim w=2.81u l=2.81u A=7.8961p P=11.24u m=1
-C$1254 tn \$188 cap_cmim w=3.92u l=3.92u A=15.3664p P=15.68u m=1
-C$1256 tn \$187 cap_cmim w=2.81u l=2.81u A=7.8961p P=11.24u m=1
-C$1257 tp \$193 cap_cmim w=3.92u l=3.92u A=15.3664p P=15.68u m=1
+C$1251 tp \$194 cap_cmim w=2.81u l=2.81u A=7.8961p P=11.24u m=1
+C$1254 tn \$187 cap_cmim w=3.92u l=3.92u A=15.3664p P=15.68u m=1
+C$1256 tn \$185 cap_cmim w=2.81u l=2.81u A=7.8961p P=11.24u m=1
+C$1257 tp \$195 cap_cmim w=3.92u l=3.92u A=15.3664p P=15.68u m=1
 C$1259 tn \$189 cap_cmim w=5.53u l=5.53u A=30.5809p P=22.12u m=1
-C$1262 tp \$194 cap_cmim w=5.53u l=5.53u A=30.5809p P=22.12u m=1
-C$1263 tp gnd gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=2 wfeed=5u
+C$1262 tp \$196 cap_cmim w=5.53u l=5.53u A=30.5809p P=22.12u m=1
+C$1263 tp \$18 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
 C$1264 tn \$14 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
-C$1265 tp \$18 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
+C$1265 tp \$19 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
 C$1266 tn \$15 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
-C$1267 tp \$19 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
+C$1267 tp \$20 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
 C$1268 tn \$16 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
-C$1269 gnd \$20 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
+C$1269 gnd \$21 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
 C$1270 gnd \$17 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
-C$1272 tn \$97 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
-C$1273 tp \$104 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
-C$1274 tn \$99 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
-C$1275 tp \$105 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
-C$1276 tn \$101 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
-C$1277 tp \$106 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
-C$1278 tn \$103 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
-C$1279 tp \$272 gnd rfcmim w=14.5u l=14.5u A=210.25p P=58u m=1 wfeed=5u
-C$1280 tp G1 gnd rfcmim w=21.29u l=21.29u A=453.2641p P=85.16u m=1 wfeed=5u
-C$1281 tn G2 gnd rfcmim w=21.29u l=21.29u A=453.2641p P=85.16u m=1 wfeed=5u
-C$1282 tp \$195 gnd rfcmim w=7.87u l=7.87u A=61.9369p P=31.48u m=1 wfeed=5u
-C$1283 tn \$190 gnd rfcmim w=7.87u l=7.87u A=61.9369p P=31.48u m=1 wfeed=5u
-C$1284 tn \$272 gnd rfcmim w=14.5u l=14.5u A=210.25p P=58u m=1 wfeed=5u
-C$1285 tp \$196 gnd rfcmim w=11.12u l=11.12u A=123.6544p P=44.48u m=1 wfeed=5u
-C$1286 tn \$191 gnd rfcmim w=11.12u l=11.12u A=123.6544p P=44.48u m=1 wfeed=5u
-C$1287 G1 W G2 gnd sg13_hv_svaricap w=3.74u l=0.3u Nx=10
-C$1288 G1 W G2 gnd sg13_hv_svaricap w=3.74u l=0.3u Nx=10
+C$1271 tp \$105 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
+C$1272 tn \$98 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
+C$1273 tp \$106 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
+C$1274 tn \$100 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
+C$1275 tp \$107 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
+C$1276 tn \$102 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
+C$1277 tp \$108 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
+C$1278 tn \$104 gnd rfcmim w=15.71u l=15.71u A=246.8041p P=62.84u m=1 wfeed=5u
+C$1279 tp \$302 gnd rfcmim w=14.5u l=14.5u A=210.25p P=58u m=1 wfeed=5u
+C$1280 tp \$503 gnd rfcmim w=21.29u l=21.29u A=453.2641p P=85.16u m=1 wfeed=5u
+C$1281 tn \$563 gnd rfcmim w=21.29u l=21.29u A=453.2641p P=85.16u m=1 wfeed=5u
+C$1282 tp \$197 gnd rfcmim w=7.87u l=7.87u A=61.9369p P=31.48u m=1 wfeed=5u
+C$1283 tn \$191 gnd rfcmim w=7.87u l=7.87u A=61.9369p P=31.48u m=1 wfeed=5u
+C$1284 tn \$302 gnd rfcmim w=14.5u l=14.5u A=210.25p P=58u m=1 wfeed=5u
+C$1285 tp \$198 gnd rfcmim w=11.12u l=11.12u A=123.6544p P=44.48u m=1 wfeed=5u
+C$1286 tn \$193 gnd rfcmim w=11.12u l=11.12u A=123.6544p P=44.48u m=1 wfeed=5u
+C$1287 \$503 vt \$563 gnd sg13_hv_svaricap w=3.74u l=0.3u Nx=10
+C$1288 \$503 vt \$563 gnd sg13_hv_svaricap w=3.74u l=0.3u Nx=10
 .ENDS vco_top

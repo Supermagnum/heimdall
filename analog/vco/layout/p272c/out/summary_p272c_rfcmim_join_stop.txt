@@ -1,0 +1,73 @@
+# P2.7.2c — rfcmim / g1g2 / band / join STOP (2026-11-18)
+
+## Pass criteria vs results
+
+| Step | Criterion | Result |
+|---|---|---|
+| 1 rfcmim | 24 = 24 KLayout + netgen extract | **PASS** [TOOL] — place 24; power was 23 (m=2); after fix power/ct/tail/tn_tp = 24, no m=2 |
+| 2 g1/g2 | no netgen duplicate-pin warning | **PASS** [TOOL] |
+| 3 band/D20 @ 35.6 fF | band ≥ 40 MHz both ends; D20 compliance | **PASS** [SCH/HAND] — top 104.0 / bot 92.1 MHz; D20 direction favorable; no cfix change |
+| 4 join tn_tp→unique LVS | DRC + KLayout + netgen uniquely match | **STOP at tn_tp** — DRC PASS (density + SVaricap M1.b waived); KLayout FAIL; netgen FAIL (144 vs 145 nets, pin matching) [TOOL] |
+| 5 report | C, tail, outline, die §8 | below |
+| 6 specs | update + commit | specs updated in working tree; **commit not made (ask first)** |
+
+## Step 1 — rfcmim root cause and fix
+
+- Stage drop **24→23 at power** only; `POWER_DROPS=ampcal_det.gnd` alone reproduces m=2 [TOOL].
+- Cause: ampcal_det.gnd M3 column at det.left−4 (x≈−147) crossed two west-edge bank
+  rfcmim (local x≈60); mids → gnd → `tp gnd gnd m=2` via combine_devices.
+- Fix: column at bank.left−6 (x≈−214.8); gnd spine extended west [`build_assemble.py`].
+
+## Step 2 — duplicate g1/g2
+
+- SVaricap PCell texts G1/G2 (layer 63/0) promoted as top ports vs bank g1/g2 [TOOL].
+- Fix: erase G1/G2; rename W→vt; strip bank bb* M1.25 texts; hier spice ports vgp/vgn.
+
+## Step 3 — band / D20
+
+- `summary_p272c_band_d20_island35p6.txt`: cfix 157.6875, C_side 96.13 fF [SCH/PEX-RC/HAND].
+- D20: no full re-sim; Δisland −1.4 fF vs trim moves landing into compliance [HAND].
+
+## Step 4 — join (stopped)
+
+- DRC clean through tn_tp [TOOL].
+- Ports now match spice↔extract (incl. vt) [TOOL].
+- Unique LVS still FAIL: netgen 144 vs 145 nets after merge; same class of mismatch
+  already at **place** (144 vs 152 nets, 239 vs 238 devices) — leaf hierarchical spice vs
+  flat extract connectivity, not a new tn_tp short [TOOL].
+- vt / controls / full-assembly scripts (inductor fab diff, var fingers) **not run**.
+
+## Step 5 — numbers
+
+| Item | Value | Tag |
+|---|---|---|
+| tn / tp island C | 35.6 / 35.6 fF, mismatch ≈ 0 | [HAND/GDS] |
+| Extracted RC tn/tp | not run | — |
+| Tail line | L 91.0 µm, R125 2.70 Ω, J 1.00 mA/µm, C≈9.1 fF | [PDK/HAND/GDS] |
+| Outline | 0.4029 mm² (bbox −208.78…404.4 × 0…657.06) | [GDS] |
+
+## What failed / uncertain
+
+- Unique KLayout LVS and netgen vs hierarchical `vco_top.spice` (and vs `vco_top.sch`).
+- Uncertain: which single extra extract net remains after pin-text cleanup; nmos 75 (spice)
+  vs 67 (extract) before merge.
+
+## Decision needed
+
+1. Accept rfcmim + g1/g2 + band@35.6 fixes and continue unique-LVS debug as the same
+   P2.7.2c item (bisect leaf spice vs extract device/net delta from **place**), or
+2. Compare LVS against flat `sch/netlists/vco_top.spice` instead of hierarchical leaves
+   (owner call — changes the prove setup).
+
+## Found, not done
+
+- Join vt → controls; full unique LVS sign-off scripts (inductor fab/LVS diff, varactor
+  dimension/fingers, ct labelled-port proof on full assembly).
+- PEX RC of island tn/tp.
+- Spec prose polish beyond §8 / phase2 / layout-notes pointers.
+- Git commit / push (awaiting owner).
+
+## Next run
+
+**P2.7.2c continued — unique LVS from place** (leaf vs extract net/device delta), then
+finish vt→controls. After unique LVS accepted: **P2.7.3 — VCO PEX and post-layout checks**.

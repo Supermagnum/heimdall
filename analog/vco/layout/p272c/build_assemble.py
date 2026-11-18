@@ -167,7 +167,51 @@ class Asm:
                 for x0, x1 in ((-25.23, -16.38), (16.38, 25.23)):
                     cell.shapes(tm1).insert(pya.DBox(x0, y0, x1, y1))
             self.say("patched vco_core_tank TM1.b notches (6 fills) [GDS]")
+        # SVaricap PCell texts: drop G1/G2 (collide with bank g1/g2); rename W→vt
+        # so the tune net stays labelled for top_lvl_pins [TOOL].
+        if name == "vco_var":
+            n = self._fix_svaricap_terminal_texts()
+            self.say(f"fixed {n} SVaricap terminal texts (G1/G2 drop, W→vt) [TOOL]")
+        # Bank cell bb* mid-node pin texts (M1.25) promote as top ports and
+        # break pin matching vs vco_top [TOOL].
+        if name == "vco_bank":
+            n = self._strip_bank_bb_pin_texts()
+            self.say(f"stripped {n} bank bb* pin texts [TOOL]")
         return cell.cell_index(), pins, bb, keep
+
+    def _fix_svaricap_terminal_texts(self):
+        """Drop G1/G2 labels; rename W→vt (sch port name)."""
+        lyr = self.ly.layer(63, 0)
+        n = 0
+        for cell in self.ly.each_cell():
+            for sh in list(cell.shapes(lyr).each()):
+                if not sh.is_text():
+                    continue
+                s = sh.text.string
+                if s in ("G1", "G2"):
+                    cell.shapes(lyr).erase(sh)
+                    n += 1
+                elif s == "W":
+                    sh.text = pya.Text("vt", sh.text.trans)
+                    n += 1
+        return n
+
+    def _strip_bank_bb_pin_texts(self):
+        """Remove hierarchical bb* pin texts inside bank_cell_*."""
+        n = 0
+        for cell in self.ly.each_cell():
+            for li in self.ly.layer_indexes():
+                info = self.ly.get_info(li)
+                if info.datatype != 25:
+                    continue
+                lyr = li
+                for sh in list(cell.shapes(lyr).each()):
+                    if not sh.is_text():
+                        continue
+                    if sh.text.string.startswith("bb"):
+                        cell.shapes(lyr).erase(sh)
+                        n += 1
+        return n
 
     def pin_tm1(self, cell, x, y, name):
         # TM1.a min width 1.64 µm — pin pad must be ≥ 2.0 [DS/TOOL]
@@ -387,8 +431,10 @@ class Asm:
                 export_pin("tail", *cp["tail"], "m1")
             if "gnd" in cp:
                 export_pin("gnd", *cp["gnd"], "m1")
-            if "W" in vp:
-                export_pin("vt", *vp["W"], "m1")
+            # vt: do not place a detached M1 pad here — SVaricap W was renamed
+            # to vt (layer 63); an orphan M1 pad at the old W pin made a second
+            # net and broke pin matching (144 vs 145) [TOOL]. Escape pin is
+            # added in the vt route group with a connected stack.
             if "vbp" in bp:
                 export_pin("vbp", *bp["vbp"], "m1")
             if "vbp_tail" in tpins:
@@ -417,7 +463,13 @@ class Asm:
             # overlapping this spine (was +4 → tail|vdd short) [TOOL LVS]
             y_vdd = max(tops) + 10.0
             y_gnd = min(bots) - 4.0
+            # ampcal_det.gnd column must sit west of bank: a prior column at
+            # det.left−4 (x≈−147) crossed two west-edge bank rfcmim (local
+            # x≈60) and merged their mids onto gnd → tp-gnd-gnd m=2, 24→23
+            # [TOOL LVS / POWER_DROPS=ampcal_det.gnd].
+            x_det_gnd_col = bank_bb.left - 6.0
             x0, x1 = min(lefts) - 2.0, max(rights) + 2.0
+            x0 = min(x0, x_det_gnd_col - 2.0)
             w_pwr = 4.0
             c.shapes(self.m2).insert(
                 pya.DBox(x0, y_vdd - w_pwr / 2, x1, y_vdd + w_pwr / 2))
@@ -438,7 +490,7 @@ class Asm:
                 ("tail_block", "gnd"): tail_bb.left - 4.0,
                 ("ampcal_det", "vdd"): (
                     dp["vdd"][0] + 8.0 if "vdd" in dp else det_bb.left - 8.0),
-                ("ampcal_det", "gnd"): det_bb.left - 4.0,
+                ("ampcal_det", "gnd"): x_det_gnd_col,
                 ("vco_core_tank", "gnd"): core_bb.left - 10.0,
                 ("vco_bank", "gnd"): bank_bb.right + 3.0,
                 ("vco_var", "gnd"): var_bb.right + 3.0,
@@ -1099,14 +1151,28 @@ class Asm:
 .subckt vco_top {ports}
 Xc tp tn tail ct gnd vco_core_tank
 Xb tp tn vbp gnd g0 bb0 g1 bb1 g2 bb2 g3 bb3 g4 bb4 g5 bb5 g6 bb6 g7 bb7 g8 bb8 g9 bb9 g10 bb10 g11 bb11 vco_bank
-Xv tp tn vt vbp gnd G1 G2 vco_var
+Xv tp tn vt vbp gnd vgp vgn vco_var
 Xt tail vdd gnd vbp_tail nb nbf pbias xraw code_gnd code0 code1 code2 code3 code4 code_vdd ss tail_f tail_block
 Xd tp tn ct vdd gnd cmp hold rep en vthn ampcal_det
 .ends
 .end
 """
-        # Note: G1/G2/nb/... are local floats unless exported — OK for LVS dangling
+        # Note: vgp/vgn/nb/... are local floats unless exported — OK for LVS dangling
+        # Rewrite leaf vco_var ports G1/G2 → vgp/vgn (match sch; avoid g1/g2) [TOOL]
         body = "\n\n".join(chunks) + "\n" + top
+        body = body.replace(
+            ".subckt vco_var tp tn W vbp gnd G1 G2",
+            ".subckt vco_var tp tn W vbp gnd vgp vgn",
+        )
+        # Only rewrite gate nets inside vco_var leaf (token replace on G1/G2)
+        parts = body.split(".subckt vco_var ")
+        if len(parts) == 2:
+            head, rest = parts[0], parts[1]
+            sub, tail = rest.split(".ends", 1)
+            for a, b in ((" G1 ", " vgp "), (" G2 ", " vgn "),
+                         (" G1\n", " vgp\n"), (" G2\n", " vgn\n")):
+                sub = sub.replace(a, b)
+            body = head + ".subckt vco_var " + sub + ".ends" + tail
         path = os.path.join(OUT, "vco_top.spice")
         open(path, "w").write(body)
         self.say(f"wrote {path}")

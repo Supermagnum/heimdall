@@ -915,3 +915,30 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
 - tn tap short (tn | vdd) caused by ampcal_det's vdd M2 at the tn site. ampcal_det is re-pinned:
   tn / tp face pins clear of vdd and hold, re-proven. Detector taps at minimum width.
 - Island tank C stays ≤ 50 fF per side including taps; above that, a finding to the owner.
+
+## 2026-11-17 — Detector re-pin accepted, rfcmim count
+- ampcal_det with face pins accepted (2650677, 558cb20): DRC, KLayout LVS, netgen, fingers,
+  rhigh. Detector taps at minimum width; island tank C 35.6 / 35.6 fF per side, mismatch ≈ 0
+  [HAND], under the 37 fF that cfix 157.7 fF was trimmed for: no re-trim; band margins and D20
+  landing re-checked at 35.6 fF.
+- Unique LVS blocked by one missing rfcmim (24 schematic, 23 layout) and duplicate g1 / g2 pins;
+  root-caused before the join continues.
+
+## 2026-11-18 — rfcmim 24=24 and g1/g2 unique
+- 24→23 at power: ampcal_det.gnd M3 column at det.left−4 (x≈−147) crossed two west-edge bank
+  rfcmim (local x≈60); mids shorted to gnd → tp-gnd-gnd m=2 [TOOL / POWER_DROPS bisect].
+  Fix: column at bank.left−6 (x≈−215); gnd spine extended west. Power extract 24 rfcmim, no m=2.
+- Duplicate g1/g2: SVaricap PCell texts G1/G2 (layer 63/0) promoted as top ports and collided
+  with bank g1/g2 under case-insensitive netgen [TOOL]. Fix: rename to vgp/vgn in assemble load;
+  hierarchical spice ports match sch. No netgen duplicate-pin warning.
+- Band at island 35.6 fF, cfix 157.7: top margin 104.0 MHz, bot 92.1 MHz [SCH]. D20 direction
+  favorable (ΔC −1.4 fF vs trim); no cfix change.
+
+## 2026-11-18 — VCO top LVS reference
+- rfcmim 24 = 24 (detector gnd M3 moved out of the bank) and duplicate pins fixed. Band margins
+  at island C 35.6 fF: top 104.0 / bottom 92.1 MHz [SCH], D20 OK; cfix unchanged.
+- Sign-off reference for vco_top is the netlist exported from vco_top.sch, flattened, against
+  the flattened extraction; not a netlist assembled from leaf LVS spice. Leaf mappings needed
+  (SVaricap pins, inductor black box) live in the LVS setup, identical for KLayout and netgen.
+- Every unmatched device or net is listed and explained; netlists are not edited to force a
+  match.

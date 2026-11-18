@@ -1,0 +1,31 @@
+# P2.7.2c — missing rfcmim + duplicate g1/g2 [TOOL]
+
+## Stage rfcmim counts (layout extract lines)
+
+| stage | rfcmim lines | m=2 / notes |
+|---|---:|---|
+| place | 24 | no m=2 |
+| power (before fix) | 23 | tp gnd gnd m=2 |
+| power (after fix) | 24 | no m=2 |
+| schematic vco_top | 24 | [SCH] |
+
+Drop 24→23 at **power**, cause **ampcal_det.gnd** alone [TOOL POWER_DROPS bisect].
+
+## Cause and fix (rfcmim)
+
+- ampcal_det.gnd M3 column was at det.left−4 ≈ −147 µm, through bank bbox.
+- Two west-edge bank rfcmim end at local x≈60.03 (parent ≈ −148.8); column left edge
+  ≈ −148.3 overlapped / soft-connected their mid plates to gnd → two tp-gnd-gnd caps
+  combined (m=2).
+- Fix in `build_assemble.py`: column at bank.left−6 ≈ −214.8 µm; gnd spine x0 extended.
+
+## Cause and fix (duplicate g1/g2)
+
+- SVaricap PCell terminal texts G1/G2 on layer 63/0 became top ports alongside bank g1/g2.
+- Renamed to vgp/vgn on load; hierarchical spice `.subckt vco_var … vgp vgn` and Xv nets
+  match sch. Netgen: no Duplicate pin warning [TOOL].
+
+## Band / D20 at island 35.6 fF [SCH]
+
+See `summary_p272c_band_d20_island35p6.txt`: top 104.0 MHz, bot 92.1 MHz; D20 PASS
+(direction); no cfix change.

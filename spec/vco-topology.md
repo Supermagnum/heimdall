@@ -1,6 +1,6 @@
 # VCO topology memo (P2.3)
 
-Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** east core tail pin PASS; corridor M3 stub LVS-clean; **STOP** on M2 into `tail_block.tail` (`summary_p272c_tail_escape_stop.txt`). Next: face pin stub on tail_block, unique LVS, then P2.7.3. See §9.
+Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** rfcmim 24=24 + g1/g2 PASS; band@35.6 PASS; outline 0.4029 mm² [GDS/SCH/TOOL]. **STOP** unique LVS at tn_tp (`summary_p272c_rfcmim_join_stop.txt`). Next: unique LVS from place, then P2.7.3. See §9.
 
 ---
 
@@ -273,6 +273,15 @@ pipes) [TOOL]. Full assembly **DRC clean** (density + SVaricap M1.b waived)
 `W|gnd|tail|tn|tp|vbp|vdd|vt` from tail parent routing through core/bank metals
 [TOOL] (`summary_p272c_step345_stop.txt`). ct H-strap raise fixed prior ct|tn.
 Inductor fab/LVS diff PASS; varactor fingers PASS [TOOL].
+
+### P2.7.2c rfcmim / g1g2 / band@35.6 (2026-11-18) [TOOL/SCH/GDS]
+
+rfcmim 24→23 at power fixed (ampcal_det.gnd M3 west of bank). g1/g2 unique
+(SVaricap G1/G2 stripped; W→vt; bank bb* stripped). Band at island 35.6 fF:
+top **104.0** / bot **92.1** MHz [SCH]; no cfix change. Outline **0.4029 mm²**,
+island C 35.6/35.6 fF, tail L 91 µm [GDS/HAND]. Unique LVS still FAIL at tn_tp
+(144 vs 145 nets; mismatch already at place) —
+`summary_p272c_rfcmim_join_stop.txt`.
 
 ### D9 filter capacitor notes (2026-11-13) — MIM kept; MOS swing cause
 
