@@ -1,0 +1,125 @@
+# P2.7.2c — close vbp, full join, unique LVS STOP [TOOL]
+
+Date: 2026-11-18. Prompt 06. decisions.md
+"2026-11-18 — Intermediate LVS checks, vvb_bias requirement" recorded.
+f4d03ee / 7af3f89 already on origin/main (neither accepted).
+
+## Step results vs pass criteria
+
+| Step | Criterion | Result |
+|------|-----------|--------|
+| 1 vbp join | Proven metal; one net name | **PASS** [TOOL/GDS] |
+| 2 Net-group replay | DRC clean; no named-net merge; opens listed | **PASS** [TOOL] |
+| 3 Full join unique LVS | DRC; KLayout + netgen unique; scripts | **FAIL** — unique LVS [TOOL] |
+| 4 Step-2 @35.6 | overlap; bank boundary; D20; PN | **not run** (stopped on step 3) |
+| 5 Report / specs | update + commit | **this stop** |
+
+## Step 1 — vbp join [TOOL/GDS]
+
+Root of prior `vbp` vs `vbp$1` open: bank top pin M1 is ~2.9 µm south of the
+west M2 corridor (orphan pad); 24 hierarchical `vbp` texts labelled the real
+bus [GDS].
+
+Fix in `build_assemble.py`:
+- Strip all hierarchical `vbp` pin texts (bank + var); one top `export_pin`.
+- Bridge pin→bus on M2 (+via12); west strap from bus landing (not orphan pad).
+- Narrow pads; west-of-island corridor (no H@y≈80; no fat pads).
+
+Prove on assembled LVS GDS: single `vbp` text; flood from bank pin reaches
+var pin (61.66, 633.00). Extract: `M$888` / `M$899` both `G=vbp`, drains
+`$502` ≠ `$562`, shared S `$582` [TOOL].
+
+## Step 2 — net-group replay [TOOL]
+
+`run_direct_join.sh` intermediate gate: DRC clean (density + SVaricap M1.b
+waived) and no extract port names with `|`. Opens (`name$N`) listed, allowed.
+
+| Group | DRC | Named merge | Opens | Unique LVS |
+|-------|-----|-------------|-------|------------|
+| place | PASS | none | tn$1 tp$1 | not required |
+| power | PASS | none | tn$1 tp$1 | not required |
+| ct | PASS | none | tn$1 tp$1 | not required |
+| tail | PASS | none | tn$1 tp$1 | not required |
+| tn_tp | PASS | none | (cleared) | not required |
+| vt | PASS | none | — | not required |
+| controls | PASS | none | — | **required → FAIL** |
+
+Log: `out/summary_direct_join.txt`.
+
+## Step 3 — full join unique LVS [TOOL]
+
+DRC: clean (density + SVaricap M1.b waived) **PASS**.
+
+Ports: sch and extract same 31 names; no `|` merges; ct labelled **PASS**.
+
+Device inventory after netgen parallel merge: 239 = 239 devices, 144 = 144
+nets (NMOS 65=65, PMOS 106, rfcmim 24, rhigh 33, cmim 10, svaricap 1).
+
+KLayout: ERROR netlists don't match. netgen: **Top level cell failed pin
+matching.**
+
+### Connectivity root cause (blocks unique match)
+
+| Device | Schematic | Extract |
+|--------|-----------|---------|
+| Mtail (480 µ/4 µ) | `D=tail` | `M$934 D=tn` G=`$493` S=gnd |
+| Core XC sources | on `tail` | on `tail` (2 FETs only) |
+
+- `tail` pin texts only at core `(78.19, 369.77)` — no label on
+  `tail_block.tail` after assemble clear [GDS].
+- Geometric flood: `tail_block.tail` metal joins the **tn** island; core
+  `tail` export pad is a separate island [GDS].
+- Fanout: `tail` sch 3 / lay 2; `tn` sch 17 / lay 18 [TOOL].
+
+So: **Mtail drain shorted to tn; core.tail open from Mtail.** Not a named
+`tn|tail` port merge (orphan `tail` label on the XC sources only), so the
+intermediate gate did not stop. Unique LVS fails on pin/connectivity match.
+
+M$888 / M$899: **not** merging; gates on `vbp` [TOOL].
+
+Inductor fab/LVS diff, varactor dimension/finger scripts: **not run** (stopped
+on unique LVS).
+
+## Step 4 — Step-2 @35.6 [SCH]
+
+Not re-run. Last accepted band@35.6: top 106.6 / bot 91.0 MHz
+(`summary_p272c_band_d20_island35p6.txt`) [SCH]. Overlap / bank boundary /
+worst-corner PN: not run this job.
+
+## Report numbers
+
+| Item | Value | Tag |
+|------|-------|-----|
+| Outline | 0.4029 mm² | [GDS] |
+| tn / tp island C | 35.6 / 35.6 fF, mismatch ≈ 0 | [HAND/GDS] (build log) |
+| Extracted RC C | not run | — |
+| Tail line | L=91.0 µm, C≈9.1 fF, R25=2.00 Ω | [HAND/PDK/GDS] |
+| vvb_bias | 0.3 V ±30 mV, ≤8 nV/√Hz @100 kHz/1 MHz, PLL bias gen | [decisions] |
+
+## What failed or is uncertain
+
+- Unique KLayout + netgen vs flat `vco_top.sch`.
+- Tail join: Mtail↔core.tail open; Mtail drain on tn [TOOL].
+- Whether intermediate "no `\|` merge" should also flag pin-fanout
+  mismatches (tail 3 vs 2) — currently does not.
+
+## Decision needed
+
+1. Accept vbp join method (strip hierarchical texts + pin→bus bridge + west
+   strap) for the next unique-LVS attempt.
+2. Fix tail: keep `tail_block.tail` clear of tn (M3 y_bus≈381 ≈ tn Y); ensure
+   via stack core.tail M1↔M2↔M3; re-export or keep one `tail` label on the
+   joined net; then re-run unique LVS.
+3. Confirm intermediate gate: add fanout/open checks beyond `\|` merges?
+
+## Found, not done
+
+- Unique LVS; fab/LVS inductor diff; varactor dim/finger scripts.
+- Step-2 overlap / bank thermometer–binary boundary / D20 re-sim / PN @35.6.
+- Extracted RC for tn/tp C; SVG/PDF refresh after unique LVS.
+- P2.7.3 VCO PEX — blocked until unique LVS.
+
+## Next run
+
+**P2.7.2c — fix tail↔tn short / core.tail open, unique LVS** (then P2.7.3 PEX
+and post-layout checks, if unique passes).

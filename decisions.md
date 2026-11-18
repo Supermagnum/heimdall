@@ -973,3 +973,12 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
 - vvb_bias 0.3 V has no on-chip source: finding. Requirement written in `spec/vco-topology.md`
   §9 and `spec/pll-topology.md` §12 (≤ 8 nV/√Hz @ 100 kHz / 1 MHz, ±30 mV, ≈ 0 DC);
   supplied by the PLL bias generator at the synthesizer top unless the owner decides otherwise.
+
+## 2026-11-18 — Intermediate LVS checks, vvb_bias requirement
+- Varactor bypass merge root-caused [TOOL]: drains separate; gate net orphan (bank.vbp ↔
+  var.vbp not yet joined) and hold sources floating until tn_tp. No setup rule added.
+- Intermediate net groups pass when no two named nets merge; nets not yet routed may be open.
+  Unique KLayout + netgen match is required only for the full join (as decided 2026-11-17).
+- bank.vbp ↔ var.vbp is joined (one net name, duplicate pin text removed).
+- vvb_bias requirement accepted: 0.3 V ± 30 mV, ≈ 0 DC load, ≤ 8 nV/√Hz at 100 kHz and 1 MHz,
+  supplied by the PLL bias generator at the synthesizer top.

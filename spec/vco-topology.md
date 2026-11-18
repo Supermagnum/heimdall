@@ -1,6 +1,6 @@
 # VCO topology memo (P2.3)
 
-Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** flat-sch LVS reference in place; placement-only PASS; **STOP** unique LVS at power (1 NMOS after merge) — `summary_p272c_flat_sch_lvs_stop.txt`. Outline 0.4029 mm²; band@35.6 prior [GDS/SCH/TOOL]. Next: bisect 1 NMOS + replay to unique LVS, then P2.7.3. See §9.
+Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** vbp join PASS; net-group intermediate PASS; **STOP** unique LVS — Mtail drain on tn / core.tail open (`summary_p272c_close_vbp_unique_lvs_stop.txt`). Outline 0.4029 mm²; band@35.6 prior [GDS/SCH/TOOL]. vvb_bias 0.3 V ±30 mV / ≤8 nV/√Hz from PLL bias gen [decisions]. Next: fix tail, unique LVS, then P2.7.3. See §9.
 
 ---
 
@@ -300,9 +300,8 @@ remap not the cause. Orphan gate `$589` (duplicate `vbp` pin text vs bank)
 orphan S (`$551`/`$564` vs tp/tn). Place+power unique LVS still **FAIL**.
 Stop: `layout/p272c/out/summary_p272c_varactor_bypass_stop.txt`.
 
-**Open — vvb_bias (0.3 V) requirement** (no on-chip source in VCO; supply from
-PLL bias generator at synthesizer top unless owner decides otherwise
-[decisions]):
+**vvb_bias (0.3 V) requirement — accepted** (2026-11-18 decisions): supply from
+PLL bias generator at synthesizer top (`spec/pll-topology.md` §12 open item):
 
 | Item | Requirement | Tag |
 |------|-------------|-----|
@@ -311,6 +310,14 @@ PLL bias generator at synthesizer top unless owner decides otherwise
 | Load | ≈ 0 DC; wake transient when bypasses close | [HAND] |
 | Accuracy | ±30 mV | [HAND] |
 | Noise | ≤ 8 nV/√Hz @ 100 kHz and @ 1 MHz (PN add ≤ 0.2 dB at K_VCO 38.8 MHz/V vs L_tot −119.6 dBc/Hz @ 1 MHz) | [HAND]/[SCH] |
+
+### P2.7.2c close vbp / unique LVS (2026-11-18) [TOOL/GDS]
+
+bank.vbp↔var.vbp joined (strip hierarchical texts; pin→bus M2 bridge; west
+strap). Intermediate net groups: DRC clean, no named-net `|` merge.
+M$888/M$899 on `vbp`, drains separate. Unique LVS **FAIL**: `M$934` (Mtail)
+`D=tn`; core.tail open from Mtail. Stop:
+`layout/p272c/out/summary_p272c_close_vbp_unique_lvs_stop.txt`.
 
 ### D9 filter capacitor notes (2026-11-13) — MIM kept; MOS swing cause
 

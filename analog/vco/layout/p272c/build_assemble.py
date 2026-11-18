@@ -177,6 +177,13 @@ class Asm:
         if name == "vco_bank":
             n = self._strip_bank_bb_pin_texts()
             self.say(f"stripped {n} bank bb* pin texts [TOOL]")
+        # Hierarchical "vbp" texts: bank has 24 cell-local labels on the real
+        # M2 bus plus an orphan top pin pad; leaving them yields vbp vs vbp$1
+        # when the top strap lands on the pad. Strip all; one top export_pin
+        # after the pad↔bus bridge [TOOL 2026-11-18].
+        if name in ("vco_bank", "vco_var"):
+            n = self._strip_named_pin_texts("vbp")
+            self.say(f"stripped {n} hierarchical vbp pin texts in {name} [TOOL]")
         return cell.cell_index(), pins, bb, keep
 
     def _fix_svaricap_terminal_texts(self):
@@ -210,6 +217,22 @@ class Asm:
                         continue
                     if sh.text.string.startswith("bb"):
                         cell.shapes(lyr).erase(sh)
+                        n += 1
+        return n
+
+    def _strip_named_pin_texts(self, name):
+        """Remove hierarchical pin texts with the given net name (any */25)."""
+        n = 0
+        for cell in self.ly.each_cell():
+            for li in self.ly.layer_indexes():
+                info = self.ly.get_info(li)
+                if info.datatype != 25:
+                    continue
+                for sh in list(cell.shapes(li).each()):
+                    if not sh.is_text():
+                        continue
+                    if sh.text.string == name:
+                        cell.shapes(li).erase(sh)
                         n += 1
         return n
 
@@ -1045,11 +1068,24 @@ class Asm:
             if "vbp" in bp and "vbp" in vp:
                 x0, y0 = bp["vbp"]
                 x1, y1 = vp["vbp"]
+                # Bank leaf: top vbp pin M1 is ~2.9 µm south of the west M2
+                # corridor (pin y, via at +2 µm, bus bottom at +2.85 µm local).
+                # Strap on the orphan pad → vbp vs vbp$1 open [TOOL]. Bridge
+                # pin→bus on M2, then strap from the bus landing [GDS].
+                y_bus = y0 + 3.2
+                c.shapes(self.m2).insert(
+                    pya.DBox(x0 - 0.45, y0 - 0.15, x0 + 0.45, y_bus + 0.45))
+                c.shapes(self.m1).insert(
+                    pya.DBox(x0 - 0.45, y0 - 0.45, x0 + 0.45, y0 + 0.45))
+                c.insert(pya.DCellInstArray(
+                    vs12, pya.DTrans(pya.DVector(x0, y0))))
+                c.insert(pya.DCellInstArray(
+                    vs12, pya.DTrans(pya.DVector(x0, y_bus))))
                 # West of bank/det — do not H through bank at y≈80 (vbp|gnd)
                 # [TOOL 2026-11-18]. Narrow pads — fat ±1 µm shorted vbp|vvb.
                 x_west = min(bank_bb.left, det_bb.left) - 10.0
                 x_var_col = var_bb.left - 3.0
-                hw2, hw3, pad_b, pad_v = 0.20, 0.50, 0.60, 0.30
+                hw2, hw3, pad_v = 0.20, 0.50, 0.30
 
                 def m2h(xa, ya, xb, yb):
                     c.shapes(self.m2).insert(
@@ -1061,16 +1097,10 @@ class Asm:
                         pya.DBox(xx - hw3, min(ya, yb),
                                  xx + hw3, max(ya, yb)))
 
-                m2h(x0, y0, x_west, y0)
-                for lyr in (self.m1, self.m2):
-                    c.shapes(lyr).insert(
-                        pya.DBox(x0 - pad_b, y0 - pad_b,
-                                 x0 + pad_b, y0 + pad_b))
+                m2h(x0, y_bus, x_west, y_bus)
                 c.insert(pya.DCellInstArray(
-                    vs12, pya.DTrans(pya.DVector(x0, y0))))
-                c.insert(pya.DCellInstArray(
-                    vs23, pya.DTrans(pya.DVector(x_west, y0))))
-                m3v(x_west, y0, y1)
+                    vs23, pya.DTrans(pya.DVector(x_west, y_bus))))
+                m3v(x_west, y_bus, y1)
                 c.insert(pya.DCellInstArray(
                     vs23, pya.DTrans(pya.DVector(x_west, y1))))
                 m2h(x_west, y1, x_var_col, y1)
@@ -1084,8 +1114,8 @@ class Asm:
                 c.insert(pya.DCellInstArray(
                     vs12, pya.DTrans(pya.DVector(x1, y1))))
                 self.say(
-                    f"controls: vbp bank↔var west_col={x_west:.1f} "
-                    f"y_pin={y1:.1f} [TOOL]"
+                    f"controls: vbp bank↔var bridge→bus y={y_bus:.2f} "
+                    f"west_col={x_west:.1f} var_y={y1:.1f} [TOOL]"
                 )
             self.say("controls: gate/code pins exported; AFE buses at synthesizer top")
 

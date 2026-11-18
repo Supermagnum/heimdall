@@ -1,11 +1,11 @@
 # P2.7 layout notes
 
-Status: **P2.7.2c flat-sch LVS STOP** (2026-11-18). Sign-off reference is
-flattened `vco_top.sch` (`vco_top_sch_flat.spice` + `lvs_setup.tcl`), not leaf
-spice. Placement-only m-weighted counts PASS; unique LVS FAIL at power (239 vs
-238 devices after merge; 1 NMOS) — `summary_p272c_flat_sch_lvs_stop.txt`.
-Outline 0.4029 mm²; island C 35.6/35.6 fF; band@35.6 prior [GDS/SCH/TOOL].
-Chip art PASS. Blocks PASS.
+Status: **P2.7.2c close-vbp / unique LVS STOP** (2026-11-18). Sign-off reference
+is flattened `vco_top.sch` + `lvs_setup.tcl`. bank.vbp↔var.vbp joined (one name)
+[TOOL]; net groups DRC + no named-net merge PASS; unique LVS FAIL — Mtail drain
+on tn, core.tail open (`summary_p272c_close_vbp_unique_lvs_stop.txt`). Outline
+0.4029 mm²; island C 35.6/35.6 fF; band@35.6 prior [GDS/SCH/TOOL]. Chip art
+PASS. Blocks PASS.
 
 ---
 

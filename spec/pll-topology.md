@@ -278,9 +278,10 @@ P2.5 result review: accepted by the owner 2026-10-25, with step 4 for the three 
 
 I_cp follows V_REF / R_B. With R_B of the same resistor type as the loop-filter R1, the product I_cp · R1, and so the loop bandwidth, does not depend on the resistor's absolute value. V_REF (0.4 V) comes from the chip reference (shared block, not yet designed; an ideal source until then). In the final pump the source segments switch with the code too, so the current density stays as in step 2a.
 
-**Open — VCO `vvb_bias` (0.3 V) from this bias generator** (2026-11-18)
-[decisions / `spec/vco-topology.md` §9]: the VCO has no on-chip source for the
-AC-coupled SVaricap gate bias. Add an output (or accept another owner choice):
+**Open — VCO `vvb_bias` (0.3 V) from this bias generator** (2026-11-18,
+requirement accepted in decisions “Intermediate LVS checks, vvb_bias
+requirement”). [decisions / `spec/vco-topology.md` §9]: add an output on this
+generator for the AC-coupled SVaricap gate bias:
 
 | Item | Requirement | Tag |
 |------|-------------|-----|
