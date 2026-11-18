@@ -121,8 +121,7 @@ Xmo1 d1 xraw ss gnd sg13_lv_nmos w=8u l=2u ng=2 m=1 mm_ok=1
 Xmo2 nb tail_f ss gnd sg13_lv_nmos w=8u l=2u ng=2 m=1 mm_ok=1
 Xmp1 d1 d1 vdd vdd sg13_lv_pmos w=4u l=2u ng=2 m=1 mm_ok=1
 Xmp2 nb d1 vdd vdd sg13_lv_pmos w=4u l=2u ng=2 m=1 mm_ok=1
-XmdL gnd gnd gnd gnd sg13_lv_nmos w=4u l=2u ng=1 m=1 mm_ok=1
-XmdR gnd gnd gnd gnd sg13_lv_nmos w=4u l=2u ng=1 m=1 mm_ok=1
+Xmdum_ota gnd gnd gnd gnd sg13_lv_nmos w=8u l=2u ng=1 m=1 mm_ok=1
 Xrbf nb nbf gnd rhigh w=5.000000e-07 l=2.128500e-05 m=1 b=16 mm_ok=1
 Xmbp_rbf nb vbp_tail nbf gnd sg13_lv_nmos w=20u l=0.13u ng=4 m=1 mm_ok=1
 Xcbf0 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1

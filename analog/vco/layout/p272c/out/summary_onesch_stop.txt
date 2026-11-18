@@ -1,0 +1,57 @@
+# Prompt 06 — P2.7.2c one schematic: stop report [2026-11-18]
+
+466de51 already on origin/main. Decision "One schematic for simulation, LVS and
+layout" recorded in decisions.md.
+
+## Results vs pass criteria (per step)
+
+| step | criterion | result |
+|------|-----------|--------|
+| 1 | Ideals listed; sch devices where tools allow | **PASS** — `sch/out/summary_vco_sim_ideals.txt`; cbf/rbf from sch cmim/rhigh; bank b0..b2 cmim in step2 deck |
+| 2 | Band ≥40 MHz both ends @ island 35.6 fF | **PASS** — top 106.6 / bot 91.0 MHz [SCH] (`summary_p272c_band_d20_island35p6.txt`) |
+| 2 | Overlap | **NOT RUN** this job (stopped at step 3) |
+| 2 | Bank boundary step ≤½ LSB, monotonic | **NOT RUN** this job |
+| 2 | D20 vs compliance windows | **PASS (direction)** — island −1.4 fF favorable; no per-corner re-sim [HAND] |
+| 2 | Worst-corner PN | **NOT RUN** (PSS not invoked) |
+| 3 | Name + fix last NMOS; place+power unique LVS | **FAIL** — see below / `summary_onesch_nmos.txt` |
+| 4 | Net-group replay to unique LVS | **NOT STARTED** (blocked by step 3) |
+| 5 | tn/tp C, tail, outline, floorplan §8 | **PARTIAL** — outline 0.4029 mm² [GDS] from place build; RC PEX not run |
+| 6 | Spec updates + commits | **PARTIAL** — stop summaries written; specs not fully updated |
+
+## Remaining ideals (step 1)
+
+| part | kind | why kept |
+|------|------|----------|
+| l2n0 R/L/C | EM lumped | No spiral in sim; `l2n0_lumped.inc` [EM] |
+| vvb_bias | vsource 0.3 V | Var well bias; TB stimulus [SCH] |
+| iref_pbias | isource | DAC master into pbias; full unit-DAC PSS not proven [SCH] |
+| mb1/mb2+rl+ib+ctb+cl | stand-in CML | Not in vco_top.sch; LO-load placeholder [SCH] |
+| (none) cbf / rbf | — | Replaced by 7× cmim + rhigh from sch [SCH] |
+
+Step2 lighter deck still has iref, ideal bias R option, supplies, kick, stand-in buffer [SCH].
+
+## What failed or is uncertain
+
+- **Last NMOS:** raw 71 vs 67; parallel inventory 67=67 (mt 4×120↔480, mrtp||mrtn↔1u); netgen merge **65 vs 64** persists. Place+power KLayout and netgen **not unique**. `property series/parallel none` ineffective in netgen 1.5.324 [TOOL].
+- Ampcal/ota/core dummy snaps applied to match **top** extract [GDS].
+- Overlap, boundary steps, worst-corner PN not re-run on this turn.
+- Extracted RC for tn/tp mismatch: **not run** [PEX-RC].
+
+## Decision needed
+
+Clear the post-merge +1 NMOS without editing netlists to force a match:
+(a) netgen/KLayout setup that actually disables false series merge from D/S assign;
+(b) intentional sch bypass D/S orientation mirroring extract;
+(c) identify the one device that survives merge on sch only and fix at source (sch or GDS).
+
+## Found, not done
+
+- Overlap + bank thermometer/binary boundary + full D20 corner re-sim + PN at 35.6
+- Net-group replay (power→detector), inductor fab/LVS diff, varactor scripts, ct port check
+- Spec updates: `vco-topology.md` §9, `p27-layout-notes.md`, `p27-floorplan.md` §8, `phase2-plan.md` §3
+- SVG/PDF refresh for changed .sch exports
+- Portable `xschemrc` rewrite inside container still required for export (gen writes portable now)
+
+## Next run (expected)
+
+**P2.7.3 — VCO PEX and post-layout checks** — only after place+power (then full join) unique LVS on flattened `vco_top.sch`. Immediate unblock: finish the last NMOS decision above, then resume net-group replay.

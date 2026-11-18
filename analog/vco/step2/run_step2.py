@@ -268,13 +268,19 @@ def netlist(title, code, vtune, analysis, itail=ITAIL, extra="", drive_vbp=False
                  "rfx (fx 0) resistor r=200k noisy=1\n")
     n.append("m1 (tp tn tail 0) sg13_lv_nmos w=32u l=0.13u ng=8\n"
              "m2 (tn tp tail 0) sg13_lv_nmos w=32u l=0.13u ng=8\n")
+    # cbf: 7× cmim (layout / vco_tail_dac.sch); not ideal 50 pF [GDS/SCH]
+    cbf_lines = "".join(
+        f"cbf{i} (nbf 0) cap_cmim w=68.94u l=68.94u\n" for i in range(7)
+    )
     n.append("ctail (tail 0) capacitor c=8p\n"
              "mt (tail nbf 0 0) sg13_lv_nmos w=160u l=4u ng=32\n"
              "rbf (nb nbf) resistor r=1M noisy=1\n"
-             "cbf (nbf 0) capacitor c=50p\n"
+             + cbf_lines +
              "mr (nb nb 0 0) sg13_lv_nmos w=20u l=4u ng=4\n"
              f"iref (vdd nb) isource dc={itail / 8:.6g}\n")
     rflag = "noisy=1" if bank_r_noisy else "noisy=0"
+    # D24 layout: b0..b2 cmim (2-term); b3+ rfcmim — match vco_bank.sch [GDS/SCH]
+    BANK_CMIM_SIDE = {0: 2.81, 1: 3.92, 2: 5.53}
     for k in range(n_bank_cells()):
         wt = cell_weight(k)
         tr = cell_trim(k)
@@ -284,13 +290,24 @@ def netlist(title, code, vtune, analysis, itail=ITAIL, extra="", drive_vbp=False
         # PCell clamps ng ≤ 100; sch/layout use the same total W [TOOL]
         ng = min(100, max(1, int(round(w / 2.5))))
         on = cell_on(code, k)
-        n.append(f"xb{k}p (tp a{k} 0) cap_rfcmim w={s:.3f}u l={s:.3f}u\n"
-                 f"xb{k}n (tn b{k} 0) cap_rfcmim w={s:.3f}u l={s:.3f}u\n"
-                 f"ms{k} (a{k} g{k} b{k} 0) sg13_lv_nmos w={w:.2f}u l=0.13u ng={ng}\n"
-                 f"rba{k} (a{k} bb{k}) resistor r={R_BIAS:g} {rflag}\n"
-                 f"rbb{k} (b{k} bb{k}) resistor r={R_BIAS:g} {rflag}\n"
-                 f"vg{k} (g{k} 0) vsource dc={1.2 if on else 0}\n"
-                 f"vbb{k} (bb{k} 0) vsource dc={0 if on else 1.2}\n")
+        if BANK_ARCH == "d24" and k < 3:
+            sk = BANK_CMIM_SIDE[k]
+            n.append(
+                f"xb{k}p (tp a{k}) cap_cmim w={sk:.3f}u l={sk:.3f}u\n"
+                f"xb{k}n (tn b{k}) cap_cmim w={sk:.3f}u l={sk:.3f}u\n"
+            )
+        else:
+            n.append(
+                f"xb{k}p (tp a{k} 0) cap_rfcmim w={s:.3f}u l={s:.3f}u\n"
+                f"xb{k}n (tn b{k} 0) cap_rfcmim w={s:.3f}u l={s:.3f}u\n"
+            )
+        n.append(
+            f"ms{k} (a{k} g{k} b{k} 0) sg13_lv_nmos w={w:.2f}u l=0.13u ng={ng}\n"
+            f"rba{k} (a{k} bb{k}) resistor r={R_BIAS:g} {rflag}\n"
+            f"rbb{k} (b{k} bb{k}) resistor r={R_BIAS:g} {rflag}\n"
+            f"vg{k} (g{k} 0) vsource dc={1.2 if on else 0}\n"
+            f"vbb{k} (bb{k} 0) vsource dc={0 if on else 1.2}\n"
+        )
     # varactor: NFING fingers, per side about NFING x 3.4 x 2 fF; coupling caps 5x per side
     sc = side(5 * NFING * 6.8)
     n.append(f"xcp (tp vgp 0) cap_rfcmim w={sc:.3f}u l={sc:.3f}u\n"

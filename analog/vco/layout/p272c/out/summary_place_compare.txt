@@ -1,6 +1,6 @@
 # P2.7.2c placement-only compare (flat sch vs extract, m-weighted) [TOOL]
-# sch=/mnt/2e9a1e9f-2097-408c-ab9a-a01b32f11d28/github-projects/heimdall/analog/vco/layout/p272c/out/vco_top_sch_flat.spice
-# extract=/mnt/2e9a1e9f-2097-408c-ab9a-a01b32f11d28/github-projects/heimdall/analog/vco/layout/p272c/out/lvs_vco_top/vco_top_lvs_extracted.cir
+# sch=/foss/designs/analog/vco/layout/p272c/out/vco_top_sch_flat.spice
+# extract=/foss/designs/analog/vco/layout/p272c/out/lvs_vco_top/vco_top_lvs_extracted.cir
 # extract_exists=True
 
 | model | sch(m) | lay(m) | d(m) | sch_raw | lay_raw | cause |
@@ -20,10 +20,10 @@
 
 ## Recorded unmatched-device list (step 2)
 
-1. **l2n0** — sch black-box instance; layout LVS GDS is pin-only (no spiral devices). Setup: BLACKBOX in flatten_sch_spice + lvs_setup.tcl. Not a layout error.
-2. **cap_cmim raw 16 vs 10** — sch has 7× cbf tiles; layout one device m=7. m-weighted counts match. Bank b0..b2 cmim (6) + det hold/rep/cl_cmp (3) on both sides.
-3. **sg13_lv_nmos raw 71 vs 67** — tail_mt 4×120u in sch vs one 480u extract (combine); bank bypass W snaps (0.156→0.15); det finger ng vs extract single; layout-only fill dummy ~9u. Not edited to force match — LVS combine decides.
-4. **SVaricap G1/G2** — local vgp/vgn; well W↔vt in assemble [TOOL]. MODEL_MAP fx→sg13_hv_svaricap.
-5. **Ideal R/I/V** — removed from LVS-facing bank/core/var/tail sch; sim ideals remain in vco_sim_flat only.
+1. **l2n0** — omitted from flat LVS sch (same as leaf core spice); layout LVS GDS pin-only has no extract device. Fab keeps spiral. Not a layout error [TOOL].
+2. **cap_cmim raw 16 vs 10** — sch 7× cbf tiles; layout one device m=7. m-weighted match. Bank b0..b2 cmim (6) + det hold/rep/cl_cmp (3) on both sides.
+3. **sg13_lv_nmos raw 71 vs 67; after netgen merge 65 vs 64** — tail_mt 4×120u vs one 480u; bank W snaps (0.156→0.15, 308.58→308.5); ota dummies 2×4u/2u vs layout 8u/2u fill; layout-only ~9u dummy; det SF 0.5u vs some 1u extract. One NMOS remains after combine — bisect before forcing a match [TOOL].
+4. **SVaricap G1/G2** — local vgp/vgn; well W↔vt [TOOL]. MODEL_MAP fx→sg13_hv_svaricap.
+5. **Ideal R/I/V** — removed from LVS-facing bank/core/var/tail sch; sim ideals in vco_sim_flat only. Bank LSB now cmim (was rfcmim in old sch) [SCH/GDS].
 
 # PASS placement-only (m-weighted + explained MOS): True

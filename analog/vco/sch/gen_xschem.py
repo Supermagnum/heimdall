@@ -116,10 +116,28 @@ def gen_l2n0():
     return sch
 
 
-# Layout LVS snaps for D24 bank LSB cmim (p272b_bank leaf spice) [GDS/TOOL]
+# Layout LVS snaps for D24 bank (p272b_bank leaf spice) [GDS/TOOL]
 BANK_CMIM_SIDE = {0: "2.81u", 1: "3.92u", 2: "5.53u"}
+# ms switch total W (extract-rounded); ng from leaf build [GDS]
+BANK_MS_W = {
+    0: ("10.32u", 4), 1: ("19.8u", 8), 2: ("39.12u", 16), 3: ("77.5u", 31),
+    4: ("154.38u", 62), 5: ("308.5u", 100), 6: ("308.5u", 100),
+    7: ("308.5u", 100), 8: ("308.5u", 100), 9: ("308.5u", 100),
+    10: ("308.5u", 100), 11: ("308.5u", 100),
+}
+# bypass NMOS W/L/ng — leaf snaps (not raw bank_bypass_geom floats) [GDS]
+BANK_BYP = {
+    0: ("0.15u", "0.13u", 1), 1: ("0.15u", "0.13u", 1),
+    2: ("0.15u", "0.13u", 1), 3: ("0.31u", "0.13u", 1),
+    4: ("0.62u", "0.13u", 1), 5: ("1.25u", "0.13u", 1),
+    6: ("1.25u", "0.13u", 1), 7: ("1.25u", "0.13u", 1),
+    8: ("1.25u", "0.13u", 1), 9: ("1.25u", "0.13u", 1),
+    10: ("1.25u", "0.13u", 1), 11: ("1.25u", "0.13u", 1),
+}
 BANK_RHIGH_W, BANK_RHIGH_L = "5.0u", "60.8u"
 CORE_RHIGH_W, CORE_RHIGH_L = "2u", "15.2u"
+# Top extract shows 9u gnd-tied fill; leaf core spice had 8u — use extract [GDS]
+CORE_MDUM_W = "9u"
 VAR_RHIGH_W, VAR_RHIGH_L, VAR_RHIGH_B = "0.5u", "42.095u", 16
 D9_RHIGH_W, D9_RHIGH_L, D9_RHIGH_B = "0.5u", "21.285u", 16
 CBF_SIDE, CBF_M = "68.94u", 7
@@ -149,7 +167,7 @@ def gen_vco_core(rng):
     # Cross-coupled pair (run_step2); mdum matches layout GR fill [GDS]
     sch.nmos("m1", "tp", "tn", "tail", "gnd", "32u", "0.13u", 8)
     sch.nmos("m2", "tn", "tp", "tail", "gnd", "32u", "0.13u", 8)
-    sch.nmos("mdum", "gnd", "gnd", "gnd", "gnd", "8u", "0.13u", 1)
+    sch.nmos("mdum", "gnd", "gnd", "gnd", "gnd", CORE_MDUM_W, "0.13u", 1)
     cfix = float(rng["cfix"])
     if cfix > 0:
         s = side_um(2 * cfix)
@@ -174,16 +192,18 @@ def gen_vco_tail_dac():
         xd = f"xd_{iname}"
         sch.pmos(f"mdb_{iname}", xd, "pbias", "vdd", "vdd", "2u", "2u", 1)
         sch.pmos(f"msw_{iname}", "xraw", code, xd, "vdd", "2u", "0.13u", 1)
-    # tail_mt: 4× 120u/4u ng=24 (= 480u total) [GDS]
+    # tail_mt: leaf is 4×120/4 ng=24; top extract combines to one 480u —
+    # keep 4 tiles (combine_devices) to match leaf GDS [GDS/TOOL]
     for i in range(4):
         sch.nmos(f"mt{i}", "tail", "nbf", "gnd", "gnd", "120u", "4u", 24)
-    # ota_vds: xraw≡xref; out=nb; dummies MdL/MdR [GDS]
+    # ota_vds: xraw≡xref; out=nb [GDS leaf]
+    # Top extract drops fully gnd-tied 4u/2u dummies (leaf had MdL/MdR); keep
+    # one 8u/2u fill that top extract shows [GDS/TOOL]
     sch.nmos("mo1", "d1", "xraw", "ss", "gnd", "8u", "2u", 2)
     sch.nmos("mo2", "nb", "tail_f", "ss", "gnd", "8u", "2u", 2)
     sch.pmos("mp1", "d1", "d1", "vdd", "vdd", "4u", "2u", 2)
     sch.pmos("mp2", "nb", "d1", "vdd", "vdd", "4u", "2u", 2)
-    sch.nmos("mdL", "gnd", "gnd", "gnd", "gnd", "4u", "2u", 1)
-    sch.nmos("mdR", "gnd", "gnd", "gnd", "gnd", "4u", "2u", 1)
+    sch.nmos("mdum_ota", "gnd", "gnd", "gnd", "gnd", "8u", "2u", 1)
     # d9_rc [GDS]
     sch.rhigh("rbf", "nb", "nbf", "gnd", w=D9_RHIGH_W, l=D9_RHIGH_L,
               bends=D9_RHIGH_B)
@@ -217,45 +237,36 @@ def gen_vco_bank(rng):
         tr = S2.cell_trim(k)
         c_mim = 2 * lsb * wt * tr
         s = side_um(c_mim)
-        w = SW_PER_FF * lsb * wt * tr
-        ng = min(100, max(1, int(round(w / 2.5))))  # PCell clamp [TOOL]
         # D24: b0..b2 cmim (layout); b3+ rfcmim [GDS / summary_rc_bank]
         kind = "cmim" if (S2.BANK_ARCH == "d24" and k < 3) else "rfcmim"
         side = BANK_CMIM_SIDE.get(k, f"{s:.3f}u") if kind == "cmim" else f"{s:.3f}u"
         sch.mim(f"xb{k}p", "tp", f"a{k}", "gnd", side, side, kind=kind)
         sch.mim(f"xb{k}n", "tn", f"b{k}", "gnd", side, side, kind=kind)
-        sch.nmos(f"ms{k}", f"a{k}", f"g{k}", f"b{k}", "gnd",
-                 f"{w:.2f}u", "0.13u", ng)
+        mw, mng = BANK_MS_W.get(k, (f"{SW_PER_FF * lsb * wt * tr:.2f}u",
+                                    min(100, max(1, int(round(
+                                        SW_PER_FF * lsb * wt * tr / 2.5))))))
+        sch.nmos(f"ms{k}", f"a{k}", f"g{k}", f"b{k}", "gnd", mw, "0.13u", mng)
         sch.rhigh(f"rba{k}", f"a{k}", f"bb{k}", "gnd",
                   w=BANK_RHIGH_W, l=BANK_RHIGH_L)
         sch.rhigh(f"rbb{k}", f"b{k}", f"bb{k}", "gnd",
                   w=BANK_RHIGH_W, l=BANK_RHIGH_L)
-        bw, bl, bng = S2.bank_bypass_geom(k)
-        sch.nmos(f"mbp_rba{k}", f"a{k}", "vbp", f"bb{k}", "gnd",
-                 f"{bw:.4g}u", f"{bl:g}u", bng)
-        sch.nmos(f"mbp_rbb{k}", f"b{k}", "vbp", f"bb{k}", "gnd",
-                 f"{bw:.4g}u", f"{bl:g}u", bng)
+        bw, bl, bng = BANK_BYP.get(k, ("0.15u", "0.13u", 1))
+        sch.nmos(f"mbp_rba{k}", f"a{k}", "vbp", f"bb{k}", "gnd", bw, bl, bng)
+        sch.nmos(f"mbp_rbb{k}", f"b{k}", "vbp", f"bb{k}", "gnd", bw, bl, bng)
     # Centroid dummy (slot D): one thermo-sized unit, all terminals to gnd
     if S2.BANK_ARCH == "d24":
-        wt = S2.cell_weight(5)
-        tr = S2.cell_trim(5)
-        c_mim = 2 * lsb * wt * tr
-        s = side_um(c_mim)
-        w = SW_PER_FF * lsb * wt * tr
-        ng = min(100, max(1, int(round(w / 2.5))))
-        bw, bl, bng = S2.bank_bypass_geom(5)
+        s = side_um(2 * lsb * S2.cell_weight(5) * S2.cell_trim(5))
+        mw, mng = BANK_MS_W[5]
+        bw, bl, bng = BANK_BYP[5]
         sch.mim("xbdump", "gnd", "adum", "gnd", f"{s:.3f}u", f"{s:.3f}u")
         sch.mim("xbdumn", "gnd", "bdum", "gnd", f"{s:.3f}u", f"{s:.3f}u")
-        sch.nmos("msdum", "adum", "gnd", "bdum", "gnd",
-                 f"{w:.2f}u", "0.13u", ng)
+        sch.nmos("msdum", "adum", "gnd", "bdum", "gnd", mw, "0.13u", mng)
         sch.rhigh("rbadum", "adum", "gnd", "gnd",
                   w=BANK_RHIGH_W, l=BANK_RHIGH_L)
         sch.rhigh("rbbdum", "bdum", "gnd", "gnd",
                   w=BANK_RHIGH_W, l=BANK_RHIGH_L)
-        sch.nmos("mbp_rbadum", "adum", "gnd", "gnd", "gnd",
-                 f"{bw:.4g}u", f"{bl:g}u", bng)
-        sch.nmos("mbp_rbbdum", "bdum", "gnd", "gnd", "gnd",
-                 f"{bw:.4g}u", f"{bl:g}u", bng)
+        sch.nmos("mbp_rbadum", "adum", "gnd", "gnd", "gnd", bw, bl, bng)
+        sch.nmos("mbp_rbbdum", "bdum", "gnd", "gnd", "gnd", bw, bl, bng)
     sch.write()
     write_sym(os.path.join(HERE, "vco_bank.sym"), "vco_bank", ports)
     return sch
@@ -299,7 +310,8 @@ def gen_ampcal_det():
     for p in ports:
         sch.iopin(p)
     sch.title("ampcal_det_cmp_D22_fab")
-    # SF pair [GDS det_sf_pair]
+    # SF pair [GDS det_sf_pair]. Top extract drops fully gnd-tied 0.5u
+    # dummies (leaf MdL/MdR); mrtp||mrtn combine to W=1u [GDS/TOOL]
     sch.nmos("mdtp", "vdd", "tp", "hold", "gnd", A.W_DET, A.L_DET, 1)
     sch.nmos("mdtn", "vdd", "tn", "hold", "gnd", A.W_DET, A.L_DET, 1)
     sch.nmos("mrtp", "vdd", "ct", "rep", "gnd", A.W_DET, A.L_DET, 1)
@@ -333,8 +345,10 @@ def gen_ampcal_det():
     sch.nmos("mcs2", "cmp", "co", "ss2", "gnd", "4u", "0.5u", 2)
     sch.pmos("mpl1", "n1", "n1", "vdd", "vdd", "4u", "0.5u", 2)
     sch.pmos("mpl2", "cmp", "n1", "vdd", "vdd", "4u", "0.5u", 2)
-    # cl_cmp 50 fF cmim [GDS]
-    sch.mim("cl_cmp", "cmp", "gnd", "gnd", "5.78u", "5.78u", kind="cmim")
+    # cmp_se fill: top extract shows one 4u/0.5 gnd MOS (not 2×2u leaf) [GDS]
+    sch.nmos("mdLc", "gnd", "gnd", "gnd", "gnd", "4.0u", "0.5u", 1)
+    # cl_cmp — leaf extract snap 5.71 µm [GDS]
+    sch.mim("cl_cmp", "cmp", "gnd", "gnd", "5.71u", "5.71u", kind="cmim")
     sch.write()
     write_sym(os.path.join(HERE, "ampcal_det.sym"), "ampcal_det", list(ports))
     return sch
@@ -451,38 +465,29 @@ def build_flat_inventory(rng):
     blocks["vrana1_ldo"] = gen_ldo()
     gen_vco_top(rng, blocks)
 
-    # Flat VACASK for VCO core path (stand-alone range TB uses step2 topology
-    # with ideal iref — keep a 'vco_sim' that mirrors run_step2 netlist closely)
+    # Flat sim from hierarchical sch blocks (design = vco_top.sch) [decisions]
+    # Remaining ideals: listed in out/summary_vco_sim_ideals.txt
     sim = Sch("vco_sim_flat", os.path.join(HERE, "vco_sim_flat.sch"))
     for p in ("tp", "tn", "ct", "vt", "vdd", "gnd", "vbp", "vbp_tail"):
         sim.iopin(p)
-    sim.title("vco_sim_flat_step2")
-    # Inductor elements
+    sim.title("vco_sim_flat_from_sch")
     for d in blocks["l2n0"].devices:
         _emit(sim, d)
-    # Core
     for d in blocks["vco_core"].devices:
         _emit(sim, d)
-    # Bank
     for d in blocks["vco_bank"].devices:
         _emit(sim, d)
-    # Var (LVS sch has no ideal bias; sim flat restores 0.3 V on vvb) [SCH]
     for d in blocks["vco_var"].devices:
         _emit(sim, d)
+    # Var well bias: no pin in sch; TB needs DC (tool/TB, not a fab device) [SCH]
     sim.vsrc("vvb_bias", "vvb", "gnd", 0.3)
-    # Stand-alone tail (step2 style) for range TB — also emit D22 block separately
-    sim.capa("ctail", "tail", "gnd", 8e-12)
-    sim.nmos("mt", "tail", "nbf", "gnd", "gnd", "160u", "4u", 32)
-    sim.res("rbf", "nb", "nbf", 1e6)
-    n_cbf = 7
-    s_tile = side_um(50e3 / n_cbf)
-    for i in range(n_cbf):
-        sim.mim(f"cbf{i}", "nbf", "gnd", "gnd", f"{s_tile:.3f}u", f"{s_tile:.3f}u",
-                kind="cmim")
-    sim.nmos("mr", "nb", "nb", "gnd", "gnd", "20u", "4u", 4)
-    sim.isrc("iref", "vdd", "nb", 4e-3 / 8)
-    sim.nmos("mbp_rbf", "nb", "vbp_tail", "nbf", "gnd", "20u", "0.13u", 4)
-    # Stand-in buffer
+    # Full layout-accurate tail from sch (dac_array units + mt + ota + d9 + cbf)
+    for d in blocks["vco_tail_dac"].devices:
+        _emit(sim, d)
+    # Standalone bias into pbias: layout expects external I; no on-sch source [SCH]
+    # Keep ideal iref into pbias so PSS/range TB converge without a DAC master.
+    sim.isrc("iref_pbias", "vdd", "pbias", 1.05e-5)
+    # Stand-in CML buffer (not in vco_top.sch; LO load for range/PN TB) [SCH]
     sim.nmos("mb1", "op", "tp", "tb", "gnd", "10u", "0.13u", 4)
     sim.nmos("mb2", "on", "tn", "tb", "gnd", "10u", "0.13u", 4)
     sim.res("rl1", "vdd", "op", 400)
@@ -494,6 +499,29 @@ def build_flat_inventory(rng):
     sim.write()
     write_sym(os.path.join(HERE, "vco_sim_flat.sym"), "vco_sim_flat",
               ["tp", "tn", "ct", "vt", "vdd", "gnd", "vbp", "vbp_tail"])
+    # Document remaining ideals [decisions 2026-11-18]
+    ideals_path = os.path.join(HERE, "out", "summary_vco_sim_ideals.txt")
+    os.makedirs(os.path.dirname(ideals_path), exist_ok=True)
+    open(ideals_path, "w").write(
+        "# Remaining ideal / equivalent parts in vco_sim_flat [SCH]\n\n"
+        "| part | kind | why kept |\n"
+        "|------|------|----------|\n"
+        "| l2n0 R/L/C | EM lumped | No spiral in sim; Palace/EM model "
+        "`l2n0_lumped.inc` [EM] |\n"
+        "| vvb_bias | vsource 0.3 V | Var well bias; not a fab pin; TB "
+        "stimulus [SCH] |\n"
+        "| iref_pbias | isource | External DAC master current into pbias; "
+        "full current-source DAC not needed for band TB; PSS with 51 "
+        "unit DACs not proven [SCH] |\n"
+        "| mb1/mb2 + rl + ib + ctb + cl | stand-in CML | Not in vco_top.sch; "
+        "LO-load for range/PN; real buffer is separate open item [SCH] |\n"
+        "| (none) cbf | — | Uses 7× cmim from sch (not ideal 50 pF) [SCH] |\n"
+        "| (none) rbf | — | Uses rhigh from sch [SCH] |\n"
+        "\nBand/range TB in step2 still uses `run_step2.netlist` (lighter "
+        "deck); that deck is aligned to sch for bank cmim b0..b2 — see "
+        "step2 patch. Ideals there: iref, ideal R bias, ideal cbf option, "
+        "supplies, kick, stand-in buffer [SCH].\n"
+    )
 
     # Combined inventory JSON
     inv = {}
@@ -553,21 +581,20 @@ def _emit(sch: Sch, d):
 
 
 def write_xschemrc():
+    # Portable: cwd-relative sch dir works in container and on host [TOOL]
     src = "/foss/pdks/ihp-sg13g2/libs.tech/xschem/xschemrc"
     dst = os.path.join(HERE, "xschemrc")
+    prefix = (
+        "set XSCHEM_LIBRARY_PATH [file normalize [file dirname "
+        "[info script]]]\n"
+        "append XSCHEM_LIBRARY_PATH "
+        ":$env(PDK_ROOT)/$env(PDK)/libs.tech/xschem\n"
+    )
     if os.path.exists(src):
         text = open(src).read()
-        # Prepend local path
-        text = (
-            f'set XSCHEM_LIBRARY_PATH {HERE}:$XSCHEM_LIBRARY_PATH\n'
-            + text
-        )
-        open(dst, "w").write(text)
+        open(dst, "w").write(prefix + text)
     else:
-        open(dst, "w").write(
-            f"set XSCHEM_LIBRARY_PATH {HERE}\n"
-            "append XSCHEM_LIBRARY_PATH :$env(PDK_ROOT)/$env(PDK)/libs.tech/xschem\n"
-        )
+        open(dst, "w").write(prefix)
 
 
 def main():

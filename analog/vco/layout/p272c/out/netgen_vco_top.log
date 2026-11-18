@@ -102,9 +102,9 @@ No property ic found for device cap_cmim
 No property ic found for device cap_cmim
 No property ic found for device cap_rfcmim
 No property ic found for device cap_rfcmim
-Error /foss/designs/analog/vco/layout/p272c/lvs_setup.tcl:37 (ignoring), wrong # args: should be "info commands ?pattern?"
+Cell to equate does not exist.
+Cell to equate does not exist.
 lvs_setup.tcl: vco_top flatten-sch mappings loaded
-Warning:  There were errors reading the setup file
 Comparison output logged to file /foss/designs/analog/vco/layout/p272c/out/netgen_vco_top.json
 Logging to file "/foss/designs/analog/vco/layout/p272c/out/netgen_vco_top.json" enabled
 

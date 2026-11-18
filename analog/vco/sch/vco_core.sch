@@ -45,7 +45,7 @@ C {devices/lab_pin.sym} 240 30 0 0 {name=p7 sig_type=std_logic lab=tail}
 N 240 0 240 0 {lab=gnd}
 C {devices/lab_pin.sym} 240 0 0 0 {name=p8 sig_type=std_logic lab=gnd}
 C {sg13g2_pr/sg13_lv_nmos.sym} 440 0 0 0 {name=mdum
-w=8u
+w=9u
 l=0.13u
 ng=1
 m=1

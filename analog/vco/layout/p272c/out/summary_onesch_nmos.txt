@@ -1,0 +1,49 @@
+# One schematic — NMOS bisect (step 3) [TOOL/GDS]
+
+## Named devices (after ampcal / ota / core snaps)
+
+| side | cell | instance | W/L/ng | class |
+|------|------|----------|-------|-------|
+| sch | vco_tail_dac | mt0..mt3 | 120u/4u ng=24 ×4 | fingered/split → lay 480u/4u ×1 |
+| lay | tail_block | (extract) | 480u/4u ×1 | fingered/split (combine) |
+| sch | ampcal_det | mdtp, mdtn | 0.5u/0.13 ×2 | match lay |
+| sch | ampcal_det | mrtp\|\|mrtn | 0.5u/0.13 ×2 | parallel → lay 1u/0.13 ×1 |
+| lay | ampcal_det | (extract) | 1u/0.13 on rep | parallel combine of mrtp\|\|mrtn |
+| sch | ampcal_det | (removed) MdL/MdR | — | top extract drops fully gnd-tied 0.5u leaf dummies |
+| sch | ampcal_det | mdLc | 4u/0.5 ×1 | was 2×2u leaf; top extract one 4u fill |
+| sch | vco_core | mdum | 9u/0.13 | match lay GR fill |
+| sch | vco_tail_dac | mdum_ota | 8u/2u | match lay gnd fill; leaf 4u/2u MdL/MdR dropped at top |
+
+## Counts
+
+| stage | sch NMOS | lay NMOS |
+|------:|---------:|---------:|
+| raw flat vs extract | 71 | 67 |
+| after parallel inventory (mt+SF) | 67 | 67 |
+| after netgen parallel/series merge | 65 | 64 |
+
+Parallel-only W/L multiset matches 67=67 [TOOL]. Netgen still ends 65 vs 64.
+`property series\|parallel none` in lvs_setup.tcl does **not** suppress that
+merge in netgen 1.5.324 [TOOL]. Layout extract shows opposite D/S on every
+bank a/b bypass pair (shared bias node); sch keeps both S=bb — candidate for
+asymmetric series merge, but merge-disable did not prove it.
+
+## Place+power LVS
+
+- DRC clean (density + SVaricap M1.b waived): PASS [TOOL]
+- KLayout LVS unique: FAIL [TOOL]
+- netgen unique: FAIL (239 vs 238 devices; 65 vs 64 NMOS) [TOOL]
+
+## Fix applied where the error was
+
+- Bank W snaps already in sch (0.15, 19.8, 308.5, …) [GDS]
+- Ampcal dummies aligned to **top** extract (not leaf-only) [GDS]
+- Ota: one 8u fill; no 4u/2u gnd dummies at top [GDS]
+- Netlists not hand-edited to force a match [decisions]
+
+## Decision needed
+
+How to clear the last NMOS after merge: (a) accept a netgen setup that
+truly disables series merge / D-S artifact; (b) flip sch bypass D/S to mirror
+extract orientation so merges match; (c) find and remove one sch-only device
+that survives merge. Do not edit flat spice to force a count.

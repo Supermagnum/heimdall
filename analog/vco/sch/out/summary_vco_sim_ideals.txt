@@ -1,0 +1,12 @@
+# Remaining ideal / equivalent parts in vco_sim_flat [SCH]
+
+| part | kind | why kept |
+|------|------|----------|
+| l2n0 R/L/C | EM lumped | No spiral in sim; Palace/EM model `l2n0_lumped.inc` [EM] |
+| vvb_bias | vsource 0.3 V | Var well bias; not a fab pin; TB stimulus [SCH] |
+| iref_pbias | isource | External DAC master current into pbias; full current-source DAC not needed for band TB; PSS with 51 unit DACs not proven [SCH] |
+| mb1/mb2 + rl + ib + ctb + cl | stand-in CML | Not in vco_top.sch; LO-load for range/PN; real buffer is separate open item [SCH] |
+| (none) cbf | — | Uses 7× cmim from sch (not ideal 50 pF) [SCH] |
+| (none) rbf | — | Uses rhigh from sch [SCH] |
+
+Band/range TB in step2 still uses `run_step2.netlist` (lighter deck); that deck is aligned to sch for bank cmim b0..b2 — see step2 patch. Ideals there: iref, ideal R bias, ideal cbf option, supplies, kick, stand-in buffer [SCH].

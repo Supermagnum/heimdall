@@ -29,4 +29,9 @@ if {[file exists $_pdk_setup]} {
 catch {equate classes {-circuit1 sg13_hv_svaricap_fx} {-circuit2 sg13_hv_svaricap}}
 catch {equate classes {-circuit1 sg13_hv_svaricap} {-circuit2 sg13_hv_svaricap_fx}}
 
+# Note: extract D/S on bank a/b bypasses is often opposite; netgen may
+# series-merge those on the layout side (see summary_place_compare /
+# summary_onesch_nmos). property series none did not suppress the merge in
+# netgen 1.5.324 — left for a follow-up decision. [TOOL]
+
 puts "lvs_setup.tcl: vco_top flatten-sch mappings loaded"

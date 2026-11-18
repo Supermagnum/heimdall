@@ -404,16 +404,32 @@ N 20 450 20 450 {lab=vdd}
 C {devices/lab_pin.sym} 20 450 0 0 {name=p89 sig_type=std_logic lab=vdd}
 N 20 480 20 480 {lab=vdd}
 C {devices/lab_pin.sym} 20 480 0 0 {name=p90 sig_type=std_logic lab=vdd}
-C {sg13g2_pr/cap_cmim.sym} 220 480 0 0 {name=cl_cmp
+C {sg13g2_pr/sg13_lv_nmos.sym} 220 480 0 0 {name=mdLc
+w=4.0u
+l=0.5u
+ng=1
+m=1
+model=sg13_lv_nmos
+spiceprefix=X
+}
+N 240 450 240 450 {lab=gnd}
+C {devices/lab_pin.sym} 240 450 0 0 {name=p91 sig_type=std_logic lab=gnd}
+N 200 480 200 480 {lab=gnd}
+C {devices/lab_pin.sym} 200 480 0 1 {name=p92 sig_type=std_logic lab=gnd}
+N 240 510 240 510 {lab=gnd}
+C {devices/lab_pin.sym} 240 510 0 0 {name=p93 sig_type=std_logic lab=gnd}
+N 240 480 240 480 {lab=gnd}
+C {devices/lab_pin.sym} 240 480 0 0 {name=p94 sig_type=std_logic lab=gnd}
+C {sg13g2_pr/cap_cmim.sym} 440 480 0 0 {name=cl_cmp
 model=cap_cmim
 lvs_model=cmim
-w=5.780000e-06
-l=5.780000e-06
+w=5.710000e-06
+l=5.710000e-06
 m=1
 mm_ok=1
 spiceprefix=X
 }
-N 220 450 220 450 {lab=cmp}
-C {devices/lab_pin.sym} 220 450 0 0 {name=p91 sig_type=std_logic lab=cmp}
-N 220 510 220 510 {lab=gnd}
-C {devices/lab_pin.sym} 220 510 0 0 {name=p92 sig_type=std_logic lab=gnd}
+N 440 450 440 450 {lab=cmp}
+C {devices/lab_pin.sym} 440 450 0 0 {name=p95 sig_type=std_logic lab=cmp}
+N 440 510 440 510 {lab=gnd}
+C {devices/lab_pin.sym} 440 510 0 0 {name=p96 sig_type=std_logic lab=gnd}

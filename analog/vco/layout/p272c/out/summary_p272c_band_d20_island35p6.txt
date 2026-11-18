@@ -3,8 +3,8 @@
 cfix = 157.6875 fF [SCH/range.json] (no re-trim; was sized for island 37 fF)
 Parasitics/side: core 23.66 + bank 36.87 + island 35.60 = 96.13 fF [PEX-RC/HAND]
 
-- top: f=4.3040 GHz margin=104.0 MHz Amp=1.44 [PASS] [SCH]
-- bot: f=3.0279 GHz margin=92.1 MHz Amp=1.09 [PASS] [SCH]
+- top: f=4.3066 GHz margin=106.6 MHz Amp=1.44 [PASS] [SCH]
+- bot: f=3.0290 GHz margin=91.0 MHz Amp=1.09 [PASS] [SCH]
 
 Band coverage >= 40 MHz both ends: PASS [SCH]
 

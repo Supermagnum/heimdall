@@ -942,3 +942,14 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   (SVaricap pins, inductor black box) live in the LVS setup, identical for KLayout and netgen.
 - Every unmatched device or net is listed and explained; netlists are not edited to force a
   match.
+
+## 2026-11-18 — One schematic for simulation, LVS and layout
+- Flattened vco_top.sch reference and lvs_setup.tcl accepted (466de51); m-weighted placement
+  counts match except one NMOS.
+- vco_top.sch (bank b0..b2 cmim + rhigh, tail as dac_array units) is the design. The
+  simulation netlist is generated from it; ideal or equivalent parts remain only where a tool
+  does not converge, each listed with its reason. Band margins (≥ 40 MHz both ends), overlap,
+  bank boundary step and D20 are re-run on it.
+- Count differences are fixed where the error is (W snaps into the schematic; dummies in both
+  or neither; layout-only devices removed or added as schematic dummies); netlists are not
+  edited to force a match.
