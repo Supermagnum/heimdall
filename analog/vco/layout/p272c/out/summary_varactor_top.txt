@@ -1,0 +1,20 @@
+# Varactor dimension + finger check — vco_top assembly [TOOL]
+Intent: w=3.74u l=0.3u Nx=10 x2 [SCH]
+
+## Schematic spice (vco_top_sch_flat.spice) — 2 SVaricap
+  [0] {'w': 3.74, 'l': 0.3, 'Nx': 10} → w=3.74 OK; l=0.3 OK; Nx=10 OK → PASS
+  [1] {'w': 3.74, 'l': 0.3, 'Nx': 10} → w=3.74 OK; l=0.3 OK; Nx=10 OK → PASS
+
+## Extract (vco_top_extracted_klayout.cir) — 2 SVaricap
+  [0] {'w': 3.74, 'l': 0.3, 'Nx': 10} → w=3.74 OK; l=0.3 OK; Nx=10 OK → PASS
+  [1] {'w': 3.74, 'l': 0.3, 'Nx': 10} → w=3.74 OK; l=0.3 OK; Nx=10 OK → PASS
+  (extract count may be < sch after combine_devices)
+
+## GDS PCell / finger walk
+  SVaricap instances: 2
+    {'cell': 'SVaricap$1'}
+    {'cell': 'SVaricap$1'}
+  bypass-like ng=2 counts seen: [2, 2, 2, 2, 2, 2, 2, 2] (expect two ng=2 bypass [SCH])
+  bypass finger presence: PASS [TOOL]
+
+## Result: PASS

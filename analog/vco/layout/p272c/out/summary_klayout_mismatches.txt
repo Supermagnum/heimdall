@@ -1,0 +1,12 @@
+# KLayout LVS mismatch list [TOOL]
+lvsdb=out/lvs_vco_top/__layout_netlist_dummy__.lvsdb
+
+## circuit lay=VCO_TOP sch=VCO_TOP status=Match
+
+## tally by class
+  a: 0
+  b: 0
+  c: 0
+  ?: 0
+
+## mismatches

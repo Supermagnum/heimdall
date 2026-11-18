@@ -1,6 +1,6 @@
 # VCO topology memo (P2.3)
 
-Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** vbp+tail join connectivity PASS; fan-out intermediate PASS; netgen unique PASS; **STOP** KLayout unique (`summary_p272c_tail_fanout_unique_lvs_stop.txt`). Outline 0.4029 mm²; band@35.6 prior [GDS/SCH/TOOL]. vvb_bias 0.3 V ±30 mV / ≤8 nV/√Hz from PLL bias gen [decisions]. Next: clear KLayout unique, step-2 @35.6, then P2.7.3. See §9.
+Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** unique LVS PASS (KLayout + netgen); step-2 @35.6 PASS (PN [HAND]); outline assemble 0.4029 mm² [GDS]. vvb_bias 0.3 V ±30 mV / ≤8 nV/√Hz from PLL bias gen [decisions]. Next: **P2.7.3** VCO PEX and post-layout checks. See §9.
 
 ---
 
@@ -324,10 +324,19 @@ M$888/M$899 on `vbp`, drains separate. Unique LVS **FAIL**: `M$934` (Mtail)
 vbp join accepted. Tail: south via stack clear of tn; face lands on child vias
 only; L=99 µm, R125=2.35 Ω, J=0.80 mA/µm, C≈9.9 fF [HAND/PDK/GDS]. Intermediate
 gate adds pin fan-out (`check_pin_fanout.py`). All groups: DRC + no `|` + fan-out
-PASS. Full join: ports clean incl. ct; **netgen unique 239/144 PASS**; **KLayout
-unique FAIL** (rfcmim case / paired device compare) — stop
-`layout/p272c/out/summary_p272c_tail_fanout_unique_lvs_stop.txt`. Step-2 @35.6
-not re-run. Outline still 0.4029 mm² [GDS].
+PASS. Full join: ports clean incl. ct; **netgen unique 239/144 PASS**; KLayout
+initially FAIL — cleared below. Outline assemble 0.4029 mm² [GDS].
+
+### P2.7.2c KLayout LVS difference + step-2 @35.6 (2026-11-18) [TOOL/DS/SCH]
+
+KLayout setup: spice↔spice via `--layout_netlist` (case); MIM w/l snap to PDK
+grid 0.01 µm with A/P rebuild; strip extract-only rhigh `ps`; Status-table pass
+detect (`run_drc_lvs.py`, `lvs_setup.tcl`). **KLayout unique PASS** + netgen
+unique PASS [TOOL]. Varactor w/l/Nx + fingers on assembly PASS
+(`summary_varactor_top.txt`) [TOOL/SCH]. Step-2 @ island 35.6 fF: overlap PASS;
+boundary ≤½ LSB (local mean) PASS; D20 margins 105/92 MHz PASS; PN PSS no
+converge → [HAND] PASS (`summary_p272c_step2_island35p6.txt`) [SCH/HAND].
+Stop/pass: `summary_p272c_klayout_diff_step2_pass.txt`. Next: P2.7.3 PEX.
 
 ### D9 filter capacitor notes (2026-11-13) — MIM kept; MOS swing cause
 

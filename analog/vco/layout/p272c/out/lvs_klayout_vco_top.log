@@ -1,66 +1,64 @@
-18-Nov-2026 07:44:41 | INFO    | Your Klayout version is: KLayout 0.30.12 (required >= 0.30.5)
-18-Nov-2026 07:44:41 | INFO    | No layout was provided. Generated temporary empty layout for netlist flow at: /foss/designs/analog/vco/layout/p272c/out/lvs_vco_top/__layout_netlist_dummy__.gds
-18-Nov-2026 07:44:41 | INFO    | Running SG13G2 LVS checks on design /foss/designs/analog/vco/layout/p272c/out/lvs_vco_top/__layout_netlist_dummy__.gds on cell vco_top
-2026-11-18 07:44:43 +0100: Memory Usage (454196K) : Starting running SG13G2 Klayout LVS runset on /foss/designs/analog/vco/layout/p272c/out/lvs_vco_top/__layout_netlist_dummy__.gds
-2026-11-18 07:44:43 +0100: Memory Usage (454388K) : Ruby Version for klayout: 3.2.3
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : Loading database to memory is complete.
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : SG13G2 Klayout LVS runset output at: /foss/designs/analog/vco/layout/p272c/out/lvs_vco_top/__layout_netlist_dummy__.lvsdb
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : Evaluate switches.
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : Extracted netlist with net names: true
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : Extracted netlist with comments in details: false
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : Selected NET_ONLY option: false
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : Selected LAYOUT_NETLIST option: /foss/designs/analog/vco/layout/p272c/out/lvs_vco_top/vco_top_lvs_extracted.cir
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : Selected IGNORE_TOP_PORTS_MISMATCH option: true
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : Selected IMPLICIT_NETS option: (none)
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : Selected TOP_LVL_PINS option: true
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : Selected COMBINE DEVICES option: true
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : Selected PURGE option: false
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : Selected PURGE_NETS option: false
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : Selected SIMPLIFY option: true
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : Selected SERIES_RES option: true
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : Selected PARALLEL_RES option: true
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : Selected DISABLE_TAP_EXTRACTION option: true
-2026-11-18 07:44:43 +0100: Memory Usage (454588K) : flat  mode is enabled.
-2026-11-18 07:44:43 +0100: Memory Usage (456680K) : Netlist file: /foss/designs/analog/vco/layout/p272c/out/vco_top_klayout.spice
-2026-11-18 07:44:43 +0100: Memory Usage (456680K) : LVS extracted netlist at: /foss/designs/analog/vco/layout/p272c/out/lvs_vco_top/__layout_netlist_dummy___extracted.cir
-2026-11-18 07:44:43 +0100: Memory Usage (456680K) : Applying SRAM integration support.
-2026-11-18 07:44:43 +0100: Memory Usage (456680K) : Starting SG13G2 LVS runset
-2026-11-18 07:44:43 +0100: Memory Usage (456680K) : LAYOUT_NETLIST enabled: skipping derivations/connectivity/extraction and loading layout netlist from file.
-2026-11-18 07:44:43 +0100: Memory Usage (457940K) : Layout-side netlist file: /foss/designs/analog/vco/layout/p272c/out/lvs_vco_top/vco_top_lvs_extracted.cir
-2026-11-18 07:44:43 +0100: Memory Usage (457940K) : Starting SG13G2 LVS Options Preparations
-2026-11-18 07:44:43 +0100: Memory Usage (457940K) : SG13G2 LVS flow: layout_netlist input -> alignment -> option preparation -> comparison.
-2026-11-18 07:44:43 +0100: Memory Usage (457940K) : Starting SG13G2 LVS Alignment
-2026-11-18 07:44:43 +0100: Memory Usage (458132K) : Starting SG13G2 LVS Simplification
-2026-11-18 07:44:43 +0100: Memory Usage (458132K) : [layout_netlist] simplify: ENABLED
-2026-11-18 07:44:43 +0100: Memory Usage (458132K) : [layout_netlist] make_top_level_pins: ENABLED
-2026-11-18 07:44:43 +0100: Memory Usage (458132K) : [layout_netlist] combine_devices: ENABLED
-2026-11-18 07:44:43 +0100: Memory Usage (458132K) : [layout_netlist] purge: SKIPPED
-2026-11-18 07:44:43 +0100: Memory Usage (458132K) : [layout_netlist] purge_nets: SKIPPED
-2026-11-18 07:44:43 +0100: Memory Usage (458132K) : [layout_netlist] purge_devices: SKIPPED
-2026-11-18 07:44:43 +0100: Memory Usage (458132K) : [schematic_netlist] simplify: ENABLED
-2026-11-18 07:44:43 +0100: Memory Usage (458132K) : [schematic_netlist] make_top_level_pins: ENABLED
-2026-11-18 07:44:43 +0100: Memory Usage (458132K) : [schematic_netlist] combine_devices: ENABLED
-2026-11-18 07:44:43 +0100: Memory Usage (458132K) : [schematic_netlist] purge: SKIPPED
-2026-11-18 07:44:43 +0100: Memory Usage (458132K) : [schematic_netlist] purge_nets: SKIPPED
-2026-11-18 07:44:43 +0100: Memory Usage (458132K) : [schematic_netlist] purge_devices: SKIPPED
-2026-11-18 07:44:43 +0100: Memory Usage (458132K) : Starting SG13G2 LVS Comparison
-2026-11-18 07:44:43 +0100: Memory Usage (458352K) : xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-2026-11-18 07:44:43 +0100: Memory Usage (458352K) : ERROR : Netlists don't match
-2026-11-18 07:44:43 +0100: Memory Usage (458352K) : xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-2026-11-18 07:44:43 +0100: Memory Usage (458352K) : LVS Total Run time 0.071343 seconds
-18-Nov-2026 07:44:44 | INFO    | ==============================================================================
-18-Nov-2026 07:44:44 | INFO    | Important Summary
-18-Nov-2026 07:44:44 | INFO    | +------------------+--------------------------------------------------------------+
-18-Nov-2026 07:44:44 | INFO    | | Status           | FAIL                                                         |
-18-Nov-2026 07:44:44 | INFO    | | Mode             | COMPARE                                                      |
-18-Nov-2026 07:44:44 | INFO    | | Outcome          | Comparison mode: FAIL (netlists do not match).               |
-18-Nov-2026 07:44:44 | INFO    | | Layout           | __layout_netlist_dummy__.gds                                 |
-18-Nov-2026 07:44:44 | INFO    | | Top Cell         | vco_top                                                      |
-18-Nov-2026 07:44:44 | INFO    | | Results Dir      | /foss/designs/analog/vco/layout/p272c/out/lvs_vco_top        |
-18-Nov-2026 07:44:44 | INFO    | | Warnings         | 0                                                            |
-18-Nov-2026 07:44:44 | INFO    | | Errors           | 1                                                            |
-18-Nov-2026 07:44:44 | INFO    | | Run Time (s)     | 2.468                                                        |
-18-Nov-2026 07:44:44 | INFO    | +------------------+--------------------------------------------------------------+
-18-Nov-2026 07:44:44 | ERROR   | Key errors:
-18-Nov-2026 07:44:44 | ERROR   |   - 2026-11-18 07:44:43 +0100: Memory Usage (458352K) : ERROR : Netlists don't match
-18-Nov-2026 07:44:44 | INFO    | ==============================================================================
+18-Nov-2026 11:06:49 | INFO    | Your Klayout version is: KLayout 0.30.12 (required >= 0.30.5)
+18-Nov-2026 11:06:49 | INFO    | No layout was provided. Generated temporary empty layout for netlist flow at: /foss/designs/analog/vco/layout/p272c/out/lvs_vco_top/__layout_netlist_dummy__.gds
+18-Nov-2026 11:06:49 | INFO    | Running SG13G2 LVS checks on design /foss/designs/analog/vco/layout/p272c/out/lvs_vco_top/__layout_netlist_dummy__.gds on cell vco_top
+2026-11-18 11:06:51 +0100: Memory Usage (452156K) : Starting running SG13G2 Klayout LVS runset on /foss/designs/analog/vco/layout/p272c/out/lvs_vco_top/__layout_netlist_dummy__.gds
+2026-11-18 11:06:51 +0100: Memory Usage (452156K) : Ruby Version for klayout: 3.2.3
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : Loading database to memory is complete.
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : SG13G2 Klayout LVS runset output at: /foss/designs/analog/vco/layout/p272c/out/lvs_vco_top/__layout_netlist_dummy__.lvsdb
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : Evaluate switches.
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : Extracted netlist with net names: true
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : Extracted netlist with comments in details: false
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : Selected NET_ONLY option: false
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : Selected LAYOUT_NETLIST option: /foss/designs/analog/vco/layout/p272c/out/vco_top_extracted_klayout.cir
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : Selected IGNORE_TOP_PORTS_MISMATCH option: true
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : Selected IMPLICIT_NETS option: (none)
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : Selected TOP_LVL_PINS option: true
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : Selected COMBINE DEVICES option: true
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : Selected PURGE option: false
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : Selected PURGE_NETS option: false
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : Selected SIMPLIFY option: true
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : Selected SERIES_RES option: true
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : Selected PARALLEL_RES option: true
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : Selected DISABLE_TAP_EXTRACTION option: true
+2026-11-18 11:06:51 +0100: Memory Usage (452368K) : flat  mode is enabled.
+2026-11-18 11:06:51 +0100: Memory Usage (454236K) : Netlist file: /foss/designs/analog/vco/layout/p272c/out/vco_top_klayout.spice
+2026-11-18 11:06:51 +0100: Memory Usage (454236K) : LVS extracted netlist at: /foss/designs/analog/vco/layout/p272c/out/lvs_vco_top/__layout_netlist_dummy___extracted.cir
+2026-11-18 11:06:51 +0100: Memory Usage (454236K) : Applying SRAM integration support.
+2026-11-18 11:06:51 +0100: Memory Usage (454236K) : Starting SG13G2 LVS runset
+2026-11-18 11:06:51 +0100: Memory Usage (454236K) : LAYOUT_NETLIST enabled: skipping derivations/connectivity/extraction and loading layout netlist from file.
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : Layout-side netlist file: /foss/designs/analog/vco/layout/p272c/out/vco_top_extracted_klayout.cir
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : Starting SG13G2 LVS Options Preparations
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : SG13G2 LVS flow: layout_netlist input -> alignment -> option preparation -> comparison.
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : Starting SG13G2 LVS Alignment
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : Starting SG13G2 LVS Simplification
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : [layout_netlist] simplify: ENABLED
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : [layout_netlist] make_top_level_pins: ENABLED
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : [layout_netlist] combine_devices: ENABLED
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : [layout_netlist] purge: SKIPPED
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : [layout_netlist] purge_nets: SKIPPED
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : [layout_netlist] purge_devices: SKIPPED
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : [schematic_netlist] simplify: ENABLED
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : [schematic_netlist] make_top_level_pins: ENABLED
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : [schematic_netlist] combine_devices: ENABLED
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : [schematic_netlist] purge: SKIPPED
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : [schematic_netlist] purge_nets: SKIPPED
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : [schematic_netlist] purge_devices: SKIPPED
+2026-11-18 11:06:51 +0100: Memory Usage (455548K) : Starting SG13G2 LVS Comparison
+2026-11-18 11:06:51 +0100: Memory Usage (455988K) : ==========================================
+2026-11-18 11:06:51 +0100: Memory Usage (455988K) : INFO : Congratulations! Netlists match.
+2026-11-18 11:06:51 +0100: Memory Usage (455988K) : ==========================================
+2026-11-18 11:06:51 +0100: Memory Usage (455988K) : LVS Total Run time 0.046522 seconds
+18-Nov-2026 11:06:51 | INFO    | ==============================================================================
+18-Nov-2026 11:06:51 | INFO    | Important Summary
+18-Nov-2026 11:06:51 | INFO    | +------------------+--------------------------------------------------------------+
+18-Nov-2026 11:06:51 | INFO    | | Status           | PASS                                                         |
+18-Nov-2026 11:06:51 | INFO    | | Mode             | COMPARE                                                      |
+18-Nov-2026 11:06:51 | INFO    | | Outcome          | Comparison mode: PASS (netlists match).                      |
+18-Nov-2026 11:06:51 | INFO    | | Layout           | __layout_netlist_dummy__.gds                                 |
+18-Nov-2026 11:06:51 | INFO    | | Top Cell         | vco_top                                                      |
+18-Nov-2026 11:06:51 | INFO    | | Results Dir      | /foss/designs/analog/vco/layout/p272c/out/lvs_vco_top        |
+18-Nov-2026 11:06:51 | INFO    | | Warnings         | 0                                                            |
+18-Nov-2026 11:06:51 | INFO    | | Errors           | 0                                                            |
+18-Nov-2026 11:06:51 | INFO    | | Run Time (s)     | 2.108                                                        |
+18-Nov-2026 11:06:51 | INFO    | +------------------+--------------------------------------------------------------+
+18-Nov-2026 11:06:51 | INFO    | ==============================================================================

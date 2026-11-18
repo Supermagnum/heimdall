@@ -1,12 +1,12 @@
 # P2.7 layout notes
 
-Status: **P2.7.2c tail + fan-out / KLayout unique LVS STOP** (2026-11-18). Sign-off
+Status: **P2.7.2c unique LVS PASS (KLayout + netgen); step-2 @35.6 PASS** (2026-11-18). Sign-off
 reference is flattened `vco_top.sch` + `lvs_setup.tcl`. vbp join accepted;
 tail clear of tn (L=99 µm, R125=2.35 Ω, C≈9.9 fF) [GDS/PDK/HAND]; intermediate
-checks = DRC + no named `|` + **pin fan-out** (`check_pin_fanout.py`) PASS all
-groups [TOOL]; netgen unique 239/144 PASS; **KLayout unique FAIL** —
-`summary_p272c_tail_fanout_unique_lvs_stop.txt`. Outline 0.4029 mm²; island C
-35.6/35.6 fF prior [GDS/SCH/TOOL]. Chip art PASS. Blocks PASS.
+checks = DRC + no named `|` + **pin fan-out** PASS; **KLayout + netgen unique
+PASS** after case/grid/`ps` setup (`summary_p272c_klayout_diff_step2_pass.txt`).
+Assemble outline 0.4029 mm²; island C 35.6 fF step-2 PASS [GDS/SCH/TOOL]. Next:
+P2.7.3 PEX. Chip art PASS. Blocks PASS.
 
 ---
 
@@ -703,8 +703,16 @@ flattened `vco_top.sch` (not leaf-assembled spice); inductor fab/LVS GDS diff
 still PASS; var W/L/Nx script compare; `ct` port present; fingers by script.
 Then die §8 re-total.
 
+**KLayout LVS setup (2026-11-18) [TOOL/DS] — recorded:**
+- Case: extract → `--layout_netlist` so both sides through spice reader.
+- PDK grid tolerance **0.01 µm** on MIM w/l: `snap_mim_to_pdk_grid()` rebuilds
+  A/P; netgen `tolerance {w 0.01} {l 0.01}` on cap_cmim/cap_rfcmim/rfcmim/rhigh
+  in `lvs_setup.tcl`.
+- Strip extract-only rhigh `ps=` (bent end-cap) before compare.
+- Pass detect uses PDK Status PASS table (cumulative log reprints old ERROR).
+
 **Artifacts:** `p272c/build_assemble.py`, `out/vco_top.gds.gz`, per-group
-`summary_drc_lvs_*.txt`, `summary_p272c_stop.txt`.
+`summary_drc_lvs_*.txt`, `summary_p272c_klayout_diff_step2_pass.txt`.
 
 #### P2.7.2c flattened sch LVS reference (2026-11-18) [TOOL/SCH]
 

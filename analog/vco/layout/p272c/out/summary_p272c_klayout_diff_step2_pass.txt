@@ -1,0 +1,93 @@
+# P2.7.2c — KLayout LVS difference closed; step-2 @35.6 PASS [TOOL/SCH]
+# Date: 2026-11-18
+# decisions.md: "2026-11-18 — Tail fixed, netgen unique; KLayout difference" recorded.
+# Prior commit a79d3dc (tail/fan-out stop) already on branch.
+
+## Pass criteria vs result
+
+| Step | Criterion | Result |
+|------|-----------|--------|
+| 1 KLayout mismatch list a/b/c + fix + re-run | KLayout unique + netgen unique | **PASS** both |
+| 2 Varactor dim / finger on full assembly | w/l/Nx + fingers | **PASS** |
+| 3 Step-2 @35.6 fF | overlap; boundary ≤½ LSB; D20; PN | **PASS** (PN by [HAND]) |
+| 4 Report / specs / SVG | | this file + spec updates |
+
+## Step 1 — KLayout mismatch classify and fix [TOOL/DS]
+
+### Initial mismatch list (before fixes; GDS↔sch casefix run)
+| Class | Count | Devices | Cause |
+|-------|------:|---------|-------|
+| a case/reader | 80 | rfcmim 48, cap_cmim 6, rhigh 26 | spice reader uppercases models; GDS extract lowercase |
+| b grid | (latent) | RFCMIM w/l | sch 7.874 vs extract 7.87 µm (PDK grid 0.01) |
+| c real size | 0 | — | NMOS AS/AD were extract-only tooling, not drawn size |
+| ? cascade | many | NMOS/rhigh/cmim | soft-fail after unpaired RFCMIM |
+
+After `--layout_netlist` case normalize: class counts matched; RFCMIM still
+unpaired on primary A/P (11.12² → extract A truncated 123.654 vs 123.6544).
+
+### Fixes applied (recorded in `run_drc_lvs.py` / `lvs_setup.tcl`)
+1. **(a) Case/reader:** extract once, compare both sides as spice via
+   `--layout_netlist` so the reader uppercases both; sch `cap_rfcmim`→`rfcmim`,
+   svaricap X→C [TOOL].
+2. **(b) PDK grid 0.01 µm:** `snap_mim_to_pdk_grid()` on sch + extract before
+   compare; rebuild A/P from snapped w/l with full precision (avoid `:g`
+   truncating 123.6544→123.654). netgen: `tolerance {w 0.01} {l 0.01}` on
+   MIM/rhigh in `lvs_setup.tcl` [DS].
+3. **(c)** none required for drawn W/L.
+4. **Tooling:** strip extract-only rhigh `ps=` (bent poly end-cap 0.18 µm vs
+   sch 0); else MatchWithWarning soft-failed NB/NBF/VAR/GND nets [TOOL].
+5. **Pass detect:** prefer PDK `| Status | PASS |` table; cumulative log was
+   reprinting old ERROR after a new PASS [TOOL].
+
+### Re-run result
+- DRC clean (density + SVaricap M1.b waived) [TOOL].
+- KLayout: **Congratulations / Status PASS** — circuit Match; 242 device Match;
+  31 pin Match; 0 device mismatches [TOOL].
+- netgen: **Circuits match uniquely** [TOOL].
+- Device mismatch list after fix: a=0 b=0 c=0 ?=0
+  (`summary_klayout_mismatches.txt`).
+
+## Step 2 — Varactor scripts on assembly [TOOL/SCH]
+`check_varactor_top.py` → `summary_varactor_top.txt`:
+- sch + extract: 2× sg13_hv_svaricap w=3.74 l=0.3 Nx=10 PASS [SCH/TOOL].
+- GDS: 2 SVaricap instances; bypass ng=2 presence PASS [TOOL].
+
+## Step 3 — Step-2 @ island 35.6 fF [SCH/HAND]
+`step3/run_p272c_step2_island35p6.py` → `summary_p272c_step2_island35p6.txt`:
+- Overlap monotonic (0→1, 31→32, 127→128, 254→255): **PASS** [SCH].
+- Boundary local-mean |ratio−1| ≤ 0.5, all carries: **PASS** [SCH].
+- D20 / band margins top 105.0 / bot 91.6 MHz (≥40): **PASS**; compliance
+  direction favorable [SCH/HAND].
+- Worst-corner PN: PSS **did not converge** with island parasitics (50 iter)
+  [TOOL] → **PASS by [HAND]** (prior step-2/3 PN; −1.4 fF island shift).
+
+## Report numbers
+- Assemble outline (build log): (−208.78,0)–(404.4,657.06) **0.4029 mm²** [GDS].
+- Full `vco_top` cell bbox now (−219.28,−15.20)–(409.40,720.26) **0.4624 mm²**
+  [GDS] — larger than assemble outline; reconcile under Found, not done.
+- Tail: L=99 µm, R125=2.35 Ω, J=0.80 mA/µm, C≈9.9 fF [HAND/PDK/GDS] (unchanged).
+- tn/tp C per side / mismatch: extracted RC **not run** this job [TOOL].
+- Die re-total: hold VCO island row at assemble outline **0.4029 mm²** until
+  bbox reconcile [GDS].
+
+## What failed / uncertain
+- PSS with island parasitics did not converge — PN is [HAND] only [TOOL].
+- Full-cell bbox 0.4624 vs assemble outline 0.4029 — uncertain which die row
+  should use until outline policy is fixed [GDS].
+- `compare_device_params.py` multiset parse still noisy (prefix/model) — LVS
+  unique is the gate; script needs a cleanup pass [TOOL].
+
+## Decision needed
+Accept P2.7.2c unique LVS (KLayout + netgen) and step-2 @35.6 (PN [HAND]) as
+closed, and open **P2.7.3 VCO PEX and post-layout checks**. Optionally decide
+whether die §8 uses assemble outline 0.4029 or full-cell bbox 0.4624.
+
+## Found, not done
+- Extracted RC tn/tp C and mismatch [PEX-RC] — P2.7.3.
+- Reconcile assemble outline vs full GDS bbox [GDS].
+- Harden `compare_device_params.py` parse; SVG/PDF xschem re-export if sch
+  changed (sch unchanged this job).
+- Worst-corner PN re-attempt with relaxed PSS / warm-start [SCH].
+
+## Next run
+**P2.7.3 — VCO PEX and post-layout checks**

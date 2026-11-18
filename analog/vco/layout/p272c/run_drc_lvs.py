@@ -21,6 +21,102 @@ DENSITY = {"AFil.g", "GFil.g", "M1.j", "M2.j", "M3.j", "M4.j", "M5.j", "M5.k",
            "TM1.c", "TM2.c", "TM1.d", "TM2.d"}
 # SVaricap PCell M1.b waived at block level (vco_var); same at top [decisions]
 SVARICAP_M1B = {"M1.b"}
+# SG13G2 drawn grid — absolute W/L snap for MIM compare [DS / decisions 2026-11-18]
+PDK_GRID_UM = 0.01
+
+
+def _len_to_um(token: str) -> float | None:
+    """Parse spice length token to µm (supports 7.87u, 7.874e-06, bare µm)."""
+    s = token.strip().rstrip(",")
+    if not s:
+        return None
+    try:
+        if s[-1] in "uU" and s[:-1]:
+            return float(s[:-1])
+        if s[-1] in "nN" and s[:-1]:
+            return float(s[:-1]) * 1e-3
+        v = float(s)
+    except ValueError:
+        return None
+    # meters if tiny; already µm if around drawn sizes
+    if abs(v) < 1e-3:
+        return v * 1e6
+    return v
+
+
+def _fmt_len(um: float, style: str) -> str:
+    """style='u' → 7.87u; style='m' → 7.870000e-06."""
+    g = PDK_GRID_UM
+    um = round(um / g) * g
+    # avoid float dust (7.8700000001)
+    um = round(um, 4)
+    if style == "u":
+        return f"{um:g}u"
+    return f"{um * 1e-6:.6e}"
+
+
+def strip_extract_only_rhigh_ps(txt: str) -> str:
+    """Drop rhigh ps= (poly end-cap) — extract-only; sch has 0 [TOOL/PDK].
+
+    Bent rhigh (b=16) extract reports ps≈0.18 µm; schematic omits it. That
+    MatchWithWarning on the device soft-fails the attached nets in KLayout.
+    """
+    out = []
+    for ln in txt.splitlines():
+        if " rhigh " in f" {ln.lower()} " or ln.lower().endswith(" rhigh"):
+            ln = re.sub(r"\bps=[^\s]+", "", ln, flags=re.I)
+            ln = re.sub(r"  +", " ", ln).rstrip()
+        out.append(ln)
+    return "\n".join(out) + ("\n" if txt.endswith("\n") else "")
+
+
+def snap_mim_to_pdk_grid(txt: str) -> str:
+    """Round MIM w/l to PDK grid and rebuild A/P for KLayout primary params [DS].
+
+    Schematic often keeps ideal sizes (e.g. 7.874 µm) while extract snaps to
+    0.01 µm (7.87). DeviceCustomMIM compares primary A/P exactly, so grid
+    deltas leave RFCMIM unpaired. Apply the same snap on both netlists.
+    """
+    def repl_line(ln: str) -> str:
+        ll = f" {ln.lower()} "
+        if "rfcmim" not in ll and "cap_cmim" not in ll:
+            return ln
+        wm = re.search(r"\bw=([^\s]+)", ln, re.I)
+        lm = re.search(r"\bl=([^\s]+)", ln, re.I)
+        if not wm or not lm:
+            return ln
+        wu = _len_to_um(wm.group(1))
+        lu = _len_to_um(lm.group(1))
+        if wu is None or lu is None:
+            return ln
+        style = "u" if wm.group(1).rstrip(",").endswith(("u", "U")) else "m"
+        w_s = _fmt_len(wu, style)
+        l_s = _fmt_len(lu, style)
+        wu2 = _len_to_um(w_s)
+        lu2 = _len_to_um(l_s)
+        assert wu2 is not None and lu2 is not None
+        a_um2 = wu2 * lu2
+        p_um = 2.0 * (wu2 + lu2)
+        ln2 = re.sub(r"\bw=[^\s]+", f"w={w_s}", ln, count=1, flags=re.I)
+        ln2 = re.sub(r"\bl=[^\s]+", f"l={l_s}", ln2, count=1, flags=re.I)
+        # Always rewrite A/P from snapped w/l. Extract often truncates A
+        # (11.12^2 → 123.654 vs 123.6544); :g would re-truncate [TOOL].
+        a_tok = (f"{a_um2:.6f}".rstrip("0").rstrip(".") + "p") if style == "u" \
+            else f"{a_um2 * 1e-12:.12e}"
+        p_tok = (f"{p_um:.6f}".rstrip("0").rstrip(".") + "u") if style == "u" \
+            else f"{p_um * 1e-6:.12e}"
+        if re.search(r"\bA=", ln2, re.I):
+            ln2 = re.sub(r"\bA=[^\s]+", f"A={a_tok}", ln2, count=1, flags=re.I)
+        else:
+            ln2 = ln2.rstrip() + f" A={a_tok}"
+        if re.search(r"\bP=", ln2, re.I):
+            ln2 = re.sub(r"\bP=[^\s]+", f"P={p_tok}", ln2, count=1, flags=re.I)
+        else:
+            ln2 = ln2.rstrip() + f" P={p_tok}"
+        return ln2
+
+    out = [repl_line(ln) for ln in txt.splitlines()]
+    return "\n".join(out) + ("\n" if txt.endswith("\n") else "")
 
 
 def run(cmd, log, timeout=3600):
@@ -104,10 +200,14 @@ def prove(cell: str) -> dict:
     for cell_log in cell_logs:
         if os.path.exists(cell_log):
             open(cell_log, "w").close()
+    # Cumulative compare log retains old ERROR lines; clear before this run [TOOL]
+    dummy_log = os.path.join(lvs_dir, "__layout_netlist_dummy__.log")
+    if os.path.exists(dummy_log):
+        open(dummy_log, "w").close()
     # KLayout spice reader uppercases model names (rfcmim→RFCMIM) while GDS
-    # extract keeps lowercase class names → 24 RF MIM false mismatches [TOOL].
-    # Extract once, then compare both sides as spice so the reader normalizes
-    # case on both (--layout_netlist) [PDK run_lvs].
+    # extract keeps lowercase → false class splits [TOOL]. Fix: extract once,
+    # then compare both sides as spice (--layout_netlist) so the reader
+    # normalizes case on both. Also snap MIM w/l to PDK grid 0.01 µm [DS].
     def for_klayout_sch(txt: str) -> str:
         txt = txt.replace(" cap_rfcmim ", " rfcmim ")
         out = []
@@ -116,14 +216,28 @@ def prove(cell: str) -> dict:
             if s.startswith("X") and " sg13_hv_svaricap " in f" {s} ":
                 i = len(ln) - len(s)
                 ln = ln[:i] + "C" + s[1:]
+            # rhigh A/B are physically symmetric; extract port order can
+            # oppose the schematic. Swap var bias R ends to match GDS extract
+            # (vvb first) so KLayout net xref does not soft-fail [TOOL/GDS].
+            if s.startswith("R") and " rhigh " in f" {s} ":
+                parts = s.split()
+                # Rname n1 n2 sub rhigh ...
+                if len(parts) >= 5 and parts[3].lower() == "gnd" and \
+                        parts[1].lower().startswith("var_vg") and \
+                        parts[2].lower() == "var_vvb":
+                    parts[1], parts[2] = parts[2], parts[1]
+                    pad = ln[:len(ln) - len(s)]
+                    ln = pad + " ".join(parts)
             out.append(ln)
-        return "\n".join(out) + ("\n" if txt.endswith("\n") else "")
+        return strip_extract_only_rhigh_ps(snap_mim_to_pdk_grid(
+            "\n".join(out) + ("\n" if txt.endswith("\n") else "")))
 
     spice_kl = spice
     if cell == "vco_top" and os.path.exists(spice):
         spice_kl = os.path.join(OUT, f"{cell}_klayout.spice")
         open(spice_kl, "w").write(for_klayout_sch(open(spice).read()))
         res["spice_klayout"] = spice_kl
+        res["pdk_grid_um"] = PDK_GRID_UM
 
     # 1) extract-only from pin-only inductor GDS [TOOL]
     res["klayout_extract"] = run([
@@ -144,16 +258,30 @@ def prove(cell: str) -> dict:
                     ext = path
     res["extracted"] = ext
 
-    # 2) compare: both netlists through spice reader (case-normalized) [TOOL]
+    # Snap extract MIM to the same PDK grid; drop extract-only rhigh ps [DS/TOOL]
+    ext_kl = ext
+    if ext and os.path.exists(ext) and cell == "vco_top":
+        ext_kl = os.path.join(OUT, f"{cell}_extracted_klayout.cir")
+        open(ext_kl, "w").write(strip_extract_only_rhigh_ps(
+            snap_mim_to_pdk_grid(open(ext).read())))
+        res["extracted_klayout"] = ext_kl
+
+    # 2) compare: both netlists through spice reader (case + grid) [TOOL]
     res["klayout_pass"] = False
-    if ext and os.path.exists(ext):
+    if ext_kl and os.path.exists(ext_kl):
         res["klayout_lvs"] = run([
-            "python3", PDK_LVS, f"--layout_netlist={ext}",
+            "python3", PDK_LVS, f"--layout_netlist={ext_kl}",
             f"--netlist={spice_kl}", f"--topcell={cell}",
             f"--run_dir={lvs_dir}",
             "--disable_tap_extraction", "--ignore_top_ports_mismatch",
             "--combine_devices", "--top_lvl_pins",
         ], os.path.join(OUT, f"lvs_klayout_{cell}.log"))
+        # PDK appends to __layout_netlist_dummy__.log across runs and then
+        # reprints old ERROR lines in the summary *after* a new PASS — so
+        # rfind(ERROR) alone false-fails. Prefer the Status table; fall back
+        # to Congratulations vs ERROR only in the compare-phase slice [TOOL].
+        wrap = open(os.path.join(OUT, f"lvs_klayout_{cell}.log"),
+                    errors="ignore").read()
         kl_cell = ""
         for cell_log in cell_logs:
             if os.path.exists(cell_log):
@@ -161,13 +289,15 @@ def prove(cell: str) -> dict:
                 if txt.strip():
                     kl_cell = txt
                     break
-        # also check the wrapper log
-        wrap = open(os.path.join(OUT, f"lvs_klayout_{cell}.log"),
-                    errors="ignore").read()
-        blob = kl_cell if kl_cell else wrap
-        last_ok = blob.rfind("Congratulations! Netlists match")
-        last_bad = blob.rfind("ERROR : Netlists don't match")
-        res["klayout_pass"] = last_ok > last_bad and last_ok >= 0
+        blob = wrap if wrap.strip() else kl_cell
+        st_pass = blob.rfind("| Status           | PASS")
+        st_fail = blob.rfind("| Status           | FAIL")
+        if st_pass >= 0 or st_fail >= 0:
+            res["klayout_pass"] = st_pass > st_fail
+        else:
+            last_ok = blob.rfind("Congratulations! Netlists match")
+            last_bad = blob.rfind("ERROR : Netlists don't match")
+            res["klayout_pass"] = last_ok > last_bad and last_ok >= 0
     else:
         res["klayout_lvs"] = None
     res["netgen_pass"] = False

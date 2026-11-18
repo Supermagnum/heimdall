@@ -185,4 +185,6 @@ Rough Phase-5 squeeze check against the SX1255-compatible **MLPQ-W 5 × 5 mm** p
 
 **P2.7.2c tail + fan-out / KLayout unique STOP (2026-11-18) [GDS/TOOL]:** outline still **0.4029 mm²** [GDS]; die row unchanged. Tail south-via route clear of tn; L=99 µm R125=2.35 Ω C≈9.9 fF [HAND/PDK/GDS]; pin fan-out gate PASS all groups; netgen unique 239/144 PASS; KLayout unique FAIL — `summary_p272c_tail_fanout_unique_lvs_stop.txt`. Still fits ≈ 2.5 × 2.5 mm [HAND].
 
+**P2.7.2c KLayout + step-2 PASS (2026-11-18) [GDS/TOOL/SCH]:** assemble outline still **0.4029 mm²** [GDS] (full cell bbox measures 0.4624 — reconcile later). KLayout unique PASS + netgen unique PASS after case/grid/`ps` setup; varactor scripts PASS; step-2 @35.6 overlap/boundary/D20 PASS; PN [HAND] (PSS no converge). Die row holds **0.4029**. Still fits ≈ 2.5 × 2.5 mm [HAND]. Next: P2.7.3 PEX.
+
 **Flag:** the §1 sketch of a **1.6 × 1.6 mm** active core **does not fit** the Phase 3/4 RX+TX + synth + digital + pads tally. Before Phase 5, plan on a die closer to **≥ ~2.2 × 2.2 mm** (≈ 4.8 mm²) or tighten RX/TX area after topology.

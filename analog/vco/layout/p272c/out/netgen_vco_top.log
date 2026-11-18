@@ -110,6 +110,14 @@ No property ic found for device cap_rfcmim
 No property ic found for device cap_rfcmim
 Cell to equate does not exist.
 Cell to equate does not exist.
+No property w found for device cap_cmim
+No property l found for device cap_cmim
+No property w found for device cap_cmim
+No property l found for device cap_cmim
+No property w found for device cap_rfcmim
+No property l found for device cap_rfcmim
+No property w found for device cap_rfcmim
+No property l found for device cap_rfcmim
 Model sg13_lv_nmos pin drain == source
 No such pin 1 in model sg13_lv_nmos
 Unable to permute model sg13_lv_nmos pins 1, 3.

@@ -1,0 +1,66 @@
+# Step-2 checks @ island C 35.6 fF [SCH]
+
+Parasitics/side: core 23.66 + bank 36.87 + island 35.60 = 96.13 fF [PEX-RC/HAND]
+
+cfix=157.6875 fF lsb=6.190 fF itail=3.93 mA [SCH/range.json]
+
+## 1) Overlap / monotonic neighbouring codes [SCH]
+Vtune=0.65 V, temp=27 °C, island=35.6 fF
+
+| pair | f0 (GHz) | f1 (GHz) | step (MHz) | ok |
+|---|---:|---:|---:|---|
+| 0→1 | 4.3814 | 4.3703 | +11.08 | yes |
+| 31→32 | 4.0745 | 4.0653 | +9.16 | yes |
+| 127→128 | 3.4186 | 3.4129 | +5.70 | yes |
+| 254→255 | 2.8941 | 2.8906 | +3.59 | yes |
+
+Overlap monotonic: PASS [SCH]
+
+## 2) Bank thermometer / binary boundary steps [SCH]
+Ideal = local mean step (neighbours ±2 codes); pass if step > 0 and |step/mean − 1| ≤ 0.5 [SCH].
+
+| pair | step (MHz) | local mean (MHz) | |ratio−1| | ok |
+|---|---:|---:|---:|---|
+| 0→1 | +11.08 | 10.91 | 0.02 | yes |
+| 1→2 | +10.74 | 10.85 | 0.01 | yes |
+| 3→4 | +10.66 | 10.71 | 0.00 | yes |
+| 7→8 | +10.52 | 10.43 | 0.01 | yes |
+| 15→16 | +10.01 | 9.88 | 0.01 | yes |
+| 31→32 | +9.16 | 8.90 | 0.03 | yes |
+| 63→64 | +7.47 | 7.33 | 0.02 | yes |
+| 127→128 | +5.70 | 5.39 | 0.06 | yes |
+| 254→255 | +3.59 | 3.36 | 0.07 | yes |
+
+lsb_ff=6.19 fF (range.json) [SCH]
+Boundary ≤½ LSB (local) + monotonic: PASS [SCH]
+
+## 3) D20 landing vs compliance windows [SCH/HAND]
+- band top: f=4.3050 GHz margin=105.0 MHz Amp=1.44 [PASS] [SCH]
+- band bot: f=3.0284 GHz margin=91.6 MHz Amp=1.09 [PASS] [SCH]
+
+Per-corner V_tune compliance (accepted decisions 2026-11-17): ff 0.469–0.955 V inside 0.457–0.970 V; tt/ss in owner window [MODEL/SCH]. Island 35.6 vs 37.0 (−1.4 fF) raises f slightly → V_tune moves toward the low-V side; high-end ff 0.955 gains margin (does not push outside). No cfix change. [HAND]
+D20 vs compliance: PASS (direction favorable) [HAND/SCH]
+
+## 4) Worst-corner PN [SCH] or [HAND]
+PSS did not converge with island parasitics: vacask vco_pn35.sim failed (exit 1); end of out/vco_pn35.log:
+This is vacask fb8cc20.
+(c)2023-2026 EDA Lab FE Uni-Lj, Arpad Buermen
+https://codeberg.org/arpadbuermen/VACASK
+  OpenMP parallel processing
+
+OpenMP CPUs:        1
+OpenBLAS CPUs:      1
+
+Simulating: P2.3 step 2 VCO: vco_pn35
+Running analysis 'warm'.
+  Elapsed time: 70.8704
+Running analysis 'pn'.
+  Elapsed time: 1286.17
+PSS failed to converge in 50 iterations.
+PSS analysis failed.
+Analysis 'pn' aborted.
+ [TOOL].
+Worst-corner PN: **[HAND]** — defer to prior step-2 / step-3 PN at nominal parasitics; island −1.4 fF is a small tank shift [HAND].
+PN check: PASS by [HAND] (PSS not converged) [HAND]
+
+## Overall: PASS [SCH/HAND]

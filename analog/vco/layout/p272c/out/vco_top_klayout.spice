@@ -6,104 +6,104 @@
 Mcore_m1 tp tn tail gnd sg13_lv_nmos w=32u l=0.13u ng=8 m=1 mm_ok=1
 Mcore_m2 tn tp tail gnd sg13_lv_nmos w=32u l=0.13u ng=8 m=1 mm_ok=1
 Mcore_mdum gnd gnd gnd gnd sg13_lv_nmos w=9u l=0.13u ng=1 m=1 mm_ok=1
-Ccore_xf1 tp core_fx gnd rfcmim w=1.450000e-05 l=1.450000e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Ccore_xf2 tn core_fx gnd rfcmim w=1.450000e-05 l=1.450000e-05 wfeed=5.0e-6 m=1 mm_ok=1
+Ccore_xf1 tp core_fx gnd rfcmim w=1.450000e-05 l=1.450000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.102500000000e-10 P=5.800000000000e-05
+Ccore_xf2 tn core_fx gnd rfcmim w=1.450000e-05 l=1.450000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.102500000000e-10 P=5.800000000000e-05
 Rcore_rfx core_fx gnd gnd rhigh w=2.000000e-06 l=1.520000e-05 m=1 b=0 mm_ok=1
-Cbank_xb0p tp bank_a0 cap_cmim w=2.810000e-06 l=2.810000e-06 m=1 mm_ok=1
-Cbank_xb0n tn bank_b0 cap_cmim w=2.810000e-06 l=2.810000e-06 m=1 mm_ok=1
+Cbank_xb0p tp bank_a0 cap_cmim w=2.810000e-06 l=2.810000e-06 m=1 mm_ok=1 A=7.896100000000e-12 P=1.124000000000e-05
+Cbank_xb0n tn bank_b0 cap_cmim w=2.810000e-06 l=2.810000e-06 m=1 mm_ok=1 A=7.896100000000e-12 P=1.124000000000e-05
 Mbank_ms0 bank_a0 g0 bank_b0 gnd sg13_lv_nmos w=10.32u l=0.13u ng=4 m=1 mm_ok=1
 Rbank_rba0 bank_a0 bb0 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Rbank_rbb0 bank_b0 bb0 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Mbank_mbp_rba0 bank_a0 vbp bb0 gnd sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
 Mbank_mbp_rbb0 bank_b0 vbp bb0 gnd sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
-Cbank_xb1p tp bank_a1 cap_cmim w=3.920000e-06 l=3.920000e-06 m=1 mm_ok=1
-Cbank_xb1n tn bank_b1 cap_cmim w=3.920000e-06 l=3.920000e-06 m=1 mm_ok=1
+Cbank_xb1p tp bank_a1 cap_cmim w=3.920000e-06 l=3.920000e-06 m=1 mm_ok=1 A=1.536640000000e-11 P=1.568000000000e-05
+Cbank_xb1n tn bank_b1 cap_cmim w=3.920000e-06 l=3.920000e-06 m=1 mm_ok=1 A=1.536640000000e-11 P=1.568000000000e-05
 Mbank_ms1 bank_a1 g1 bank_b1 gnd sg13_lv_nmos w=19.8u l=0.13u ng=8 m=1 mm_ok=1
 Rbank_rba1 bank_a1 bb1 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Rbank_rbb1 bank_b1 bb1 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Mbank_mbp_rba1 bank_a1 vbp bb1 gnd sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
 Mbank_mbp_rbb1 bank_b1 vbp bb1 gnd sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
-Cbank_xb2p tp bank_a2 cap_cmim w=5.530000e-06 l=5.530000e-06 m=1 mm_ok=1
-Cbank_xb2n tn bank_b2 cap_cmim w=5.530000e-06 l=5.530000e-06 m=1 mm_ok=1
+Cbank_xb2p tp bank_a2 cap_cmim w=5.530000e-06 l=5.530000e-06 m=1 mm_ok=1 A=3.058090000000e-11 P=2.212000000000e-05
+Cbank_xb2n tn bank_b2 cap_cmim w=5.530000e-06 l=5.530000e-06 m=1 mm_ok=1 A=3.058090000000e-11 P=2.212000000000e-05
 Mbank_ms2 bank_a2 g2 bank_b2 gnd sg13_lv_nmos w=39.12u l=0.13u ng=16 m=1 mm_ok=1
 Rbank_rba2 bank_a2 bb2 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Rbank_rbb2 bank_b2 bb2 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Mbank_mbp_rba2 bank_a2 vbp bb2 gnd sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
 Mbank_mbp_rbb2 bank_b2 vbp bb2 gnd sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
-Cbank_xb3p tp bank_a3 gnd rfcmim w=7.874000e-06 l=7.874000e-06 wfeed=5.0e-6 m=1 mm_ok=1
-Cbank_xb3n tn bank_b3 gnd rfcmim w=7.874000e-06 l=7.874000e-06 wfeed=5.0e-6 m=1 mm_ok=1
+Cbank_xb3p tp bank_a3 gnd rfcmim w=7.870000e-06 l=7.870000e-06 wfeed=5.0e-6 m=1 mm_ok=1 A=6.193690000000e-11 P=3.148000000000e-05
+Cbank_xb3n tn bank_b3 gnd rfcmim w=7.870000e-06 l=7.870000e-06 wfeed=5.0e-6 m=1 mm_ok=1 A=6.193690000000e-11 P=3.148000000000e-05
 Mbank_ms3 bank_a3 g3 bank_b3 gnd sg13_lv_nmos w=77.5u l=0.13u ng=31 m=1 mm_ok=1
 Rbank_rba3 bank_a3 bb3 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Rbank_rbb3 bank_b3 bb3 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Mbank_mbp_rba3 bank_a3 vbp bb3 gnd sg13_lv_nmos w=0.31u l=0.13u ng=1 m=1 mm_ok=1
 Mbank_mbp_rbb3 bank_b3 vbp bb3 gnd sg13_lv_nmos w=0.31u l=0.13u ng=1 m=1 mm_ok=1
-Cbank_xb4p tp bank_a4 gnd rfcmim w=1.112200e-05 l=1.112200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Cbank_xb4n tn bank_b4 gnd rfcmim w=1.112200e-05 l=1.112200e-05 wfeed=5.0e-6 m=1 mm_ok=1
+Cbank_xb4p tp bank_a4 gnd rfcmim w=1.112000e-05 l=1.112000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=1.236544000000e-10 P=4.448000000000e-05
+Cbank_xb4n tn bank_b4 gnd rfcmim w=1.112000e-05 l=1.112000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=1.236544000000e-10 P=4.448000000000e-05
 Mbank_ms4 bank_a4 g4 bank_b4 gnd sg13_lv_nmos w=154.38u l=0.13u ng=62 m=1 mm_ok=1
 Rbank_rba4 bank_a4 bb4 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Rbank_rbb4 bank_b4 bb4 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Mbank_mbp_rba4 bank_a4 vbp bb4 gnd sg13_lv_nmos w=0.62u l=0.13u ng=1 m=1 mm_ok=1
 Mbank_mbp_rbb4 bank_b4 vbp bb4 gnd sg13_lv_nmos w=0.62u l=0.13u ng=1 m=1 mm_ok=1
-Cbank_xb5p tp bank_a5 gnd rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Cbank_xb5n tn bank_b5 gnd rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
+Cbank_xb5p tp bank_a5 gnd rfcmim w=1.571000e-05 l=1.571000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.468041000000e-10 P=6.284000000000e-05
+Cbank_xb5n tn bank_b5 gnd rfcmim w=1.571000e-05 l=1.571000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.468041000000e-10 P=6.284000000000e-05
 Mbank_ms5 bank_a5 g5 bank_b5 gnd sg13_lv_nmos w=308.5u l=0.13u ng=100 m=1 mm_ok=1
 Rbank_rba5 bank_a5 bb5 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Rbank_rbb5 bank_b5 bb5 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Mbank_mbp_rba5 bank_a5 vbp bb5 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
 Mbank_mbp_rbb5 bank_b5 vbp bb5 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
-Cbank_xb6p tp bank_a6 gnd rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Cbank_xb6n tn bank_b6 gnd rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
+Cbank_xb6p tp bank_a6 gnd rfcmim w=1.571000e-05 l=1.571000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.468041000000e-10 P=6.284000000000e-05
+Cbank_xb6n tn bank_b6 gnd rfcmim w=1.571000e-05 l=1.571000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.468041000000e-10 P=6.284000000000e-05
 Mbank_ms6 bank_a6 g6 bank_b6 gnd sg13_lv_nmos w=308.5u l=0.13u ng=100 m=1 mm_ok=1
 Rbank_rba6 bank_a6 bb6 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Rbank_rbb6 bank_b6 bb6 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Mbank_mbp_rba6 bank_a6 vbp bb6 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
 Mbank_mbp_rbb6 bank_b6 vbp bb6 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
-Cbank_xb7p tp bank_a7 gnd rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Cbank_xb7n tn bank_b7 gnd rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
+Cbank_xb7p tp bank_a7 gnd rfcmim w=1.571000e-05 l=1.571000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.468041000000e-10 P=6.284000000000e-05
+Cbank_xb7n tn bank_b7 gnd rfcmim w=1.571000e-05 l=1.571000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.468041000000e-10 P=6.284000000000e-05
 Mbank_ms7 bank_a7 g7 bank_b7 gnd sg13_lv_nmos w=308.5u l=0.13u ng=100 m=1 mm_ok=1
 Rbank_rba7 bank_a7 bb7 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Rbank_rbb7 bank_b7 bb7 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Mbank_mbp_rba7 bank_a7 vbp bb7 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
 Mbank_mbp_rbb7 bank_b7 vbp bb7 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
-Cbank_xb8p tp bank_a8 gnd rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Cbank_xb8n tn bank_b8 gnd rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
+Cbank_xb8p tp bank_a8 gnd rfcmim w=1.571000e-05 l=1.571000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.468041000000e-10 P=6.284000000000e-05
+Cbank_xb8n tn bank_b8 gnd rfcmim w=1.571000e-05 l=1.571000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.468041000000e-10 P=6.284000000000e-05
 Mbank_ms8 bank_a8 g8 bank_b8 gnd sg13_lv_nmos w=308.5u l=0.13u ng=100 m=1 mm_ok=1
 Rbank_rba8 bank_a8 bb8 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Rbank_rbb8 bank_b8 bb8 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Mbank_mbp_rba8 bank_a8 vbp bb8 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
 Mbank_mbp_rbb8 bank_b8 vbp bb8 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
-Cbank_xb9p tp bank_a9 gnd rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Cbank_xb9n tn bank_b9 gnd rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
+Cbank_xb9p tp bank_a9 gnd rfcmim w=1.571000e-05 l=1.571000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.468041000000e-10 P=6.284000000000e-05
+Cbank_xb9n tn bank_b9 gnd rfcmim w=1.571000e-05 l=1.571000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.468041000000e-10 P=6.284000000000e-05
 Mbank_ms9 bank_a9 g9 bank_b9 gnd sg13_lv_nmos w=308.5u l=0.13u ng=100 m=1 mm_ok=1
 Rbank_rba9 bank_a9 bb9 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Rbank_rbb9 bank_b9 bb9 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Mbank_mbp_rba9 bank_a9 vbp bb9 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
 Mbank_mbp_rbb9 bank_b9 vbp bb9 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
-Cbank_xb10p tp bank_a10 gnd rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Cbank_xb10n tn bank_b10 gnd rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
+Cbank_xb10p tp bank_a10 gnd rfcmim w=1.571000e-05 l=1.571000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.468041000000e-10 P=6.284000000000e-05
+Cbank_xb10n tn bank_b10 gnd rfcmim w=1.571000e-05 l=1.571000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.468041000000e-10 P=6.284000000000e-05
 Mbank_ms10 bank_a10 g10 bank_b10 gnd sg13_lv_nmos w=308.5u l=0.13u ng=100 m=1 mm_ok=1
 Rbank_rba10 bank_a10 bb10 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Rbank_rbb10 bank_b10 bb10 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Mbank_mbp_rba10 bank_a10 vbp bb10 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
 Mbank_mbp_rbb10 bank_b10 vbp bb10 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
-Cbank_xb11p tp bank_a11 gnd rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Cbank_xb11n tn bank_b11 gnd rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
+Cbank_xb11p tp bank_a11 gnd rfcmim w=1.571000e-05 l=1.571000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.468041000000e-10 P=6.284000000000e-05
+Cbank_xb11n tn bank_b11 gnd rfcmim w=1.571000e-05 l=1.571000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.468041000000e-10 P=6.284000000000e-05
 Mbank_ms11 bank_a11 g11 bank_b11 gnd sg13_lv_nmos w=308.5u l=0.13u ng=100 m=1 mm_ok=1
 Rbank_rba11 bank_a11 bb11 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Rbank_rbb11 bank_b11 bb11 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Mbank_mbp_rba11 bank_a11 vbp bb11 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
 Mbank_mbp_rbb11 bank_b11 vbp bb11 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
-Cbank_xbdump gnd bank_adum gnd rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Cbank_xbdumn gnd bank_bdum gnd rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
+Cbank_xbdump gnd bank_adum gnd rfcmim w=1.571000e-05 l=1.571000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.468041000000e-10 P=6.284000000000e-05
+Cbank_xbdumn gnd bank_bdum gnd rfcmim w=1.571000e-05 l=1.571000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=2.468041000000e-10 P=6.284000000000e-05
 Mbank_msdum bank_adum gnd bank_bdum gnd sg13_lv_nmos w=308.5u l=0.13u ng=100 m=1 mm_ok=1
 Rbank_rbadum bank_adum gnd gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Rbank_rbbdum bank_bdum gnd gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
 Mbank_mbp_rbadum bank_adum gnd gnd gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
 Mbank_mbp_rbbdum bank_bdum gnd gnd gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
-Cvar_xcp tp var_vgp gnd rfcmim w=2.129200e-05 l=2.129200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Cvar_xcn tn var_vgn gnd rfcmim w=2.129200e-05 l=2.129200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Rvar_rvp var_vgp var_vvb gnd rhigh w=5.000000e-07 l=4.209500e-05 m=1 b=16 mm_ok=1
-Rvar_rvn var_vgn var_vvb gnd rhigh w=5.000000e-07 l=4.209500e-05 m=1 b=16 mm_ok=1
+Cvar_xcp tp var_vgp gnd rfcmim w=2.129000e-05 l=2.129000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=4.532641000000e-10 P=8.516000000000e-05
+Cvar_xcn tn var_vgn gnd rfcmim w=2.129000e-05 l=2.129000e-05 wfeed=5.0e-6 m=1 mm_ok=1 A=4.532641000000e-10 P=8.516000000000e-05
+Rvar_rvp var_vvb var_vgp gnd rhigh w=5.000000e-07 l=4.209500e-05 m=1 b=16 mm_ok=1
+Rvar_rvn var_vvb var_vgn gnd rhigh w=5.000000e-07 l=4.209500e-05 m=1 b=16 mm_ok=1
 Cvar_xv1 var_vgp vt var_vgn gnd sg13_hv_svaricap w=3.74u l=0.3u Nx=10 mm_ok=1
 Cvar_xv2 var_vgp vt var_vgn gnd sg13_hv_svaricap w=3.74u l=0.3u Nx=10 mm_ok=1
 Mvar_mbp_rvp var_vgp vbp var_vvb gnd sg13_lv_nmos w=5u l=0.13u ng=2 m=1 mm_ok=1
@@ -218,18 +218,18 @@ Mtail_mp2 nb tail_d1 vdd vdd sg13_lv_pmos w=4u l=2u ng=2 m=1 mm_ok=1
 Mtail_mdum_ota gnd gnd gnd gnd sg13_lv_nmos w=8u l=2u ng=1 m=1 mm_ok=1
 Rtail_rbf nb nbf gnd rhigh w=5.000000e-07 l=2.128500e-05 m=1 b=16 mm_ok=1
 Mtail_mbp_rbf nb vbp_tail nbf gnd sg13_lv_nmos w=20u l=0.13u ng=4 m=1 mm_ok=1
-Ctail_cbf0 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1
-Ctail_cbf1 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1
-Ctail_cbf2 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1
-Ctail_cbf3 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1
-Ctail_cbf4 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1
-Ctail_cbf5 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1
-Ctail_cbf6 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1
+Ctail_cbf0 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1 A=4.752723600000e-09 P=2.757600000000e-04
+Ctail_cbf1 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1 A=4.752723600000e-09 P=2.757600000000e-04
+Ctail_cbf2 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1 A=4.752723600000e-09 P=2.757600000000e-04
+Ctail_cbf3 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1 A=4.752723600000e-09 P=2.757600000000e-04
+Ctail_cbf4 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1 A=4.752723600000e-09 P=2.757600000000e-04
+Ctail_cbf5 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1 A=4.752723600000e-09 P=2.757600000000e-04
+Ctail_cbf6 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1 A=4.752723600000e-09 P=2.757600000000e-04
 Mdet_mdtp vdd tp hold gnd sg13_lv_nmos w=0.5u l=0.13u ng=1 m=1 mm_ok=1
 Mdet_mdtn vdd tn hold gnd sg13_lv_nmos w=0.5u l=0.13u ng=1 m=1 mm_ok=1
 Mdet_mrt vdd ct rep gnd sg13_lv_nmos w=1u l=0.13u ng=1 m=1 mm_ok=1
-Cdet_chold hold gnd cap_cmim w=1.627000e-05 l=1.627000e-05 m=1 mm_ok=1
-Cdet_crep rep gnd cap_cmim w=1.627000e-05 l=1.627000e-05 m=1 mm_ok=1
+Cdet_chold hold gnd cap_cmim w=1.627000e-05 l=1.627000e-05 m=1 mm_ok=1 A=2.647129000000e-10 P=6.508000000000e-05
+Cdet_crep rep gnd cap_cmim w=1.627000e-05 l=1.627000e-05 m=1 mm_ok=1 A=2.647129000000e-10 P=6.508000000000e-05
 Rdet_rbias vdd det_nbias gnd rhigh w=5.000000e-07 l=7.800000e-05 m=1 b=0 mm_ok=1
 Mdet_mdiode det_nbias det_nbias det_pd_d gnd sg13_lv_nmos w=1.0u l=1.0u ng=1 m=1 mm_ok=1
 Mdet_men_d det_pd_d en gnd gnd sg13_lv_nmos w=2.0u l=0.13u ng=1 m=1 mm_ok=1
@@ -250,7 +250,7 @@ Mdet_mcs2 cmp det_co det_ss2 gnd sg13_lv_nmos w=4u l=0.5u ng=2 m=1 mm_ok=1
 Mdet_mpl1 det_n1 det_n1 vdd vdd sg13_lv_pmos w=4u l=0.5u ng=2 m=1 mm_ok=1
 Mdet_mpl2 cmp det_n1 vdd vdd sg13_lv_pmos w=4u l=0.5u ng=2 m=1 mm_ok=1
 Mdet_mdLc gnd gnd gnd gnd sg13_lv_nmos w=4.0u l=0.5u ng=1 m=1 mm_ok=1
-Cdet_cl_cmp cmp gnd cap_cmim w=5.710000e-06 l=5.710000e-06 m=1 mm_ok=1
+Cdet_cl_cmp cmp gnd cap_cmim w=5.710000e-06 l=5.710000e-06 m=1 mm_ok=1 A=3.260410000000e-11 P=2.284000000000e-05
 .ends
 * BLACKBOX omitted as instances (pin-only LVS GDS): ['l2n0']
 .end

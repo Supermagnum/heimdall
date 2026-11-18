@@ -29,6 +29,16 @@ if {[file exists $_pdk_setup]} {
 catch {equate classes {-circuit1 sg13_hv_svaricap_fx} {-circuit2 sg13_hv_svaricap}}
 catch {equate classes {-circuit1 sg13_hv_svaricap} {-circuit2 sg13_hv_svaricap_fx}}
 
+# --- PDK drawn grid 0.01 µm — MIM / poly W/L absolute tolerance [DS] ---
+# KLayout path snaps MIM w/l (+A/P) in run_drc_lvs.py before compare.
+# netgen: PDK setup already deletes cap w/l and tolerates area/perimeter 0.01;
+# re-assert W/L 0.01 µm on MIM names that may still expose them, and on rhigh.
+foreach _dev {cap_cmim cap_rfcmim rfcmim rhigh} {
+  foreach _c {-circuit1 -circuit2} {
+    catch {property "$_c $_dev" tolerance {w 0.01} {l 0.01}}
+  }
+}
+
 # --- MOS source/drain permutation (every LV/HV name + aliases) [decisions
 # 2026-11-18 Last NMOS: LVS setup] ---
 # netgen 1.5.324: numbered pins "1 3" print "No such pin 1" / Unable to
