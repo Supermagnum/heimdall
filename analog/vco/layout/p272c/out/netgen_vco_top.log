@@ -167,7 +167,7 @@ Circuit vco_top contains 242 device instances.
   Class: sg13_lv_pmos          instances: 106
   Class: sg13_lv_nmos          instances:  67
   Class: cap_cmim              instances:  10
-Circuit contains 152 nets.
+Circuit contains 144 nets.
 
 Circuit was modified by parallel/series device merging.
 New circuit summary:
@@ -182,21 +182,25 @@ Circuit vco_top contains 239 device instances.
   Class: cap_cmim              instances:  10
 Circuit contains 144 nets.
 Contents of circuit 2:  Circuit: 'vco_top'
-Circuit vco_top contains 238 device instances.
+Circuit vco_top contains 239 device instances.
   Class: sg13_hv_svaricap      instances:   1
   Class: cap_rfcmim            instances:  24
   Class: rhigh                 instances:  33
   Class: sg13_lv_pmos          instances: 106
-  Class: sg13_lv_nmos          instances:  64
+  Class: sg13_lv_nmos          instances:  65
   Class: cap_cmim              instances:  10
-Circuit contains 152 nets.
+Circuit contains 144 nets.
 
-Circuit 1 contains 239 devices, Circuit 2 contains 238 devices. *** MISMATCH ***
-Circuit 1 contains 144 nets,    Circuit 2 contains 151 nets. *** MISMATCH ***
+Circuit 1 contains 239 devices, Circuit 2 contains 239 devices.
+Circuit 1 contains 144 nets,    Circuit 2 contains 144 nets.
 
 
 Final result: 
-Top level cell failed pin matching.
+Circuits match uniquely.
+Property errors were found.
+
+The following cells had property errors:
+ vco_top
 
 Logging to file "/foss/designs/analog/vco/layout/p272c/out/netgen_vco_top.json" disabled
 LVS Done.

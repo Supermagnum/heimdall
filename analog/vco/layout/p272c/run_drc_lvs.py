@@ -104,32 +104,72 @@ def prove(cell: str) -> dict:
     for cell_log in cell_logs:
         if os.path.exists(cell_log):
             open(cell_log, "w").close()
-    # LVS always on pin-only inductor GDS (spiral DC-shorts tn/tp/ct) [TOOL]
-    res["klayout_lvs"] = run([
-        "python3", PDK_LVS, f"--layout={gds_lvs}", f"--netlist={spice}",
+    # KLayout spice reader uppercases model names (rfcmim→RFCMIM) while GDS
+    # extract keeps lowercase class names → 24 RF MIM false mismatches [TOOL].
+    # Extract once, then compare both sides as spice so the reader normalizes
+    # case on both (--layout_netlist) [PDK run_lvs].
+    def for_klayout_sch(txt: str) -> str:
+        txt = txt.replace(" cap_rfcmim ", " rfcmim ")
+        out = []
+        for ln in txt.splitlines():
+            s = ln.lstrip()
+            if s.startswith("X") and " sg13_hv_svaricap " in f" {s} ":
+                i = len(ln) - len(s)
+                ln = ln[:i] + "C" + s[1:]
+            out.append(ln)
+        return "\n".join(out) + ("\n" if txt.endswith("\n") else "")
+
+    spice_kl = spice
+    if cell == "vco_top" and os.path.exists(spice):
+        spice_kl = os.path.join(OUT, f"{cell}_klayout.spice")
+        open(spice_kl, "w").write(for_klayout_sch(open(spice).read()))
+        res["spice_klayout"] = spice_kl
+
+    # 1) extract-only from pin-only inductor GDS [TOOL]
+    res["klayout_extract"] = run([
+        "python3", PDK_LVS, f"--layout={gds_lvs}", f"--netlist={spice_kl}",
         f"--topcell={cell}", f"--run_dir={lvs_dir}",
         "--disable_tap_extraction", "--ignore_top_ports_mismatch",
-        "--combine_devices", "--top_lvl_pins",
-    ], os.path.join(OUT, f"lvs_klayout_{cell}.log"))
+        "--combine_devices", "--top_lvl_pins", "--net_only",
+    ], os.path.join(OUT, f"lvs_klayout_{cell}_extract.log"))
     print(f"  LVS layout={os.path.basename(gds_lvs)}", flush=True)
-    # Trust the newest non-empty cell log from this run.
-    kl_cell = ""
-    for cell_log in cell_logs:
-        if os.path.exists(cell_log):
-            txt = open(cell_log, errors="ignore").read()
-            if txt.strip():
-                kl_cell = txt
-                break
-    last_ok = kl_cell.rfind("Congratulations! Netlists match")
-    last_bad = kl_cell.rfind("ERROR : Netlists don't match")
-    res["klayout_pass"] = last_ok > last_bad and last_ok >= 0
 
     ext = None
     for root, _, files in os.walk(lvs_dir):
         for f in files:
             if f.endswith("_extracted.cir"):
-                ext = os.path.join(root, f)
+                # Prefer pin-only stem
+                path = os.path.join(root, f)
+                if ext is None or gds_stem in f:
+                    ext = path
     res["extracted"] = ext
+
+    # 2) compare: both netlists through spice reader (case-normalized) [TOOL]
+    res["klayout_pass"] = False
+    if ext and os.path.exists(ext):
+        res["klayout_lvs"] = run([
+            "python3", PDK_LVS, f"--layout_netlist={ext}",
+            f"--netlist={spice_kl}", f"--topcell={cell}",
+            f"--run_dir={lvs_dir}",
+            "--disable_tap_extraction", "--ignore_top_ports_mismatch",
+            "--combine_devices", "--top_lvl_pins",
+        ], os.path.join(OUT, f"lvs_klayout_{cell}.log"))
+        kl_cell = ""
+        for cell_log in cell_logs:
+            if os.path.exists(cell_log):
+                txt = open(cell_log, errors="ignore").read()
+                if txt.strip():
+                    kl_cell = txt
+                    break
+        # also check the wrapper log
+        wrap = open(os.path.join(OUT, f"lvs_klayout_{cell}.log"),
+                    errors="ignore").read()
+        blob = kl_cell if kl_cell else wrap
+        last_ok = blob.rfind("Congratulations! Netlists match")
+        last_bad = blob.rfind("ERROR : Netlists don't match")
+        res["klayout_pass"] = last_ok > last_bad and last_ok >= 0
+    else:
+        res["klayout_lvs"] = None
     res["netgen_pass"] = False
     res["netgen"] = None
     ng_setup = NETGEN_SETUP if os.path.exists(NETGEN_SETUP) else NETGEN_SETUP_PDK

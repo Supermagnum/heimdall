@@ -13,4 +13,4 @@
 cell=vco_top
 DRC clean (density waived): True  non-density=['M1.b'] svaricap_M1.b=True
 KLayout LVS: FAIL
-netgen: FAIL
+netgen: PASS

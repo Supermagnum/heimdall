@@ -6,8 +6,9 @@ klayout=False netgen=False
 lvs_gds=vco_top_lvs.gds
 spice=vco_top_sch_flat.spice
 opens (allowed intermediate): tn$1 tp$1
+fanout: PASS (nothing required)
 NOTE: LVS unique not required yet at place (klayout=False netgen=False)
-PASS group place (drc clean; no named merge; lvs klayout=False netgen=False)
+PASS group place (drc; no merge; fan-out; lvs klayout=False netgen=False)
 
 ## group power (nets=place,power)
 prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
@@ -15,8 +16,9 @@ klayout=False netgen=False
 lvs_gds=vco_top_lvs.gds
 spice=vco_top_sch_flat.spice
 opens (allowed intermediate): tn$1 tp$1
+fanout: PASS
 NOTE: LVS unique not required yet at power (klayout=False netgen=False)
-PASS group power (drc clean; no named merge; lvs klayout=False netgen=False)
+PASS group power (drc; no merge; fan-out; lvs klayout=False netgen=False)
 
 ## group ct (nets=place,power,ct)
 prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
@@ -24,8 +26,9 @@ klayout=False netgen=False
 lvs_gds=vco_top_lvs.gds
 spice=vco_top_sch_flat.spice
 opens (allowed intermediate): tn$1 tp$1
+fanout: PASS
 NOTE: LVS unique not required yet at ct (klayout=False netgen=False)
-PASS group ct (drc clean; no named merge; lvs klayout=False netgen=False)
+PASS group ct (drc; no merge; fan-out; lvs klayout=False netgen=False)
 
 ## group tail (nets=place,power,ct,tail)
 prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
@@ -33,28 +36,32 @@ klayout=False netgen=False
 lvs_gds=vco_top_lvs.gds
 spice=vco_top_sch_flat.spice
 opens (allowed intermediate): tn$1 tp$1
+fanout: PASS
 NOTE: LVS unique not required yet at tail (klayout=False netgen=False)
-PASS group tail (drc clean; no named merge; lvs klayout=False netgen=False)
+PASS group tail (drc; no merge; fan-out; lvs klayout=False netgen=False)
 
 ## group tn_tp (nets=place,power,ct,tail,tn_tp)
 prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
 klayout=False netgen=False
 lvs_gds=vco_top_lvs.gds
 spice=vco_top_sch_flat.spice
+fanout: PASS
 NOTE: LVS unique not required yet at tn_tp (klayout=False netgen=False)
-PASS group tn_tp (drc clean; no named merge; lvs klayout=False netgen=False)
+PASS group tn_tp (drc; no merge; fan-out; lvs klayout=False netgen=False)
 
 ## group vt (nets=place,power,ct,tail,tn_tp,vt)
 prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
 klayout=False netgen=False
 lvs_gds=vco_top_lvs.gds
 spice=vco_top_sch_flat.spice
+fanout: PASS
 NOTE: LVS unique not required yet at vt (klayout=False netgen=False)
-PASS group vt (drc clean; no named merge; lvs klayout=False netgen=False)
+PASS group vt (drc; no merge; fan-out; lvs klayout=False netgen=False)
 
 ## group controls (nets=place,power,ct,tail,tn_tp,vt,controls)
 prove: drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
-klayout=False netgen=False
+klayout=False netgen=True
 lvs_gds=vco_top_lvs.gds
 spice=vco_top_sch_flat.spice
+fanout: PASS
 STOP: KLayout LVS fail at full join (controls)

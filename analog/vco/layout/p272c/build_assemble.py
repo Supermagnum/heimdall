@@ -8,6 +8,7 @@ DRC + both LVS after each group (full unique LVS = sign-off).
 from __future__ import annotations
 
 import gzip
+import json
 import os
 import shutil
 import sys
@@ -184,6 +185,11 @@ class Asm:
         if name in ("vco_bank", "vco_var"):
             n = self._strip_named_pin_texts("vbp")
             self.say(f"stripped {n} hierarchical vbp pin texts in {name} [TOOL]")
+        # One top "tail" label after join — hierarchical XC / leaf texts otherwise
+        # leave core.tail labelled while Mtail sits on another island [TOOL].
+        if name in ("vco_core_tank", "tail_block"):
+            n = self._strip_named_pin_texts("tail")
+            self.say(f"stripped {n} hierarchical tail pin texts in {name} [TOOL]")
         return cell.cell_index(), pins, bb, keep
 
     def _fix_svaricap_terminal_texts(self):
@@ -701,51 +707,79 @@ class Asm:
         # ---- tail: short M3 in the core–tail east gap (4 mA) ----
         # Long north ring rejected (IR / J / C) [decisions 2026-11-17]. Face pin
         # on tail_block west; own corridor; w from JMAX @125 °C [PDK/HAND].
+        # Prior y_bus=mid(y0,y1)≈381 sat in the tn Y-band → Mtail on tn, core.tail
+        # open [TOOL 2026-11-18]. Keep H bus at core.tail Y; jog V only at face.
         if "tail" in routed and "tail" in cp and "tail" in tpins:
             x0, y0 = cp["tail"]
             x1, y1 = tpins["tail"]
-            w = 4.0  # ≥ 2.9 µm @125 °C / 4 mA [DS JMAX 0.7× HAND]
-            # Lift just east of core (gap), not over child metal [TOOL LVS]
+            # w=5: R125≈2.35 Ω ≤≈2.5; J=0.8 mA/µm [DS/HAND / decisions 2026-11-18]
+            w = 5.0
             x_lift = core_bb.right + 3.0
             pitch = 0.50
             n_via_r, n_via_c = 8, 2  # ≥15 vias @125 °C [DS/HAND]
-            # M2 from core.tail pin to lift column
+            tn_y = cp["tn"][1] if "tn" in cp else (y0 + 12.0)
+            # via12 at the pin Y bridges into tn's via stack (pin M1 island
+            # reaches y≈380) [TOOL bisect]. Rise on M1 south of the pin, then
+            # M1↔M2↔M3 well below the tn Y-band [decisions 2026-11-18].
+            y_via = min(y0 - 4.0, tn_y - 14.0)
+            y_bus = y_via
+            if y_bus + w / 2.0 > tn_y - 4.0:
+                y_bus = tn_y - 4.0 - w / 2.0
+                y_via = y_bus
+            # M1 south from pin onto via site (stay on child M1 island)
+            c.shapes(self.m1).insert(
+                pya.DBox(x0 - 0.50, min(y0, y_via) - 0.50,
+                         x0 + 0.50, max(y0, y_via) + 0.50))
+            c.shapes(self.m1).insert(
+                pya.DBox(x0 - 0.60, y_via - 0.60, x0 + 0.60, y_via + 0.60))
             c.shapes(self.m2).insert(
-                pya.DBox(min(x0, x_lift) - 0.3, y0 - 1.0,
-                         max(x0, x_lift) + 0.3, y0 + 1.0))
+                pya.DBox(x0 - 0.60, y_via - 0.60, x0 + 0.60, y_via + 0.60))
+            c.insert(pya.DCellInstArray(
+                vs12, pya.DTrans(pya.DVector(x0, y_via))))
+            # M2 east to lift column at y_via / y_bus
             c.shapes(self.m2).insert(
-                pya.DBox(x_lift - 1.0, y0 - 2.2, x_lift + 1.0, y0 + 2.2))
+                pya.DBox(min(x0, x_lift) - 0.30, y_via - 1.0,
+                         max(x0, x_lift) + 0.30, y_via + 1.0))
+            if abs(y_bus - y_via) > 0.05:
+                c.shapes(self.m2).insert(
+                    pya.DBox(x_lift - 1.0, min(y_via, y_bus) - 1.0,
+                             x_lift + 1.0, max(y_via, y_bus) + 1.0))
+            c.shapes(self.m2).insert(
+                pya.DBox(x_lift - 1.0, y_bus - 2.2, x_lift + 1.0, y_bus + 2.2))
             c.shapes(self.m3).insert(
-                pya.DBox(x_lift - 1.0, y0 - 2.2, x_lift + 1.0, y0 + 2.2))
+                pya.DBox(x_lift - 1.0, y_bus - 2.2, x_lift + 1.0, y_bus + 2.2))
             for i in range(n_via_r):
                 for j in range(n_via_c):
                     vx = x_lift - 0.25 + j * pitch
-                    vy = y0 - 1.75 + i * pitch
+                    vy = y_bus - 1.75 + i * pitch
                     c.insert(pya.DCellInstArray(
                         vs23, pya.DTrans(pya.DVector(vx, vy))))
-            # M3 H in the gap to the west-face pin (may include small V jog)
-            y_bus = 0.5 * (y0 + y1)
+            # M3 H at y_bus (clear of tn), V jog only at face
             c.shapes(self.m3).insert(
                 pya.DBox(x_lift - w / 2, y_bus - w / 2,
                          x1 + 1.0, y_bus + w / 2))
-            if abs(y1 - y0) > 0.05:
-                c.shapes(self.m3).insert(
-                    pya.DBox(x_lift - w / 2, min(y0, y_bus) - w / 2,
-                             x_lift + w / 2, max(y0, y_bus) + w / 2))
+            if abs(y1 - y_bus) > 0.05:
                 c.shapes(self.m3).insert(
                     pya.DBox(x1 - w / 2, min(y1, y_bus) - w / 2,
                              x1 + w / 2, max(y1, y_bus) + w / 2))
-            # Land on face M3/M2/M1 pad (child already has via array)
-            c.shapes(self.m3).insert(
-                pya.DBox(x1 - 1.0, y1 - 2.2, x1 + 1.2, y1 + 2.2))
-            L_tot = abs(x_lift - x0) + abs(x1 - x_lift) + abs(y1 - y0)
-            # R @25 °C typ; ×1.35 @125 °C [DS TC1 / HAND]
+            # Land face on child M1/M2/M3 only — do NOT add via12/via23 at the
+            # pin: child already has a Via1/Via2 array; a 1×1 stack at the pin
+            # centre was 0.06 µm from that array → V1.b / V2.b [TOOL DRC].
+            for lyr in (self.m1, self.m2, self.m3):
+                c.shapes(lyr).insert(
+                    pya.DBox(x1 - 1.0, y1 - 2.2, x1 + 1.2, y1 + 2.2))
+            # Single top label on the joined net (hierarchical stripped) [TOOL]
+            export_pin("tail", x0, y0, "m1")
+            L_tot = (abs(y_via - y0) + abs(x_lift - x0) + abs(x1 - x_lift)
+                     + abs(y_bus - y_via) + abs(y1 - y_bus))
+            # R @25 °C typ M3; ×1.35 @125 °C [DS TC1 / HAND]
             r_25 = 0.088 * L_tot / w
             r_125 = r_25 * 1.35
             j_line = 4.0 / w  # mA/µm
             C_tail = L_tot * 0.10  # [HAND] C'≈0.10 fF/µm M3
             self.say(
-                f"tail short M3 x_lift={x_lift:.1f} w={w:.1f} µm "
+                f"tail short M3 x_lift={x_lift:.1f} y_via={y_via:.2f} "
+                f"y_bus={y_bus:.2f} (tn_y={tn_y:.2f}) w={w:.1f} µm "
                 f"L={L_tot:.1f} µm R25={r_25:.2f} Ω R125={r_125:.2f} Ω "
                 f"J={j_line:.2f} mA/µm C≈{C_tail:.1f} fF "
                 f"pins=({x0:.1f},{y0:.1f})→({x1:.1f},{y1:.1f}) [HAND/PDK/GDS]"
@@ -1118,6 +1152,19 @@ class Asm:
                     f"west_col={x_west:.1f} var_y={y1:.1f} [TOOL]"
                 )
             self.say("controls: gate/code pins exported; AFE buses at synthesizer top")
+
+        # Pin map for intermediate fan-out checks [decisions 2026-11-18]
+        pin_map = {}
+        for nm, info in self.place_info.items():
+            bb = info["bb"]
+            pin_map[nm] = {
+                "bb": [bb.left, bb.bottom, bb.right, bb.top],
+                "pins": {k: [float(v[0]), float(v[1])]
+                         for k, v in info["pins"].items()},
+            }
+        pin_map_path = os.path.join(OUT, "pin_map.json")
+        open(pin_map_path, "w").write(json.dumps(pin_map, indent=2) + "\n")
+        self.say(f"wrote {pin_map_path} [TOOL]")
 
         # LVS GDS: pin-only inductor (what extract must see) [TOOL]
         gds_lvs = os.path.join(OUT, "vco_top_lvs.gds")

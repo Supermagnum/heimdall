@@ -56,163 +56,748 @@ Cell pin lists are equivalent.
 Device classes sg13_hv_svaricap and sg13_hv_svaricap are equivalent.
 
 Class vco_top (0):  Merged 9 parallel devices.
-Class vco_top (1):  Merged 4 parallel devices.
+Class vco_top (1):  Merged 3 parallel devices.
 Subcircuit summary:
 Circuit 1: vco_top                         |Circuit 2: vco_top                         
 -------------------------------------------|-------------------------------------------
-sg13_lv_nmos (67->65)                      |sg13_lv_nmos (67->64) **Mismatch**         
+sg13_lv_nmos (67->65)                      |sg13_lv_nmos (67->65)                      
 cap_rfcmim (24)                            |cap_rfcmim (24)                            
 rhigh (33)                                 |rhigh (33)                                 
 cap_cmim (16->10)                          |cap_cmim (16->10)                          
 sg13_hv_svaricap (2->1)                    |sg13_hv_svaricap (2->1)                    
 sg13_lv_pmos (106)                         |sg13_lv_pmos (106)                         
-Number of devices: 239 **Mismatch**        |Number of devices: 238 **Mismatch**        
-Number of nets: 144 **Mismatch**           |Number of nets: 151 **Mismatch**           
+Number of devices: 239                     |Number of devices: 239                     
+Number of nets: 144                        |Number of nets: 144                        
 ---------------------------------------------------------------------------------------
-NET mismatches: Class fragments follow (with fanout counts):
-Circuit 1: vco_top                         |Circuit 2: vco_top                         
-
----------------------------------------------------------------------------------------
-Net: tp                                    |Net: tp                                    
-  cap_cmim/1 = 3                           |  cap_cmim/1 = 3                           
-  cap_rfcmim/1 = 11                        |  cap_rfcmim/1 = 9                         
-  sg13_lv_nmos/gate = 2                    |                                           
-  sg13_lv_nmos/(drain|source) = 1          |                                           
-                                           |                                           
-Net: tn                                    |Net: tn                                    
-  cap_cmim/1 = 3                           |  cap_cmim/1 = 3                           
-  cap_rfcmim/1 = 11                        |  cap_rfcmim/1 = 9                         
-  sg13_lv_nmos/(drain|source) = 1          |                                           
-  sg13_lv_nmos/gate = 2                    |                                           
-                                           |                                           
-Net: tail                                  |Net: tail                                  
-  sg13_lv_nmos/(drain|source) = 3          |  sg13_lv_nmos/(drain|source) = 2          
-                                           |                                           
-Net: gnd                                   |Net: gnd                                   
-  sg13_lv_nmos/bulk = 65                   |  sg13_lv_nmos/bulk = 64                   
-  sg13_lv_nmos/(drain|source) = 10         |  sg13_lv_nmos/(drain|source) = 10         
-  sg13_lv_nmos/gate = 4                    |  sg13_lv_nmos/gate = 4                    
-  rhigh/3 = 33                             |  rhigh/3 = 33                             
-  rhigh/(1|2) = 3                          |  rhigh/(1|2) = 3                          
-  cap_cmim/2 = 4                           |  cap_cmim/2 = 4                           
-  cap_rfcmim/3 = 24                        |  cap_rfcmim/3 = 24                        
-  cap_rfcmim/1 = 2                         |  cap_rfcmim/1 = 2                         
-  sg13_hv_svaricap/4 = 1                   |  sg13_hv_svaricap/4 = 1                   
-                                           |                                           
-Net: vbp                                   |Net: vbp                                   
-  sg13_lv_nmos/gate = 26                   |  sg13_lv_nmos/gate = 24                   
-                                           |                                           
-Net: vdd                                   |Net: vdd                                   
-  sg13_lv_nmos/(drain|source) = 3          |  sg13_lv_nmos/(drain|source) = 2          
-  sg13_lv_pmos/(drain|source) = 55         |  sg13_lv_pmos/(drain|source) = 55         
-  sg13_lv_pmos/bulk = 106                  |  sg13_lv_pmos/bulk = 106                  
-  rhigh/(1|2) = 3                          |  rhigh/(1|2) = 3                          
-                                           |                                           
-Net: hold                                  |Net: hold                                  
-  sg13_lv_nmos/(drain|source) = 3          |  sg13_lv_nmos/(drain|source) = 2          
-  sg13_lv_nmos/gate = 1                    |  sg13_lv_nmos/gate = 1                    
-  cap_cmim/1 = 1                           |  cap_cmim/1 = 1                           
-                                           |                                           
-(no matching net)                          |Net: \$517                                 
-                                           |  cap_rfcmim/1 = 1                         
-                                           |                                           
-(no matching net)                          |Net: \$589                                 
-                                           |  sg13_lv_nmos/gate = 2                    
-                                           |                                           
-(no matching net)                          |Net: \$489                                 
-                                           |  sg13_lv_nmos/(drain|source) = 1          
-                                           |                                           
-(no matching net)                          |Net: \$551                                 
-                                           |  sg13_lv_nmos/gate = 1                    
-                                           |                                           
-(no matching net)                          |Net: \$508                                 
-                                           |  cap_rfcmim/1 = 1                         
-                                           |                                           
-(no matching net)                          |Net: tp$1                                  
-                                           |  sg13_lv_nmos/(drain|source) = 1          
-                                           |  sg13_lv_nmos/gate = 1                    
-                                           |  cap_rfcmim/1 = 1                         
-                                           |                                           
-(no matching net)                          |Net: tn$1                                  
-                                           |  sg13_lv_nmos/gate = 1                    
-                                           |  sg13_lv_nmos/(drain|source) = 1          
-                                           |  cap_rfcmim/1 = 1                         
----------------------------------------------------------------------------------------
-DEVICE mismatches: Class fragments follow (with node fanout counts):
-Circuit 1: vco_top                         |Circuit 2: vco_top                         
-
----------------------------------------------------------------------------------------
-Instance: sg13_lv_nmos:core_m1             |Instance: sg13_lv_nmos:$823                
-  (drain,source) = (17,3)                  |  (drain,source) = (145,145)               
-  gate = 17                                |  gate = 145                               
-  bulk = 146                               |  bulk = 145                               
-                                           |                                           
-Instance: sg13_lv_nmos:core_m2             |Instance: sg13_lv_nmos:$824                
-  (drain,source) = (17,3)                  |  (drain,source) = (166,4)                 
-  gate = 17                                |  gate = 1                                 
-  bulk = 146                               |  bulk = 145                               
-                                           |                                           
-Instance: sg13_lv_nmos:core_mdum           |Instance: sg13_lv_nmos:$880                
-  (drain,source) = (146,146)               |  (drain,source) = (3,2)                   
-  gate = 146                               |  gate = 3                                 
-  bulk = 146                               |  bulk = 145                               
-                                           |                                           
-Instance: sg13_lv_nmos:det_mdtp            |Instance: sg13_lv_nmos:$891                
-  (drain,source) = (167,5)                 |  (drain,source) = (3,2)                   
-  gate = 17                                |  gate = 3                                 
-  bulk = 146                               |  bulk = 145                               
-                                           |                                           
-Instance: sg13_lv_nmos:det_mdtn            |(no matching instance)                     
-  (drain,source) = (167,5)                 |                                           
-  gate = 17                                |                                           
-  bulk = 146                               |                                           
-                                           |                                           
----------------------------------------------------------------------------------------
-Netlists do not match.
-Port matching may fail to disambiguate symmetries.
+Resolving symmetries by property value.
+Resolving symmetries by pin name.
+Resolving symmetries by net name.
+Netlists match with 19 symmetries with property errors.
+sg13_lv_pmos:tail_msw_b18 vs. sg13_lv_pmos:$1151:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b17 vs. sg13_lv_pmos:$1146:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b16 vs. sg13_lv_pmos:$1143:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b15 vs. sg13_lv_pmos:$1138:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b14 vs. sg13_lv_pmos:$1135:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b13 vs. sg13_lv_pmos:$1131:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b12 vs. sg13_lv_pmos:$1129:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b11 vs. sg13_lv_pmos:$1127:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b10 vs. sg13_lv_pmos:$1125:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b9 vs. sg13_lv_pmos:$1123:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b8 vs. sg13_lv_pmos:$1121:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b7 vs. sg13_lv_pmos:$1119:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b6 vs. sg13_lv_pmos:$1117:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b5 vs. sg13_lv_pmos:$1115:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b4 vs. sg13_lv_pmos:$1113:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b3 vs. sg13_lv_pmos:$1111:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b2 vs. sg13_lv_pmos:$1109:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b1 vs. sg13_lv_pmos:$1107:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b0 vs. sg13_lv_pmos:$1105:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b1_1 vs. sg13_lv_pmos:$1191:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b1_0 vs. sg13_lv_pmos:$1155:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b0_0 vs. sg13_lv_pmos:$1165:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_dmy vs. sg13_lv_pmos:$1197:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b2_3 vs. sg13_lv_pmos:$1205:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b2_2 vs. sg13_lv_pmos:$1183:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b2_1 vs. sg13_lv_pmos:$1173:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b2_0 vs. sg13_lv_pmos:$1142:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b3_7 vs. sg13_lv_pmos:$1207:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b3_6 vs. sg13_lv_pmos:$1199:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b3_5 vs. sg13_lv_pmos:$1187:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b3_4 vs. sg13_lv_pmos:$1181:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b3_3 vs. sg13_lv_pmos:$1175:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b3_2 vs. sg13_lv_pmos:$1169:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b3_1 vs. sg13_lv_pmos:$1150:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b3_0 vs. sg13_lv_pmos:$1139:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_dmy vs. sg13_lv_pmos:$1196:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b0_0 vs. sg13_lv_pmos:$1164:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b1_1 vs. sg13_lv_pmos:$1190:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b1_0 vs. sg13_lv_pmos:$1154:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b2_3 vs. sg13_lv_pmos:$1204:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b2_2 vs. sg13_lv_pmos:$1182:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b2_1 vs. sg13_lv_pmos:$1172:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b2_0 vs. sg13_lv_pmos:$1141:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b3_7 vs. sg13_lv_pmos:$1206:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b3_6 vs. sg13_lv_pmos:$1198:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b3_5 vs. sg13_lv_pmos:$1186:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b3_4 vs. sg13_lv_pmos:$1180:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b3_3 vs. sg13_lv_pmos:$1174:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b3_2 vs. sg13_lv_pmos:$1168:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b3_1 vs. sg13_lv_pmos:$1149:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b3_0 vs. sg13_lv_pmos:$1136:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b4_15 vs. sg13_lv_pmos:$1208:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b4_14 vs. sg13_lv_pmos:$1202:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b4_13 vs. sg13_lv_pmos:$1200:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b4_12 vs. sg13_lv_pmos:$1194:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b4_11 vs. sg13_lv_pmos:$1192:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b4_10 vs. sg13_lv_pmos:$1188:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b4_9 vs. sg13_lv_pmos:$1184:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b4_8 vs. sg13_lv_pmos:$1178:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b4_7 vs. sg13_lv_pmos:$1176:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b4_6 vs. sg13_lv_pmos:$1170:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b4_5 vs. sg13_lv_pmos:$1166:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b4_4 vs. sg13_lv_pmos:$1162:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b4_3 vs. sg13_lv_pmos:$1156:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b4_2 vs. sg13_lv_pmos:$1152:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b4_1 vs. sg13_lv_pmos:$1145:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b4_0 vs. sg13_lv_pmos:$1133:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b18 vs. sg13_lv_pmos:$1148:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b17 vs. sg13_lv_pmos:$1144:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b16 vs. sg13_lv_pmos:$1140:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b15 vs. sg13_lv_pmos:$1137:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b14 vs. sg13_lv_pmos:$1132:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b13 vs. sg13_lv_pmos:$1130:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b12 vs. sg13_lv_pmos:$1128:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b11 vs. sg13_lv_pmos:$1126:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b10 vs. sg13_lv_pmos:$1124:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b9 vs. sg13_lv_pmos:$1122:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b8 vs. sg13_lv_pmos:$1120:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b7 vs. sg13_lv_pmos:$1118:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b6 vs. sg13_lv_pmos:$1116:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b5 vs. sg13_lv_pmos:$1114:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b4 vs. sg13_lv_pmos:$1112:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b3 vs. sg13_lv_pmos:$1110:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b2 vs. sg13_lv_pmos:$1108:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b1 vs. sg13_lv_pmos:$1106:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mdb_b0 vs. sg13_lv_pmos:$1104:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b4_15 vs. sg13_lv_pmos:$1209:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b4_14 vs. sg13_lv_pmos:$1203:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b4_13 vs. sg13_lv_pmos:$1201:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b4_12 vs. sg13_lv_pmos:$1195:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b4_11 vs. sg13_lv_pmos:$1193:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b4_10 vs. sg13_lv_pmos:$1189:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b4_9 vs. sg13_lv_pmos:$1185:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b4_8 vs. sg13_lv_pmos:$1179:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b4_7 vs. sg13_lv_pmos:$1177:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b4_6 vs. sg13_lv_pmos:$1171:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b4_5 vs. sg13_lv_pmos:$1167:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b4_4 vs. sg13_lv_pmos:$1163:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b4_3 vs. sg13_lv_pmos:$1157:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b4_2 vs. sg13_lv_pmos:$1153:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b4_1 vs. sg13_lv_pmos:$1147:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_msw_b4_0 vs. sg13_lv_pmos:$1134:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:det_mpl1 vs. sg13_lv_pmos:$1210:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mp2 vs. sg13_lv_pmos:$1160:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:tail_mp1 vs. sg13_lv_pmos:$1158:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_pmos:det_mpl2 vs. sg13_lv_pmos:$1212:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_hv_svaricap:var_xv1 vs. sg13_hv_svaricap:$1287:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_cmim:tail_cbf0 vs. cap_cmim:$1247:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_cmim:tail_cbf0 vs. cap_cmim:$1247:
+Property P in circuit2 has no matching property in circuit1
+cap_cmim:tail_cbf0 vs. cap_cmim:$1247:
+Property A in circuit2 has no matching property in circuit1
+cap_cmim:det_chold vs. cap_cmim:$1248:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_cmim:det_chold vs. cap_cmim:$1248:
+Property P in circuit2 has no matching property in circuit1
+cap_cmim:det_chold vs. cap_cmim:$1248:
+Property A in circuit2 has no matching property in circuit1
+cap_cmim:det_cl_cmp vs. cap_cmim:$1249:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_cmim:det_cl_cmp vs. cap_cmim:$1249:
+Property P in circuit2 has no matching property in circuit1
+cap_cmim:det_cl_cmp vs. cap_cmim:$1249:
+Property A in circuit2 has no matching property in circuit1
+cap_cmim:det_crep vs. cap_cmim:$1250:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_cmim:det_crep vs. cap_cmim:$1250:
+Property P in circuit2 has no matching property in circuit1
+cap_cmim:det_crep vs. cap_cmim:$1250:
+Property A in circuit2 has no matching property in circuit1
+cap_cmim:bank_xb2n vs. cap_cmim:$1259:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_cmim:bank_xb2n vs. cap_cmim:$1259:
+Property P in circuit2 has no matching property in circuit1
+cap_cmim:bank_xb2n vs. cap_cmim:$1259:
+Property A in circuit2 has no matching property in circuit1
+cap_cmim:bank_xb1n vs. cap_cmim:$1254:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_cmim:bank_xb1n vs. cap_cmim:$1254:
+Property P in circuit2 has no matching property in circuit1
+cap_cmim:bank_xb1n vs. cap_cmim:$1254:
+Property A in circuit2 has no matching property in circuit1
+cap_cmim:bank_xb0n vs. cap_cmim:$1256:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_cmim:bank_xb0n vs. cap_cmim:$1256:
+Property P in circuit2 has no matching property in circuit1
+cap_cmim:bank_xb0n vs. cap_cmim:$1256:
+Property A in circuit2 has no matching property in circuit1
+cap_cmim:bank_xb2p vs. cap_cmim:$1262:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_cmim:bank_xb2p vs. cap_cmim:$1262:
+Property P in circuit2 has no matching property in circuit1
+cap_cmim:bank_xb2p vs. cap_cmim:$1262:
+Property A in circuit2 has no matching property in circuit1
+cap_cmim:bank_xb1p vs. cap_cmim:$1257:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_cmim:bank_xb1p vs. cap_cmim:$1257:
+Property P in circuit2 has no matching property in circuit1
+cap_cmim:bank_xb1p vs. cap_cmim:$1257:
+Property A in circuit2 has no matching property in circuit1
+cap_cmim:bank_xb0p vs. cap_cmim:$1251:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_cmim:bank_xb0p vs. cap_cmim:$1251:
+Property P in circuit2 has no matching property in circuit1
+cap_cmim:bank_xb0p vs. cap_cmim:$1251:
+Property A in circuit2 has no matching property in circuit1
+rhigh:bank_rbbdum vs. rhigh:$1221:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rbbdum vs. rhigh:$1221:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rbadum vs. rhigh:$1220:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rbadum vs. rhigh:$1220:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:core_rfx vs. rhigh:$1240:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:core_rfx vs. rhigh:$1240:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:det_rc2 vs. rhigh:$1243:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:det_rc2 vs. rhigh:$1243:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:det_rc1 vs. rhigh:$1242:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:det_rc1 vs. rhigh:$1242:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:det_rbias vs. rhigh:$1244:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:det_rbias vs. rhigh:$1244:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:tail_rbf vs. rhigh:$1241:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:tail_rbf vs. rhigh:$1241:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:var_rvn vs. rhigh:$1246:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:var_rvn vs. rhigh:$1246:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:var_rvp vs. rhigh:$1245:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:var_rvp vs. rhigh:$1245:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rbb11 vs. rhigh:$1229:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rbb11 vs. rhigh:$1229:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rba11 vs. rhigh:$1228:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rba11 vs. rhigh:$1228:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rbb10 vs. rhigh:$1227:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rbb10 vs. rhigh:$1227:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rba10 vs. rhigh:$1226:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rba10 vs. rhigh:$1226:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rbb9 vs. rhigh:$1225:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rbb9 vs. rhigh:$1225:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rba9 vs. rhigh:$1224:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rba9 vs. rhigh:$1224:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rbb8 vs. rhigh:$1223:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rbb8 vs. rhigh:$1223:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rba8 vs. rhigh:$1222:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rba8 vs. rhigh:$1222:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rbb7 vs. rhigh:$1219:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rbb7 vs. rhigh:$1219:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rba7 vs. rhigh:$1218:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rba7 vs. rhigh:$1218:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rbb6 vs. rhigh:$1217:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rbb6 vs. rhigh:$1217:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rba6 vs. rhigh:$1216:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rba6 vs. rhigh:$1216:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rbb5 vs. rhigh:$1215:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rbb5 vs. rhigh:$1215:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rba5 vs. rhigh:$1214:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rba5 vs. rhigh:$1214:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rbb4 vs. rhigh:$1239:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rbb4 vs. rhigh:$1239:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rba4 vs. rhigh:$1238:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rba4 vs. rhigh:$1238:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rbb3 vs. rhigh:$1237:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rbb3 vs. rhigh:$1237:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rba3 vs. rhigh:$1236:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rba3 vs. rhigh:$1236:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rbb2 vs. rhigh:$1235:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rbb2 vs. rhigh:$1235:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rba2 vs. rhigh:$1234:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rba2 vs. rhigh:$1234:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rbb1 vs. rhigh:$1233:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rbb1 vs. rhigh:$1233:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rba1 vs. rhigh:$1232:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rba1 vs. rhigh:$1232:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rbb0 vs. rhigh:$1231:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rbb0 vs. rhigh:$1231:
+Property ps in circuit2 has no matching property in circuit1
+rhigh:bank_rba0 vs. rhigh:$1230:
+Property mm_ok in circuit1 has no matching property in circuit2
+rhigh:bank_rba0 vs. rhigh:$1230:
+Property ps in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xbdumn vs. cap_rfcmim:$1270:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xbdumn vs. cap_rfcmim:$1270:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xbdumn vs. cap_rfcmim:$1270:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xbdump vs. cap_rfcmim:$1269:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xbdump vs. cap_rfcmim:$1269:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xbdump vs. cap_rfcmim:$1269:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:core_xf1 vs. cap_rfcmim:$1279:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:core_xf1 vs. cap_rfcmim:$1279:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:core_xf1 vs. cap_rfcmim:$1279:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:core_xf2 vs. cap_rfcmim:$1284:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:core_xf2 vs. cap_rfcmim:$1284:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:core_xf2 vs. cap_rfcmim:$1284:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:var_xcp vs. cap_rfcmim:$1280:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:var_xcp vs. cap_rfcmim:$1280:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:var_xcp vs. cap_rfcmim:$1280:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:var_xcn vs. cap_rfcmim:$1281:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:var_xcn vs. cap_rfcmim:$1281:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:var_xcn vs. cap_rfcmim:$1281:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb11p vs. cap_rfcmim:$1277:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb11p vs. cap_rfcmim:$1277:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb11p vs. cap_rfcmim:$1277:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb10p vs. cap_rfcmim:$1275:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb10p vs. cap_rfcmim:$1275:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb10p vs. cap_rfcmim:$1275:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb9p vs. cap_rfcmim:$1273:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb9p vs. cap_rfcmim:$1273:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb9p vs. cap_rfcmim:$1273:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb8p vs. cap_rfcmim:$1271:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb8p vs. cap_rfcmim:$1271:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb8p vs. cap_rfcmim:$1271:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb7p vs. cap_rfcmim:$1267:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb7p vs. cap_rfcmim:$1267:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb7p vs. cap_rfcmim:$1267:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb6p vs. cap_rfcmim:$1265:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb6p vs. cap_rfcmim:$1265:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb6p vs. cap_rfcmim:$1265:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb5p vs. cap_rfcmim:$1263:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb5p vs. cap_rfcmim:$1263:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb5p vs. cap_rfcmim:$1263:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb4p vs. cap_rfcmim:$1285:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb4p vs. cap_rfcmim:$1285:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb4p vs. cap_rfcmim:$1285:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb3p vs. cap_rfcmim:$1282:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb3p vs. cap_rfcmim:$1282:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb3p vs. cap_rfcmim:$1282:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb11n vs. cap_rfcmim:$1278:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb11n vs. cap_rfcmim:$1278:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb11n vs. cap_rfcmim:$1278:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb10n vs. cap_rfcmim:$1276:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb10n vs. cap_rfcmim:$1276:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb10n vs. cap_rfcmim:$1276:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb9n vs. cap_rfcmim:$1274:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb9n vs. cap_rfcmim:$1274:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb9n vs. cap_rfcmim:$1274:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb8n vs. cap_rfcmim:$1272:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb8n vs. cap_rfcmim:$1272:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb8n vs. cap_rfcmim:$1272:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb7n vs. cap_rfcmim:$1268:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb7n vs. cap_rfcmim:$1268:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb7n vs. cap_rfcmim:$1268:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb6n vs. cap_rfcmim:$1266:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb6n vs. cap_rfcmim:$1266:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb6n vs. cap_rfcmim:$1266:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb5n vs. cap_rfcmim:$1264:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb5n vs. cap_rfcmim:$1264:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb5n vs. cap_rfcmim:$1264:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb4n vs. cap_rfcmim:$1286:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb4n vs. cap_rfcmim:$1286:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb4n vs. cap_rfcmim:$1286:
+Property A in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb3n vs. cap_rfcmim:$1283:
+Property mm_ok in circuit1 has no matching property in circuit2
+cap_rfcmim:bank_xb3n vs. cap_rfcmim:$1283:
+Property P in circuit2 has no matching property in circuit1
+cap_rfcmim:bank_xb3n vs. cap_rfcmim:$1283:
+Property A in circuit2 has no matching property in circuit1
+sg13_lv_nmos:bank_msdum vs. sg13_lv_nmos:$715:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rbbdum vs. sg13_lv_nmos:$816:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rbadum vs. sg13_lv_nmos:$614:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:core_mdum vs. sg13_lv_nmos:$823:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:core_mdum vs. sg13_lv_nmos:$823:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:core_mdum vs. sg13_lv_nmos:$823:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:det_mrt vs. sg13_lv_nmos:$825:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:det_mdtp vs. sg13_lv_nmos:$824:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:det_mdtn vs. sg13_lv_nmos:$827:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:det_mc1 vs. sg13_lv_nmos:$840:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:det_mcs1 vs. sg13_lv_nmos:$842:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:det_mcs2 vs. sg13_lv_nmos:$844:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:det_mc2 vs. sg13_lv_nmos:$846:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:det_mdiode vs. sg13_lv_nmos:$850:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:det_mid_h vs. sg13_lv_nmos:$852:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:det_men_r vs. sg13_lv_nmos:$853:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:det_men_tt vs. sg13_lv_nmos:$855:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:det_men_ss vs. sg13_lv_nmos:$859:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:det_men_h vs. sg13_lv_nmos:$851:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:det_men_d vs. sg13_lv_nmos:$849:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:det_mid_ss vs. sg13_lv_nmos:$860:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:det_mid_tt vs. sg13_lv_nmos:$857:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:det_mid_r vs. sg13_lv_nmos:$854:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:core_m1 vs. sg13_lv_nmos:$880:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:core_m2 vs. sg13_lv_nmos:$891:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:tail_mt vs. sg13_lv_nmos:$934:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:var_mbp_rvn vs. sg13_lv_nmos:$899:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:var_mbp_rvp vs. sg13_lv_nmos:$888:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rbb11 vs. sg13_lv_nmos:$815:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rba11 vs. sg13_lv_nmos:$613:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rbb10 vs. sg13_lv_nmos:$612:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rba10 vs. sg13_lv_nmos:$511:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rbb9 vs. sg13_lv_nmos:$510:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rba9 vs. sg13_lv_nmos:$409:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rbb8 vs. sg13_lv_nmos:$408:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rba8 vs. sg13_lv_nmos:$307:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rbb7 vs. sg13_lv_nmos:$306:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rba7 vs. sg13_lv_nmos:$205:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rbb6 vs. sg13_lv_nmos:$204:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rba6 vs. sg13_lv_nmos:$103:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rbb5 vs. sg13_lv_nmos:$102:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rba5 vs. sg13_lv_nmos:$1:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rbb4 vs. sg13_lv_nmos:$1045:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rba4 vs. sg13_lv_nmos:$982:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rbb3 vs. sg13_lv_nmos:$933:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rba3 vs. sg13_lv_nmos:$890:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rbb2 vs. sg13_lv_nmos:$878:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rba2 vs. sg13_lv_nmos:$856:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rbb1 vs. sg13_lv_nmos:$839:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rba1 vs. sg13_lv_nmos:$829:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rbb0 vs. sg13_lv_nmos:$822:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_mbp_rba0 vs. sg13_lv_nmos:$817:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:tail_mo1 vs. sg13_lv_nmos:$1095:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:tail_mo2 vs. sg13_lv_nmos:$1097:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:tail_mbp_rbf vs. sg13_lv_nmos:$1100:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_ms5 vs. sg13_lv_nmos:$2:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_ms6 vs. sg13_lv_nmos:$104:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_ms7 vs. sg13_lv_nmos:$206:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_ms8 vs. sg13_lv_nmos:$308:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_ms9 vs. sg13_lv_nmos:$410:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_ms10 vs. sg13_lv_nmos:$512:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_ms11 vs. sg13_lv_nmos:$615:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_ms3 vs. sg13_lv_nmos:$901:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_ms4 vs. sg13_lv_nmos:$983:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_ms0 vs. sg13_lv_nmos:$818:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_ms1 vs. sg13_lv_nmos:$830:
+Property mm_ok in circuit1 has no matching property in circuit2
+sg13_lv_nmos:bank_ms2 vs. sg13_lv_nmos:$862:
+Property mm_ok in circuit1 has no matching property in circuit2
 
 Subcircuit pins:
 Circuit 1: vco_top                         |Circuit 2: vco_top                         
 -------------------------------------------|-------------------------------------------
-tp                                         |tp$1 **Mismatch**                          
-tn                                         |tn$1 **Mismatch**                          
-tail                                       |hold **Mismatch**                          
-gnd                                        |(no pin, node is \$551)                    
-vbp                                        |(no pin, node is \$489)                    
-vdd                                        |(no pin, node is \$508)                    
-hold                                       |(no pin, node is \$517)                    
+hold                                       |hold                                       
+en                                         |en                                         
+code3                                      |code3                                      
+code4                                      |code4                                      
+vdd                                        |vdd                                        
+code1                                      |code1                                      
+vbp                                        |vbp                                        
+ct                                         |ct                                         
 vthn                                       |vthn                                       
-ct                                         |(no pin, node is \$563)                    
 vbp_tail                                   |vbp_tail                                   
-g11                                        |g4 **Mismatch**                            
-g10                                        |g3 **Mismatch**                            
-g9                                         |g11 **Mismatch**                           
-g8                                         |g10 **Mismatch**                           
-g7                                         |g9 **Mismatch**                            
-g6                                         |g8 **Mismatch**                            
-g5                                         |g7 **Mismatch**                            
-g4                                         |g6 **Mismatch**                            
-g3                                         |g5 **Mismatch**                            
+g11                                        |g11                                        
+g10                                        |g10                                        
+g9                                         |g9                                         
+g8                                         |g8                                         
+g7                                         |g7                                         
+g6                                         |g6                                         
+g5                                         |g5                                         
+g4                                         |g4                                         
+g3                                         |g3                                         
 g2                                         |g2                                         
 g1                                         |g1                                         
 g0                                         |g0                                         
-en                                         |en                                         
-code1                                      |code1                                      
 code0                                      |code0                                      
 vt                                         |vt                                         
 code2                                      |code2                                      
-cmp                                        |cmp                                        
+gnd                                        |gnd                                        
 rep                                        |rep                                        
-code3                                      |code3                                      
-code4                                      |code4                                      
-(no pin, node is hold)                     |gnd                                        
-(no pin, node is hold)                     |tail                                       
-(no pin, node is hold)                     |tn                                         
-(no pin, node is hold)                     |tp                                         
-(no pin, node is hold)                     |vbp                                        
-(no pin, node is hold)                     |vdd                                        
+cmp                                        |cmp                                        
+tail                                       |tail                                       
+tn                                         |tn                                         
+tp                                         |tp                                         
 ---------------------------------------------------------------------------------------
-Cell pin lists for vco_top and vco_top altered to match.
+Cell pin lists are equivalent.
 Device classes vco_top and vco_top are equivalent.
 
-Final result: Top level cell failed pin matching.
+Final result: Circuits match uniquely.
+Property errors were found.
+
+The following cells had property errors:
+ vco_top

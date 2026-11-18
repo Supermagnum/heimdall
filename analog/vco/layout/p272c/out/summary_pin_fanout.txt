@@ -1,0 +1,43 @@
+# Pin fan-out check group=controls [TOOL]
+gds=vco_top_lvs.gds
+
+## net ct
+  vco_core_tank.ct @ (68.39,385.65) labels=['ct'] [ok]
+  ampcal_det.ct @ (-117.95,558.46) labels=['ct'] [ok]
+
+## net gnd
+  vco_core_tank.gnd @ (68.39,348.27) labels=['gnd'] [ok]
+  vco_bank.gnd @ (341.95,0.25) labels=['gnd'] [ok]
+  tail_block.gnd @ (150.78,287.02) labels=['gnd'] [ok]
+  vco_var.gnd @ (92.67,510.18) labels=['gnd'] [ok]
+  ampcal_det.gnd @ (-133.13,541.10) labels=['gnd'] [ok]
+
+## net tail
+  vco_core_tank.tail @ (78.19,369.77) labels=['tail'] [ok]
+  tail_block.tail @ (146.78,392.23) labels=['tail'] [ok]
+
+## net tn
+  vco_core_tank.tn @ (82.77,380.65) labels=['tn'] [ok]
+  vco_bank.tn @ (74.01,273.77) labels=['tn'] [ok]
+  vco_var.tn @ (88.67,528.45) labels=['tn'] [ok]
+  ampcal_det.tn @ (-142.98,564.86) labels=['tn'] [ok]
+
+## net tp
+  vco_core_tank.tp @ (54.01,380.65) labels=['tp'] [ok]
+  vco_bank.tp @ (54.01,273.77) labels=['tp'] [ok]
+  vco_var.tp @ (48.12,491.90) labels=['tp'] [ok]
+  ampcal_det.tp @ (-141.98,535.10) labels=['tp'] [ok]
+
+## net vbp
+  vco_bank.vbp @ (-207.78,86.29) labels=['vbp'] [ok]
+  vco_var.vbp @ (61.66,633.00) labels=['vbp'] [ok]
+
+## net vdd
+  tail_block.vdd @ (393.90,387.38) labels=['vdd'] [ok]
+  ampcal_det.vdd @ (-118.21,554.36) labels=['vdd'] [ok]
+
+## net vt
+  vco_var.W @ (49.12,475.12) labels=['vt'] [ok]
+
+## result
+PASS

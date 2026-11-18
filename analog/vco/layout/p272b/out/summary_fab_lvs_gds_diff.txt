@@ -15,4 +15,3 @@
 - L2n0 EM GDS has no IND recognition layers → pin-only LVS path.
 
 ## Result: PASS
-

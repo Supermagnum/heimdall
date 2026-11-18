@@ -1,6 +1,6 @@
 # VCO topology memo (P2.3)
 
-Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** vbp join PASS; net-group intermediate PASS; **STOP** unique LVS — Mtail drain on tn / core.tail open (`summary_p272c_close_vbp_unique_lvs_stop.txt`). Outline 0.4029 mm²; band@35.6 prior [GDS/SCH/TOOL]. vvb_bias 0.3 V ±30 mV / ≤8 nV/√Hz from PLL bias gen [decisions]. Next: fix tail, unique LVS, then P2.7.3. See §9.
+Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** vbp+tail join connectivity PASS; fan-out intermediate PASS; netgen unique PASS; **STOP** KLayout unique (`summary_p272c_tail_fanout_unique_lvs_stop.txt`). Outline 0.4029 mm²; band@35.6 prior [GDS/SCH/TOOL]. vvb_bias 0.3 V ±30 mV / ≤8 nV/√Hz from PLL bias gen [decisions]. Next: clear KLayout unique, step-2 @35.6, then P2.7.3. See §9.
 
 ---
 
@@ -318,6 +318,16 @@ strap). Intermediate net groups: DRC clean, no named-net `|` merge.
 M$888/M$899 on `vbp`, drains separate. Unique LVS **FAIL**: `M$934` (Mtail)
 `D=tn`; core.tail open from Mtail. Stop:
 `layout/p272c/out/summary_p272c_close_vbp_unique_lvs_stop.txt`.
+
+### P2.7.2c tail fix + pin fan-out (2026-11-18) [TOOL/GDS/PDK/HAND]
+
+vbp join accepted. Tail: south via stack clear of tn; face lands on child vias
+only; L=99 µm, R125=2.35 Ω, J=0.80 mA/µm, C≈9.9 fF [HAND/PDK/GDS]. Intermediate
+gate adds pin fan-out (`check_pin_fanout.py`). All groups: DRC + no `|` + fan-out
+PASS. Full join: ports clean incl. ct; **netgen unique 239/144 PASS**; **KLayout
+unique FAIL** (rfcmim case / paired device compare) — stop
+`layout/p272c/out/summary_p272c_tail_fanout_unique_lvs_stop.txt`. Step-2 @35.6
+not re-run. Outline still 0.4029 mm² [GDS].
 
 ### D9 filter capacitor notes (2026-11-13) — MIM kept; MOS swing cause
 

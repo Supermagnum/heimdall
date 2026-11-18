@@ -1,11 +1,12 @@
 # P2.7 layout notes
 
-Status: **P2.7.2c close-vbp / unique LVS STOP** (2026-11-18). Sign-off reference
-is flattened `vco_top.sch` + `lvs_setup.tcl`. bank.vbp↔var.vbp joined (one name)
-[TOOL]; net groups DRC + no named-net merge PASS; unique LVS FAIL — Mtail drain
-on tn, core.tail open (`summary_p272c_close_vbp_unique_lvs_stop.txt`). Outline
-0.4029 mm²; island C 35.6/35.6 fF; band@35.6 prior [GDS/SCH/TOOL]. Chip art
-PASS. Blocks PASS.
+Status: **P2.7.2c tail + fan-out / KLayout unique LVS STOP** (2026-11-18). Sign-off
+reference is flattened `vco_top.sch` + `lvs_setup.tcl`. vbp join accepted;
+tail clear of tn (L=99 µm, R125=2.35 Ω, C≈9.9 fF) [GDS/PDK/HAND]; intermediate
+checks = DRC + no named `|` + **pin fan-out** (`check_pin_fanout.py`) PASS all
+groups [TOOL]; netgen unique 239/144 PASS; **KLayout unique FAIL** —
+`summary_p272c_tail_fanout_unique_lvs_stop.txt`. Outline 0.4029 mm²; island C
+35.6/35.6 fF prior [GDS/SCH/TOOL]. Chip art PASS. Blocks PASS.
 
 ---
 
@@ -685,7 +686,9 @@ for sch ports.
 | **vbp** | south/east of tank band | M2 H + M3 | Bank ↔ var; away from tn/tp |
 | **g0..g11 / code0..4 / en..rep** | south of bank / east of det | M2/M3 | **Away from tn/tp and V_tune**; AFE buses at synthesizer top |
 
-**Join order** (DRC + KLayout LVS + netgen after each; full unique LVS = sign-off):
+**Join order** (after each group: DRC + no named-net `|` + **pin fan-out**
+`check_pin_fanout.py` [decisions 2026-11-18]; unique KLayout+netgen only at
+full join):
 
 1. `place` — instances + outline; no straps
 2. `power` — vdd / gnd spines

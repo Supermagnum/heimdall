@@ -1,0 +1,81 @@
+# P2.7.2c — tail fix, pin fan-out, unique LVS STOP [TOOL]
+# Date: 2026-11-18
+# decisions.md: "2026-11-18 — vbp join accepted, tail misroute" recorded.
+# 8a06b8b already on origin/main (push no-op).
+
+## Pass criteria vs result
+
+| Step | Criterion | Result |
+|------|-----------|--------|
+| 1 Pin fan-out script + gate | Script; used after every net group with DRC + no `\|` merge | **PASS** — `check_pin_fanout.py`; `run_direct_join.sh` |
+| 2 Tail route | Clear of tn/tp; M1↔M2↔M3; one label; L/R/C/J targets | **PASS** connectivity + DRC; metrics below |
+| 3 Net-group replay | DRC + no merge + fan-out each group; stop on first fail | **PASS** place…controls (intermediate) |
+| 4 Full join unique LVS | DRC; KLayout unique; netgen unique; fab/LVS; var scripts; ct port | **FAIL** — KLayout unique; see below |
+| 5 Step-2 @ 35.6 fF | Overlap / bank / D20 / PN | **not run** (blocked by step 4) |
+| 6 Report / specs / commit | | STOP report; specs partially updated; commit pending ask |
+
+## Step 1 — pin fan-out [TOOL]
+- `analog/vco/layout/p272c/check_pin_fanout.py`: flood M1–M3/TM1/TM2 from each
+  child pin; require expected net label; TM1/TM2/TopVia needed for ct [TOOL].
+- Gated in `run_direct_join.sh` after every group. All groups: fanout PASS.
+
+## Step 2 — tail [GDS/PDK/HAND]
+- Root cause: via12 at core.tail Y bridged into tn M1 island [TOOL bisect].
+- Fix: M1 south to y_via=365.77 (tn_y=380.65); via12 there; M2 east; Via2 array
+  to M3; H bus at y_via; land on child face **without** extra via12/via23 (child
+  already has Via1/Via2 array — 0.06 µm → V1.b/V2.b) [TOOL DRC].
+- Flood: core.tail hits tail_block.tail; does **not** hit tn [TOOL].
+- Metrics [HAND/PDK/GDS]: L=99.0 µm (≤≈150); w=5.0 µm; R25=1.74 Ω; R125=2.35 Ω
+  (≤≈2.5); J=0.80 mA/µm @4 mA; C≈9.9 fF (≤≈20). One top `tail` label on M1.
+
+## Step 3 — net-group replay [TOOL]
+place → power → ct → tail → tn_tp → vt → controls:
+- DRC clean each (density + SVaricap M1.b waived) [TOOL].
+- No named-net `|` merges; opens only allowed intermediate (tn$1/tp$1 before tn_tp).
+- Pin fan-out PASS each group.
+- Unique LVS not required until controls.
+
+## Step 4 — full join [TOOL]
+- DRC: PASS (M1.b waived only) [TOOL].
+- Ports: 31=31 including ct, tail; no `|`; no `$` opens on ports [TOOL].
+- netgen: **Circuits match uniquely** — 239=239 devices, 144=144 nets [TOOL].
+- KLayout LVS: **FAIL** — Netlists don't match [TOOL].
+  - Cross-ref: RF MIM class case `rfcmim` (extract) vs `RFCMIM` (spice reader);
+    also paired NMOS/rhigh/cap_cmim mismatches with same class name [TOOL].
+  - Tried: sch `cap_rfcmim`→`rfcmim`, X→C svaricap; extract+`--layout_netlist`
+    compare; uppercase extract models — still FAIL [TOOL].
+- Inductor fab/LVS diff (p272b script on core path): PASS (only `l2n0_em`) [TOOL].
+  (Assembled top not the script’s default; same pin-only policy.)
+- ct: labelled top port in extract [TOOL]. Fan-out ct pins PASS [TOOL].
+- Varactor dimension / finger scripts: **not re-run this job** [TOOL].
+
+## Step 5 — step-2 @35.6: not run [SCH]
+
+## Report numbers
+- Outline bbox (−208.78,0)–(404.4,657.06) area **0.4029 mm²** [GDS].
+- Tail: see step 2.
+- tn/tp C per side / mismatch: extracted RC **not run** this job [TOOL].
+- Die re-total: hold VCO island row at **0.4029 mm²** [GDS] (unchanged pack).
+
+## What failed / uncertain
+- **Failed:** KLayout unique match on full `vco_top` despite netgen unique and
+  clean ports / fan-out / DRC.
+- **Uncertain:** whether remaining KLayout mismatches are only spice-reader
+  case / device-class tooling, or real parameter compare differences netgen
+  ignores.
+
+## Decision needed
+How to clear **KLayout** unique LVS on flat `vco_top.sch` when netgen already
+matches uniquely (239/144): accept netgen+connectivity as unique sign-off for
+this step; or require a PDK/reader case-equate / compare tweak; or further
+layout debug of the paired NMOS/rhigh mismatches.
+
+## Found, not done
+- Step-2 checks @ island C 35.6 fF (overlap, bank steps, D20, PN).
+- Extracted RC tn/tp C; SVG/PDF refresh after unique KLayout.
+- Varactor dimension/finger script re-run on assembled top.
+- Spec § updates beyond status lines; commit of this job’s files (ask first).
+
+## Next run
+**P2.7.2c — clear KLayout unique LVS (or accepted equate), then step-2 @35.6**
+(then **P2.7.3** VCO PEX and post-layout checks).

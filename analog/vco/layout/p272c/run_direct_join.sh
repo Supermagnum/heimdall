@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 # P2.7.2c direct bank–core join: one net group at a time; stop on first hard fail.
-# DRC (density + SVaricap M1.b waived) must be clean every group.
-# Intermediate (decisions 2026-11-18): DRC clean and no merge of two named nets
-# (extract port names with "|"); opens of nets not yet routed are allowed.
-# Unique KLayout + netgen only required at full join (controls).
+# Intermediate (decisions 2026-11-18): DRC clean; no named-net "|"; pin fan-out
+# matches schematic child pins for every routed net. Opens of nets not yet
+# routed are allowed. Unique KLayout + netgen only at full join (controls).
 # Run inside hpretl/iic-osic-tools from this directory.
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -13,7 +12,6 @@ ACC=""
 echo "# P2.7.2c direct join log" | tee -a out/summary_direct_join.txt
 
 named_merges() {
-  # KLayout extract merges named nets as a|b in the .SUBCKT port list [TOOL].
   local cir=""
   for cir in out/lvs_vco_top/vco_top_lvs_extracted.cir \
              out/lvs_vco_top/vco_top_extracted.cir; do
@@ -21,12 +19,10 @@ named_merges() {
     python3 - "$cir" <<'PY'
 import re, sys
 txt = open(sys.argv[1], errors="ignore").read()
-# First .SUBCKT header only (ports may wrap with +)
 m = re.search(r"\.SUBCKT\s+\S+(.*?)(?=\n[A-Z*.])", txt, re.S | re.I)
 if not m:
     sys.exit(0)
-hdr = m.group(1)
-ports = re.findall(r"[A-Za-z0-9_$.|]+", hdr)
+ports = re.findall(r"[A-Za-z0-9_$.|]+", m.group(1))
 merges = sorted({p for p in ports if "|" in p})
 if merges:
     print(" ".join(merges))
@@ -39,7 +35,6 @@ PY
 }
 
 list_opens() {
-  # Duplicate-label opens show as name$N on the extract port list [TOOL].
   local cir=""
   for cir in out/lvs_vco_top/vco_top_lvs_extracted.cir \
              out/lvs_vco_top/vco_top_extracted.cir; do
@@ -94,6 +89,16 @@ for g in "${ORDER[@]}"; do
     echo "STOP: named-net merge at $g: $merges" | tee -a out/summary_direct_join.txt
     exit 3
   fi
+  set +e
+  python3 -u check_pin_fanout.py --group "$g" 2>&1 \
+    | tee "out/summary_pin_fanout_${g}.txt" \
+    | tee -a out/summary_direct_join.txt
+  fan_rc=${PIPESTATUS[0]}
+  set -e
+  if [[ $fan_rc -ne 0 ]]; then
+    echo "STOP: pin fan-out fail at $g" | tee -a out/summary_direct_join.txt
+    exit 5
+  fi
   if [[ "$g" == "controls" ]]; then
     if [[ "$kl" != "True" ]]; then
       echo "STOP: KLayout LVS fail at full join ($g)" | tee -a out/summary_direct_join.txt
@@ -107,7 +112,7 @@ for g in "${ORDER[@]}"; do
     echo "NOTE: LVS unique not required yet at $g (klayout=$kl netgen=$ng)" \
       | tee -a out/summary_direct_join.txt
   fi
-  echo "PASS group $g (drc clean; no named merge; lvs klayout=$kl netgen=$ng)" \
+  echo "PASS group $g (drc; no merge; fan-out; lvs klayout=$kl netgen=$ng)" \
     | tee -a out/summary_direct_join.txt
 done
 echo "ALL GROUPS PASS" | tee -a out/summary_direct_join.txt

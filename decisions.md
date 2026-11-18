@@ -982,3 +982,21 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
 - bank.vbp ↔ var.vbp is joined (one net name, duplicate pin text removed).
 - vvb_bias requirement accepted: 0.3 V ± 30 mV, ≈ 0 DC load, ≤ 8 nV/√Hz at 100 kHz and 1 MHz,
   supplied by the PLL bias generator at the synthesizer top.
+
+## 2026-11-18 — vbp join accepted, tail misroute
+- vbp join accepted (8a06b8b): one vbp label, west strap, M$888 / M$899 gates on vbp, drains
+  separate [TOOL]. Full join: 239 = 239 devices, 144 = 144 nets after merge.
+- Tail misroute: tail_block.tail reaches tn; core.tail open. Fixed by routing the tail line
+  clear of tn, a via stack to core.tail, one tail label; tail line L / R / C re-reported.
+- Intermediate net-group check adds pin fan-out: each routed net reaches the same child pins
+  as in the schematic.
+
+## 2026-11-18 — Tail fixed, netgen unique; KLayout difference
+- Tail line accepted: L 99 µm, R 2.35 Ω (125 °C), J 0.80 mA/µm, C ≈ 9.9 fF [HAND / PDK / GDS].
+  Pin fan-out check in the join gate.
+- Full join: DRC clean; netgen unique (239 devices / 144 nets); ct port and inductor
+  fab / LVS check pass. KLayout unique fails.
+- KLayout mismatches are listed with schematic and layout values. Case / reader differences
+  are fixed in the KLayout setup; grid-level differences get a PDK-based tolerance in both
+  tools; real size differences are fixed. If only a recorded KLayout limitation remains and
+  every parameter is matched by script, netgen + connectivity is the gate.
