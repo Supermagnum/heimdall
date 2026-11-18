@@ -892,12 +892,35 @@ DRC + both LVS after each. Parent metal must not cross child interiors
 (ct west of spiral/det; tn jogs east of var.tp; det taps outside tank).
 
 ### P2.7.3 — PEX + post-layout VCO range / steps / PN bounds
-**Inputs:** P2.7.2 PEX.  
-**Outputs:** `out/summary_pex_vco_range.txt`, `summary_pex_vco_pn.txt`.  
+Split (decisions 2026-11-18): **(a)** extraction + frequency, **(b)** phase noise,
+**(c)** swing / D22 / transient peak on extracted netlist.
+
+#### P2.7.3a — extraction + frequency (2026-11-18) — accepted
+**Inputs:** sign-off `vco_top` e0b5e5a (LVS GDS pin-only L for Magic).  
+**Flow:** Magic full-RC (`run_pex_vco_top.py`: extresist threshold 100 mOhm,
+minres 50 mOhm, cthresh 0.01, coupling on) on `vco_top_lvs.gds`; fab spiral
+omitted (would short tn/tp) [TOOL]. L2n0 EM lumped (via-fixed, mesh1) stitched
+on tn/tp/ct [EM]. Var/MIM as PDK devices in extract; Magic svaricap is
+2-terminal [TOOL].  
+**Outputs:** `out/vco_top.pex.spice`, `vco_top_pex_with_l2n0.spice`,
+`summary_pex_vco_extract.txt`, `summary_pex_vco_tank.txt`,
+`summary_pex_vco_range.txt`, `summary_pex_vco_die.txt`, `pex_lumped.json`.  
+**Tank:** wiring add (bank method) **62.5 / 68.2 fF** tn/tp; headline
+**68.22 fF**/side; series R metal stub **0.24 Ω**; hand side was 96.2 fF
+(−28 fF) [PEX-RC/HAND].  
+**Frequency [PEX-RC lumped]:** not a full 17.5k-element post-layout sim.
+Schematic PDK devices + extracted wiring C/R lumped per tank net. 15-corner
+margins ≥ 40 MHz (worst top **143 MHz**, bot **78 MHz**); overlap PASS;
+boundary ≤½ LSB PASS; D20 proxy PASS.  
+**Die:** full-cell bbox **0.4624 mm²** [GDS] → floorplan §8.  
+**Next:** P2.7.3b post-layout PN (separate tail vs cbf C; map svaricap if needed).
+
+#### P2.7.3b — phase noise (open)
+**Inputs:** P2.7.3a PEX / lumped.  
+**Outputs:** `out/summary_pex_vco_pn.txt`.  
 **Pass:**
-- Range covers **3.12–4.20 GHz** at corners (same ends method as `summary_8bit_range` / real-load); band steps even at carries.
 - PN: bank-omitted PEX pnoise + bank-switch bound (≤ +0.59 dB tt) + detector `[HAND]` + CML `[HAND]` ≤ +0.5 dB → still meet **−116 / −115 dBc/Hz @ 1 MHz** and duplex totals; ss85 worst margin stays **> 0** (today ≈ +3.3 dB SCH).
-**Re-run:** noiseless range grid; bank-omitted PSS/pnoise at tt 3.65 and ss85 4.20.
+**Re-run:** bank-omitted PSS/pnoise at tt 3.65 and ss85 4.20.
 
 ### P2.7.4 — xschem + layout: LO buffer, CML ÷2/÷3, converter, TSPC/Johnson
 **Inputs:** `analog/lo/step3/`; floorplan.  

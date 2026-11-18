@@ -1,0 +1,34 @@
+PEX C_side=68.2217 R=0.2402 cfix=157.6875
+  band mos_tt/cap_typ/-40: top_m=233.6 bot_m=221.7 ok=True
+  band mos_tt/cap_typ/27: top_m=236.5 bot_m=222.8 ok=True
+  band mos_tt/cap_typ/85: top_m=241.5 bot_m=225.1 ok=True
+  band mos_ss/cap_wcs/-40: top_m=142.9 bot_m=340.8 ok=True
+  band mos_ss/cap_wcs/27: top_m=147.5 bot_m=343.0 ok=True
+  band mos_ss/cap_wcs/85: top_m=151.0 bot_m=346.6 ok=True
+  band mos_ss/cap_bcs/-40: top_m=309.7 bot_m=78.0 ok=True
+  band mos_ss/cap_bcs/27: top_m=316.7 bot_m=78.5 ok=True
+  band mos_ss/cap_bcs/85: top_m=321.8 bot_m=80.4 ok=True
+  band mos_ff/cap_wcs/-40: top_m=171.9 bot_m=347.3 ok=True
+  band mos_ff/cap_wcs/27: top_m=176.5 bot_m=348.7 ok=True
+  band mos_ff/cap_wcs/85: top_m=181.9 bot_m=351.0 ok=True
+  band mos_ff/cap_bcs/-40: top_m=336.2 bot_m=87.0 ok=True
+  band mos_ff/cap_bcs/27: top_m=342.6 bot_m=86.7 ok=True
+  band mos_ff/cap_bcs/85: top_m=349.7 bot_m=87.8 ok=True
+  overlap mos_ss/-40 0->1 +11.95 MHz ok=True
+  overlap mos_ss/-40 31->32 +9.14 MHz ok=True
+  overlap mos_ss/-40 127->128 +5.61 MHz ok=True
+  overlap mos_ss/-40 254->255 +3.31 MHz ok=True
+  overlap mos_ss/-40 0->1 +10.43 MHz ok=True
+  overlap mos_ss/-40 31->32 +7.94 MHz ok=True
+  overlap mos_ss/-40 127->128 +5.28 MHz ok=True
+  overlap mos_ss/-40 254->255 +3.16 MHz ok=True
+  boundary 0->1 step=+11.38 rel=0.02 ok=True
+  boundary 1->2 step=+11.05 rel=0.01 ok=True
+  boundary 3->4 step=+10.92 rel=0.01 ok=True
+  boundary 7->8 step=+10.87 rel=0.02 ok=True
+  boundary 15->16 step=+10.19 rel=0.01 ok=True
+  boundary 31->32 step=+9.30 rel=0.02 ok=True
+  boundary 63->64 step=+7.46 rel=0.00 ok=True
+  boundary 127->128 step=+5.38 rel=0.01 ok=True
+  boundary 254->255 step=+3.31 rel=0.01 ok=True
+Wrote /foss/designs/analog/vco/step3/out/summary_pex_vco_range.txt (PASS)

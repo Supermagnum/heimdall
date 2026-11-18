@@ -1,0 +1,12 @@
+# P2.7.3a die tally — VCO full-cell bbox [GDS]
+
+Per decisions 2026-11-18 (P2.7.2c closed): die row uses **full-cell bbox**.
+
+| quantity | value | tag |
+|---|---:|---|
+| Full `vco_top` bbox | (−219.28, −15.20)–(409.40, 720.26) µm | [GDS] |
+| **Area** | **0.4624 mm²** | [GDS] |
+| Assemble outline (prior) | 0.4029 mm² | [GDS] |
+
+§8 (`spec/p27-floorplan.md`): VCO island die row → **0.4624 mm²** [GDS].
+Synth island still fits ≈ 2.5 × 2.5 mm [HAND]. Art TM2 keep-out unchanged (Phase 5).

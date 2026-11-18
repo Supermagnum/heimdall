@@ -1,0 +1,24 @@
+# P2.7.3a VCO top extraction [PEX-RC]
+
+## Method
+- Tool: Magic 8.3 + `ihp-sg13g2.magicrc` via custom full-RC TCL (extresist threshold=100 mOhm, minres=50 mOhm, mindelay=0; cthresh 0.01; coupling on) [TOOL].
+- GDS: `vco_top_lvs.gds` (sign-off assembly e0b5e5a, **pin-only** inductor). Fab `vco_top.gds` spiral would DC-short tn/tp in Magic [PEX-RC / TOOL].
+- Inductor in sim: tapped L2n0 lumped EM `analog/vco/models/l2n0_lumped.inc` (via-fixed, mesh1 fit) on tn/tp/ct [EM].
+- Varactor / MIM: Magic emits `cap_rfcmim` / `cap_cmim` as PDK devices; `sg13_hv_svaricap` appears as 2-terminal N-devices (incomplete pin list) [TOOL] — frequency decks use schematic PDK svaricap + extracted RC (see summary_pex_vco_range).
+
+## Netlist size
+- File: `out/pex_vco_top/vco_top.pex.spice`
+- Bytes: 738427  elements (non-comment lines): 17498
+- Prefix: {'X': 1286, 'N': 4, 'R': 13309, 'C': 2899}
+- Models (raw Magic): {'sg13_lv_nmos': 1103, 'sg13_lv_pmos': 110, 'cap_cmim': 16, 'rhigh': 33, 'cap_rfcmim': 24, 'sg13_hv_svaricap': 4}
+
+## Map vs LVS extract (KLayout unique, e0b5e5a)
+- LVS devices (combined fingers): {'sg13_lv_nmos': 67, 'sg13_lv_pmos': 106, 'rhigh': 33, 'cap_cmim': 10, 'cap_rfcmim': 24, 'sg13_hv_svaricap': 2}  total intentional ≈ 242
+- Magic expands MOS fingers → nmos count 1103 vs LVS 67 [TOOL].
+- Cap / rhigh class counts (rfcmim 24, rhigh 33) match LVS when present [PEX-RC].
+- Net names: top ports tn/tp/ct/tail/vdd/gnd/… present; extresist splits port into `tn` / `tn.n*` / `tn.t*` [TOOL].
+- **Not 1:1 instance map** to LVS (finger expand + RC nodes). Class-level intentional devices + port nets map; parasitic R/C are extra [PEX-RC].
+
+## Sim readiness
+- Raw full-RC ≈ 17498 elements (mostly R=13309, C=2899). VACASK-usable with RC reduction to lumped tank parasitics for frequency grid (error on tn/tp C reported in tank summary) [PEX-RC].
+- Stitched file: `out/pex_vco_top/vco_top_pex_with_l2n0.spice` [PEX-RC/EM].

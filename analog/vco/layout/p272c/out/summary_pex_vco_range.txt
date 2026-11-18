@@ -1,0 +1,84 @@
+# P2.7.3a frequency checks — schematic + extracted wiring C/R lumped [PEX-RC lumped]
+
+Not a full post-layout sim of the 17.5k-element spice (Magic svaricap is 2-terminal).
+Method: schematic PDK devices + L2n0 EM + extracted wiring C/R lumped per tank net.
+Lumped from Magic full-RC wiring add: C_side=68.22 fF, R=0.240 Ω; hand was 96.2 fF [PEX-RC/HAND].
+
+cfix=157.6875 fF lsb=6.190 fF itail=3.93 mA [SCH/range.json]
+
+## 1) Band coverage — 15 corners [PEX-RC lumped]
+
+C_side=68.22 fF R=0.240 Ω (wiring add) [PEX-RC]. Pass: top≥4.20 and bot≤3.12 with margins ≥ 40 MHz. V_pad tt/ss/ff = 1.2/1.108/1.295 V [HAND].
+
+| MOS | CAP | T | V_pad | f top | f bot | top_m | bot_m | ok |
+|---|---|---|---:|---:|---:|---:|---:|---|
+| mos_tt | cap_typ | -40 | 1.200 | 4.4336 | 2.8983 | 233.6 | 221.7 | yes |
+| mos_tt | cap_typ | 27 | 1.200 | 4.4365 | 2.8972 | 236.5 | 222.8 | yes |
+| mos_tt | cap_typ | 85 | 1.200 | 4.4415 | 2.8949 | 241.5 | 225.1 | yes |
+| mos_ss | cap_wcs | -40 | 1.108 | 4.3429 | 2.7792 | 142.9 | 340.8 | yes |
+| mos_ss | cap_wcs | 27 | 1.108 | 4.3475 | 2.7770 | 147.5 | 343.0 | yes |
+| mos_ss | cap_wcs | 85 | 1.108 | 4.3510 | 2.7734 | 151.0 | 346.6 | yes |
+| mos_ss | cap_bcs | -40 | 1.108 | 4.5097 | 3.0420 | 309.7 | 78.0 | yes |
+| mos_ss | cap_bcs | 27 | 1.108 | 4.5167 | 3.0415 | 316.7 | 78.5 | yes |
+| mos_ss | cap_bcs | 85 | 1.108 | 4.5218 | 3.0396 | 321.8 | 80.4 | yes |
+| mos_ff | cap_wcs | -40 | 1.295 | 4.3719 | 2.7727 | 171.9 | 347.3 | yes |
+| mos_ff | cap_wcs | 27 | 1.295 | 4.3765 | 2.7713 | 176.5 | 348.7 | yes |
+| mos_ff | cap_wcs | 85 | 1.295 | 4.3819 | 2.7690 | 181.9 | 351.0 | yes |
+| mos_ff | cap_bcs | -40 | 1.295 | 4.5362 | 3.0330 | 336.2 | 87.0 | yes |
+| mos_ff | cap_bcs | 27 | 1.295 | 4.5426 | 3.0333 | 342.6 | 86.7 | yes |
+| mos_ff | cap_bcs | 85 | 1.295 | 4.5497 | 3.0322 | 349.7 | 87.8 | yes |
+
+Worst top margin 142.9 MHz; worst bottom 78.0 MHz [PEX-RC lumped]
+
+Band 15-corner ≥40 MHz: PASS [PEX-RC lumped]
+
+## 2) Overlap at least-overlap corners [PEX-RC lumped]
+
+### mos_ss / cap_wcs / -40 °C
+
+| pair | f0 | f1 | step (MHz) | ok |
+|---|---:|---:|---:|---|
+| 0→1 | 4.3349 | 4.3229 | +11.95 | yes |
+| 31→32 | 4.0047 | 3.9955 | +9.14 | yes |
+| 127→128 | 3.3198 | 3.3142 | +5.61 | yes |
+| 254→255 | 2.7866 | 2.7833 | +3.31 | yes |
+
+### mos_ss / cap_bcs / -40 °C
+
+| pair | f0 | f1 | step (MHz) | ok |
+|---|---:|---:|---:|---|
+| 0→1 | 4.5001 | 4.4896 | +10.43 | yes |
+| 31→32 | 4.2092 | 4.2013 | +7.94 | yes |
+| 127→128 | 3.5736 | 3.5684 | +5.28 | yes |
+| 254→255 | 3.0504 | 3.0472 | +3.16 | yes |
+
+Overlap monotonic: PASS [PEX-RC lumped]
+
+## 3) Bank boundary steps ≤ ½ LSB (local) [PEX-RC lumped]
+
+Ideal = local mean step (neighbours ±2 codes); pass if step > 0 and |step/mean − 1| ≤ 0.5 [PEX-RC].
+
+| pair | step (MHz) | local mean (MHz) | |ratio−1| | ok |
+|---|---:|---:|---:|---|
+| 0→1 | +11.38 | 11.22 | 0.02 | yes |
+| 1→2 | +11.05 | 11.14 | 0.01 | yes |
+| 3→4 | +10.92 | 10.99 | 0.01 | yes |
+| 7→8 | +10.87 | 10.71 | 0.02 | yes |
+| 15→16 | +10.19 | 10.10 | 0.01 | yes |
+| 31→32 | +9.30 | 9.12 | 0.02 | yes |
+| 63→64 | +7.46 | 7.49 | 0.00 | yes |
+| 127→128 | +5.38 | 5.34 | 0.01 | yes |
+| 254→255 | +3.31 | 3.28 | 0.01 | yes |
+
+lsb_ff=6.19 fF [SCH/range.json]
+Boundary: PASS [PEX-RC lumped]
+
+## 4) D20 landing / compliance [PEX-RC lumped/HAND]
+
+- top mos_ss/cap_wcs/-40: f=4.3429 GHz margin=142.9 MHz Amp=1.45 [PASS] [PEX-RC lumped]
+- bot mos_ss/cap_bcs/-40: f=3.0420 GHz margin=78.0 MHz Amp=1.10 [PASS] [PEX-RC lumped]
+
+Per-corner V_tune compliance (accepted 2026-11-17): ff 0.469–0.955 V inside 0.457–0.970 V; tt/ss in owner window [MODEL/SCH]. Extract wiring 68.2 fF < hand 96.2 → slightly higher f / more V_tune headroom at high end [HAND].
+D20 / compliance proxy: PASS [PEX-RC lumped/HAND]
+
+## Overall: PASS [PEX-RC lumped]

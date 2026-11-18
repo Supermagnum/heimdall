@@ -1,6 +1,6 @@
 # VCO topology memo (P2.3)
 
-Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** unique LVS PASS (KLayout + netgen); step-2 @35.6 PASS (PN [HAND]); outline assemble 0.4029 mm² [GDS]. vvb_bias 0.3 V ±30 mV / ≤8 nV/√Hz from PLL bias gen [decisions]. Next: **P2.7.3** VCO PEX and post-layout checks. See §9.
+Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** closed. **P2.7.3a** accepted: Magic full-RC extract; frequency on schematic + wiring C/R lumped **[PEX-RC lumped]** (not full 17.5k spice); wiring 68.2 fF/side; 15-corner margins ≥ 40 MHz. Full-cell bbox **0.4624 mm²** [GDS]. Next: **P2.7.3b** post-layout PN. See §9.
 
 ---
 
@@ -337,6 +337,26 @@ unique PASS [TOOL]. Varactor w/l/Nx + fingers on assembly PASS
 boundary ≤½ LSB (local mean) PASS; D20 margins 105/92 MHz PASS; PN PSS no
 converge → [HAND] PASS (`summary_p272c_step2_island35p6.txt`) [SCH/HAND].
 Stop/pass: `summary_p272c_klayout_diff_step2_pass.txt`. Next: P2.7.3 PEX.
+
+### P2.7.3a — VCO extraction + frequency (2026-11-18) — accepted
+
+**Extract** (`layout/p272c/out/summary_pex_vco_extract.txt`): Magic full-RC on
+LVS GDS (pin-only L); ~17.5k elements; L2n0 EM on tn/tp/ct [EM]. Class map vs
+LVS: rfcmim 24 / rhigh 33 match; MOS fingers expanded (1103 vs 67) [TOOL].
+Svaricap extract 2-terminal [TOOL].
+
+**Tank** (`summary_pex_vco_tank.txt`): wiring add **62.5 / 68.2 fF** tn/tp
+(headline **68.22**); series R **0.24 Ω**; hand side was **96.2 fF** (−28 fF)
+[PEX-RC/HAND]. Tail wiring 31.4 fF vs hand 9.9 (mixed with cbf area — open for
+P2.7.3b) [PEX-RC].
+
+**Frequency [PEX-RC lumped]** (`summary_pex_vco_range.txt`): **not** a full
+post-layout run of the 17.5k spice. Schematic PDK devices + extracted wiring
+C/R lumped per tank net. 15 corners PASS (worst top **143 MHz**, bot **78 MHz**);
+overlap PASS; boundary ≤½ LSB PASS; D20 proxy PASS [PEX-RC lumped].
+
+**Die** (`summary_pex_vco_die.txt`): full-cell bbox **0.4624 mm²** [GDS] →
+`spec/p27-floorplan.md` §8. Next: **P2.7.3b** PN.
 
 ### D9 filter capacitor notes (2026-11-13) — MIM kept; MOS swing cause
 

@@ -1000,3 +1000,24 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   are fixed in the KLayout setup; grid-level differences get a PDK-based tolerance in both
   tools; real size differences are fixed. If only a recorded KLayout limitation remains and
   every parameter is matched by script, netgen + connectivity is the gate.
+
+## 2026-11-18 — P2.7.2c closed
+- VCO top assembly accepted (e0b5e5a): DRC clean (density and SVaricap M1.b waived); KLayout and
+  netgen uniquely match the flattened vco_top.sch (242 devices, 31 pins); inductor fab / LVS and
+  varactor checks pass. KLayout setup: spice reader on both sides; PDK 0.01 µm grid tolerance in
+  both tools.
+- Step-2 checks at island C 35.6 fF pass [SCH]; PN [HAND] (PSS does not converge with island
+  parasitics).
+- Die tally uses the full-cell bbox 0.4624 mm² [GDS].
+- P2.7.3 split: (a) extraction and frequency checks, (b) phase noise, (c) swing, D22 calibration
+  and transient peak on the extracted netlist.
+
+## 2026-11-18 — P2.7.3a accepted
+- Magic full-RC extraction of vco_top; frequency checks on schematic devices + extracted wiring
+  C / R lumped per net [PEX-RC lumped] (Magic svaricap is 2-terminal, full netlist not
+  simulated). Tank wiring 62.5 / 68.2 fF, R 0.24 Ω (hand 96.2 fF).
+- 15 corners pass (worst top 143 / bottom 78 MHz), overlap, boundary step and D20 pass.
+  Accepted.
+- Open for P2.7.3b: tail-node C (31.4 fF extracted, mixed with cbf area) separated from the
+  filter node; varactor mapped to the 4-terminal PDK device where a fuller netlist is needed;
+  inductor pad C separated from the substrate / MIM mix.

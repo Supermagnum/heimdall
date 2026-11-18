@@ -41,6 +41,17 @@
 !**/layout/p272*/out/lvs_*/*.cir
 !**/layout/p272*/out/lvs_*/*.log
 !**/layout/p272*/out/summary_*.txt
+!**/layout/p272*/out/pex_lumped.json
+# P2.7.3a PEX subtree (spice + lumped JSON + logs; regenerate .ext via script)
+!**/layout/p272*/out/pex_vco_top/
+!**/layout/p272*/out/pex_vco_top/*.spice
+!**/layout/p272*/out/pex_vco_top/*.json
+!**/layout/p272*/out/pex_vco_top/*.tcl
+!**/layout/p272*/out/pex_vco_top/*.log
+!**/layout/p272*/out/pex_vco_top/*.runlog
+**/layout/p272*/out/pex_vco_top/*.gds
+**/layout/p272*/out/pex_vco_top/*.ext
+**/layout/p272*/out/pex_vco_top/*.res.ext
 # keep ignoring bulky DRC databases and intermediate cell GDS
 **/layout/out/drc/
 **/layout/out/*.gds

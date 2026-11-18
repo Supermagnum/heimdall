@@ -1,0 +1,59 @@
+# P2.7.3a tank parasitics — vco_top full-RC [PEX-RC]
+
+## Method
+- Spice: `out/pex_vco_top/vco_top.pex.spice` (2899 C, 13309 R) [PEX-RC].
+- .ext: `out/pex_vco_top/vco_top.ext` — bank-method **wiring add** = (all partners + substrate) − substrate node C (same as `summary_pex_bank`) [PEX-RC].
+- Substrate node C includes MIM top-plate metal area that is also in PDK `cap_*` devices — **not** used as tank add [PEX-RC / PDK].
+- Series R: min metal stub (< 5 Ω) from bare port to `port.n*` in spice [PEX-RC].
+
+## Extracted vs hand
+
+| quantity | tn | tp | hand (used) | unit | tag |
+|---|---:|---:|---:|---|---|
+| substrate node C (.ext) | 234.82 | 243.18 | (incl. MIM tops) | fF | [PEX-RC] |
+| C all partners + substrate | 297.31 | 311.40 | — | fF | [PEX-RC] |
+| **wiring add (all − sub)** | **62.49** | **68.22** | side sum 96.2 (core 23.7+bank 36.9+island 35.6) | fF | [PEX-RC]/[HAND] |
+| tn−tp mismatch (wiring) | 5.73 | | — | fF | [PEX-RC] |
+| C(tn−tp) coupling | 29.24 | | — | fF | [PEX-RC] |
+| series R metal stub min | 0.240 | 0.200 | 2.0 (pack) | Ω | [PEX-RC]/[HAND] |
+| inductor pad / substrate share | 234.82 | 243.18 | (pin-only GDS; EM has cp) | fF | [PEX-RC]/[EM] |
+| ct substrate node C | 49.43 | | — | fF | [PEX-RC] |
+| bank-related C(tn/tp−vbp) spice | 14.06 | | bank wiring 36.9 | fF | [PEX-RC]/[HAND] |
+| tail wiring add (.ext) | 31.39 | | 9.9 | fF | [PEX-RC]/[HAND] |
+| tail substrate node C | 86.23 | | (incl. cbf area) | fF | [PEX-RC] |
+
+- **Headline wiring C/side (max): 68.22 fF** [PEX-RC]
+- Hand side sum used in step-2: **96.2 fF** [HAND/PEX-RC prior]
+- Δ (extract wiring max − hand): **-27.98 fF** [PEX-RC]
+- Note: hand summed **separate** core all-C + bank wiring + island HAND. Full-top wiring add is coupling-only on the joined cell; substrate interconnect that Magic folds into node C with MIM tops is **not** re-added (same rule as bank PEX). Extract wiring is **below** hand — hand was conservative [PEX-RC/HAND].
+
+## Series R stubs (metal < 5 Ω)
+
+- tn: n=2 min=0.2402 Ω stubs=[(0.240218, 'tn', 'tn.n17'), (0.50972, 'tn', 'tn.n0')]
+- tp: n=2 min=0.2001 Ω stubs=[(0.200111, 'tp', 'tp.n17'), (0.51872, 'tp', 'tp.n0')]
+
+## Top tn/tp coupling partners (spice)
+
+- `gnd`−`tp`: 269.688 fF
+- `gnd`−`tn`: 262.858 fF
+- `tn`−`tp`: 29.243 fF
+- `tp`−`vbp`: 10.754 fF
+- `tail`−`tn`: 4.438 fF
+- `tail`−`tp`: 4.047 fF
+- `tn`−`vbp`: 3.306 fF
+- `tp`−`vt`: 2.783 fF
+- `a_14478_60116#`−`tp`: 2.575 fF
+- `a_14478_60116#`−`tn`: 1.649 fF
+- `hold`−`tp`: 0.669 fF
+- `ct`−`tp`: 0.548 fF
+- `tn`−`vdd`: 0.488 fF
+- `tn`−`vt`: 0.403 fF
+- `rep`−`tp`: 0.299 fF
+
+## RC reduction for frequency sims
+
+- Full-RC spice ≈ 17.5k elements; Magic svaricap is 2-terminal [TOOL]. Frequency checks use schematic PDK devices (var/MIM) + L2n0 EM + **lumped** wiring C / series R:
+  - C_side = max(wiring add) = **68.22 fF** [PEX-RC]
+  - R_series = max(min metal stubs) = **0.240 Ω** [PEX-RC]
+- Error on tn/tp C vs full spice aggregation: lumped C_side equals .ext wiring add (no further π-reduction). Omitting explicit C(tn−tp)=29.24 fF in the single-ended C_side model matches the prior hand method; diff-mode bias ≈ ½·C(tn−tp) = 14.62 fF [HAND/PEX-RC].
+- vs hand 96.2 fF: extract **-28.0 fF** (hand higher / more pessimistic for band) [PEX-RC/HAND].

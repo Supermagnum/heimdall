@@ -1,0 +1,507 @@
+
+Magic 8.3 revision 685 - Compiled on Thu Oct 15 02:29:39 PM CEST 2026.
+Starting magic under Tcl interpreter
+Using the terminal as the console.
+Using NULL graphics device.
+Processing system .magicrc file
+Switching to WIRING tool.
+Switching to NETLIST tool.
+Switching to PICK tool.
+Switching to BOX tool.
+Sourcing design .magicrc for technology ihp-sg13g2 ...
+2 Magic internal units = 1 Lambda
+Input style sg13g2(): scaleFactor=2, multiplier=2
+The following types are not handled by extraction and will be treated as non-electrical types:
+    pblock sealcont difffill nemitter hvnemitter hvisodiffres sealvia1 sealvia2 sealvia3 sealvia4 sealvia5 sealvia6 pillar solder seal glass thruvia inductor 
+Scaled tech values by 2 / 1 to match internal grid scaling
+Loading ihp-sg13g2 Device Generator Menu ...
+Loading "/foss/designs/analog/vco/layout/p272c/out/pex_vco_top/pex_vco_top_keep.tcl" from command line.
+Warning: Calma reading is not undoable!  I hope that's OK.
+Library written using GDS-II Release 6.0
+Library name: LIB
+Reading "$$$CONTEXT_INFO$$$".
+Reading "via_stack$6$1".
+Reading "pmos$1".
+Reading "pmos".
+Reading "nmos$6$1".
+Reading "via_stack$1$1$3".
+Reading "via_stack$2$1$2".
+Reading "cmim$2$1".
+Reading "via_stack$5$5".
+Reading "via_stack$1$2$1".
+Reading "via_stack$2$2$1".
+Reading "nmos$1$1$1".
+Reading "nmos$2$1$1".
+Reading "pmos$1$1".
+Reading "rhigh$2$1".
+Reading "ntap1$1".
+Reading "via_stack$1$3$1".
+Reading "nmos$3$1$1".
+Reading "nmos$4$1".
+Reading "nmos$5$1".
+Reading "rhigh$1$1$1".
+Reading "rfcmim$1$1".
+Reading "via_stack$1$1$2".
+Reading "via_stack$2$1$1".
+Reading "via_stack$3$1$1".
+Reading "SVaricap$1".
+Reading "via_stack$6$2".
+Reading "rhigh$1$1".
+CIF file read warning: CIF style sg13g2(): units rescaled by factor of 5 / 1
+Reading "ptap1$1$3".
+Moving label "sub!" from space to ptapdiff in cell ptap1$1$3.
+Reading "ptap1$2$1".
+Moving label "sub!" from space to ptapdiff in cell ptap1$2$1.
+Reading "nmos$1$3".
+Reading "via_stack$1$1$1".
+Reading "dac_unit_arr".
+Reading "via_stack$7".
+Reading "ptap1$2".
+Moving label "sub!" from space to ptapdiff in cell ptap1$2.
+Reading "nmos$12".
+Reading "ntap1".
+Reading "pmos$2".
+Reading "nmos$1$2".
+Reading "nmos$2$1".
+Reading "via_stack$8".
+Reading "ptap1$1$2".
+Moving label "sub!" from space to ptapdiff in cell ptap1$1$2.
+Reading "nmos$3$1".
+Reading "rhigh$2".
+Reading "via_stack$9".
+Reading "via_stack$10".
+Reading "cmim$3".
+Reading "nmos$11".
+Reading "nmos$1$1".
+Reading "via_stack$6".
+Reading "ptap1$1".
+Moving label "sub!" from space to ptapdiff in cell ptap1$1.
+Reading "cmim".
+Reading "nmos".
+Reading "nmos$1".
+Reading "rhigh".
+Reading "via_stack$5".
+Reading "via_stack$1$1".
+Reading "via_stack$2$1".
+Reading "ptap1".
+Moving label "sub!" from space to ptapdiff in cell ptap1.
+Reading "cmim$1".
+Reading "nmos$2".
+Reading "cmim$2".
+Reading "nmos$3".
+Reading "nmos$4".
+Reading "rfcmim".
+Reading "nmos$5".
+Reading "nmos$6".
+Reading "rfcmim$1".
+Reading "nmos$7".
+Reading "nmos$8".
+Reading "rfcmim$2".
+Reading "nmos$9".
+Reading "nmos$10".
+Reading "via_stack$3$1".
+Reading "via_stack$4$1".
+Reading "via_stack$12".
+Reading "via_stack$1$4".
+Reading "via_stack$3$3".
+Reading "via_stack$4$5".
+Reading "cmim$1$1".
+Reading "det_sf_pair_np".
+Reading "hold_caps_np".
+Reading "cmp_se_np".
+Reading "bias_pd_np".
+Reading "via_stack$4$4".
+Reading "via_stack$5$4".
+Reading "mim_couple_j".
+Reading "sv_pair_j".
+Reading "bias_r_j".
+Reading "bypass_pair_j".
+Reading "via_stack$11".
+Reading "via_stack$1$3".
+Reading "via_stack$4$3".
+Reading "via_stack$5$3".
+Reading "dac_array_j".
+Error while reading cell "dac_array_j" (byte position 930538): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 930618): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 930818): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 930858): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 930898): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 930938): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 931018): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 931138): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 931218): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 931338): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 931378): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 931418): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 931458): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 931498): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 931538): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 931578): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 931618): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 931658): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 931698): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 931738): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 931778): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 931818): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 931938): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 932058): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 932138): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 932258): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 932378): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 932458): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 932578): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 932618): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 932658): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 932698): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 932854): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 932894): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 932934): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 932974): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 933014): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 933054): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 933134): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 933174): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 933294): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 933334): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 933374): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 933414): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 933454): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 933534): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 933614): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 933654): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 933694): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 933734): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 933962): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 937302): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 937382): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 937462): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 937502): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 937622): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 937662): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 937742): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 937782): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 937822): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 937862): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 937902): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 937982): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938062): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938102): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938142): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938182): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938222): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938262): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938342): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938422): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938462): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938542): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938582): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938622): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938702): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938742): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938782): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938822): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938902): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938942): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 938982): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 939440): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 939720): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 939880): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 939960): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940040): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940080): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940120): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940160): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940200): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940240): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940320): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940360): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940400): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940440): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940480): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940520): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940560): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940600): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940640): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940680): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940760): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940800): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940840): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940880): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940920): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 940960): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 941040): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 941080): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 941120): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 941240): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 941280): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 941320): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 946832): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 946910): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 947064): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 947450): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 947490): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 947724): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 947884): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 948004): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 948084): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 948124): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 948164): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 948204): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 948710): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 948830): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 948910): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 948986): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 949186): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 949264): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 949304): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 949344): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 949384): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 949464): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 949544): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 949584): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 949940): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 950220): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 950498): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 950538): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 950618): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 951092): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 951170): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 951288): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 951564): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 951880): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 952072): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 952230): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 952350): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 952390): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 952510): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 953044): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 953084): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 953198): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Error while reading cell "dac_array_j" (byte position 953428): Warning: cell "via_stack$1$1$1" placed on top of itself.  Ignoring the extra one.
+Reading "tail_mt_j".
+Reading "ota_vds_j".
+Reading "d9_rc_j".
+Reading "cbf_j".
+Reading "ptap1$1$1".
+Moving label "sub!" from space to ptapdiff in cell ptap1$1$1.
+Reading "rhigh$1".
+Reading "via_stack$5$2".
+Reading "via_stack$4$2".
+Reading "rfcmim$3".
+Reading "via_stack$3$2".
+Reading "via_stack$2$2".
+Reading "via_stack$1$2".
+Reading "vco_xc_pair".
+Reading "l2n0".
+Reading "bank_cell_b0".
+Error while reading cell "bank_cell_b0" (byte position 1198892): Warning: cell "via_stack$5" placed on top of itself.  Ignoring the extra one.
+Reading "bank_cell_b1".
+Error while reading cell "bank_cell_b1" (byte position 1205914): Warning: cell "via_stack$5" placed on top of itself.  Ignoring the extra one.
+Reading "bank_cell_b2".
+Error while reading cell "bank_cell_b2" (byte position 1213060): Warning: cell "via_stack$5" placed on top of itself.  Ignoring the extra one.
+Reading "bank_cell_b3".
+Error while reading cell "bank_cell_b3" (byte position 1221486): Warning: cell "via_stack$5" placed on top of itself.  Ignoring the extra one.
+Reading "bank_cell_b4".
+Error while reading cell "bank_cell_b4" (byte position 1232012): Warning: cell "via_stack$5" placed on top of itself.  Ignoring the extra one.
+Reading "bank_cell_u0".
+Error while reading cell "bank_cell_u0" (byte position 1242332): Warning: cell "via_stack$5" placed on top of itself.  Ignoring the extra one.
+Reading "bank_cell_u1".
+Error while reading cell "bank_cell_u1" (byte position 1258610): Warning: cell "via_stack$5" placed on top of itself.  Ignoring the extra one.
+Reading "bank_cell_u2".
+Error while reading cell "bank_cell_u2" (byte position 1274888): Warning: cell "via_stack$5" placed on top of itself.  Ignoring the extra one.
+Reading "bank_cell_u3".
+Error while reading cell "bank_cell_u3" (byte position 1291166): Warning: cell "via_stack$5" placed on top of itself.  Ignoring the extra one.
+Reading "bank_cell_u4".
+Error while reading cell "bank_cell_u4" (byte position 1307444): Warning: cell "via_stack$5" placed on top of itself.  Ignoring the extra one.
+Reading "bank_cell_u5".
+Error while reading cell "bank_cell_u5" (byte position 1323722): Warning: cell "via_stack$5" placed on top of itself.  Ignoring the extra one.
+Reading "bank_cell_u6".
+Error while reading cell "bank_cell_u6" (byte position 1340002): Warning: cell "via_stack$5" placed on top of itself.  Ignoring the extra one.
+Reading "bank_cell_dummy".
+Error while reading cell "bank_cell_dummy" (byte position 1356322): Warning: cell "via_stack$5" placed on top of itself.  Ignoring the extra one.
+Reading "via_stack$5$1".
+Reading "ampcal_det_j".
+Reading "vco_var_j".
+Reading "tail_block_j".
+Reading "vco_core_tank_j".
+Reading "vco_bank_j".
+Reading "via_stack$4".
+Reading "via_stack$3".
+Reading "via_stack$2".
+Reading "via_stack$1".
+Reading "via_stack".
+Reading "vco_top".
+Extracting vco_top into /foss/designs/analog/vco/layout/p272c/out/pex_vco_top/vco_top.ext:
+Processing vco_top
+Device has multiple lengths:  scaling all widths to length 60
+Device has multiple lengths:  scaling all widths to length 60
+Device has multiple lengths:  scaling all widths to length 60
+Device has multiple lengths:  scaling all widths to length 60
+vco_top: 8 warnings
+Processing cell vco_top for resistance extraction.
+Extracting a_11699_111331#
+Extracting a_10954_114941#
+Extracting a_11699_111481#
+Extracting a_n13783_109894#
+Extracting a_n13725_110394#
+Extracting a_n16199_105822#
+Extracting a_n13615_109894#
+Extracting a_n13615_105822#
+Extracting a_n6643_104752#
+Extracting a_n5681_104752#
+Extracting a_n4719_104752#
+Extracting a_n3757_104752#
+Extracting a_n2795_104752#
+Extracting a_31814_81142#
+Extracting a_31756_73588#
+Extracting a_32376_63684#
+Extracting a_34256_73588#
+Extracting a_36756_73588#
+Extracting a_39256_73588#
+Extracting a_41756_73588#
+Extracting a_44256_73588#
+Extracting a_46756_73588#
+Extracting a_49256_73588#
+Extracting a_31756_71954#
+Extracting a_34256_71954#
+Extracting a_36756_71954#
+Extracting a_39256_71954#
+Extracting a_41756_71954#
+Extracting a_44256_71954#
+Extracting a_46756_71954#
+Extracting a_49256_71954#
+Extracting a_31756_70320#
+Extracting a_34256_70320#
+Extracting a_36756_70320#
+Extracting a_39256_70320#
+Extracting a_41756_70320#
+Extracting a_44256_70320#
+Extracting a_46756_70320#
+Extracting a_49256_70320#
+Extracting a_31756_68686#
+Extracting a_34256_68686#
+Extracting a_36756_68686#
+Extracting a_39256_68686#
+Extracting a_41756_68686#
+Extracting a_44256_68686#
+Extracting a_46756_68686#
+Extracting a_49256_68686#
+Extracting a_31756_66952#
+Extracting a_34256_66952#
+Extracting a_36756_66952#
+Extracting a_39256_66952#
+Extracting a_41756_66952#
+Extracting a_31756_65318#
+Extracting a_34256_65318#
+Extracting a_36756_65318#
+Extracting a_39256_65318#
+Extracting a_41756_65318#
+Extracting a_44256_65318#
+Extracting a_46756_65318#
+Extracting a_31756_63684#
+Extracting a_34256_63684#
+Extracting a_36756_63684#
+Extracting a_39256_63684#
+Extracting a_41756_63684#
+Extracting a_44256_63684#
+Extracting a_46756_63684#
+Extracting a_55152_63684#
+Extracting a_56964_63684#
+Extracting a_55620_63684#
+Extracting a_n39306_52632#
+Extracting a_n33198_40472#
+Extracting a_n23430_52632#
+Extracting a_n17322_40472#
+Extracting a_n7146_52632#
+Extracting a_n1038_40472#
+Extracting a_9954_52632#
+Extracting a_16050_40472#
+Extracting a_9954_40386#
+Extracting a_28560_52632#
+Extracting a_34656_40472#
+Extracting a_28560_40386#
+Extracting a_n39306_35034#
+Extracting a_n33210_22874#
+Extracting a_n39306_22788#
+Extracting a_n12412_35034#
+Extracting a_n6316_22874#
+Extracting a_n12412_22788#
+Extracting a_14482_35034#
+Extracting a_20578_22874#
+Extracting a_14482_22788#
+Extracting a_41376_35034#
+Extracting a_47472_22874#
+Extracting a_41376_22788#
+Extracting a_41856_17436#
+Extracting a_n39306_16876#
+Extracting a_n33210_4716#
+Extracting a_n39306_4630#
+Extracting a_n12412_16876#
+Extracting a_n6316_4716#
+Extracting a_n12412_4630#
+Extracting a_14482_16876#
+Extracting a_20578_4716#
+Extracting a_14482_4630#
+Extracting a_47952_5276#
+Extracting gnd
+Missing substrate connection of device at (48120 10655) on net gnd
+Missing substrate connection of device at (54714 10655) on net gnd
+Missing substrate connection of device at (11549 96651) on net gnd
+Missing substrate connection of device at (1776 62802) on net gnd
+Missing substrate connection of device at (33804 45732) on net gnd
+Missing substrate connection of device at (14267 45734) on net gnd
+Missing substrate connection of device at (-33042 28253) on net gnd
+Missing substrate connection of device at (-6148 28253) on net gnd
+Missing substrate connection of device at (20746 28253) on net gnd
+Missing substrate connection of device at (47640 28253) on net gnd
+Missing substrate connection of device at (-33042 10095) on net gnd
+Missing substrate connection of device at (-6148 10095) on net gnd
+Missing substrate connection of device at (20746 10095) on net gnd
+Missing substrate connection of device at (11549 103961) on net gnd
+Missing substrate connection of device at (22680 62802) on net gnd
+Missing substrate connection of device at (19293 45734) on net gnd
+Missing substrate connection of device at (39480 45732) on net gnd
+Missing substrate connection of device at (-26448 28253) on net gnd
+Missing substrate connection of device at (446 28253) on net gnd
+Missing substrate connection of device at (27340 28253) on net gnd
+Missing substrate connection of device at (54234 28253) on net gnd
+Missing substrate connection of device at (-26448 10095) on net gnd
+Missing substrate connection of device at (446 10095) on net gnd
+Missing substrate connection of device at (27340 10095) on net gnd
+Missing substrate connection of device at (54714 10655) on net gnd
+Missing substrate connection of device at (48120 10655) on net gnd
+Extracting vdd
+Extracting vt
+Extracting vbp
+Extracting tp
+Extracting ct
+Extracting tn
+Extracting hold
+Extracting rep
+Extracting cmp
+Extracting vthn
+Extracting en
+Extracting tail
+Extracting code4
+Extracting code3
+Extracting code2
+Extracting code1
+Extracting code0
+Extracting vbp_tail
+Extracting g0
+Extracting g1
+Extracting g2
+Extracting g3
+Extracting g4
+Extracting g8
+Extracting g9
+Extracting g10
+Extracting g11
+Extracting g5
+Extracting g6
+Extracting g7
+Total Nets: 180
+Nets extracted: 135 (0.750000)
+Nets output: 135 (0.750000)
+Total of 8 warnings.
+exttospice finished.
