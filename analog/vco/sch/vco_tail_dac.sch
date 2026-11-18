@@ -1649,10 +1649,10 @@ N 1120 1890 1120 1890 {lab=xd_b4_15}
 C {devices/lab_pin.sym} 1120 1890 0 0 {name=p407 sig_type=std_logic lab=xd_b4_15}
 N 1120 1920 1120 1920 {lab=vdd}
 C {devices/lab_pin.sym} 1120 1920 0 0 {name=p408 sig_type=std_logic lab=vdd}
-C {sg13g2_pr/sg13_lv_nmos.sym} 0 2040 0 0 {name=mt0
-w=120u
+C {sg13g2_pr/sg13_lv_nmos.sym} 0 2040 0 0 {name=mt
+w=480u
 l=4u
-ng=24
+ng=96
 m=1
 model=sg13_lv_nmos
 spiceprefix=X
@@ -1665,87 +1665,39 @@ N 20 2070 20 2070 {lab=gnd}
 C {devices/lab_pin.sym} 20 2070 0 0 {name=p411 sig_type=std_logic lab=gnd}
 N 20 2040 20 2040 {lab=gnd}
 C {devices/lab_pin.sym} 20 2040 0 0 {name=p412 sig_type=std_logic lab=gnd}
-C {sg13g2_pr/sg13_lv_nmos.sym} 220 2040 0 0 {name=mt1
-w=120u
-l=4u
-ng=24
+C {sg13g2_pr/sg13_lv_nmos.sym} 220 2040 0 0 {name=mo1
+w=8u
+l=2u
+ng=2
 m=1
 model=sg13_lv_nmos
 spiceprefix=X
 }
-N 240 2010 240 2010 {lab=tail}
-C {devices/lab_pin.sym} 240 2010 0 0 {name=p413 sig_type=std_logic lab=tail}
-N 200 2040 200 2040 {lab=nbf}
-C {devices/lab_pin.sym} 200 2040 0 1 {name=p414 sig_type=std_logic lab=nbf}
-N 240 2070 240 2070 {lab=gnd}
-C {devices/lab_pin.sym} 240 2070 0 0 {name=p415 sig_type=std_logic lab=gnd}
+N 240 2010 240 2010 {lab=d1}
+C {devices/lab_pin.sym} 240 2010 0 0 {name=p413 sig_type=std_logic lab=d1}
+N 200 2040 200 2040 {lab=xraw}
+C {devices/lab_pin.sym} 200 2040 0 1 {name=p414 sig_type=std_logic lab=xraw}
+N 240 2070 240 2070 {lab=ss}
+C {devices/lab_pin.sym} 240 2070 0 0 {name=p415 sig_type=std_logic lab=ss}
 N 240 2040 240 2040 {lab=gnd}
 C {devices/lab_pin.sym} 240 2040 0 0 {name=p416 sig_type=std_logic lab=gnd}
-C {sg13g2_pr/sg13_lv_nmos.sym} 440 2040 0 0 {name=mt2
-w=120u
-l=4u
-ng=24
+C {sg13g2_pr/sg13_lv_nmos.sym} 440 2040 0 0 {name=mo2
+w=8u
+l=2u
+ng=2
 m=1
 model=sg13_lv_nmos
 spiceprefix=X
 }
-N 460 2010 460 2010 {lab=tail}
-C {devices/lab_pin.sym} 460 2010 0 0 {name=p417 sig_type=std_logic lab=tail}
-N 420 2040 420 2040 {lab=nbf}
-C {devices/lab_pin.sym} 420 2040 0 1 {name=p418 sig_type=std_logic lab=nbf}
-N 460 2070 460 2070 {lab=gnd}
-C {devices/lab_pin.sym} 460 2070 0 0 {name=p419 sig_type=std_logic lab=gnd}
+N 460 2010 460 2010 {lab=nb}
+C {devices/lab_pin.sym} 460 2010 0 0 {name=p417 sig_type=std_logic lab=nb}
+N 420 2040 420 2040 {lab=tail_f}
+C {devices/lab_pin.sym} 420 2040 0 1 {name=p418 sig_type=std_logic lab=tail_f}
+N 460 2070 460 2070 {lab=ss}
+C {devices/lab_pin.sym} 460 2070 0 0 {name=p419 sig_type=std_logic lab=ss}
 N 460 2040 460 2040 {lab=gnd}
 C {devices/lab_pin.sym} 460 2040 0 0 {name=p420 sig_type=std_logic lab=gnd}
-C {sg13g2_pr/sg13_lv_nmos.sym} 660 2040 0 0 {name=mt3
-w=120u
-l=4u
-ng=24
-m=1
-model=sg13_lv_nmos
-spiceprefix=X
-}
-N 680 2010 680 2010 {lab=tail}
-C {devices/lab_pin.sym} 680 2010 0 0 {name=p421 sig_type=std_logic lab=tail}
-N 640 2040 640 2040 {lab=nbf}
-C {devices/lab_pin.sym} 640 2040 0 1 {name=p422 sig_type=std_logic lab=nbf}
-N 680 2070 680 2070 {lab=gnd}
-C {devices/lab_pin.sym} 680 2070 0 0 {name=p423 sig_type=std_logic lab=gnd}
-N 680 2040 680 2040 {lab=gnd}
-C {devices/lab_pin.sym} 680 2040 0 0 {name=p424 sig_type=std_logic lab=gnd}
-C {sg13g2_pr/sg13_lv_nmos.sym} 880 2040 0 0 {name=mo1
-w=8u
-l=2u
-ng=2
-m=1
-model=sg13_lv_nmos
-spiceprefix=X
-}
-N 900 2010 900 2010 {lab=d1}
-C {devices/lab_pin.sym} 900 2010 0 0 {name=p425 sig_type=std_logic lab=d1}
-N 860 2040 860 2040 {lab=xraw}
-C {devices/lab_pin.sym} 860 2040 0 1 {name=p426 sig_type=std_logic lab=xraw}
-N 900 2070 900 2070 {lab=ss}
-C {devices/lab_pin.sym} 900 2070 0 0 {name=p427 sig_type=std_logic lab=ss}
-N 900 2040 900 2040 {lab=gnd}
-C {devices/lab_pin.sym} 900 2040 0 0 {name=p428 sig_type=std_logic lab=gnd}
-C {sg13g2_pr/sg13_lv_nmos.sym} 1100 2040 0 0 {name=mo2
-w=8u
-l=2u
-ng=2
-m=1
-model=sg13_lv_nmos
-spiceprefix=X
-}
-N 1120 2010 1120 2010 {lab=nb}
-C {devices/lab_pin.sym} 1120 2010 0 0 {name=p429 sig_type=std_logic lab=nb}
-N 1080 2040 1080 2040 {lab=tail_f}
-C {devices/lab_pin.sym} 1080 2040 0 1 {name=p430 sig_type=std_logic lab=tail_f}
-N 1120 2070 1120 2070 {lab=ss}
-C {devices/lab_pin.sym} 1120 2070 0 0 {name=p431 sig_type=std_logic lab=ss}
-N 1120 2040 1120 2040 {lab=gnd}
-C {devices/lab_pin.sym} 1120 2040 0 0 {name=p432 sig_type=std_logic lab=gnd}
-C {sg13g2_pr/sg13_lv_pmos.sym} 0 2160 0 0 {name=mp1
+C {sg13g2_pr/sg13_lv_pmos.sym} 660 2040 0 0 {name=mp1
 w=4u
 l=2u
 ng=2
@@ -1753,15 +1705,15 @@ m=1
 model=sg13_lv_pmos
 spiceprefix=X
 }
-N 20 2190 20 2190 {lab=d1}
-C {devices/lab_pin.sym} 20 2190 0 0 {name=p433 sig_type=std_logic lab=d1}
-N -20 2160 -20 2160 {lab=d1}
-C {devices/lab_pin.sym} -20 2160 0 1 {name=p434 sig_type=std_logic lab=d1}
-N 20 2130 20 2130 {lab=vdd}
-C {devices/lab_pin.sym} 20 2130 0 0 {name=p435 sig_type=std_logic lab=vdd}
-N 20 2160 20 2160 {lab=vdd}
-C {devices/lab_pin.sym} 20 2160 0 0 {name=p436 sig_type=std_logic lab=vdd}
-C {sg13g2_pr/sg13_lv_pmos.sym} 220 2160 0 0 {name=mp2
+N 680 2070 680 2070 {lab=d1}
+C {devices/lab_pin.sym} 680 2070 0 0 {name=p421 sig_type=std_logic lab=d1}
+N 640 2040 640 2040 {lab=d1}
+C {devices/lab_pin.sym} 640 2040 0 1 {name=p422 sig_type=std_logic lab=d1}
+N 680 2010 680 2010 {lab=vdd}
+C {devices/lab_pin.sym} 680 2010 0 0 {name=p423 sig_type=std_logic lab=vdd}
+N 680 2040 680 2040 {lab=vdd}
+C {devices/lab_pin.sym} 680 2040 0 0 {name=p424 sig_type=std_logic lab=vdd}
+C {sg13g2_pr/sg13_lv_pmos.sym} 880 2040 0 0 {name=mp2
 w=4u
 l=2u
 ng=2
@@ -1769,15 +1721,15 @@ m=1
 model=sg13_lv_pmos
 spiceprefix=X
 }
-N 240 2190 240 2190 {lab=nb}
-C {devices/lab_pin.sym} 240 2190 0 0 {name=p437 sig_type=std_logic lab=nb}
-N 200 2160 200 2160 {lab=d1}
-C {devices/lab_pin.sym} 200 2160 0 1 {name=p438 sig_type=std_logic lab=d1}
-N 240 2130 240 2130 {lab=vdd}
-C {devices/lab_pin.sym} 240 2130 0 0 {name=p439 sig_type=std_logic lab=vdd}
-N 240 2160 240 2160 {lab=vdd}
-C {devices/lab_pin.sym} 240 2160 0 0 {name=p440 sig_type=std_logic lab=vdd}
-C {sg13g2_pr/sg13_lv_nmos.sym} 440 2160 0 0 {name=mdum_ota
+N 900 2070 900 2070 {lab=nb}
+C {devices/lab_pin.sym} 900 2070 0 0 {name=p425 sig_type=std_logic lab=nb}
+N 860 2040 860 2040 {lab=d1}
+C {devices/lab_pin.sym} 860 2040 0 1 {name=p426 sig_type=std_logic lab=d1}
+N 900 2010 900 2010 {lab=vdd}
+C {devices/lab_pin.sym} 900 2010 0 0 {name=p427 sig_type=std_logic lab=vdd}
+N 900 2040 900 2040 {lab=vdd}
+C {devices/lab_pin.sym} 900 2040 0 0 {name=p428 sig_type=std_logic lab=vdd}
+C {sg13g2_pr/sg13_lv_nmos.sym} 1100 2040 0 0 {name=mdum_ota
 w=8u
 l=2u
 ng=1
@@ -1785,15 +1737,15 @@ m=1
 model=sg13_lv_nmos
 spiceprefix=X
 }
-N 460 2130 460 2130 {lab=gnd}
-C {devices/lab_pin.sym} 460 2130 0 0 {name=p441 sig_type=std_logic lab=gnd}
-N 420 2160 420 2160 {lab=gnd}
-C {devices/lab_pin.sym} 420 2160 0 1 {name=p442 sig_type=std_logic lab=gnd}
-N 460 2190 460 2190 {lab=gnd}
-C {devices/lab_pin.sym} 460 2190 0 0 {name=p443 sig_type=std_logic lab=gnd}
-N 460 2160 460 2160 {lab=gnd}
-C {devices/lab_pin.sym} 460 2160 0 0 {name=p444 sig_type=std_logic lab=gnd}
-C {sg13g2_pr/rhigh.sym} 660 2160 0 0 {name=rbf
+N 1120 2010 1120 2010 {lab=gnd}
+C {devices/lab_pin.sym} 1120 2010 0 0 {name=p429 sig_type=std_logic lab=gnd}
+N 1080 2040 1080 2040 {lab=gnd}
+C {devices/lab_pin.sym} 1080 2040 0 1 {name=p430 sig_type=std_logic lab=gnd}
+N 1120 2070 1120 2070 {lab=gnd}
+C {devices/lab_pin.sym} 1120 2070 0 0 {name=p431 sig_type=std_logic lab=gnd}
+N 1120 2040 1120 2040 {lab=gnd}
+C {devices/lab_pin.sym} 1120 2040 0 0 {name=p432 sig_type=std_logic lab=gnd}
+C {sg13g2_pr/rhigh.sym} 0 2160 0 0 {name=rbf
 w=5.000000e-07
 l=2.128500e-05
 b=16
@@ -1803,11 +1755,11 @@ body=gnd
 spiceprefix=X
 mm_ok=1
 }
-N 660 2130 660 2130 {lab=nb}
-C {devices/lab_pin.sym} 660 2130 0 0 {name=p445 sig_type=std_logic lab=nb}
-N 660 2190 660 2190 {lab=nbf}
-C {devices/lab_pin.sym} 660 2190 0 0 {name=p446 sig_type=std_logic lab=nbf}
-C {sg13g2_pr/sg13_lv_nmos.sym} 880 2160 0 0 {name=mbp_rbf
+N 0 2130 0 2130 {lab=nb}
+C {devices/lab_pin.sym} 0 2130 0 0 {name=p433 sig_type=std_logic lab=nb}
+N 0 2190 0 2190 {lab=nbf}
+C {devices/lab_pin.sym} 0 2190 0 0 {name=p434 sig_type=std_logic lab=nbf}
+C {sg13g2_pr/sg13_lv_nmos.sym} 220 2160 0 0 {name=mbp_rbf
 w=20u
 l=0.13u
 ng=4
@@ -1815,15 +1767,54 @@ m=1
 model=sg13_lv_nmos
 spiceprefix=X
 }
-N 900 2130 900 2130 {lab=nb}
-C {devices/lab_pin.sym} 900 2130 0 0 {name=p447 sig_type=std_logic lab=nb}
-N 860 2160 860 2160 {lab=vbp_tail}
-C {devices/lab_pin.sym} 860 2160 0 1 {name=p448 sig_type=std_logic lab=vbp_tail}
-N 900 2190 900 2190 {lab=nbf}
-C {devices/lab_pin.sym} 900 2190 0 0 {name=p449 sig_type=std_logic lab=nbf}
-N 900 2160 900 2160 {lab=gnd}
-C {devices/lab_pin.sym} 900 2160 0 0 {name=p450 sig_type=std_logic lab=gnd}
-C {sg13g2_pr/cap_cmim.sym} 1100 2160 0 0 {name=cbf0
+N 240 2130 240 2130 {lab=nb}
+C {devices/lab_pin.sym} 240 2130 0 0 {name=p435 sig_type=std_logic lab=nb}
+N 200 2160 200 2160 {lab=vbp_tail}
+C {devices/lab_pin.sym} 200 2160 0 1 {name=p436 sig_type=std_logic lab=vbp_tail}
+N 240 2190 240 2190 {lab=nbf}
+C {devices/lab_pin.sym} 240 2190 0 0 {name=p437 sig_type=std_logic lab=nbf}
+N 240 2160 240 2160 {lab=gnd}
+C {devices/lab_pin.sym} 240 2160 0 0 {name=p438 sig_type=std_logic lab=gnd}
+C {sg13g2_pr/cap_cmim.sym} 440 2160 0 0 {name=cbf0
+model=cap_cmim
+lvs_model=cmim
+w=6.894000e-05
+l=6.894000e-05
+m=1
+mm_ok=1
+spiceprefix=X
+}
+N 440 2130 440 2130 {lab=nbf}
+C {devices/lab_pin.sym} 440 2130 0 0 {name=p439 sig_type=std_logic lab=nbf}
+N 440 2190 440 2190 {lab=gnd}
+C {devices/lab_pin.sym} 440 2190 0 0 {name=p440 sig_type=std_logic lab=gnd}
+C {sg13g2_pr/cap_cmim.sym} 660 2160 0 0 {name=cbf1
+model=cap_cmim
+lvs_model=cmim
+w=6.894000e-05
+l=6.894000e-05
+m=1
+mm_ok=1
+spiceprefix=X
+}
+N 660 2130 660 2130 {lab=nbf}
+C {devices/lab_pin.sym} 660 2130 0 0 {name=p441 sig_type=std_logic lab=nbf}
+N 660 2190 660 2190 {lab=gnd}
+C {devices/lab_pin.sym} 660 2190 0 0 {name=p442 sig_type=std_logic lab=gnd}
+C {sg13g2_pr/cap_cmim.sym} 880 2160 0 0 {name=cbf2
+model=cap_cmim
+lvs_model=cmim
+w=6.894000e-05
+l=6.894000e-05
+m=1
+mm_ok=1
+spiceprefix=X
+}
+N 880 2130 880 2130 {lab=nbf}
+C {devices/lab_pin.sym} 880 2130 0 0 {name=p443 sig_type=std_logic lab=nbf}
+N 880 2190 880 2190 {lab=gnd}
+C {devices/lab_pin.sym} 880 2190 0 0 {name=p444 sig_type=std_logic lab=gnd}
+C {sg13g2_pr/cap_cmim.sym} 1100 2160 0 0 {name=cbf3
 model=cap_cmim
 lvs_model=cmim
 w=6.894000e-05
@@ -1833,10 +1824,10 @@ mm_ok=1
 spiceprefix=X
 }
 N 1100 2130 1100 2130 {lab=nbf}
-C {devices/lab_pin.sym} 1100 2130 0 0 {name=p451 sig_type=std_logic lab=nbf}
+C {devices/lab_pin.sym} 1100 2130 0 0 {name=p445 sig_type=std_logic lab=nbf}
 N 1100 2190 1100 2190 {lab=gnd}
-C {devices/lab_pin.sym} 1100 2190 0 0 {name=p452 sig_type=std_logic lab=gnd}
-C {sg13g2_pr/cap_cmim.sym} 0 2280 0 0 {name=cbf1
+C {devices/lab_pin.sym} 1100 2190 0 0 {name=p446 sig_type=std_logic lab=gnd}
+C {sg13g2_pr/cap_cmim.sym} 0 2280 0 0 {name=cbf4
 model=cap_cmim
 lvs_model=cmim
 w=6.894000e-05
@@ -1846,10 +1837,10 @@ mm_ok=1
 spiceprefix=X
 }
 N 0 2250 0 2250 {lab=nbf}
-C {devices/lab_pin.sym} 0 2250 0 0 {name=p453 sig_type=std_logic lab=nbf}
+C {devices/lab_pin.sym} 0 2250 0 0 {name=p447 sig_type=std_logic lab=nbf}
 N 0 2310 0 2310 {lab=gnd}
-C {devices/lab_pin.sym} 0 2310 0 0 {name=p454 sig_type=std_logic lab=gnd}
-C {sg13g2_pr/cap_cmim.sym} 220 2280 0 0 {name=cbf2
+C {devices/lab_pin.sym} 0 2310 0 0 {name=p448 sig_type=std_logic lab=gnd}
+C {sg13g2_pr/cap_cmim.sym} 220 2280 0 0 {name=cbf5
 model=cap_cmim
 lvs_model=cmim
 w=6.894000e-05
@@ -1859,10 +1850,10 @@ mm_ok=1
 spiceprefix=X
 }
 N 220 2250 220 2250 {lab=nbf}
-C {devices/lab_pin.sym} 220 2250 0 0 {name=p455 sig_type=std_logic lab=nbf}
+C {devices/lab_pin.sym} 220 2250 0 0 {name=p449 sig_type=std_logic lab=nbf}
 N 220 2310 220 2310 {lab=gnd}
-C {devices/lab_pin.sym} 220 2310 0 0 {name=p456 sig_type=std_logic lab=gnd}
-C {sg13g2_pr/cap_cmim.sym} 440 2280 0 0 {name=cbf3
+C {devices/lab_pin.sym} 220 2310 0 0 {name=p450 sig_type=std_logic lab=gnd}
+C {sg13g2_pr/cap_cmim.sym} 440 2280 0 0 {name=cbf6
 model=cap_cmim
 lvs_model=cmim
 w=6.894000e-05
@@ -1872,45 +1863,6 @@ mm_ok=1
 spiceprefix=X
 }
 N 440 2250 440 2250 {lab=nbf}
-C {devices/lab_pin.sym} 440 2250 0 0 {name=p457 sig_type=std_logic lab=nbf}
+C {devices/lab_pin.sym} 440 2250 0 0 {name=p451 sig_type=std_logic lab=nbf}
 N 440 2310 440 2310 {lab=gnd}
-C {devices/lab_pin.sym} 440 2310 0 0 {name=p458 sig_type=std_logic lab=gnd}
-C {sg13g2_pr/cap_cmim.sym} 660 2280 0 0 {name=cbf4
-model=cap_cmim
-lvs_model=cmim
-w=6.894000e-05
-l=6.894000e-05
-m=1
-mm_ok=1
-spiceprefix=X
-}
-N 660 2250 660 2250 {lab=nbf}
-C {devices/lab_pin.sym} 660 2250 0 0 {name=p459 sig_type=std_logic lab=nbf}
-N 660 2310 660 2310 {lab=gnd}
-C {devices/lab_pin.sym} 660 2310 0 0 {name=p460 sig_type=std_logic lab=gnd}
-C {sg13g2_pr/cap_cmim.sym} 880 2280 0 0 {name=cbf5
-model=cap_cmim
-lvs_model=cmim
-w=6.894000e-05
-l=6.894000e-05
-m=1
-mm_ok=1
-spiceprefix=X
-}
-N 880 2250 880 2250 {lab=nbf}
-C {devices/lab_pin.sym} 880 2250 0 0 {name=p461 sig_type=std_logic lab=nbf}
-N 880 2310 880 2310 {lab=gnd}
-C {devices/lab_pin.sym} 880 2310 0 0 {name=p462 sig_type=std_logic lab=gnd}
-C {sg13g2_pr/cap_cmim.sym} 1100 2280 0 0 {name=cbf6
-model=cap_cmim
-lvs_model=cmim
-w=6.894000e-05
-l=6.894000e-05
-m=1
-mm_ok=1
-spiceprefix=X
-}
-N 1100 2250 1100 2250 {lab=nbf}
-C {devices/lab_pin.sym} 1100 2250 0 0 {name=p463 sig_type=std_logic lab=nbf}
-N 1100 2310 1100 2310 {lab=gnd}
-C {devices/lab_pin.sym} 1100 2310 0 0 {name=p464 sig_type=std_logic lab=gnd}
+C {devices/lab_pin.sym} 440 2310 0 0 {name=p452 sig_type=std_logic lab=gnd}

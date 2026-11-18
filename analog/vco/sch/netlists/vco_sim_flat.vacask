@@ -23,7 +23,7 @@ l2n (n2 ct) inductor l=3.196e-11
 cp (p n) capacitor c=2.98589e-14
 m1 (tp tn tail 0) sg13_lv_nmos w=32u l=0.13u ng=8
 m2 (tn tp tail 0) sg13_lv_nmos w=32u l=0.13u ng=8
-mdum (0 0 0 0) sg13_lv_nmos w=8u l=0.13u ng=1
+mdum (0 0 0 0) sg13_lv_nmos w=9u l=0.13u ng=1
 xf1 (tp fx 0) cap_rfcmim w=14.500u l=14.500u
 xf2 (tn fx 0) cap_rfcmim w=14.500u l=14.500u
 rfx (fx 0 0) rhigh w=2.000u l=15.200u b=0
@@ -36,88 +36,88 @@ mbp_rba0 (a0 vbp bb0 0) sg13_lv_nmos w=0.15u l=0.13u ng=1
 mbp_rbb0 (b0 vbp bb0 0) sg13_lv_nmos w=0.15u l=0.13u ng=1
 xb1p (tp a1) cap_cmim w=3.920u l=3.920u
 xb1n (tn b1) cap_cmim w=3.920u l=3.920u
-ms1 (a1 g1 b1 0) sg13_lv_nmos w=19.82u l=0.13u ng=8
+ms1 (a1 g1 b1 0) sg13_lv_nmos w=19.8u l=0.13u ng=8
 rba1 (a1 bb1 0) rhigh w=5.000u l=60.800u b=0
 rbb1 (b1 bb1 0) rhigh w=5.000u l=60.800u b=0
 mbp_rba1 (a1 vbp bb1 0) sg13_lv_nmos w=0.15u l=0.13u ng=1
 mbp_rbb1 (b1 vbp bb1 0) sg13_lv_nmos w=0.15u l=0.13u ng=1
 xb2p (tp a2) cap_cmim w=5.530u l=5.530u
 xb2n (tn b2) cap_cmim w=5.530u l=5.530u
-ms2 (a2 g2 b2 0) sg13_lv_nmos w=39.15u l=0.13u ng=16
+ms2 (a2 g2 b2 0) sg13_lv_nmos w=39.12u l=0.13u ng=16
 rba2 (a2 bb2 0) rhigh w=5.000u l=60.800u b=0
 rbb2 (b2 bb2 0) rhigh w=5.000u l=60.800u b=0
-mbp_rba2 (a2 vbp bb2 0) sg13_lv_nmos w=0.1562u l=0.13u ng=1
-mbp_rbb2 (b2 vbp bb2 0) sg13_lv_nmos w=0.1562u l=0.13u ng=1
+mbp_rba2 (a2 vbp bb2 0) sg13_lv_nmos w=0.15u l=0.13u ng=1
+mbp_rbb2 (b2 vbp bb2 0) sg13_lv_nmos w=0.15u l=0.13u ng=1
 xb3p (tp a3 0) cap_rfcmim w=7.874u l=7.874u
 xb3n (tn b3 0) cap_rfcmim w=7.874u l=7.874u
-ms3 (a3 g3 b3 0) sg13_lv_nmos w=77.50u l=0.13u ng=31
+ms3 (a3 g3 b3 0) sg13_lv_nmos w=77.5u l=0.13u ng=31
 rba3 (a3 bb3 0) rhigh w=5.000u l=60.800u b=0
 rbb3 (b3 bb3 0) rhigh w=5.000u l=60.800u b=0
-mbp_rba3 (a3 vbp bb3 0) sg13_lv_nmos w=0.3125u l=0.13u ng=2
-mbp_rbb3 (b3 vbp bb3 0) sg13_lv_nmos w=0.3125u l=0.13u ng=2
+mbp_rba3 (a3 vbp bb3 0) sg13_lv_nmos w=0.31u l=0.13u ng=1
+mbp_rbb3 (b3 vbp bb3 0) sg13_lv_nmos w=0.31u l=0.13u ng=1
 xb4p (tp a4 0) cap_rfcmim w=11.122u l=11.122u
 xb4n (tn b4 0) cap_rfcmim w=11.122u l=11.122u
-ms4 (a4 g4 b4 0) sg13_lv_nmos w=154.63u l=0.13u ng=62
+ms4 (a4 g4 b4 0) sg13_lv_nmos w=154.38u l=0.13u ng=62
 rba4 (a4 bb4 0) rhigh w=5.000u l=60.800u b=0
 rbb4 (b4 bb4 0) rhigh w=5.000u l=60.800u b=0
-mbp_rba4 (a4 vbp bb4 0) sg13_lv_nmos w=0.625u l=0.13u ng=2
-mbp_rbb4 (b4 vbp bb4 0) sg13_lv_nmos w=0.625u l=0.13u ng=2
+mbp_rba4 (a4 vbp bb4 0) sg13_lv_nmos w=0.62u l=0.13u ng=1
+mbp_rbb4 (b4 vbp bb4 0) sg13_lv_nmos w=0.62u l=0.13u ng=1
 xb5p (tp a5 0) cap_rfcmim w=15.712u l=15.712u
 xb5n (tn b5 0) cap_rfcmim w=15.712u l=15.712u
-ms5 (a5 g5 b5 0) sg13_lv_nmos w=308.58u l=0.13u ng=100
+ms5 (a5 g5 b5 0) sg13_lv_nmos w=308.5u l=0.13u ng=100
 rba5 (a5 bb5 0) rhigh w=5.000u l=60.800u b=0
 rbb5 (b5 bb5 0) rhigh w=5.000u l=60.800u b=0
-mbp_rba5 (a5 vbp bb5 0) sg13_lv_nmos w=1.25u l=0.13u ng=2
-mbp_rbb5 (b5 vbp bb5 0) sg13_lv_nmos w=1.25u l=0.13u ng=2
+mbp_rba5 (a5 vbp bb5 0) sg13_lv_nmos w=1.25u l=0.13u ng=1
+mbp_rbb5 (b5 vbp bb5 0) sg13_lv_nmos w=1.25u l=0.13u ng=1
 xb6p (tp a6 0) cap_rfcmim w=15.712u l=15.712u
 xb6n (tn b6 0) cap_rfcmim w=15.712u l=15.712u
-ms6 (a6 g6 b6 0) sg13_lv_nmos w=308.58u l=0.13u ng=100
+ms6 (a6 g6 b6 0) sg13_lv_nmos w=308.5u l=0.13u ng=100
 rba6 (a6 bb6 0) rhigh w=5.000u l=60.800u b=0
 rbb6 (b6 bb6 0) rhigh w=5.000u l=60.800u b=0
-mbp_rba6 (a6 vbp bb6 0) sg13_lv_nmos w=1.25u l=0.13u ng=2
-mbp_rbb6 (b6 vbp bb6 0) sg13_lv_nmos w=1.25u l=0.13u ng=2
+mbp_rba6 (a6 vbp bb6 0) sg13_lv_nmos w=1.25u l=0.13u ng=1
+mbp_rbb6 (b6 vbp bb6 0) sg13_lv_nmos w=1.25u l=0.13u ng=1
 xb7p (tp a7 0) cap_rfcmim w=15.712u l=15.712u
 xb7n (tn b7 0) cap_rfcmim w=15.712u l=15.712u
-ms7 (a7 g7 b7 0) sg13_lv_nmos w=308.58u l=0.13u ng=100
+ms7 (a7 g7 b7 0) sg13_lv_nmos w=308.5u l=0.13u ng=100
 rba7 (a7 bb7 0) rhigh w=5.000u l=60.800u b=0
 rbb7 (b7 bb7 0) rhigh w=5.000u l=60.800u b=0
-mbp_rba7 (a7 vbp bb7 0) sg13_lv_nmos w=1.25u l=0.13u ng=2
-mbp_rbb7 (b7 vbp bb7 0) sg13_lv_nmos w=1.25u l=0.13u ng=2
+mbp_rba7 (a7 vbp bb7 0) sg13_lv_nmos w=1.25u l=0.13u ng=1
+mbp_rbb7 (b7 vbp bb7 0) sg13_lv_nmos w=1.25u l=0.13u ng=1
 xb8p (tp a8 0) cap_rfcmim w=15.712u l=15.712u
 xb8n (tn b8 0) cap_rfcmim w=15.712u l=15.712u
-ms8 (a8 g8 b8 0) sg13_lv_nmos w=308.58u l=0.13u ng=100
+ms8 (a8 g8 b8 0) sg13_lv_nmos w=308.5u l=0.13u ng=100
 rba8 (a8 bb8 0) rhigh w=5.000u l=60.800u b=0
 rbb8 (b8 bb8 0) rhigh w=5.000u l=60.800u b=0
-mbp_rba8 (a8 vbp bb8 0) sg13_lv_nmos w=1.25u l=0.13u ng=2
-mbp_rbb8 (b8 vbp bb8 0) sg13_lv_nmos w=1.25u l=0.13u ng=2
+mbp_rba8 (a8 vbp bb8 0) sg13_lv_nmos w=1.25u l=0.13u ng=1
+mbp_rbb8 (b8 vbp bb8 0) sg13_lv_nmos w=1.25u l=0.13u ng=1
 xb9p (tp a9 0) cap_rfcmim w=15.712u l=15.712u
 xb9n (tn b9 0) cap_rfcmim w=15.712u l=15.712u
-ms9 (a9 g9 b9 0) sg13_lv_nmos w=308.58u l=0.13u ng=100
+ms9 (a9 g9 b9 0) sg13_lv_nmos w=308.5u l=0.13u ng=100
 rba9 (a9 bb9 0) rhigh w=5.000u l=60.800u b=0
 rbb9 (b9 bb9 0) rhigh w=5.000u l=60.800u b=0
-mbp_rba9 (a9 vbp bb9 0) sg13_lv_nmos w=1.25u l=0.13u ng=2
-mbp_rbb9 (b9 vbp bb9 0) sg13_lv_nmos w=1.25u l=0.13u ng=2
+mbp_rba9 (a9 vbp bb9 0) sg13_lv_nmos w=1.25u l=0.13u ng=1
+mbp_rbb9 (b9 vbp bb9 0) sg13_lv_nmos w=1.25u l=0.13u ng=1
 xb10p (tp a10 0) cap_rfcmim w=15.712u l=15.712u
 xb10n (tn b10 0) cap_rfcmim w=15.712u l=15.712u
-ms10 (a10 g10 b10 0) sg13_lv_nmos w=308.58u l=0.13u ng=100
+ms10 (a10 g10 b10 0) sg13_lv_nmos w=308.5u l=0.13u ng=100
 rba10 (a10 bb10 0) rhigh w=5.000u l=60.800u b=0
 rbb10 (b10 bb10 0) rhigh w=5.000u l=60.800u b=0
-mbp_rba10 (a10 vbp bb10 0) sg13_lv_nmos w=1.25u l=0.13u ng=2
-mbp_rbb10 (b10 vbp bb10 0) sg13_lv_nmos w=1.25u l=0.13u ng=2
+mbp_rba10 (a10 vbp bb10 0) sg13_lv_nmos w=1.25u l=0.13u ng=1
+mbp_rbb10 (b10 vbp bb10 0) sg13_lv_nmos w=1.25u l=0.13u ng=1
 xb11p (tp a11 0) cap_rfcmim w=15.712u l=15.712u
 xb11n (tn b11 0) cap_rfcmim w=15.712u l=15.712u
-ms11 (a11 g11 b11 0) sg13_lv_nmos w=308.58u l=0.13u ng=100
+ms11 (a11 g11 b11 0) sg13_lv_nmos w=308.5u l=0.13u ng=100
 rba11 (a11 bb11 0) rhigh w=5.000u l=60.800u b=0
 rbb11 (b11 bb11 0) rhigh w=5.000u l=60.800u b=0
-mbp_rba11 (a11 vbp bb11 0) sg13_lv_nmos w=1.25u l=0.13u ng=2
-mbp_rbb11 (b11 vbp bb11 0) sg13_lv_nmos w=1.25u l=0.13u ng=2
+mbp_rba11 (a11 vbp bb11 0) sg13_lv_nmos w=1.25u l=0.13u ng=1
+mbp_rbb11 (b11 vbp bb11 0) sg13_lv_nmos w=1.25u l=0.13u ng=1
 xbdump (0 adum 0) cap_rfcmim w=15.712u l=15.712u
 xbdumn (0 bdum 0) cap_rfcmim w=15.712u l=15.712u
-msdum (adum 0 bdum 0) sg13_lv_nmos w=308.58u l=0.13u ng=100
+msdum (adum 0 bdum 0) sg13_lv_nmos w=308.5u l=0.13u ng=100
 rbadum (adum 0 0) rhigh w=5.000u l=60.800u b=0
 rbbdum (bdum 0 0) rhigh w=5.000u l=60.800u b=0
-mbp_rbadum (adum 0 0 0) sg13_lv_nmos w=1.25u l=0.13u ng=2
-mbp_rbbdum (bdum 0 0 0) sg13_lv_nmos w=1.25u l=0.13u ng=2
+mbp_rbadum (adum 0 0 0) sg13_lv_nmos w=1.25u l=0.13u ng=1
+mbp_rbbdum (bdum 0 0 0) sg13_lv_nmos w=1.25u l=0.13u ng=1
 xcp (tp vgp 0) cap_rfcmim w=21.292u l=21.292u
 xcn (tn vgn 0) cap_rfcmim w=21.292u l=21.292u
 rvp (vgp vvb 0) rhigh w=0.500u l=42.095u b=16
@@ -127,19 +127,124 @@ xv2 (vgp vt vgn 0) sg13_hv_svaricap_fx w=3.74u l=0.3u nx=10
 mbp_rvp (vgp vbp vvb 0) sg13_lv_nmos w=5u l=0.13u ng=2
 mbp_rvn (vgn vbp vvb 0) sg13_lv_nmos w=5u l=0.13u ng=2
 vvb_bias (vvb 0) vsource dc=0.3
-ctail (tail 0) capacitor c=8e-12
-mt (tail nbf 0 0) sg13_lv_nmos w=160u l=4u ng=32
-rbf (nb nbf) resistor r=1000000.0
-cbf0 (nbf 0) cap_cmim w=69.007u l=69.007u
-cbf1 (nbf 0) cap_cmim w=69.007u l=69.007u
-cbf2 (nbf 0) cap_cmim w=69.007u l=69.007u
-cbf3 (nbf 0) cap_cmim w=69.007u l=69.007u
-cbf4 (nbf 0) cap_cmim w=69.007u l=69.007u
-cbf5 (nbf 0) cap_cmim w=69.007u l=69.007u
-cbf6 (nbf 0) cap_cmim w=69.007u l=69.007u
-mr (nb nb 0 0) sg13_lv_nmos w=20u l=4u ng=4
-iref (vdd nb) isource dc=0.0005
+mdb_b0 (xd_b0 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b0 (xraw code_gnd xd_b0 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b1 (xd_b1 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b1 (xraw code_gnd xd_b1 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b2 (xd_b2 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b2 (xraw code_gnd xd_b2 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b3 (xd_b3 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b3 (xraw code_gnd xd_b3 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b4 (xd_b4 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b4 (xraw code_gnd xd_b4 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b5 (xd_b5 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b5 (xraw code_gnd xd_b5 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b6 (xd_b6 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b6 (xraw code_gnd xd_b6 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b7 (xd_b7 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b7 (xraw code_gnd xd_b7 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b8 (xd_b8 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b8 (xraw code_gnd xd_b8 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b9 (xd_b9 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b9 (xraw code_gnd xd_b9 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b10 (xd_b10 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b10 (xraw code_gnd xd_b10 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b11 (xd_b11 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b11 (xraw code_gnd xd_b11 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b12 (xd_b12 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b12 (xraw code_gnd xd_b12 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b13 (xd_b13 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b13 (xraw code_gnd xd_b13 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b14 (xd_b14 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b14 (xraw code_gnd xd_b14 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b15 (xd_b15 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b15 (xraw code_gnd xd_b15 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b16 (xd_b16 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b16 (xraw code_gnd xd_b16 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b17 (xd_b17 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b17 (xraw code_gnd xd_b17 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b18 (xd_b18 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b18 (xraw code_gnd xd_b18 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b4_0 (xd_b4_0 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b4_0 (xraw code4 xd_b4_0 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b3_0 (xd_b3_0 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b3_0 (xraw code3 xd_b3_0 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b2_0 (xd_b2_0 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b2_0 (xraw code2 xd_b2_0 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b4_1 (xd_b4_1 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b4_1 (xraw code4 xd_b4_1 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b3_1 (xd_b3_1 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b3_1 (xraw code3 xd_b3_1 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b4_2 (xd_b4_2 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b4_2 (xraw code4 xd_b4_2 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b1_0 (xd_b1_0 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b1_0 (xraw code1 xd_b1_0 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b4_3 (xd_b4_3 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b4_3 (xraw code4 xd_b4_3 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b4_4 (xd_b4_4 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b4_4 (xraw code4 xd_b4_4 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b0_0 (xd_b0_0 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b0_0 (xraw code0 xd_b0_0 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b4_5 (xd_b4_5 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b4_5 (xraw code4 xd_b4_5 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b3_2 (xd_b3_2 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b3_2 (xraw code3 xd_b3_2 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b4_6 (xd_b4_6 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b4_6 (xraw code4 xd_b4_6 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b2_1 (xd_b2_1 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b2_1 (xraw code2 xd_b2_1 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b3_3 (xd_b3_3 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b3_3 (xraw code3 xd_b3_3 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b4_7 (xd_b4_7 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b4_7 (xraw code4 xd_b4_7 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b4_8 (xd_b4_8 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b4_8 (xraw code4 xd_b4_8 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b3_4 (xd_b3_4 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b3_4 (xraw code3 xd_b3_4 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b2_2 (xd_b2_2 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b2_2 (xraw code2 xd_b2_2 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b4_9 (xd_b4_9 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b4_9 (xraw code4 xd_b4_9 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b3_5 (xd_b3_5 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b3_5 (xraw code3 xd_b3_5 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b4_10 (xd_b4_10 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b4_10 (xraw code4 xd_b4_10 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b1_1 (xd_b1_1 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b1_1 (xraw code1 xd_b1_1 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b4_11 (xd_b4_11 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b4_11 (xraw code4 xd_b4_11 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b4_12 (xd_b4_12 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b4_12 (xraw code4 xd_b4_12 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_dmy (xd_dmy pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_dmy (xraw code_vdd xd_dmy vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b3_6 (xd_b3_6 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b3_6 (xraw code3 xd_b3_6 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b4_13 (xd_b4_13 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b4_13 (xraw code4 xd_b4_13 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b4_14 (xd_b4_14 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b4_14 (xraw code4 xd_b4_14 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b2_3 (xd_b2_3 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b2_3 (xraw code2 xd_b2_3 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b3_7 (xd_b3_7 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b3_7 (xraw code3 xd_b3_7 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mdb_b4_15 (xd_b4_15 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
+msw_b4_15 (xraw code4 xd_b4_15 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
+mt (tail nbf 0 0) sg13_lv_nmos w=480u l=4u ng=96
+mo1 (d1 xraw ss 0) sg13_lv_nmos w=8u l=2u ng=2
+mo2 (nb tail_f ss 0) sg13_lv_nmos w=8u l=2u ng=2
+mp1 (d1 d1 vdd vdd) sg13_lv_pmos w=4u l=2u ng=2
+mp2 (nb d1 vdd vdd) sg13_lv_pmos w=4u l=2u ng=2
+mdum_ota (0 0 0 0) sg13_lv_nmos w=8u l=2u ng=1
+rbf (nb nbf 0) rhigh w=0.500u l=21.285u b=16
 mbp_rbf (nb vbp_tail nbf 0) sg13_lv_nmos w=20u l=0.13u ng=4
+cbf0 (nbf 0) cap_cmim w=68.940u l=68.940u
+cbf1 (nbf 0) cap_cmim w=68.940u l=68.940u
+cbf2 (nbf 0) cap_cmim w=68.940u l=68.940u
+cbf3 (nbf 0) cap_cmim w=68.940u l=68.940u
+cbf4 (nbf 0) cap_cmim w=68.940u l=68.940u
+cbf5 (nbf 0) cap_cmim w=68.940u l=68.940u
+cbf6 (nbf 0) cap_cmim w=68.940u l=68.940u
+iref_pbias (vdd pbias) isource dc=1.05e-05
 mb1 (op tp tb 0) sg13_lv_nmos w=10u l=0.13u ng=4
 mb2 (on tn tb 0) sg13_lv_nmos w=10u l=0.13u ng=4
 rl1 (vdd op) resistor r=400

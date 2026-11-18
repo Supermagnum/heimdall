@@ -1,0 +1,8 @@
+# Identity: NMOS sch vs extract (D/S permute) [TOOL]
+
+raw sch=71 lay=67; after parallel+D/S-permute groups sch=67 lay=67
+W/L multiset after permute+parallel: IDENTICAL [TOOL]
+
+## Conclusion
+
+Circuits are identical apart from D/S orientation and parallel grouping (mt 4×120↔480, mrtp‖mrtn↔1u). No device belongs on one side only. [TOOL]

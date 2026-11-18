@@ -1,0 +1,72 @@
+# P2.7.2c — Last NMOS: LVS setup stop [TOOL]
+
+Date: 2026-11-18. Prompt 06 run after 0a2bb37. decisions.md
+"2026-11-18 — Last NMOS: LVS setup" recorded.
+
+## Step results vs pass criteria
+
+| Step | Criterion | Result |
+|------|-----------|--------|
+| 1 Identity | sch vs extract identical aside from D/S / grouping | **PASS** — raw 71 vs 67; after parallel+D/S groups 67=67 W/L multiset identical (`summary_nmos_identity.txt`) [TOOL] |
+| 2 LVS setup | MOS D/S permute every name; place+power unique KLayout+netgen | **FAIL** — see below [TOOL] |
+| 3 Step-2 checks @35.6 | overlap; bank boundary; D20; PN | **not run** (stopped on step 2) |
+| 4 vvb_bias 0.3 V | name on-chip source or finding | **finding** (partial) — see below |
+| 5 Net-group replay | DRC+LVS unique after each group | **not run** |
+| 6 Report / specs | update + commit | **this stop file**; specs not updated |
+
+## What was fixed in setup / flatten (job files)
+
+1. Flatten emits **M-prefix** for MOS (not X) so MOSFET-class rules apply [TOOL].
+2. `lvs_setup.tcl`: re-assert **`permute drain source`** (named pins). PDK `1 3` prints `No such pin 1` / Unable to permute on netgen 1.5.324 [TOOL].
+3. Schematic top-extract grouping: **mt** one 480u/4; **mrt** one 1u (was 4×120 + mrtp‖mrtn) [GDS].
+4. Flatten remaps svaricap **G2,NW,G1,sub!** → **G1,W,G2,gnd** to match KLayout extract [PDK/TOOL].
+
+Raw NMOS after (3): **67 = 67** before merge [TOOL].
+
+## What still fails
+
+Place / place+power: DRC clean (density + SVaricap M1.b waived) **PASS**; KLayout LVS and netgen **FAIL** unique match [TOOL].
+
+Post-merge NMOS with PDK parallel: **65 vs 64** (was same before this run). With `parallel none` + `series none` on MOS: sch stays **67**, lay **67→66** [TOOL].
+
+### Named last device (lay −1 under merge-none)
+
+Leave-one-out on extract (`out/_bisect2/`): merge stops when either is removed:
+
+- `M$888` D=`$507` G=`$589` S=`$592` W=5u L=0.13u (var bypass / vgp side)
+- `M$899` D=`$570` G=`$589` S=`$592` W=5u L=0.13u (var bypass / vgn side)
+
+Same G/S/B/W/L, **different D**. Electrically not parallel. netgen 1.5.324 still merges them on the extract side in the full netlist even with parallel/series none [TOOL].
+
+Minimal matched var cell (same topology both sides, body=gnd, G1/W/G2 order): NMOS **2=2**, **Circuits match uniquely**, no merge [TOOL]. So the lay-only merge is context-dependent in the full `vco_top` compare, not a simple property flag.
+
+D/S label swap on sch var pair: if sch orientations differ from extract, sch does **not** merge and the gap stays; if both sides share both-S=vvb in a tiny deck, both merge and match — that path does not transfer cleanly to full `vco_top` [TOOL].
+
+## vvb_bias 0.3 V (step 4, partial)
+
+- Needed by: var bias nodes `vvb` (rhigh rvp/rvn to vgp/vgn; bypasses mbp_rvp/mbp_rvn) [SCH].
+- On-chip block that supplies 0.3 V: **none** in `vco_top` / synthesizer sch tree yet [SCH].
+- Test-bench: ideal `vvb_bias` 0.3 V in `vco_sim_flat` only [SCH].
+- Finding: needs a stated on-chip source (bias DAC / bandgap tap / dedicated buffer), current and accuracy TBD — **not sized this run**.
+
+## Decision needed
+
+How to clear the extract-only merge of the two W=5u var bypasses under netgen 1.5.324 (and KLayout unique match), without editing netlists to force a count:
+
+(a) netgen/KLayout setup that truly disables this merge (property none is insufficient here);  
+(b) accepted D/S or pin-order documentation plus a proven full-chip unique match;  
+(c) owner-approved representation change that preserves the circuit.
+
+Do not remove a device: identity shows none is sch-only or lay-only [TOOL].
+
+## Found, not done
+
+- Overlap / bank boundary / D20 / worst-corner PN at 35.6 fF [SCH] — not re-run.
+- Net-group replay to unique LVS; fab/LVS diff; varactor scripts; ct labelled port.
+- `spec/vco-topology.md` §9, `spec/p27-layout-notes.md`, `spec/p27-floorplan.md` §8, `spec/phase2-plan.md` §3.
+- SVG/PDF re-export of edited sch cells after mt/mrt/svaricap flatten changes.
+- Commit of this job’s files (ask owner — user rule).
+
+## Next run (expected)
+
+**P2.7.3 — VCO PEX and post-layout checks** — only after place+power (then full join) unique LVS on flattened `vco_top.sch`. Immediate unblock: decision on the var-bypass netgen merge above.

@@ -192,10 +192,9 @@ def gen_vco_tail_dac():
         xd = f"xd_{iname}"
         sch.pmos(f"mdb_{iname}", xd, "pbias", "vdd", "vdd", "2u", "2u", 1)
         sch.pmos(f"msw_{iname}", "xraw", code, xd, "vdd", "2u", "0.13u", 1)
-    # tail_mt: leaf is 4×120/4 ng=24; top extract combines to one 480u —
-    # keep 4 tiles (combine_devices) to match leaf GDS [GDS/TOOL]
-    for i in range(4):
-        sch.nmos(f"mt{i}", "tail", "nbf", "gnd", "gnd", "120u", "4u", 24)
+    # tail_mt: leaf GDS is 4×120/4 ng=24; top extract is one 480u/4 —
+    # emit the top-extract grouping so LVS merge is symmetric [GDS/TOOL]
+    sch.nmos("mt", "tail", "nbf", "gnd", "gnd", "480u", "4u", 96)
     # ota_vds: xraw≡xref; out=nb [GDS leaf]
     # Top extract drops fully gnd-tied 4u/2u dummies (leaf had MdL/MdR); keep
     # one 8u/2u fill that top extract shows [GDS/TOOL]
@@ -251,6 +250,8 @@ def gen_vco_bank(rng):
         sch.rhigh(f"rbb{k}", f"b{k}", f"bb{k}", "gnd",
                   w=BANK_RHIGH_W, l=BANK_RHIGH_L)
         bw, bl, bng = BANK_BYP.get(k, ("0.15u", "0.13u", 1))
+        # D/S labels: both S on shared bb (circuit). Extract D/S may swap;
+        # netgen permute drain/source covers that [TOOL / decisions].
         sch.nmos(f"mbp_rba{k}", f"a{k}", "vbp", f"bb{k}", "gnd", bw, bl, bng)
         sch.nmos(f"mbp_rbb{k}", f"b{k}", "vbp", f"bb{k}", "gnd", bw, bl, bng)
     # Centroid dummy (slot D): one thermo-sized unit, all terminals to gnd
@@ -290,6 +291,9 @@ def gen_vco_var(rng):
     nx2 = nfing // 2
     sch.svaricap_fx("xv1", "vgp", "vt", "vgn", "gnd", nx=nx1)
     sch.svaricap_fx("xv2", "vgp", "vt", "vgn", "gnd", nx=nx2)
+    # Both S=vvb (matches extract). netgen 1.5.324 merges this pair on
+    # both sides even with parallel/series none when orientations match;
+    # opposite D/S on sch only → lay-only -1 [TOOL].
     sch.nmos("mbp_rvp", "vgp", "vbp", "vvb", "gnd", "5u", "0.13u", 2)
     sch.nmos("mbp_rvn", "vgn", "vbp", "vvb", "gnd", "5u", "0.13u", 2)
     sch.write()
@@ -310,12 +314,11 @@ def gen_ampcal_det():
     for p in ports:
         sch.iopin(p)
     sch.title("ampcal_det_cmp_D22_fab")
-    # SF pair [GDS det_sf_pair]. Top extract drops fully gnd-tied 0.5u
-    # dummies (leaf MdL/MdR); mrtp||mrtn combine to W=1u [GDS/TOOL]
+    # SF pair [GDS]. Top extract: mdtp/mdtn stay 0.5u; mrtp||mrtn → 1u
+    # — emit top-extract grouping [GDS/TOOL]
     sch.nmos("mdtp", "vdd", "tp", "hold", "gnd", A.W_DET, A.L_DET, 1)
     sch.nmos("mdtn", "vdd", "tn", "hold", "gnd", A.W_DET, A.L_DET, 1)
-    sch.nmos("mrtp", "vdd", "ct", "rep", "gnd", A.W_DET, A.L_DET, 1)
-    sch.nmos("mrtn", "vdd", "ct", "rep", "gnd", A.W_DET, A.L_DET, 1)
+    sch.nmos("mrt", "vdd", "ct", "rep", "gnd", "1u", A.L_DET, 1)
     # Hold caps: cmim w=l=16.27 µm → 400 fF [GDS extract / PDK]
     sch.mim("chold", "hold", "gnd", "gnd", "16.27u", "16.27u", kind="cmim")
     sch.mim("crep", "rep", "gnd", "gnd", "16.27u", "16.27u", kind="cmim")

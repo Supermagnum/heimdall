@@ -86,14 +86,38 @@ def rename_models(line: str) -> str:
     return line
 
 
-def spice_inst_name(prefix: str, name: str) -> str:
-    """Keep SPICE type letter first so netgen/KLayout parse the instance [TOOL].
+def spice_letter_for_model(model: str) -> str:
+    """SPICE instance letter from model — MOS must be M, not X [TOOL].
 
-    Xm1 + prefix bank_ → Xbank_m1 (not bank_Xm1).
+    xschem exports Xm1 … sg13_lv_nmos; netgen then treats X as a subcircuit
+    call (\"undefined subcircuit sg13_lv_nmos\") and D/S permute on the PDK
+    MOSFET class does not apply the same way. Leaf LVS spice uses M. [PDK]
     """
-    if name and name[0] in "XxMmCcRrLlDdQqVvIi":
-        return f"{name[0]}{prefix}{name[1:]}"
-    return f"X{prefix}{name}"
+    m = model.split("/")[-1].lower()
+    if "nmos" in m or "pmos" in m:
+        return "M"
+    if "svaricap" in m:
+        return "X"  # multi-terminal; netgen path keeps X [PDK]
+    if m.startswith("cap_") or "cmim" in m or "rfcmim" in m:
+        return "C"
+    if m in ("rhigh", "rsil", "rppd") or m.startswith("r"):
+        return "R"
+    return "X"
+
+
+def spice_inst_name(prefix: str, name: str, model: str | None = None) -> str:
+    """Type letter first so netgen/KLayout parse the instance [TOOL].
+
+    Xm1 + prefix bank_ + model nmos → Mbank_m1 (not Xbank_m1 / bank_Xm1).
+    """
+    letter = spice_letter_for_model(model) if model else None
+    if letter is None:
+        if name and name[0] in "XxMmCcRrLlDdQqVvIi":
+            letter = name[0].upper() if name[0] in "MmCcRrLl" else name[0]
+        else:
+            letter = "X"
+    body = name[1:] if name and name[0] in "XxMmCcRrLlDdQqVvIi" else name
+    return f"{letter}{prefix}{body}"
 
 
 def flatten_inst(prefix: str, cell: str, pinmap: dict, cells: dict,
@@ -163,17 +187,30 @@ def flatten_inst(prefix: str, cell: str, pinmap: dict, cells: dict,
             continue
 
         nodes = toks[1:model_i]
+        model = toks[model_i]
         rest = " ".join(toks[model_i:])
 
         def mn(n):
-            if n in ("0", "sub!"):
+            # Extract ties svaricap body to gnd; xschem uses sub! [GDS/TOOL]
+            if n in ("0",):
                 return n
+            if n == "sub!":
+                return "gnd"
             if n in pinmap:
                 return pinmap[n]
             return f"{prefix}{n}"
 
+        # xschem sg13_svaricap netlists G2,NW,G1,body; KLayout extract is
+        # G1,W,G2,B — swap G1/G2 for LVS [PDK/TOOL / run_equiv note].
+        mlow = model.split("/")[-1].lower()
+        if "svaricap" in mlow and len(nodes) >= 4:
+            g2, nw, g1, body = nodes[0], nodes[1], nodes[2], nodes[3]
+            nodes = [g1, nw, g2, body] + list(nodes[4:])
+
         mapped = " ".join(mn(n) for n in nodes)
-        out.append(f"{spice_inst_name(prefix, name)} {mapped} {rest}")
+        out.append(
+            f"{spice_inst_name(prefix, name, model)} {mapped} {rest}"
+        )
 
 
 def main():

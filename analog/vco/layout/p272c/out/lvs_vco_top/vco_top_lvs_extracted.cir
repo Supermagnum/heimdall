@@ -1,4 +1,4 @@
-* Extracted by KLayout with SG13G2 LVS runset on : 18/11/2026 04:22
+* Extracted by KLayout with SG13G2 LVS runset on : 18/11/2026 05:10
 
 .SUBCKT vco_top cmp code0 code1 code2 code3 code4 en g0 g1 g10 g11 g2 g3 g4 g5
 + g6 g7 g8 g9 gnd hold rep tail tn tn$1 tp tp$1 vbp vbp_tail vdd vt vthn

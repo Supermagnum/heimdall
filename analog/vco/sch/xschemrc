@@ -1,5 +1,5 @@
-set XSCHEM_LIBRARY_PATH /foss/designs/analog/vco/sch
-append XSCHEM_LIBRARY_PATH :(PDK_ROOT)/(PDK)/libs.tech/xschem
+set XSCHEM_LIBRARY_PATH [file normalize [file dirname [info script]]]
+append XSCHEM_LIBRARY_PATH :$env(PDK_ROOT)/$env(PDK)/libs.tech/xschem
 #### xschemrc system configuration file
 
 #### values may be overridden by user's ~/.xschem/xschemrc configuration file

@@ -2,8 +2,6 @@ Netgen 1.5.324 compiled on Thu Oct 15 02:24:51 PM CEST 2026
 Warning: netgen command 'format' use fully-qualified name '::netgen::format'
 Warning: netgen command 'global' use fully-qualified name '::netgen::global'
 Reading netlist file /foss/designs/analog/vco/layout/p272c/out/vco_top_netgen.spice for /foss/designs/analog/vco/layout/p272c/out/vco_top_netgen.spice vco_top
-Call to undefined subcircuit sg13_lv_nmos
-Creating placeholder cell definition.
 Call to undefined subcircuit cap_rfcmim
 Creating placeholder cell definition.
 Call to undefined subcircuit rhigh
@@ -11,8 +9,6 @@ Creating placeholder cell definition.
 Call to undefined subcircuit cap_cmim
 Creating placeholder cell definition.
 Call to undefined subcircuit sg13_hv_svaricap
-Creating placeholder cell definition.
-Call to undefined subcircuit sg13_lv_pmos
 Creating placeholder cell definition.
 Reading netlist file /foss/designs/analog/vco/layout/p272c/out/vco_top_extracted_netgen.cir for /foss/designs/analog/vco/layout/p272c/out/vco_top_extracted_netgen.cir vco_top
 Call to undefined subcircuit rhigh
@@ -26,9 +22,18 @@ Creating placeholder cell definition.
 
 Reading setup file /foss/designs/analog/vco/layout/p272c/lvs_setup.tcl
 
+No property as found for device sg13_lv_pmos
+No property ad found for device sg13_lv_pmos
+No property ps found for device sg13_lv_pmos
+No property pd found for device sg13_lv_pmos
+No property as found for device sg13_lv_nmos
+No property ad found for device sg13_lv_nmos
+No property ps found for device sg13_lv_nmos
+No property pd found for device sg13_lv_nmos
 Model rhigh pin 1 == 2
 Model rhigh pin 1 == 2
-Model sg13_lv_nmos pin 1 == 3
+No such pin 1 in model sg13_lv_nmos
+Unable to permute model sg13_lv_nmos pins 1, 3.
 No property as found for device sg13_lv_nmos
 No property ad found for device sg13_lv_nmos
 No property pd found for device sg13_lv_nmos
@@ -51,7 +56,8 @@ No property z1 found for device sg13_lv_nmos
 No property z2 found for device sg13_lv_nmos
 No property wmin found for device sg13_lv_nmos
 No property pre_layout found for device sg13_lv_nmos
-Model sg13_lv_pmos pin 1 == 3
+No such pin 1 in model sg13_lv_pmos
+Unable to permute model sg13_lv_pmos pins 1, 3.
 No property as found for device sg13_lv_pmos
 No property ad found for device sg13_lv_pmos
 No property pd found for device sg13_lv_pmos
@@ -104,41 +110,55 @@ No property ic found for device cap_rfcmim
 No property ic found for device cap_rfcmim
 Cell to equate does not exist.
 Cell to equate does not exist.
-lvs_setup.tcl: vco_top flatten-sch mappings loaded
+Model sg13_lv_nmos pin drain == source
+No such pin 1 in model sg13_lv_nmos
+Unable to permute model sg13_lv_nmos pins 1, 3.
+Model sg13_lv_nmos pin drain == source
+No such pin 1 in model sg13_lv_nmos
+Unable to permute model sg13_lv_nmos pins 1, 3.
+Model sg13_lv_pmos pin drain == source
+No such pin 1 in model sg13_lv_pmos
+Unable to permute model sg13_lv_pmos pins 1, 3.
+Model sg13_lv_pmos pin drain == source
+No such pin 1 in model sg13_lv_pmos
+Unable to permute model sg13_lv_pmos pins 1, 3.
+No such device "-circuit1 sg13_hv_nmos".
+No such device "-circuit1 sg13_hv_nmos".
+No such device "-circuit2 sg13_hv_nmos".
+No such device "-circuit2 sg13_hv_nmos".
+No such device "-circuit1 sg13_hv_pmos".
+No such device "-circuit1 sg13_hv_pmos".
+No such device "-circuit2 sg13_hv_pmos".
+No such device "-circuit2 sg13_hv_pmos".
+No such device "-circuit1 nmosi".
+No such device "-circuit1 nmosi".
+No such device "-circuit2 nmosi".
+No such device "-circuit2 nmosi".
+No such device "-circuit1 nmosiHV".
+No such device "-circuit1 nmosiHV".
+No such device "-circuit2 nmosiHV".
+No such device "-circuit2 nmosiHV".
+No such device "-circuit1 pmosi".
+No such device "-circuit1 pmosi".
+No such device "-circuit2 pmosi".
+No such device "-circuit2 pmosi".
+lvs_setup.tcl: vco_top flatten-sch mappings + MOS drain/source permute loaded
 Comparison output logged to file /foss/designs/analog/vco/layout/p272c/out/netgen_vco_top.json
 Logging to file "/foss/designs/analog/vco/layout/p272c/out/netgen_vco_top.json" enabled
-
-Contents of circuit 1:  Circuit: 'sg13_lv_nmos'
-Circuit sg13_lv_nmos contains 0 device instances.
-Circuit contains 0 nets.
-Contents of circuit 2:  Circuit: 'sg13_lv_nmos'
-Circuit sg13_lv_nmos contains 0 device instances.
-Circuit contains 0 nets, and 4 disconnected pins.
-
-Circuit sg13_lv_nmos contains no devices.
 Circuit cap_rfcmim contains no devices.
 Circuit rhigh contains no devices.
 Circuit cap_cmim contains no devices.
 Circuit sg13_hv_svaricap contains no devices.
 
-Contents of circuit 1:  Circuit: 'sg13_lv_pmos'
-Circuit sg13_lv_pmos contains 0 device instances.
-Circuit contains 0 nets.
-Contents of circuit 2:  Circuit: 'sg13_lv_pmos'
-Circuit sg13_lv_pmos contains 0 device instances.
-Circuit contains 0 nets, and 4 disconnected pins.
-
-Circuit sg13_lv_pmos contains no devices.
-
 Contents of circuit 1:  Circuit: 'vco_top'
-Circuit vco_top contains 252 device instances.
+Circuit vco_top contains 248 device instances.
   Class: sg13_hv_svaricap      instances:   2
   Class: cap_rfcmim            instances:  24
   Class: rhigh                 instances:  33
   Class: sg13_lv_pmos          instances: 106
-  Class: sg13_lv_nmos          instances:  71
+  Class: sg13_lv_nmos          instances:  67
   Class: cap_cmim              instances:  16
-Circuit contains 853 nets.
+Circuit contains 144 nets.
 Contents of circuit 2:  Circuit: 'vco_top'
 Circuit vco_top contains 242 device instances.
   Class: sg13_hv_svaricap      instances:   2
@@ -147,7 +167,7 @@ Circuit vco_top contains 242 device instances.
   Class: sg13_lv_pmos          instances: 106
   Class: sg13_lv_nmos          instances:  67
   Class: cap_cmim              instances:  10
-Circuit contains 844 nets.
+Circuit contains 152 nets.
 
 Circuit was modified by parallel/series device merging.
 New circuit summary:
@@ -160,7 +180,7 @@ Circuit vco_top contains 239 device instances.
   Class: sg13_lv_pmos          instances: 106
   Class: sg13_lv_nmos          instances:  65
   Class: cap_cmim              instances:  10
-Circuit contains 853 nets.
+Circuit contains 144 nets.
 Contents of circuit 2:  Circuit: 'vco_top'
 Circuit vco_top contains 238 device instances.
   Class: sg13_hv_svaricap      instances:   1
@@ -169,10 +189,10 @@ Circuit vco_top contains 238 device instances.
   Class: sg13_lv_pmos          instances: 106
   Class: sg13_lv_nmos          instances:  64
   Class: cap_cmim              instances:  10
-Circuit contains 844 nets.
+Circuit contains 152 nets.
 
 Circuit 1 contains 239 devices, Circuit 2 contains 238 devices. *** MISMATCH ***
-Circuit 1 contains 829 nets,    Circuit 2 contains 831 nets. *** MISMATCH ***
+Circuit 1 contains 144 nets,    Circuit 2 contains 151 nets. *** MISMATCH ***
 
 
 Final result: 

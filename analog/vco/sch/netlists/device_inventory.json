@@ -143,7 +143,7 @@
         "gnd"
       ],
       "params": {
-        "w": "8u",
+        "w": "9u",
         "l": "0.13u",
         "ng": "1",
         "model": "sg13_lv_nmos"
@@ -1827,7 +1827,7 @@
     },
     {
       "kind": "nmos",
-      "name": "mt0",
+      "name": "mt",
       "nodes": [
         "tail",
         "nbf",
@@ -1835,57 +1835,9 @@
         "gnd"
       ],
       "params": {
-        "w": "120u",
+        "w": "480u",
         "l": "4u",
-        "ng": "24",
-        "model": "sg13_lv_nmos"
-      }
-    },
-    {
-      "kind": "nmos",
-      "name": "mt1",
-      "nodes": [
-        "tail",
-        "nbf",
-        "gnd",
-        "gnd"
-      ],
-      "params": {
-        "w": "120u",
-        "l": "4u",
-        "ng": "24",
-        "model": "sg13_lv_nmos"
-      }
-    },
-    {
-      "kind": "nmos",
-      "name": "mt2",
-      "nodes": [
-        "tail",
-        "nbf",
-        "gnd",
-        "gnd"
-      ],
-      "params": {
-        "w": "120u",
-        "l": "4u",
-        "ng": "24",
-        "model": "sg13_lv_nmos"
-      }
-    },
-    {
-      "kind": "nmos",
-      "name": "mt3",
-      "nodes": [
-        "tail",
-        "nbf",
-        "gnd",
-        "gnd"
-      ],
-      "params": {
-        "w": "120u",
-        "l": "4u",
-        "ng": "24",
+        "ng": "96",
         "model": "sg13_lv_nmos"
       }
     },
@@ -1955,7 +1907,7 @@
     },
     {
       "kind": "nmos",
-      "name": "mdL",
+      "name": "mdum_ota",
       "nodes": [
         "gnd",
         "gnd",
@@ -1963,23 +1915,7 @@
         "gnd"
       ],
       "params": {
-        "w": "4u",
-        "l": "2u",
-        "ng": "1",
-        "model": "sg13_lv_nmos"
-      }
-    },
-    {
-      "kind": "nmos",
-      "name": "mdR",
-      "nodes": [
-        "gnd",
-        "gnd",
-        "gnd",
-        "gnd"
-      ],
-      "params": {
-        "w": "4u",
+        "w": "8u",
         "l": "2u",
         "ng": "1",
         "model": "sg13_lv_nmos"
@@ -2246,7 +2182,7 @@
         "gnd"
       ],
       "params": {
-        "w": "19.82u",
+        "w": "19.8u",
         "l": "0.13u",
         "ng": "8",
         "model": "sg13_lv_nmos"
@@ -2348,7 +2284,7 @@
         "gnd"
       ],
       "params": {
-        "w": "39.15u",
+        "w": "39.12u",
         "l": "0.13u",
         "ng": "16",
         "model": "sg13_lv_nmos"
@@ -2392,7 +2328,7 @@
         "gnd"
       ],
       "params": {
-        "w": "0.1562u",
+        "w": "0.15u",
         "l": "0.13u",
         "ng": "1",
         "model": "sg13_lv_nmos"
@@ -2408,7 +2344,7 @@
         "gnd"
       ],
       "params": {
-        "w": "0.1562u",
+        "w": "0.15u",
         "l": "0.13u",
         "ng": "1",
         "model": "sg13_lv_nmos"
@@ -2452,7 +2388,7 @@
         "gnd"
       ],
       "params": {
-        "w": "77.50u",
+        "w": "77.5u",
         "l": "0.13u",
         "ng": "31",
         "model": "sg13_lv_nmos"
@@ -2496,9 +2432,9 @@
         "gnd"
       ],
       "params": {
-        "w": "0.3125u",
+        "w": "0.31u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -2512,9 +2448,9 @@
         "gnd"
       ],
       "params": {
-        "w": "0.3125u",
+        "w": "0.31u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -2556,7 +2492,7 @@
         "gnd"
       ],
       "params": {
-        "w": "154.63u",
+        "w": "154.38u",
         "l": "0.13u",
         "ng": "62",
         "model": "sg13_lv_nmos"
@@ -2600,9 +2536,9 @@
         "gnd"
       ],
       "params": {
-        "w": "0.625u",
+        "w": "0.62u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -2616,9 +2552,9 @@
         "gnd"
       ],
       "params": {
-        "w": "0.625u",
+        "w": "0.62u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -2660,7 +2596,7 @@
         "gnd"
       ],
       "params": {
-        "w": "308.58u",
+        "w": "308.5u",
         "l": "0.13u",
         "ng": "100",
         "model": "sg13_lv_nmos"
@@ -2706,7 +2642,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -2722,7 +2658,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -2764,7 +2700,7 @@
         "gnd"
       ],
       "params": {
-        "w": "308.58u",
+        "w": "308.5u",
         "l": "0.13u",
         "ng": "100",
         "model": "sg13_lv_nmos"
@@ -2810,7 +2746,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -2826,7 +2762,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -2868,7 +2804,7 @@
         "gnd"
       ],
       "params": {
-        "w": "308.58u",
+        "w": "308.5u",
         "l": "0.13u",
         "ng": "100",
         "model": "sg13_lv_nmos"
@@ -2914,7 +2850,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -2930,7 +2866,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -2972,7 +2908,7 @@
         "gnd"
       ],
       "params": {
-        "w": "308.58u",
+        "w": "308.5u",
         "l": "0.13u",
         "ng": "100",
         "model": "sg13_lv_nmos"
@@ -3018,7 +2954,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -3034,7 +2970,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -3076,7 +3012,7 @@
         "gnd"
       ],
       "params": {
-        "w": "308.58u",
+        "w": "308.5u",
         "l": "0.13u",
         "ng": "100",
         "model": "sg13_lv_nmos"
@@ -3122,7 +3058,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -3138,7 +3074,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -3180,7 +3116,7 @@
         "gnd"
       ],
       "params": {
-        "w": "308.58u",
+        "w": "308.5u",
         "l": "0.13u",
         "ng": "100",
         "model": "sg13_lv_nmos"
@@ -3226,7 +3162,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -3242,7 +3178,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -3284,7 +3220,7 @@
         "gnd"
       ],
       "params": {
-        "w": "308.58u",
+        "w": "308.5u",
         "l": "0.13u",
         "ng": "100",
         "model": "sg13_lv_nmos"
@@ -3330,7 +3266,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -3346,7 +3282,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -3388,7 +3324,7 @@
         "gnd"
       ],
       "params": {
-        "w": "308.58u",
+        "w": "308.5u",
         "l": "0.13u",
         "ng": "100",
         "model": "sg13_lv_nmos"
@@ -3434,7 +3370,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -3450,7 +3386,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     }
@@ -3612,7 +3548,7 @@
     },
     {
       "kind": "nmos",
-      "name": "mrtp",
+      "name": "mrt",
       "nodes": [
         "vdd",
         "ct",
@@ -3620,23 +3556,7 @@
         "gnd"
       ],
       "params": {
-        "w": "0.5u",
-        "l": "0.13u",
-        "ng": "1",
-        "model": "sg13_lv_nmos"
-      }
-    },
-    {
-      "kind": "nmos",
-      "name": "mrtn",
-      "nodes": [
-        "vdd",
-        "ct",
-        "rep",
-        "gnd"
-      ],
-      "params": {
-        "w": "0.5u",
+        "w": "1u",
         "l": "0.13u",
         "ng": "1",
         "model": "sg13_lv_nmos"
@@ -3967,6 +3887,22 @@
       }
     },
     {
+      "kind": "nmos",
+      "name": "mdLc",
+      "nodes": [
+        "gnd",
+        "gnd",
+        "gnd",
+        "gnd"
+      ],
+      "params": {
+        "w": "4.0u",
+        "l": "0.5u",
+        "ng": "1",
+        "model": "sg13_lv_nmos"
+      }
+    },
+    {
       "kind": "cmim",
       "name": "cl_cmp",
       "nodes": [
@@ -3974,8 +3910,8 @@
         "gnd"
       ],
       "params": {
-        "w": "5.780u",
-        "l": "5.780u",
+        "w": "5.710u",
+        "l": "5.710u",
         "model": "cap_cmim"
       }
     }
@@ -4305,7 +4241,7 @@
         "gnd"
       ],
       "params": {
-        "w": "8u",
+        "w": "9u",
         "l": "0.13u",
         "ng": "1",
         "model": "sg13_lv_nmos"
@@ -4491,7 +4427,7 @@
         "gnd"
       ],
       "params": {
-        "w": "19.82u",
+        "w": "19.8u",
         "l": "0.13u",
         "ng": "8",
         "model": "sg13_lv_nmos"
@@ -4593,7 +4529,7 @@
         "gnd"
       ],
       "params": {
-        "w": "39.15u",
+        "w": "39.12u",
         "l": "0.13u",
         "ng": "16",
         "model": "sg13_lv_nmos"
@@ -4637,7 +4573,7 @@
         "gnd"
       ],
       "params": {
-        "w": "0.1562u",
+        "w": "0.15u",
         "l": "0.13u",
         "ng": "1",
         "model": "sg13_lv_nmos"
@@ -4653,7 +4589,7 @@
         "gnd"
       ],
       "params": {
-        "w": "0.1562u",
+        "w": "0.15u",
         "l": "0.13u",
         "ng": "1",
         "model": "sg13_lv_nmos"
@@ -4697,7 +4633,7 @@
         "gnd"
       ],
       "params": {
-        "w": "77.50u",
+        "w": "77.5u",
         "l": "0.13u",
         "ng": "31",
         "model": "sg13_lv_nmos"
@@ -4741,9 +4677,9 @@
         "gnd"
       ],
       "params": {
-        "w": "0.3125u",
+        "w": "0.31u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -4757,9 +4693,9 @@
         "gnd"
       ],
       "params": {
-        "w": "0.3125u",
+        "w": "0.31u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -4801,7 +4737,7 @@
         "gnd"
       ],
       "params": {
-        "w": "154.63u",
+        "w": "154.38u",
         "l": "0.13u",
         "ng": "62",
         "model": "sg13_lv_nmos"
@@ -4845,9 +4781,9 @@
         "gnd"
       ],
       "params": {
-        "w": "0.625u",
+        "w": "0.62u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -4861,9 +4797,9 @@
         "gnd"
       ],
       "params": {
-        "w": "0.625u",
+        "w": "0.62u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -4905,7 +4841,7 @@
         "gnd"
       ],
       "params": {
-        "w": "308.58u",
+        "w": "308.5u",
         "l": "0.13u",
         "ng": "100",
         "model": "sg13_lv_nmos"
@@ -4951,7 +4887,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -4967,7 +4903,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -5009,7 +4945,7 @@
         "gnd"
       ],
       "params": {
-        "w": "308.58u",
+        "w": "308.5u",
         "l": "0.13u",
         "ng": "100",
         "model": "sg13_lv_nmos"
@@ -5055,7 +4991,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -5071,7 +5007,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -5113,7 +5049,7 @@
         "gnd"
       ],
       "params": {
-        "w": "308.58u",
+        "w": "308.5u",
         "l": "0.13u",
         "ng": "100",
         "model": "sg13_lv_nmos"
@@ -5159,7 +5095,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -5175,7 +5111,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -5217,7 +5153,7 @@
         "gnd"
       ],
       "params": {
-        "w": "308.58u",
+        "w": "308.5u",
         "l": "0.13u",
         "ng": "100",
         "model": "sg13_lv_nmos"
@@ -5263,7 +5199,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -5279,7 +5215,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -5321,7 +5257,7 @@
         "gnd"
       ],
       "params": {
-        "w": "308.58u",
+        "w": "308.5u",
         "l": "0.13u",
         "ng": "100",
         "model": "sg13_lv_nmos"
@@ -5367,7 +5303,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -5383,7 +5319,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -5425,7 +5361,7 @@
         "gnd"
       ],
       "params": {
-        "w": "308.58u",
+        "w": "308.5u",
         "l": "0.13u",
         "ng": "100",
         "model": "sg13_lv_nmos"
@@ -5471,7 +5407,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -5487,7 +5423,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -5529,7 +5465,7 @@
         "gnd"
       ],
       "params": {
-        "w": "308.58u",
+        "w": "308.5u",
         "l": "0.13u",
         "ng": "100",
         "model": "sg13_lv_nmos"
@@ -5575,7 +5511,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -5591,7 +5527,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -5633,7 +5569,7 @@
         "gnd"
       ],
       "params": {
-        "w": "308.58u",
+        "w": "308.5u",
         "l": "0.13u",
         "ng": "100",
         "model": "sg13_lv_nmos"
@@ -5679,7 +5615,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -5695,7 +5631,7 @@
       "params": {
         "w": "1.25u",
         "l": "0.13u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_nmos"
       }
     },
@@ -5831,14 +5767,1635 @@
       }
     },
     {
-      "kind": "capa",
-      "name": "ctail",
+      "kind": "pmos",
+      "name": "mdb_b0",
       "nodes": [
-        "tail",
-        "gnd"
+        "xd_b0",
+        "pbias",
+        "vdd",
+        "vdd"
       ],
       "params": {
-        "c": "8e-12"
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b0",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b0",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b1",
+      "nodes": [
+        "xd_b1",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b1",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b1",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b2",
+      "nodes": [
+        "xd_b2",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b2",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b2",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b3",
+      "nodes": [
+        "xd_b3",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b3",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b3",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4",
+      "nodes": [
+        "xd_b4",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b4",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b5",
+      "nodes": [
+        "xd_b5",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b5",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b5",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b6",
+      "nodes": [
+        "xd_b6",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b6",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b6",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b7",
+      "nodes": [
+        "xd_b7",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b7",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b7",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b8",
+      "nodes": [
+        "xd_b8",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b8",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b8",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b9",
+      "nodes": [
+        "xd_b9",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b9",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b9",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b10",
+      "nodes": [
+        "xd_b10",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b10",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b10",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b11",
+      "nodes": [
+        "xd_b11",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b11",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b11",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b12",
+      "nodes": [
+        "xd_b12",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b12",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b12",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b13",
+      "nodes": [
+        "xd_b13",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b13",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b13",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b14",
+      "nodes": [
+        "xd_b14",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b14",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b14",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b15",
+      "nodes": [
+        "xd_b15",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b15",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b15",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b16",
+      "nodes": [
+        "xd_b16",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b16",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b16",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b17",
+      "nodes": [
+        "xd_b17",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b17",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b17",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b18",
+      "nodes": [
+        "xd_b18",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b18",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b18",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_0",
+      "nodes": [
+        "xd_b4_0",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_0",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_0",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b3_0",
+      "nodes": [
+        "xd_b3_0",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b3_0",
+      "nodes": [
+        "xraw",
+        "code3",
+        "xd_b3_0",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b2_0",
+      "nodes": [
+        "xd_b2_0",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b2_0",
+      "nodes": [
+        "xraw",
+        "code2",
+        "xd_b2_0",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_1",
+      "nodes": [
+        "xd_b4_1",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_1",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_1",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b3_1",
+      "nodes": [
+        "xd_b3_1",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b3_1",
+      "nodes": [
+        "xraw",
+        "code3",
+        "xd_b3_1",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_2",
+      "nodes": [
+        "xd_b4_2",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_2",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_2",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b1_0",
+      "nodes": [
+        "xd_b1_0",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b1_0",
+      "nodes": [
+        "xraw",
+        "code1",
+        "xd_b1_0",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_3",
+      "nodes": [
+        "xd_b4_3",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_3",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_3",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_4",
+      "nodes": [
+        "xd_b4_4",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_4",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_4",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b0_0",
+      "nodes": [
+        "xd_b0_0",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b0_0",
+      "nodes": [
+        "xraw",
+        "code0",
+        "xd_b0_0",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_5",
+      "nodes": [
+        "xd_b4_5",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_5",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_5",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b3_2",
+      "nodes": [
+        "xd_b3_2",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b3_2",
+      "nodes": [
+        "xraw",
+        "code3",
+        "xd_b3_2",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_6",
+      "nodes": [
+        "xd_b4_6",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_6",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_6",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b2_1",
+      "nodes": [
+        "xd_b2_1",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b2_1",
+      "nodes": [
+        "xraw",
+        "code2",
+        "xd_b2_1",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b3_3",
+      "nodes": [
+        "xd_b3_3",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b3_3",
+      "nodes": [
+        "xraw",
+        "code3",
+        "xd_b3_3",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_7",
+      "nodes": [
+        "xd_b4_7",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_7",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_7",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_8",
+      "nodes": [
+        "xd_b4_8",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_8",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_8",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b3_4",
+      "nodes": [
+        "xd_b3_4",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b3_4",
+      "nodes": [
+        "xraw",
+        "code3",
+        "xd_b3_4",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b2_2",
+      "nodes": [
+        "xd_b2_2",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b2_2",
+      "nodes": [
+        "xraw",
+        "code2",
+        "xd_b2_2",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_9",
+      "nodes": [
+        "xd_b4_9",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_9",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_9",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b3_5",
+      "nodes": [
+        "xd_b3_5",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b3_5",
+      "nodes": [
+        "xraw",
+        "code3",
+        "xd_b3_5",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_10",
+      "nodes": [
+        "xd_b4_10",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_10",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_10",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b1_1",
+      "nodes": [
+        "xd_b1_1",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b1_1",
+      "nodes": [
+        "xraw",
+        "code1",
+        "xd_b1_1",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_11",
+      "nodes": [
+        "xd_b4_11",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_11",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_11",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_12",
+      "nodes": [
+        "xd_b4_12",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_12",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_12",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_dmy",
+      "nodes": [
+        "xd_dmy",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_dmy",
+      "nodes": [
+        "xraw",
+        "code_vdd",
+        "xd_dmy",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b3_6",
+      "nodes": [
+        "xd_b3_6",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b3_6",
+      "nodes": [
+        "xraw",
+        "code3",
+        "xd_b3_6",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_13",
+      "nodes": [
+        "xd_b4_13",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_13",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_13",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_14",
+      "nodes": [
+        "xd_b4_14",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_14",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_14",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b2_3",
+      "nodes": [
+        "xd_b2_3",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b2_3",
+      "nodes": [
+        "xraw",
+        "code2",
+        "xd_b2_3",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b3_7",
+      "nodes": [
+        "xd_b3_7",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b3_7",
+      "nodes": [
+        "xraw",
+        "code3",
+        "xd_b3_7",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_15",
+      "nodes": [
+        "xd_b4_15",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_15",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_15",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
       }
     },
     {
@@ -5851,139 +7408,104 @@
         "gnd"
       ],
       "params": {
-        "w": "160u",
+        "w": "480u",
         "l": "4u",
-        "ng": "32",
+        "ng": "96",
         "model": "sg13_lv_nmos"
-      }
-    },
-    {
-      "kind": "res",
-      "name": "rbf",
-      "nodes": [
-        "nb",
-        "nbf"
-      ],
-      "params": {
-        "r": "1000000.0"
-      }
-    },
-    {
-      "kind": "cmim",
-      "name": "cbf0",
-      "nodes": [
-        "nbf",
-        "gnd"
-      ],
-      "params": {
-        "w": "69.007u",
-        "l": "69.007u",
-        "model": "cap_cmim"
-      }
-    },
-    {
-      "kind": "cmim",
-      "name": "cbf1",
-      "nodes": [
-        "nbf",
-        "gnd"
-      ],
-      "params": {
-        "w": "69.007u",
-        "l": "69.007u",
-        "model": "cap_cmim"
-      }
-    },
-    {
-      "kind": "cmim",
-      "name": "cbf2",
-      "nodes": [
-        "nbf",
-        "gnd"
-      ],
-      "params": {
-        "w": "69.007u",
-        "l": "69.007u",
-        "model": "cap_cmim"
-      }
-    },
-    {
-      "kind": "cmim",
-      "name": "cbf3",
-      "nodes": [
-        "nbf",
-        "gnd"
-      ],
-      "params": {
-        "w": "69.007u",
-        "l": "69.007u",
-        "model": "cap_cmim"
-      }
-    },
-    {
-      "kind": "cmim",
-      "name": "cbf4",
-      "nodes": [
-        "nbf",
-        "gnd"
-      ],
-      "params": {
-        "w": "69.007u",
-        "l": "69.007u",
-        "model": "cap_cmim"
-      }
-    },
-    {
-      "kind": "cmim",
-      "name": "cbf5",
-      "nodes": [
-        "nbf",
-        "gnd"
-      ],
-      "params": {
-        "w": "69.007u",
-        "l": "69.007u",
-        "model": "cap_cmim"
-      }
-    },
-    {
-      "kind": "cmim",
-      "name": "cbf6",
-      "nodes": [
-        "nbf",
-        "gnd"
-      ],
-      "params": {
-        "w": "69.007u",
-        "l": "69.007u",
-        "model": "cap_cmim"
       }
     },
     {
       "kind": "nmos",
-      "name": "mr",
+      "name": "mo1",
       "nodes": [
-        "nb",
-        "nb",
-        "gnd",
+        "d1",
+        "xraw",
+        "ss",
         "gnd"
       ],
       "params": {
-        "w": "20u",
-        "l": "4u",
-        "ng": "4",
+        "w": "8u",
+        "l": "2u",
+        "ng": "2",
         "model": "sg13_lv_nmos"
       }
     },
     {
-      "kind": "isrc",
-      "name": "iref",
+      "kind": "nmos",
+      "name": "mo2",
       "nodes": [
-        "vdd",
-        "nb"
+        "nb",
+        "tail_f",
+        "ss",
+        "gnd"
       ],
       "params": {
-        "dc": "0.0005"
+        "w": "8u",
+        "l": "2u",
+        "ng": "2",
+        "model": "sg13_lv_nmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mp1",
+      "nodes": [
+        "d1",
+        "d1",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "4u",
+        "l": "2u",
+        "ng": "2",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mp2",
+      "nodes": [
+        "nb",
+        "d1",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "4u",
+        "l": "2u",
+        "ng": "2",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "nmos",
+      "name": "mdum_ota",
+      "nodes": [
+        "gnd",
+        "gnd",
+        "gnd",
+        "gnd"
+      ],
+      "params": {
+        "w": "8u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_nmos"
+      }
+    },
+    {
+      "kind": "rhigh",
+      "name": "rbf",
+      "nodes": [
+        "nb",
+        "nbf",
+        "gnd"
+      ],
+      "params": {
+        "w": "0.500u",
+        "l": "21.285u",
+        "b": "16"
       }
     },
     {
@@ -6000,6 +7522,108 @@
         "l": "0.13u",
         "ng": "4",
         "model": "sg13_lv_nmos"
+      }
+    },
+    {
+      "kind": "cmim",
+      "name": "cbf0",
+      "nodes": [
+        "nbf",
+        "gnd"
+      ],
+      "params": {
+        "w": "68.940u",
+        "l": "68.940u",
+        "model": "cap_cmim"
+      }
+    },
+    {
+      "kind": "cmim",
+      "name": "cbf1",
+      "nodes": [
+        "nbf",
+        "gnd"
+      ],
+      "params": {
+        "w": "68.940u",
+        "l": "68.940u",
+        "model": "cap_cmim"
+      }
+    },
+    {
+      "kind": "cmim",
+      "name": "cbf2",
+      "nodes": [
+        "nbf",
+        "gnd"
+      ],
+      "params": {
+        "w": "68.940u",
+        "l": "68.940u",
+        "model": "cap_cmim"
+      }
+    },
+    {
+      "kind": "cmim",
+      "name": "cbf3",
+      "nodes": [
+        "nbf",
+        "gnd"
+      ],
+      "params": {
+        "w": "68.940u",
+        "l": "68.940u",
+        "model": "cap_cmim"
+      }
+    },
+    {
+      "kind": "cmim",
+      "name": "cbf4",
+      "nodes": [
+        "nbf",
+        "gnd"
+      ],
+      "params": {
+        "w": "68.940u",
+        "l": "68.940u",
+        "model": "cap_cmim"
+      }
+    },
+    {
+      "kind": "cmim",
+      "name": "cbf5",
+      "nodes": [
+        "nbf",
+        "gnd"
+      ],
+      "params": {
+        "w": "68.940u",
+        "l": "68.940u",
+        "model": "cap_cmim"
+      }
+    },
+    {
+      "kind": "cmim",
+      "name": "cbf6",
+      "nodes": [
+        "nbf",
+        "gnd"
+      ],
+      "params": {
+        "w": "68.940u",
+        "l": "68.940u",
+        "model": "cap_cmim"
+      }
+    },
+    {
+      "kind": "isrc",
+      "name": "iref_pbias",
+      "nodes": [
+        "vdd",
+        "pbias"
+      ],
+      "params": {
+        "dc": "1.05e-05"
       }
     },
     {

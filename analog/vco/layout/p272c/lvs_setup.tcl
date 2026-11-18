@@ -29,9 +29,25 @@ if {[file exists $_pdk_setup]} {
 catch {equate classes {-circuit1 sg13_hv_svaricap_fx} {-circuit2 sg13_hv_svaricap}}
 catch {equate classes {-circuit1 sg13_hv_svaricap} {-circuit2 sg13_hv_svaricap_fx}}
 
-# Note: extract D/S on bank a/b bypasses is often opposite; netgen may
-# series-merge those on the layout side (see summary_place_compare /
-# summary_onesch_nmos). property series none did not suppress the merge in
-# netgen 1.5.324 — left for a follow-up decision. [TOOL]
+# --- MOS source/drain permutation (every LV/HV name + aliases) [decisions
+# 2026-11-18 Last NMOS: LVS setup] ---
+# netgen 1.5.324: numbered pins "1 3" print "No such pin 1" / Unable to
+# permute; named pins "drain source" succeed [TOOL]. Re-assert parallel
+# (same intent as KLayout --combine_devices) and series none. Flatten emits
+# M-prefix for MOS so MOSFET-class rules apply (not X-subcircuit).
+set _mos_devs {
+  sg13_lv_nmos sg13_lv_pmos sg13_hv_nmos sg13_hv_pmos
+  nmosi nmosiHV pmosi
+}
+foreach _dev $_mos_devs {
+  foreach _c {-circuit1 -circuit2} {
+    catch {permute "$_c $_dev" drain source}
+    catch {permute "$_c $_dev" 1 3}
+    catch {property "$_c $_dev" parallel enable}
+    catch {property "$_c $_dev" parallel {l critical}}
+    catch {property "$_c $_dev" parallel {w add}}
+    catch {property "$_c $_dev" series none}
+  }
+}
 
-puts "lvs_setup.tcl: vco_top flatten-sch mappings loaded"
+puts "lvs_setup.tcl: vco_top flatten-sch mappings + MOS drain/source permute loaded"

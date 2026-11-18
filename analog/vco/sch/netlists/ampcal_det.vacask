@@ -14,8 +14,7 @@ model isource isource
 
 mdtp (vdd tp hold 0) sg13_lv_nmos w=0.5u l=0.13u ng=1
 mdtn (vdd tn hold 0) sg13_lv_nmos w=0.5u l=0.13u ng=1
-mrtp (vdd ct rep 0) sg13_lv_nmos w=0.5u l=0.13u ng=1
-mrtn (vdd ct rep 0) sg13_lv_nmos w=0.5u l=0.13u ng=1
+mrt (vdd ct rep 0) sg13_lv_nmos w=1u l=0.13u ng=1
 chold (hold 0) cap_cmim w=16.270u l=16.270u
 crep (rep 0) cap_cmim w=16.270u l=16.270u
 rbias (vdd nbias 0) rhigh w=0.500u l=78.000u b=0
@@ -37,4 +36,5 @@ mcs1 (n1 co2 ss2 0) sg13_lv_nmos w=4u l=0.5u ng=2
 mcs2 (cmp co ss2 0) sg13_lv_nmos w=4u l=0.5u ng=2
 mpl1 (n1 n1 vdd vdd) sg13_lv_pmos w=4u l=0.5u ng=2
 mpl2 (cmp n1 vdd vdd) sg13_lv_pmos w=4u l=0.5u ng=2
-cl_cmp (cmp 0) cap_cmim w=5.780u l=5.780u
+mdLc (0 0 0 0) sg13_lv_nmos w=4.0u l=0.5u ng=1
+cl_cmp (cmp 0) cap_cmim w=5.710u l=5.710u

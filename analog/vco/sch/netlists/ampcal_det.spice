@@ -12,8 +12,7 @@
 *.iopin vthn
 Xmdtp vdd tp hold gnd sg13_lv_nmos w=0.5u l=0.13u ng=1 m=1 mm_ok=1
 Xmdtn vdd tn hold gnd sg13_lv_nmos w=0.5u l=0.13u ng=1 m=1 mm_ok=1
-Xmrtp vdd ct rep gnd sg13_lv_nmos w=0.5u l=0.13u ng=1 m=1 mm_ok=1
-Xmrtn vdd ct rep gnd sg13_lv_nmos w=0.5u l=0.13u ng=1 m=1 mm_ok=1
+Xmrt vdd ct rep gnd sg13_lv_nmos w=1u l=0.13u ng=1 m=1 mm_ok=1
 Xchold hold gnd cap_cmim w=1.627000e-05 l=1.627000e-05 m=1 mm_ok=1
 Xcrep rep gnd cap_cmim w=1.627000e-05 l=1.627000e-05 m=1 mm_ok=1
 Xrbias vdd nbias gnd rhigh w=5.000000e-07 l=7.800000e-05 m=1 b=0 mm_ok=1

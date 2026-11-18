@@ -341,10 +341,7 @@ Xmdb_b3_7 xd_b3_7 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
 Xmsw_b3_7 xraw code3 xd_b3_7 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
 Xmdb_b4_15 xd_b4_15 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
 Xmsw_b4_15 xraw code4 xd_b4_15 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
-Xmt0 tail nbf gnd gnd sg13_lv_nmos w=120u l=4u ng=24 m=1 mm_ok=1
-Xmt1 tail nbf gnd gnd sg13_lv_nmos w=120u l=4u ng=24 m=1 mm_ok=1
-Xmt2 tail nbf gnd gnd sg13_lv_nmos w=120u l=4u ng=24 m=1 mm_ok=1
-Xmt3 tail nbf gnd gnd sg13_lv_nmos w=120u l=4u ng=24 m=1 mm_ok=1
+Xmt tail nbf gnd gnd sg13_lv_nmos w=480u l=4u ng=96 m=1 mm_ok=1
 Xmo1 d1 xraw ss gnd sg13_lv_nmos w=8u l=2u ng=2 m=1 mm_ok=1
 Xmo2 nb tail_f ss gnd sg13_lv_nmos w=8u l=2u ng=2 m=1 mm_ok=1
 Xmp1 d1 d1 vdd vdd sg13_lv_pmos w=4u l=2u ng=2 m=1 mm_ok=1
@@ -378,8 +375,7 @@ Xcbf6 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1
 *.iopin vthn
 Xmdtp vdd tp hold gnd sg13_lv_nmos w=0.5u l=0.13u ng=1 m=1 mm_ok=1
 Xmdtn vdd tn hold gnd sg13_lv_nmos w=0.5u l=0.13u ng=1 m=1 mm_ok=1
-Xmrtp vdd ct rep gnd sg13_lv_nmos w=0.5u l=0.13u ng=1 m=1 mm_ok=1
-Xmrtn vdd ct rep gnd sg13_lv_nmos w=0.5u l=0.13u ng=1 m=1 mm_ok=1
+Xmrt vdd ct rep gnd sg13_lv_nmos w=1u l=0.13u ng=1 m=1 mm_ok=1
 Xchold hold gnd cap_cmim w=1.627000e-05 l=1.627000e-05 m=1 mm_ok=1
 Xcrep rep gnd cap_cmim w=1.627000e-05 l=1.627000e-05 m=1 mm_ok=1
 Xrbias vdd nbias gnd rhigh w=5.000000e-07 l=7.800000e-05 m=1 b=0 mm_ok=1

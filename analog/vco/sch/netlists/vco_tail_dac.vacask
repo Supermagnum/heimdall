@@ -114,16 +114,12 @@ mdb_b3_7 (xd_b3_7 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
 msw_b3_7 (xraw code3 xd_b3_7 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
 mdb_b4_15 (xd_b4_15 pbias vdd vdd) sg13_lv_pmos w=2u l=2u ng=1
 msw_b4_15 (xraw code4 xd_b4_15 vdd) sg13_lv_pmos w=2u l=0.13u ng=1
-mt0 (tail nbf 0 0) sg13_lv_nmos w=120u l=4u ng=24
-mt1 (tail nbf 0 0) sg13_lv_nmos w=120u l=4u ng=24
-mt2 (tail nbf 0 0) sg13_lv_nmos w=120u l=4u ng=24
-mt3 (tail nbf 0 0) sg13_lv_nmos w=120u l=4u ng=24
+mt (tail nbf 0 0) sg13_lv_nmos w=480u l=4u ng=96
 mo1 (d1 xraw ss 0) sg13_lv_nmos w=8u l=2u ng=2
 mo2 (nb tail_f ss 0) sg13_lv_nmos w=8u l=2u ng=2
 mp1 (d1 d1 vdd vdd) sg13_lv_pmos w=4u l=2u ng=2
 mp2 (nb d1 vdd vdd) sg13_lv_pmos w=4u l=2u ng=2
-mdL (0 0 0 0) sg13_lv_nmos w=4u l=2u ng=1
-mdR (0 0 0 0) sg13_lv_nmos w=4u l=2u ng=1
+mdum_ota (0 0 0 0) sg13_lv_nmos w=8u l=2u ng=1
 rbf (nb nbf 0) rhigh w=0.500u l=21.285u b=16
 mbp_rbf (nb vbp_tail nbf 0) sg13_lv_nmos w=20u l=0.13u ng=4
 cbf0 (nbf 0) cap_cmim w=68.940u l=68.940u

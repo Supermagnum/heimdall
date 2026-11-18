@@ -19,122 +19,231 @@ l2n n2 ct 3.196e-11
 cp p n 2.98589e-14
 Xm1 tp tn tail gnd sg13_lv_nmos w=32u l=0.13u ng=8 m=1 mm_ok=1
 Xm2 tn tp tail gnd sg13_lv_nmos w=32u l=0.13u ng=8 m=1 mm_ok=1
-Xxf1 tp fx gnd cap_rfcmim w=1.600000e-05 l=1.600000e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Xxf2 tn fx gnd cap_rfcmim w=1.600000e-05 l=1.600000e-05 wfeed=5.0e-6 m=1 mm_ok=1
-rfx fx gnd 200000.0
-Xxb0p tp a0 gnd cap_rfcmim w=2.873000e-06 l=2.873000e-06 wfeed=5.0e-6 m=1 mm_ok=1
-Xxb0n tn b0 gnd cap_rfcmim w=2.873000e-06 l=2.873000e-06 wfeed=5.0e-6 m=1 mm_ok=1
+Xmdum gnd gnd gnd gnd sg13_lv_nmos w=9u l=0.13u ng=1 m=1 mm_ok=1
+Xxf1 tp fx gnd cap_rfcmim w=1.450000e-05 l=1.450000e-05 wfeed=5.0e-6 m=1 mm_ok=1
+Xxf2 tn fx gnd cap_rfcmim w=1.450000e-05 l=1.450000e-05 wfeed=5.0e-6 m=1 mm_ok=1
+Xrfx fx gnd gnd rhigh w=2.000000e-06 l=1.520000e-05 m=1 b=0 mm_ok=1
+Xxb0p tp a0 cap_cmim w=2.810000e-06 l=2.810000e-06 m=1 mm_ok=1
+Xxb0n tn b0 cap_cmim w=2.810000e-06 l=2.810000e-06 m=1 mm_ok=1
 Xms0 a0 g0 b0 gnd sg13_lv_nmos w=10.32u l=0.13u ng=4 m=1 mm_ok=1
-rba0 a0 bb0 2000000.0
-rbb0 b0 bb0 2000000.0
-Xmbp_rba0 a0 vbp bb0 gnd sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
+Xrba0 a0 bb0 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xrbb0 b0 bb0 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xmbp_rba0 bb0 vbp a0 gnd sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
 Xmbp_rbb0 b0 vbp bb0 gnd sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
-Xxb1p tp a1 gnd cap_rfcmim w=3.982000e-06 l=3.982000e-06 wfeed=5.0e-6 m=1 mm_ok=1
-Xxb1n tn b1 gnd cap_rfcmim w=3.982000e-06 l=3.982000e-06 wfeed=5.0e-6 m=1 mm_ok=1
-Xms1 a1 g1 b1 gnd sg13_lv_nmos w=19.82u l=0.13u ng=8 m=1 mm_ok=1
-rba1 a1 bb1 2000000.0
-rbb1 b1 bb1 2000000.0
-Xmbp_rba1 a1 vbp bb1 gnd sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
+Xxb1p tp a1 cap_cmim w=3.920000e-06 l=3.920000e-06 m=1 mm_ok=1
+Xxb1n tn b1 cap_cmim w=3.920000e-06 l=3.920000e-06 m=1 mm_ok=1
+Xms1 a1 g1 b1 gnd sg13_lv_nmos w=19.8u l=0.13u ng=8 m=1 mm_ok=1
+Xrba1 a1 bb1 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xrbb1 b1 bb1 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xmbp_rba1 bb1 vbp a1 gnd sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
 Xmbp_rbb1 b1 vbp bb1 gnd sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
-Xxb2p tp a2 gnd cap_rfcmim w=5.596000e-06 l=5.596000e-06 wfeed=5.0e-6 m=1 mm_ok=1
-Xxb2n tn b2 gnd cap_rfcmim w=5.596000e-06 l=5.596000e-06 wfeed=5.0e-6 m=1 mm_ok=1
-Xms2 a2 g2 b2 gnd sg13_lv_nmos w=39.15u l=0.13u ng=16 m=1 mm_ok=1
-rba2 a2 bb2 2000000.0
-rbb2 b2 bb2 2000000.0
-Xmbp_rba2 a2 vbp bb2 gnd sg13_lv_nmos w=0.1562u l=0.13u ng=1 m=1 mm_ok=1
-Xmbp_rbb2 b2 vbp bb2 gnd sg13_lv_nmos w=0.1562u l=0.13u ng=1 m=1 mm_ok=1
+Xxb2p tp a2 cap_cmim w=5.530000e-06 l=5.530000e-06 m=1 mm_ok=1
+Xxb2n tn b2 cap_cmim w=5.530000e-06 l=5.530000e-06 m=1 mm_ok=1
+Xms2 a2 g2 b2 gnd sg13_lv_nmos w=39.12u l=0.13u ng=16 m=1 mm_ok=1
+Xrba2 a2 bb2 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xrbb2 b2 bb2 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xmbp_rba2 bb2 vbp a2 gnd sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
+Xmbp_rbb2 b2 vbp bb2 gnd sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1 mm_ok=1
 Xxb3p tp a3 gnd cap_rfcmim w=7.874000e-06 l=7.874000e-06 wfeed=5.0e-6 m=1 mm_ok=1
 Xxb3n tn b3 gnd cap_rfcmim w=7.874000e-06 l=7.874000e-06 wfeed=5.0e-6 m=1 mm_ok=1
-Xms3 a3 g3 b3 gnd sg13_lv_nmos w=77.50u l=0.13u ng=31 m=1 mm_ok=1
-rba3 a3 bb3 2000000.0
-rbb3 b3 bb3 2000000.0
-Xmbp_rba3 a3 vbp bb3 gnd sg13_lv_nmos w=0.3125u l=0.13u ng=2 m=1 mm_ok=1
-Xmbp_rbb3 b3 vbp bb3 gnd sg13_lv_nmos w=0.3125u l=0.13u ng=2 m=1 mm_ok=1
+Xms3 a3 g3 b3 gnd sg13_lv_nmos w=77.5u l=0.13u ng=31 m=1 mm_ok=1
+Xrba3 a3 bb3 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xrbb3 b3 bb3 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xmbp_rba3 bb3 vbp a3 gnd sg13_lv_nmos w=0.31u l=0.13u ng=1 m=1 mm_ok=1
+Xmbp_rbb3 b3 vbp bb3 gnd sg13_lv_nmos w=0.31u l=0.13u ng=1 m=1 mm_ok=1
 Xxb4p tp a4 gnd cap_rfcmim w=1.112200e-05 l=1.112200e-05 wfeed=5.0e-6 m=1 mm_ok=1
 Xxb4n tn b4 gnd cap_rfcmim w=1.112200e-05 l=1.112200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Xms4 a4 g4 b4 gnd sg13_lv_nmos w=154.63u l=0.13u ng=62 m=1 mm_ok=1
-rba4 a4 bb4 2000000.0
-rbb4 b4 bb4 2000000.0
-Xmbp_rba4 a4 vbp bb4 gnd sg13_lv_nmos w=0.625u l=0.13u ng=2 m=1 mm_ok=1
-Xmbp_rbb4 b4 vbp bb4 gnd sg13_lv_nmos w=0.625u l=0.13u ng=2 m=1 mm_ok=1
+Xms4 a4 g4 b4 gnd sg13_lv_nmos w=154.38u l=0.13u ng=62 m=1 mm_ok=1
+Xrba4 a4 bb4 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xrbb4 b4 bb4 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xmbp_rba4 bb4 vbp a4 gnd sg13_lv_nmos w=0.62u l=0.13u ng=1 m=1 mm_ok=1
+Xmbp_rbb4 b4 vbp bb4 gnd sg13_lv_nmos w=0.62u l=0.13u ng=1 m=1 mm_ok=1
 Xxb5p tp a5 gnd cap_rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
 Xxb5n tn b5 gnd cap_rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Xms5 a5 g5 b5 gnd sg13_lv_nmos w=308.58u l=0.13u ng=100 m=1 mm_ok=1
-rba5 a5 bb5 2000000.0
-rbb5 b5 bb5 2000000.0
-Xmbp_rba5 a5 vbp bb5 gnd sg13_lv_nmos w=1.25u l=0.13u ng=2 m=1 mm_ok=1
-Xmbp_rbb5 b5 vbp bb5 gnd sg13_lv_nmos w=1.25u l=0.13u ng=2 m=1 mm_ok=1
+Xms5 a5 g5 b5 gnd sg13_lv_nmos w=308.5u l=0.13u ng=100 m=1 mm_ok=1
+Xrba5 a5 bb5 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xrbb5 b5 bb5 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xmbp_rba5 bb5 vbp a5 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
+Xmbp_rbb5 b5 vbp bb5 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
 Xxb6p tp a6 gnd cap_rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
 Xxb6n tn b6 gnd cap_rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Xms6 a6 g6 b6 gnd sg13_lv_nmos w=308.58u l=0.13u ng=100 m=1 mm_ok=1
-rba6 a6 bb6 2000000.0
-rbb6 b6 bb6 2000000.0
-Xmbp_rba6 a6 vbp bb6 gnd sg13_lv_nmos w=1.25u l=0.13u ng=2 m=1 mm_ok=1
-Xmbp_rbb6 b6 vbp bb6 gnd sg13_lv_nmos w=1.25u l=0.13u ng=2 m=1 mm_ok=1
+Xms6 a6 g6 b6 gnd sg13_lv_nmos w=308.5u l=0.13u ng=100 m=1 mm_ok=1
+Xrba6 a6 bb6 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xrbb6 b6 bb6 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xmbp_rba6 bb6 vbp a6 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
+Xmbp_rbb6 b6 vbp bb6 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
 Xxb7p tp a7 gnd cap_rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
 Xxb7n tn b7 gnd cap_rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Xms7 a7 g7 b7 gnd sg13_lv_nmos w=308.58u l=0.13u ng=100 m=1 mm_ok=1
-rba7 a7 bb7 2000000.0
-rbb7 b7 bb7 2000000.0
-Xmbp_rba7 a7 vbp bb7 gnd sg13_lv_nmos w=1.25u l=0.13u ng=2 m=1 mm_ok=1
-Xmbp_rbb7 b7 vbp bb7 gnd sg13_lv_nmos w=1.25u l=0.13u ng=2 m=1 mm_ok=1
+Xms7 a7 g7 b7 gnd sg13_lv_nmos w=308.5u l=0.13u ng=100 m=1 mm_ok=1
+Xrba7 a7 bb7 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xrbb7 b7 bb7 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xmbp_rba7 bb7 vbp a7 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
+Xmbp_rbb7 b7 vbp bb7 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
 Xxb8p tp a8 gnd cap_rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
 Xxb8n tn b8 gnd cap_rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Xms8 a8 g8 b8 gnd sg13_lv_nmos w=308.58u l=0.13u ng=100 m=1 mm_ok=1
-rba8 a8 bb8 2000000.0
-rbb8 b8 bb8 2000000.0
-Xmbp_rba8 a8 vbp bb8 gnd sg13_lv_nmos w=1.25u l=0.13u ng=2 m=1 mm_ok=1
-Xmbp_rbb8 b8 vbp bb8 gnd sg13_lv_nmos w=1.25u l=0.13u ng=2 m=1 mm_ok=1
+Xms8 a8 g8 b8 gnd sg13_lv_nmos w=308.5u l=0.13u ng=100 m=1 mm_ok=1
+Xrba8 a8 bb8 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xrbb8 b8 bb8 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xmbp_rba8 bb8 vbp a8 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
+Xmbp_rbb8 b8 vbp bb8 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
 Xxb9p tp a9 gnd cap_rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
 Xxb9n tn b9 gnd cap_rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Xms9 a9 g9 b9 gnd sg13_lv_nmos w=308.58u l=0.13u ng=100 m=1 mm_ok=1
-rba9 a9 bb9 2000000.0
-rbb9 b9 bb9 2000000.0
-Xmbp_rba9 a9 vbp bb9 gnd sg13_lv_nmos w=1.25u l=0.13u ng=2 m=1 mm_ok=1
-Xmbp_rbb9 b9 vbp bb9 gnd sg13_lv_nmos w=1.25u l=0.13u ng=2 m=1 mm_ok=1
+Xms9 a9 g9 b9 gnd sg13_lv_nmos w=308.5u l=0.13u ng=100 m=1 mm_ok=1
+Xrba9 a9 bb9 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xrbb9 b9 bb9 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xmbp_rba9 bb9 vbp a9 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
+Xmbp_rbb9 b9 vbp bb9 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
 Xxb10p tp a10 gnd cap_rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
 Xxb10n tn b10 gnd cap_rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Xms10 a10 g10 b10 gnd sg13_lv_nmos w=308.58u l=0.13u ng=100 m=1 mm_ok=1
-rba10 a10 bb10 2000000.0
-rbb10 b10 bb10 2000000.0
-Xmbp_rba10 a10 vbp bb10 gnd sg13_lv_nmos w=1.25u l=0.13u ng=2 m=1 mm_ok=1
-Xmbp_rbb10 b10 vbp bb10 gnd sg13_lv_nmos w=1.25u l=0.13u ng=2 m=1 mm_ok=1
+Xms10 a10 g10 b10 gnd sg13_lv_nmos w=308.5u l=0.13u ng=100 m=1 mm_ok=1
+Xrba10 a10 bb10 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xrbb10 b10 bb10 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xmbp_rba10 bb10 vbp a10 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
+Xmbp_rbb10 b10 vbp bb10 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
 Xxb11p tp a11 gnd cap_rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
 Xxb11n tn b11 gnd cap_rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Xms11 a11 g11 b11 gnd sg13_lv_nmos w=308.58u l=0.13u ng=100 m=1 mm_ok=1
-rba11 a11 bb11 2000000.0
-rbb11 b11 bb11 2000000.0
-Xmbp_rba11 a11 vbp bb11 gnd sg13_lv_nmos w=1.25u l=0.13u ng=2 m=1 mm_ok=1
-Xmbp_rbb11 b11 vbp bb11 gnd sg13_lv_nmos w=1.25u l=0.13u ng=2 m=1 mm_ok=1
+Xms11 a11 g11 b11 gnd sg13_lv_nmos w=308.5u l=0.13u ng=100 m=1 mm_ok=1
+Xrba11 a11 bb11 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xrbb11 b11 bb11 gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xmbp_rba11 bb11 vbp a11 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
+Xmbp_rbb11 b11 vbp bb11 gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
 Xxbdump gnd adum gnd cap_rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
 Xxbdumn gnd bdum gnd cap_rfcmim w=1.571200e-05 l=1.571200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Xmsdum adum gnd bdum gnd sg13_lv_nmos w=308.58u l=0.13u ng=100 m=1 mm_ok=1
-rbadum adum gnd 2000000.0
-rbbdum bdum gnd 2000000.0
-Xmbp_rbadum adum gnd gnd gnd sg13_lv_nmos w=1.25u l=0.13u ng=2 m=1 mm_ok=1
-Xmbp_rbbdum bdum gnd gnd gnd sg13_lv_nmos w=1.25u l=0.13u ng=2 m=1 mm_ok=1
+Xmsdum adum gnd bdum gnd sg13_lv_nmos w=308.5u l=0.13u ng=100 m=1 mm_ok=1
+Xrbadum adum gnd gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xrbbdum bdum gnd gnd rhigh w=5.000000e-06 l=6.080000e-05 m=1 b=0 mm_ok=1
+Xmbp_rbadum gnd gnd adum gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
+Xmbp_rbbdum bdum gnd gnd gnd sg13_lv_nmos w=1.25u l=0.13u ng=1 m=1 mm_ok=1
 Xxcp tp vgp gnd cap_rfcmim w=2.129200e-05 l=2.129200e-05 wfeed=5.0e-6 m=1 mm_ok=1
 Xxcn tn vgn gnd cap_rfcmim w=2.129200e-05 l=2.129200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-rvp vgp vvb 2000000.0
-rvn vgn vvb 2000000.0
-vvb vvb gnd 0.3
+Xrvp vgp vvb gnd rhigh w=5.000000e-07 l=4.209500e-05 m=1 b=16 mm_ok=1
+Xrvn vgn vvb gnd rhigh w=5.000000e-07 l=4.209500e-05 m=1 b=16 mm_ok=1
 Xxv1 vgn vt vgp sub! sg13_hv_svaricap_fx w=3.74u l=0.3u Nx=10 mm_ok=1
 Xxv2 vgn vt vgp sub! sg13_hv_svaricap_fx w=3.74u l=0.3u Nx=10 mm_ok=1
-Xmbp_rvp vgp vbp vvb gnd sg13_lv_nmos w=5u l=0.13u ng=2 m=1 mm_ok=1
+Xmbp_rvp vvb vbp vgp gnd sg13_lv_nmos w=5u l=0.13u ng=2 m=1 mm_ok=1
 Xmbp_rvn vgn vbp vvb gnd sg13_lv_nmos w=5u l=0.13u ng=2 m=1 mm_ok=1
-ctail tail gnd 8e-12
-Xmt tail nbf gnd gnd sg13_lv_nmos w=160u l=4u ng=32 m=1 mm_ok=1
-Xrbf nb nbf gnd rhigh w=0.5u l=21.285u m=1 b=16 mm_ok=1
-Xcbf0 nbf gnd cap_cmim w=6.900700e-05 l=6.900700e-05 m=1 mm_ok=1
-Xcbf1 nbf gnd cap_cmim w=6.900700e-05 l=6.900700e-05 m=1 mm_ok=1
-Xcbf2 nbf gnd cap_cmim w=6.900700e-05 l=6.900700e-05 m=1 mm_ok=1
-Xcbf3 nbf gnd cap_cmim w=6.900700e-05 l=6.900700e-05 m=1 mm_ok=1
-Xcbf4 nbf gnd cap_cmim w=6.900700e-05 l=6.900700e-05 m=1 mm_ok=1
-Xcbf5 nbf gnd cap_cmim w=6.900700e-05 l=6.900700e-05 m=1 mm_ok=1
-Xcbf6 nbf gnd cap_cmim w=6.900700e-05 l=6.900700e-05 m=1 mm_ok=1
-Xmr nb nb gnd gnd sg13_lv_nmos w=20u l=4u ng=4 m=1 mm_ok=1
-iref vdd nb 0.0005
+vvb_bias vvb gnd 0.3
+Xmdb_b0 xd_b0 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b0 xraw code_gnd xd_b0 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b1 xd_b1 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b1 xraw code_gnd xd_b1 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b2 xd_b2 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b2 xraw code_gnd xd_b2 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b3 xd_b3 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b3 xraw code_gnd xd_b3 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b4 xd_b4 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b4 xraw code_gnd xd_b4 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b5 xd_b5 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b5 xraw code_gnd xd_b5 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b6 xd_b6 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b6 xraw code_gnd xd_b6 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b7 xd_b7 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b7 xraw code_gnd xd_b7 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b8 xd_b8 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b8 xraw code_gnd xd_b8 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b9 xd_b9 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b9 xraw code_gnd xd_b9 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b10 xd_b10 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b10 xraw code_gnd xd_b10 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b11 xd_b11 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b11 xraw code_gnd xd_b11 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b12 xd_b12 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b12 xraw code_gnd xd_b12 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b13 xd_b13 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b13 xraw code_gnd xd_b13 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b14 xd_b14 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b14 xraw code_gnd xd_b14 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b15 xd_b15 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b15 xraw code_gnd xd_b15 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b16 xd_b16 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b16 xraw code_gnd xd_b16 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b17 xd_b17 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b17 xraw code_gnd xd_b17 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b18 xd_b18 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b18 xraw code_gnd xd_b18 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b4_0 xd_b4_0 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b4_0 xraw code4 xd_b4_0 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b3_0 xd_b3_0 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b3_0 xraw code3 xd_b3_0 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b2_0 xd_b2_0 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b2_0 xraw code2 xd_b2_0 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b4_1 xd_b4_1 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b4_1 xraw code4 xd_b4_1 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b3_1 xd_b3_1 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b3_1 xraw code3 xd_b3_1 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b4_2 xd_b4_2 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b4_2 xraw code4 xd_b4_2 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b1_0 xd_b1_0 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b1_0 xraw code1 xd_b1_0 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b4_3 xd_b4_3 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b4_3 xraw code4 xd_b4_3 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b4_4 xd_b4_4 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b4_4 xraw code4 xd_b4_4 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b0_0 xd_b0_0 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b0_0 xraw code0 xd_b0_0 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b4_5 xd_b4_5 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b4_5 xraw code4 xd_b4_5 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b3_2 xd_b3_2 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b3_2 xraw code3 xd_b3_2 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b4_6 xd_b4_6 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b4_6 xraw code4 xd_b4_6 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b2_1 xd_b2_1 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b2_1 xraw code2 xd_b2_1 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b3_3 xd_b3_3 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b3_3 xraw code3 xd_b3_3 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b4_7 xd_b4_7 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b4_7 xraw code4 xd_b4_7 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b4_8 xd_b4_8 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b4_8 xraw code4 xd_b4_8 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b3_4 xd_b3_4 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b3_4 xraw code3 xd_b3_4 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b2_2 xd_b2_2 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b2_2 xraw code2 xd_b2_2 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b4_9 xd_b4_9 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b4_9 xraw code4 xd_b4_9 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b3_5 xd_b3_5 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b3_5 xraw code3 xd_b3_5 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b4_10 xd_b4_10 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b4_10 xraw code4 xd_b4_10 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b1_1 xd_b1_1 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b1_1 xraw code1 xd_b1_1 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b4_11 xd_b4_11 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b4_11 xraw code4 xd_b4_11 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b4_12 xd_b4_12 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b4_12 xraw code4 xd_b4_12 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_dmy xd_dmy pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_dmy xraw code_vdd xd_dmy vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b3_6 xd_b3_6 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b3_6 xraw code3 xd_b3_6 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b4_13 xd_b4_13 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b4_13 xraw code4 xd_b4_13 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b4_14 xd_b4_14 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b4_14 xraw code4 xd_b4_14 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b2_3 xd_b2_3 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b2_3 xraw code2 xd_b2_3 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b3_7 xd_b3_7 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b3_7 xraw code3 xd_b3_7 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmdb_b4_15 xd_b4_15 pbias vdd vdd sg13_lv_pmos w=2u l=2u ng=1 m=1 mm_ok=1
+Xmsw_b4_15 xraw code4 xd_b4_15 vdd sg13_lv_pmos w=2u l=0.13u ng=1 m=1 mm_ok=1
+Xmt0 tail nbf gnd gnd sg13_lv_nmos w=120u l=4u ng=24 m=1 mm_ok=1
+Xmt1 tail nbf gnd gnd sg13_lv_nmos w=120u l=4u ng=24 m=1 mm_ok=1
+Xmt2 tail nbf gnd gnd sg13_lv_nmos w=120u l=4u ng=24 m=1 mm_ok=1
+Xmt3 tail nbf gnd gnd sg13_lv_nmos w=120u l=4u ng=24 m=1 mm_ok=1
+Xmo1 d1 xraw ss gnd sg13_lv_nmos w=8u l=2u ng=2 m=1 mm_ok=1
+Xmo2 nb tail_f ss gnd sg13_lv_nmos w=8u l=2u ng=2 m=1 mm_ok=1
+Xmp1 d1 d1 vdd vdd sg13_lv_pmos w=4u l=2u ng=2 m=1 mm_ok=1
+Xmp2 nb d1 vdd vdd sg13_lv_pmos w=4u l=2u ng=2 m=1 mm_ok=1
+Xmdum_ota gnd gnd gnd gnd sg13_lv_nmos w=8u l=2u ng=1 m=1 mm_ok=1
+Xrbf nb nbf gnd rhigh w=5.000000e-07 l=2.128500e-05 m=1 b=16 mm_ok=1
 Xmbp_rbf nb vbp_tail nbf gnd sg13_lv_nmos w=20u l=0.13u ng=4 m=1 mm_ok=1
+Xcbf0 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1
+Xcbf1 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1
+Xcbf2 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1
+Xcbf3 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1
+Xcbf4 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1
+Xcbf5 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1
+Xcbf6 nbf gnd cap_cmim w=6.894000e-05 l=6.894000e-05 m=1 mm_ok=1
+iref_pbias vdd pbias 1.05e-05
 Xmb1 op tp tb gnd sg13_lv_nmos w=10u l=0.13u ng=4 m=1 mm_ok=1
 Xmb2 on tn tb gnd sg13_lv_nmos w=10u l=0.13u ng=4 m=1 mm_ok=1
 rl1 vdd op 400

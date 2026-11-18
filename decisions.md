@@ -953,3 +953,13 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
 - Count differences are fixed where the error is (W snaps into the schematic; dummies in both
   or neither; layout-only devices removed or added as schematic dummies); netlists are not
   edited to force a match.
+
+## 2026-11-18 — Last NMOS: LVS setup
+- Simulation netlist from vco_top.sch accepted (0a2bb37); band margins at 35.6 fF top 106.6 /
+  bottom 91.0 MHz [SCH]. Remaining ideals are test-bench inputs from outside the VCO (L2n0 EM
+  model, CML stand-in load, DAC master current) and are supplied by real blocks at the
+  synthesizer top; vvb_bias 0.3 V needs a stated on-chip source.
+- Post-merge NMOS difference (65 vs 64, inventory 67 = 67) fixed in the shared LVS setup
+  (source / drain permutation for every MOS device name and wrapper), applied to KLayout and
+  netgen alike, after showing the circuits are identical. Fallback: D / S label swap on the
+  schematic device, documented. A device is removed only if shown not to belong.
