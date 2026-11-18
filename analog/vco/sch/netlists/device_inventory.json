@@ -134,6 +134,22 @@
       }
     },
     {
+      "kind": "nmos",
+      "name": "mdum",
+      "nodes": [
+        "gnd",
+        "gnd",
+        "gnd",
+        "gnd"
+      ],
+      "params": {
+        "w": "8u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_nmos"
+      }
+    },
+    {
       "kind": "mim",
       "name": "xf1",
       "nodes": [
@@ -142,8 +158,8 @@
         "gnd"
       ],
       "params": {
-        "w": "16.000u",
-        "l": "16.000u",
+        "w": "14.500u",
+        "l": "14.500u",
         "model": "cap_rfcmim"
       }
     },
@@ -156,40 +172,32 @@
         "gnd"
       ],
       "params": {
-        "w": "16.000u",
-        "l": "16.000u",
+        "w": "14.500u",
+        "l": "14.500u",
         "model": "cap_rfcmim"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rfx",
       "nodes": [
         "fx",
+        "gnd",
         "gnd"
       ],
       "params": {
-        "r": "200000.0"
+        "w": "2.000u",
+        "l": "15.200u",
+        "b": "0"
       }
     }
   ],
   "vco_tail_dac": [
     {
-      "kind": "isrc",
-      "name": "imaster",
-      "nodes": [
-        "pbias",
-        "gnd"
-      ],
-      "params": {
-        "dc": "1.05e-05"
-      }
-    },
-    {
       "kind": "pmos",
-      "name": "mm0",
+      "name": "mdb_b0",
       "nodes": [
-        "pbias",
+        "xd_b0",
         "pbias",
         "vdd",
         "vdd"
@@ -203,31 +211,15 @@
     },
     {
       "kind": "pmos",
-      "name": "moff",
-      "nodes": [
-        "xoff",
-        "pbias",
-        "vdd",
-        "vdd"
-      ],
-      "params": {
-        "w": "38u",
-        "l": "2u",
-        "ng": "19",
-        "model": "sg13_lv_pmos"
-      }
-    },
-    {
-      "kind": "pmos",
-      "name": "msoff",
+      "name": "msw_b0",
       "nodes": [
         "xraw",
-        "gnd",
-        "xoff",
+        "code_gnd",
+        "xd_b0",
         "vdd"
       ],
       "params": {
-        "w": "38u",
+        "w": "2u",
         "l": "0.13u",
         "ng": "1",
         "model": "sg13_lv_pmos"
@@ -235,9 +227,9 @@
     },
     {
       "kind": "pmos",
-      "name": "mdb0",
+      "name": "mdb_b1",
       "nodes": [
-        "xd0",
+        "xd_b1",
         "pbias",
         "vdd",
         "vdd"
@@ -251,11 +243,11 @@
     },
     {
       "kind": "pmos",
-      "name": "msw0",
+      "name": "msw_b1",
       "nodes": [
         "xraw",
-        "code0",
-        "xd0",
+        "code_gnd",
+        "xd_b1",
         "vdd"
       ],
       "params": {
@@ -267,31 +259,31 @@
     },
     {
       "kind": "pmos",
-      "name": "mdb1",
+      "name": "mdb_b2",
       "nodes": [
-        "xd1",
+        "xd_b2",
         "pbias",
         "vdd",
         "vdd"
       ],
       "params": {
-        "w": "4u",
+        "w": "2u",
         "l": "2u",
-        "ng": "2",
+        "ng": "1",
         "model": "sg13_lv_pmos"
       }
     },
     {
       "kind": "pmos",
-      "name": "msw1",
+      "name": "msw_b2",
       "nodes": [
         "xraw",
-        "code1",
-        "xd1",
+        "code_gnd",
+        "xd_b2",
         "vdd"
       ],
       "params": {
-        "w": "4u",
+        "w": "2u",
         "l": "0.13u",
         "ng": "1",
         "model": "sg13_lv_pmos"
@@ -299,31 +291,31 @@
     },
     {
       "kind": "pmos",
-      "name": "mdb2",
+      "name": "mdb_b3",
       "nodes": [
-        "xd2",
+        "xd_b3",
         "pbias",
         "vdd",
         "vdd"
       ],
       "params": {
-        "w": "8u",
+        "w": "2u",
         "l": "2u",
-        "ng": "4",
+        "ng": "1",
         "model": "sg13_lv_pmos"
       }
     },
     {
       "kind": "pmos",
-      "name": "msw2",
+      "name": "msw_b3",
       "nodes": [
         "xraw",
-        "code2",
-        "xd2",
+        "code_gnd",
+        "xd_b3",
         "vdd"
       ],
       "params": {
-        "w": "8u",
+        "w": "2u",
         "l": "0.13u",
         "ng": "1",
         "model": "sg13_lv_pmos"
@@ -331,31 +323,31 @@
     },
     {
       "kind": "pmos",
-      "name": "mdb3",
+      "name": "mdb_b4",
       "nodes": [
-        "xd3",
+        "xd_b4",
         "pbias",
         "vdd",
         "vdd"
       ],
       "params": {
-        "w": "16u",
+        "w": "2u",
         "l": "2u",
-        "ng": "8",
+        "ng": "1",
         "model": "sg13_lv_pmos"
       }
     },
     {
       "kind": "pmos",
-      "name": "msw3",
+      "name": "msw_b4",
       "nodes": [
         "xraw",
-        "code3",
-        "xd3",
+        "code_gnd",
+        "xd_b4",
         "vdd"
       ],
       "params": {
-        "w": "16u",
+        "w": "2u",
         "l": "0.13u",
         "ng": "1",
         "model": "sg13_lv_pmos"
@@ -363,66 +355,1479 @@
     },
     {
       "kind": "pmos",
-      "name": "mdb4",
+      "name": "mdb_b5",
       "nodes": [
-        "xd4",
+        "xd_b5",
         "pbias",
         "vdd",
         "vdd"
       ],
       "params": {
-        "w": "32u",
+        "w": "2u",
         "l": "2u",
-        "ng": "16",
+        "ng": "1",
         "model": "sg13_lv_pmos"
       }
     },
     {
       "kind": "pmos",
-      "name": "msw4",
+      "name": "msw_b5",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b5",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b6",
+      "nodes": [
+        "xd_b6",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b6",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b6",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b7",
+      "nodes": [
+        "xd_b7",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b7",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b7",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b8",
+      "nodes": [
+        "xd_b8",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b8",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b8",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b9",
+      "nodes": [
+        "xd_b9",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b9",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b9",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b10",
+      "nodes": [
+        "xd_b10",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b10",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b10",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b11",
+      "nodes": [
+        "xd_b11",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b11",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b11",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b12",
+      "nodes": [
+        "xd_b12",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b12",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b12",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b13",
+      "nodes": [
+        "xd_b13",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b13",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b13",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b14",
+      "nodes": [
+        "xd_b14",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b14",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b14",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b15",
+      "nodes": [
+        "xd_b15",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b15",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b15",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b16",
+      "nodes": [
+        "xd_b16",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b16",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b16",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b17",
+      "nodes": [
+        "xd_b17",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b17",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b17",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b18",
+      "nodes": [
+        "xd_b18",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b18",
+      "nodes": [
+        "xraw",
+        "code_gnd",
+        "xd_b18",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_0",
+      "nodes": [
+        "xd_b4_0",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_0",
       "nodes": [
         "xraw",
         "code4",
-        "xd4",
+        "xd_b4_0",
         "vdd"
       ],
       "params": {
-        "w": "32u",
+        "w": "2u",
         "l": "0.13u",
         "ng": "1",
         "model": "sg13_lv_pmos"
       }
     },
     {
-      "kind": "vsrc",
-      "name": "vsense",
+      "kind": "pmos",
+      "name": "mdb_b3_0",
+      "nodes": [
+        "xd_b3_0",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b3_0",
       "nodes": [
         "xraw",
-        "xref"
+        "code3",
+        "xd_b3_0",
+        "vdd"
       ],
       "params": {
-        "dc": "0"
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
       }
     },
     {
-      "kind": "nmos",
-      "name": "mr",
+      "kind": "pmos",
+      "name": "mdb_b2_0",
       "nodes": [
-        "xref",
-        "nbf",
-        "gnd",
-        "gnd"
+        "xd_b2_0",
+        "pbias",
+        "vdd",
+        "vdd"
       ],
       "params": {
-        "w": "60u",
-        "l": "4u",
-        "ng": "12",
-        "model": "sg13_lv_nmos"
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b2_0",
+      "nodes": [
+        "xraw",
+        "code2",
+        "xd_b2_0",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_1",
+      "nodes": [
+        "xd_b4_1",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_1",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_1",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b3_1",
+      "nodes": [
+        "xd_b3_1",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b3_1",
+      "nodes": [
+        "xraw",
+        "code3",
+        "xd_b3_1",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_2",
+      "nodes": [
+        "xd_b4_2",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_2",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_2",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b1_0",
+      "nodes": [
+        "xd_b1_0",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b1_0",
+      "nodes": [
+        "xraw",
+        "code1",
+        "xd_b1_0",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_3",
+      "nodes": [
+        "xd_b4_3",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_3",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_3",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_4",
+      "nodes": [
+        "xd_b4_4",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_4",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_4",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b0_0",
+      "nodes": [
+        "xd_b0_0",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b0_0",
+      "nodes": [
+        "xraw",
+        "code0",
+        "xd_b0_0",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_5",
+      "nodes": [
+        "xd_b4_5",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_5",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_5",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b3_2",
+      "nodes": [
+        "xd_b3_2",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b3_2",
+      "nodes": [
+        "xraw",
+        "code3",
+        "xd_b3_2",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_6",
+      "nodes": [
+        "xd_b4_6",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_6",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_6",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b2_1",
+      "nodes": [
+        "xd_b2_1",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b2_1",
+      "nodes": [
+        "xraw",
+        "code2",
+        "xd_b2_1",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b3_3",
+      "nodes": [
+        "xd_b3_3",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b3_3",
+      "nodes": [
+        "xraw",
+        "code3",
+        "xd_b3_3",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_7",
+      "nodes": [
+        "xd_b4_7",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_7",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_7",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_8",
+      "nodes": [
+        "xd_b4_8",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_8",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_8",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b3_4",
+      "nodes": [
+        "xd_b3_4",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b3_4",
+      "nodes": [
+        "xraw",
+        "code3",
+        "xd_b3_4",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b2_2",
+      "nodes": [
+        "xd_b2_2",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b2_2",
+      "nodes": [
+        "xraw",
+        "code2",
+        "xd_b2_2",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_9",
+      "nodes": [
+        "xd_b4_9",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_9",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_9",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b3_5",
+      "nodes": [
+        "xd_b3_5",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b3_5",
+      "nodes": [
+        "xraw",
+        "code3",
+        "xd_b3_5",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_10",
+      "nodes": [
+        "xd_b4_10",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_10",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_10",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b1_1",
+      "nodes": [
+        "xd_b1_1",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b1_1",
+      "nodes": [
+        "xraw",
+        "code1",
+        "xd_b1_1",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_11",
+      "nodes": [
+        "xd_b4_11",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_11",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_11",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_12",
+      "nodes": [
+        "xd_b4_12",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_12",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_12",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_dmy",
+      "nodes": [
+        "xd_dmy",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_dmy",
+      "nodes": [
+        "xraw",
+        "code_vdd",
+        "xd_dmy",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b3_6",
+      "nodes": [
+        "xd_b3_6",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b3_6",
+      "nodes": [
+        "xraw",
+        "code3",
+        "xd_b3_6",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_13",
+      "nodes": [
+        "xd_b4_13",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_13",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_13",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_14",
+      "nodes": [
+        "xd_b4_14",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_14",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_14",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b2_3",
+      "nodes": [
+        "xd_b2_3",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b2_3",
+      "nodes": [
+        "xraw",
+        "code2",
+        "xd_b2_3",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b3_7",
+      "nodes": [
+        "xd_b3_7",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b3_7",
+      "nodes": [
+        "xraw",
+        "code3",
+        "xd_b3_7",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "mdb_b4_15",
+      "nodes": [
+        "xd_b4_15",
+        "pbias",
+        "vdd",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
+      }
+    },
+    {
+      "kind": "pmos",
+      "name": "msw_b4_15",
+      "nodes": [
+        "xraw",
+        "code4",
+        "xd_b4_15",
+        "vdd"
+      ],
+      "params": {
+        "w": "2u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_pmos"
       }
     },
     {
       "kind": "nmos",
-      "name": "mt",
+      "name": "mt0",
       "nodes": [
         "tail",
         "nbf",
@@ -430,32 +1835,58 @@
         "gnd"
       ],
       "params": {
-        "w": "480u",
+        "w": "120u",
         "l": "4u",
-        "ng": "96",
+        "ng": "24",
         "model": "sg13_lv_nmos"
       }
     },
     {
-      "kind": "res",
-      "name": "rtf",
+      "kind": "nmos",
+      "name": "mt1",
       "nodes": [
         "tail",
-        "tail_f"
-      ],
-      "params": {
-        "r": "100000.0"
-      }
-    },
-    {
-      "kind": "capa",
-      "name": "ctf",
-      "nodes": [
-        "tail_f",
+        "nbf",
+        "gnd",
         "gnd"
       ],
       "params": {
-        "c": "1e-12"
+        "w": "120u",
+        "l": "4u",
+        "ng": "24",
+        "model": "sg13_lv_nmos"
+      }
+    },
+    {
+      "kind": "nmos",
+      "name": "mt2",
+      "nodes": [
+        "tail",
+        "nbf",
+        "gnd",
+        "gnd"
+      ],
+      "params": {
+        "w": "120u",
+        "l": "4u",
+        "ng": "24",
+        "model": "sg13_lv_nmos"
+      }
+    },
+    {
+      "kind": "nmos",
+      "name": "mt3",
+      "nodes": [
+        "tail",
+        "nbf",
+        "gnd",
+        "gnd"
+      ],
+      "params": {
+        "w": "120u",
+        "l": "4u",
+        "ng": "24",
+        "model": "sg13_lv_nmos"
       }
     },
     {
@@ -463,7 +1894,7 @@
       "name": "mo1",
       "nodes": [
         "d1",
-        "xref",
+        "xraw",
         "ss",
         "gnd"
       ],
@@ -478,7 +1909,7 @@
       "kind": "nmos",
       "name": "mo2",
       "nodes": [
-        "d2",
+        "nb",
         "tail_f",
         "ss",
         "gnd"
@@ -488,17 +1919,6 @@
         "l": "2u",
         "ng": "2",
         "model": "sg13_lv_nmos"
-      }
-    },
-    {
-      "kind": "isrc",
-      "name": "iss",
-      "nodes": [
-        "ss",
-        "gnd"
-      ],
-      "params": {
-        "dc": "2e-05"
       }
     },
     {
@@ -521,7 +1941,7 @@
       "kind": "pmos",
       "name": "mp2",
       "nodes": [
-        "d2",
+        "nb",
         "d1",
         "vdd",
         "vdd"
@@ -534,138 +1954,49 @@
       }
     },
     {
-      "kind": "res",
-      "name": "rout",
+      "kind": "nmos",
+      "name": "mdL",
       "nodes": [
-        "d2",
-        "nb"
+        "gnd",
+        "gnd",
+        "gnd",
+        "gnd"
       ],
       "params": {
-        "r": "1"
+        "w": "4u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_nmos"
       }
     },
     {
-      "kind": "res",
+      "kind": "nmos",
+      "name": "mdR",
+      "nodes": [
+        "gnd",
+        "gnd",
+        "gnd",
+        "gnd"
+      ],
+      "params": {
+        "w": "4u",
+        "l": "2u",
+        "ng": "1",
+        "model": "sg13_lv_nmos"
+      }
+    },
+    {
+      "kind": "rhigh",
       "name": "rbf",
       "nodes": [
         "nb",
-        "nbf"
-      ],
-      "params": {
-        "r": "1000000.0"
-      }
-    },
-    {
-      "kind": "cmim",
-      "name": "cbf0",
-      "nodes": [
         "nbf",
         "gnd"
       ],
       "params": {
-        "w": "69.007u",
-        "l": "69.007u",
-        "model": "cap_cmim"
-      }
-    },
-    {
-      "kind": "cmim",
-      "name": "cbf1",
-      "nodes": [
-        "nbf",
-        "gnd"
-      ],
-      "params": {
-        "w": "69.007u",
-        "l": "69.007u",
-        "model": "cap_cmim"
-      }
-    },
-    {
-      "kind": "cmim",
-      "name": "cbf2",
-      "nodes": [
-        "nbf",
-        "gnd"
-      ],
-      "params": {
-        "w": "69.007u",
-        "l": "69.007u",
-        "model": "cap_cmim"
-      }
-    },
-    {
-      "kind": "cmim",
-      "name": "cbf3",
-      "nodes": [
-        "nbf",
-        "gnd"
-      ],
-      "params": {
-        "w": "69.007u",
-        "l": "69.007u",
-        "model": "cap_cmim"
-      }
-    },
-    {
-      "kind": "cmim",
-      "name": "cbf4",
-      "nodes": [
-        "nbf",
-        "gnd"
-      ],
-      "params": {
-        "w": "69.007u",
-        "l": "69.007u",
-        "model": "cap_cmim"
-      }
-    },
-    {
-      "kind": "cmim",
-      "name": "cbf5",
-      "nodes": [
-        "nbf",
-        "gnd"
-      ],
-      "params": {
-        "w": "69.007u",
-        "l": "69.007u",
-        "model": "cap_cmim"
-      }
-    },
-    {
-      "kind": "cmim",
-      "name": "cbf6",
-      "nodes": [
-        "nbf",
-        "gnd"
-      ],
-      "params": {
-        "w": "69.007u",
-        "l": "69.007u",
-        "model": "cap_cmim"
-      }
-    },
-    {
-      "kind": "res",
-      "name": "rpd",
-      "nodes": [
-        "nb",
-        "gnd"
-      ],
-      "params": {
-        "r": "200000.0"
-      }
-    },
-    {
-      "kind": "capa",
-      "name": "ctail",
-      "nodes": [
-        "tail",
-        "gnd"
-      ],
-      "params": {
-        "c": "8e-12"
+        "w": "0.500u",
+        "l": "21.285u",
+        "b": "16"
       }
     },
     {
@@ -683,35 +2014,124 @@
         "ng": "4",
         "model": "sg13_lv_nmos"
       }
+    },
+    {
+      "kind": "cmim",
+      "name": "cbf0",
+      "nodes": [
+        "nbf",
+        "gnd"
+      ],
+      "params": {
+        "w": "68.940u",
+        "l": "68.940u",
+        "model": "cap_cmim"
+      }
+    },
+    {
+      "kind": "cmim",
+      "name": "cbf1",
+      "nodes": [
+        "nbf",
+        "gnd"
+      ],
+      "params": {
+        "w": "68.940u",
+        "l": "68.940u",
+        "model": "cap_cmim"
+      }
+    },
+    {
+      "kind": "cmim",
+      "name": "cbf2",
+      "nodes": [
+        "nbf",
+        "gnd"
+      ],
+      "params": {
+        "w": "68.940u",
+        "l": "68.940u",
+        "model": "cap_cmim"
+      }
+    },
+    {
+      "kind": "cmim",
+      "name": "cbf3",
+      "nodes": [
+        "nbf",
+        "gnd"
+      ],
+      "params": {
+        "w": "68.940u",
+        "l": "68.940u",
+        "model": "cap_cmim"
+      }
+    },
+    {
+      "kind": "cmim",
+      "name": "cbf4",
+      "nodes": [
+        "nbf",
+        "gnd"
+      ],
+      "params": {
+        "w": "68.940u",
+        "l": "68.940u",
+        "model": "cap_cmim"
+      }
+    },
+    {
+      "kind": "cmim",
+      "name": "cbf5",
+      "nodes": [
+        "nbf",
+        "gnd"
+      ],
+      "params": {
+        "w": "68.940u",
+        "l": "68.940u",
+        "model": "cap_cmim"
+      }
+    },
+    {
+      "kind": "cmim",
+      "name": "cbf6",
+      "nodes": [
+        "nbf",
+        "gnd"
+      ],
+      "params": {
+        "w": "68.940u",
+        "l": "68.940u",
+        "model": "cap_cmim"
+      }
     }
   ],
   "vco_bank": [
     {
-      "kind": "mim",
+      "kind": "cmim",
       "name": "xb0p",
       "nodes": [
         "tp",
-        "a0",
-        "gnd"
+        "a0"
       ],
       "params": {
-        "w": "2.873u",
-        "l": "2.873u",
-        "model": "cap_rfcmim"
+        "w": "2.810u",
+        "l": "2.810u",
+        "model": "cap_cmim"
       }
     },
     {
-      "kind": "mim",
+      "kind": "cmim",
       "name": "xb0n",
       "nodes": [
         "tn",
-        "b0",
-        "gnd"
+        "b0"
       ],
       "params": {
-        "w": "2.873u",
-        "l": "2.873u",
-        "model": "cap_rfcmim"
+        "w": "2.810u",
+        "l": "2.810u",
+        "model": "cap_cmim"
       }
     },
     {
@@ -731,25 +2151,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba0",
       "nodes": [
         "a0",
-        "bb0"
+        "bb0",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb0",
       "nodes": [
         "b0",
-        "bb0"
+        "bb0",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -785,31 +2211,29 @@
       }
     },
     {
-      "kind": "mim",
+      "kind": "cmim",
       "name": "xb1p",
       "nodes": [
         "tp",
-        "a1",
-        "gnd"
+        "a1"
       ],
       "params": {
-        "w": "3.982u",
-        "l": "3.982u",
-        "model": "cap_rfcmim"
+        "w": "3.920u",
+        "l": "3.920u",
+        "model": "cap_cmim"
       }
     },
     {
-      "kind": "mim",
+      "kind": "cmim",
       "name": "xb1n",
       "nodes": [
         "tn",
-        "b1",
-        "gnd"
+        "b1"
       ],
       "params": {
-        "w": "3.982u",
-        "l": "3.982u",
-        "model": "cap_rfcmim"
+        "w": "3.920u",
+        "l": "3.920u",
+        "model": "cap_cmim"
       }
     },
     {
@@ -829,25 +2253,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba1",
       "nodes": [
         "a1",
-        "bb1"
+        "bb1",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb1",
       "nodes": [
         "b1",
-        "bb1"
+        "bb1",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -883,31 +2313,29 @@
       }
     },
     {
-      "kind": "mim",
+      "kind": "cmim",
       "name": "xb2p",
       "nodes": [
         "tp",
-        "a2",
-        "gnd"
+        "a2"
       ],
       "params": {
-        "w": "5.596u",
-        "l": "5.596u",
-        "model": "cap_rfcmim"
+        "w": "5.530u",
+        "l": "5.530u",
+        "model": "cap_cmim"
       }
     },
     {
-      "kind": "mim",
+      "kind": "cmim",
       "name": "xb2n",
       "nodes": [
         "tn",
-        "b2",
-        "gnd"
+        "b2"
       ],
       "params": {
-        "w": "5.596u",
-        "l": "5.596u",
-        "model": "cap_rfcmim"
+        "w": "5.530u",
+        "l": "5.530u",
+        "model": "cap_cmim"
       }
     },
     {
@@ -927,25 +2355,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba2",
       "nodes": [
         "a2",
-        "bb2"
+        "bb2",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb2",
       "nodes": [
         "b2",
-        "bb2"
+        "bb2",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -1025,25 +2459,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba3",
       "nodes": [
         "a3",
-        "bb3"
+        "bb3",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb3",
       "nodes": [
         "b3",
-        "bb3"
+        "bb3",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -1123,25 +2563,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba4",
       "nodes": [
         "a4",
-        "bb4"
+        "bb4",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb4",
       "nodes": [
         "b4",
-        "bb4"
+        "bb4",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -1221,25 +2667,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba5",
       "nodes": [
         "a5",
-        "bb5"
+        "bb5",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb5",
       "nodes": [
         "b5",
-        "bb5"
+        "bb5",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -1319,25 +2771,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba6",
       "nodes": [
         "a6",
-        "bb6"
+        "bb6",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb6",
       "nodes": [
         "b6",
-        "bb6"
+        "bb6",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -1417,25 +2875,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba7",
       "nodes": [
         "a7",
-        "bb7"
+        "bb7",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb7",
       "nodes": [
         "b7",
-        "bb7"
+        "bb7",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -1515,25 +2979,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba8",
       "nodes": [
         "a8",
-        "bb8"
+        "bb8",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb8",
       "nodes": [
         "b8",
-        "bb8"
+        "bb8",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -1613,25 +3083,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba9",
       "nodes": [
         "a9",
-        "bb9"
+        "bb9",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb9",
       "nodes": [
         "b9",
-        "bb9"
+        "bb9",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -1711,25 +3187,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba10",
       "nodes": [
         "a10",
-        "bb10"
+        "bb10",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb10",
       "nodes": [
         "b10",
-        "bb10"
+        "bb10",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -1809,25 +3291,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba11",
       "nodes": [
         "a11",
-        "bb11"
+        "bb11",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb11",
       "nodes": [
         "b11",
-        "bb11"
+        "bb11",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -1907,25 +3395,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbadum",
       "nodes": [
         "adum",
+        "gnd",
         "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbbdum",
       "nodes": [
         "bdum",
+        "gnd",
         "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -1991,36 +3485,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rvp",
       "nodes": [
         "vgp",
-        "vvb"
-      ],
-      "params": {
-        "r": "2000000.0"
-      }
-    },
-    {
-      "kind": "res",
-      "name": "rvn",
-      "nodes": [
-        "vgn",
-        "vvb"
-      ],
-      "params": {
-        "r": "2000000.0"
-      }
-    },
-    {
-      "kind": "vsrc",
-      "name": "vvb",
-      "nodes": [
         "vvb",
         "gnd"
       ],
       "params": {
-        "dc": "0.3"
+        "w": "0.500u",
+        "l": "42.095u",
+        "b": "16"
+      }
+    },
+    {
+      "kind": "rhigh",
+      "name": "rvn",
+      "nodes": [
+        "vgn",
+        "vvb",
+        "gnd"
+      ],
+      "params": {
+        "w": "0.500u",
+        "l": "42.095u",
+        "b": "16"
       }
     },
     {
@@ -2122,28 +3611,6 @@
       }
     },
     {
-      "kind": "isrc",
-      "name": "idet",
-      "nodes": [
-        "hold",
-        "gnd"
-      ],
-      "params": {
-        "dc": "4e-06"
-      }
-    },
-    {
-      "kind": "capa",
-      "name": "chold",
-      "nodes": [
-        "hold",
-        "gnd"
-      ],
-      "params": {
-        "c": "4e-13"
-      }
-    },
-    {
       "kind": "nmos",
       "name": "mrtp",
       "nodes": [
@@ -2176,36 +3643,203 @@
       }
     },
     {
-      "kind": "isrc",
-      "name": "irep",
+      "kind": "cmim",
+      "name": "chold",
       "nodes": [
-        "rep",
+        "hold",
         "gnd"
       ],
       "params": {
-        "dc": "4e-06"
+        "w": "16.270u",
+        "l": "16.270u",
+        "model": "cap_cmim"
       }
     },
     {
-      "kind": "capa",
+      "kind": "cmim",
       "name": "crep",
       "nodes": [
         "rep",
         "gnd"
       ],
       "params": {
-        "c": "4e-13"
+        "w": "16.270u",
+        "l": "16.270u",
+        "model": "cap_cmim"
       }
     },
     {
-      "kind": "vsrc",
-      "name": "vth",
+      "kind": "rhigh",
+      "name": "rbias",
       "nodes": [
-        "vthn",
-        "rep"
+        "vdd",
+        "nbias",
+        "gnd"
       ],
       "params": {
-        "dc": "0.405"
+        "w": "0.500u",
+        "l": "78.000u",
+        "b": "0"
+      }
+    },
+    {
+      "kind": "nmos",
+      "name": "mdiode",
+      "nodes": [
+        "nbias",
+        "nbias",
+        "pd_d",
+        "gnd"
+      ],
+      "params": {
+        "w": "1.0u",
+        "l": "1.0u",
+        "ng": "1",
+        "model": "sg13_lv_nmos"
+      }
+    },
+    {
+      "kind": "nmos",
+      "name": "men_d",
+      "nodes": [
+        "pd_d",
+        "en",
+        "gnd",
+        "gnd"
+      ],
+      "params": {
+        "w": "2.0u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_nmos"
+      }
+    },
+    {
+      "kind": "nmos",
+      "name": "mid_h",
+      "nodes": [
+        "hold",
+        "nbias",
+        "pd_h",
+        "gnd"
+      ],
+      "params": {
+        "w": "1.0u",
+        "l": "1.0u",
+        "ng": "1",
+        "model": "sg13_lv_nmos"
+      }
+    },
+    {
+      "kind": "nmos",
+      "name": "men_h",
+      "nodes": [
+        "pd_h",
+        "en",
+        "gnd",
+        "gnd"
+      ],
+      "params": {
+        "w": "2.0u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_nmos"
+      }
+    },
+    {
+      "kind": "nmos",
+      "name": "mid_r",
+      "nodes": [
+        "rep",
+        "nbias",
+        "pd_r",
+        "gnd"
+      ],
+      "params": {
+        "w": "1.0u",
+        "l": "1.0u",
+        "ng": "1",
+        "model": "sg13_lv_nmos"
+      }
+    },
+    {
+      "kind": "nmos",
+      "name": "men_r",
+      "nodes": [
+        "pd_r",
+        "en",
+        "gnd",
+        "gnd"
+      ],
+      "params": {
+        "w": "2.0u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_nmos"
+      }
+    },
+    {
+      "kind": "nmos",
+      "name": "mid_tt",
+      "nodes": [
+        "ttail",
+        "nbias",
+        "pd_tt",
+        "gnd"
+      ],
+      "params": {
+        "w": "5.5u",
+        "l": "1.0u",
+        "ng": "2",
+        "model": "sg13_lv_nmos"
+      }
+    },
+    {
+      "kind": "nmos",
+      "name": "men_tt",
+      "nodes": [
+        "pd_tt",
+        "en",
+        "gnd",
+        "gnd"
+      ],
+      "params": {
+        "w": "2.0u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_nmos"
+      }
+    },
+    {
+      "kind": "nmos",
+      "name": "mid_ss",
+      "nodes": [
+        "ss2",
+        "nbias",
+        "pd_ss",
+        "gnd"
+      ],
+      "params": {
+        "w": "5.5u",
+        "l": "1.0u",
+        "ng": "2",
+        "model": "sg13_lv_nmos"
+      }
+    },
+    {
+      "kind": "nmos",
+      "name": "men_ss",
+      "nodes": [
+        "pd_ss",
+        "en",
+        "gnd",
+        "gnd"
+      ],
+      "params": {
+        "w": "2.0u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_nmos"
       }
     },
     {
@@ -2241,36 +3875,31 @@
       }
     },
     {
-      "kind": "isrc",
-      "name": "itt",
-      "nodes": [
-        "ttail",
-        "gnd"
-      ],
-      "params": {
-        "dc": "2e-05"
-      }
-    },
-    {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rc1",
       "nodes": [
         "vdd",
-        "co"
+        "co",
+        "gnd"
       ],
       "params": {
-        "r": "20000.0"
+        "w": "0.500u",
+        "l": "6.960u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rc2",
       "nodes": [
         "vdd",
-        "co2"
+        "co2",
+        "gnd"
       ],
       "params": {
-        "r": "20000.0"
+        "w": "0.500u",
+        "l": "6.960u",
+        "b": "0"
       }
     },
     {
@@ -2306,17 +3935,6 @@
       }
     },
     {
-      "kind": "isrc",
-      "name": "iss2",
-      "nodes": [
-        "ss2",
-        "gnd"
-      ],
-      "params": {
-        "dc": "2e-05"
-      }
-    },
-    {
       "kind": "pmos",
       "name": "mpl1",
       "nodes": [
@@ -2349,14 +3967,16 @@
       }
     },
     {
-      "kind": "capa",
+      "kind": "cmim",
       "name": "cl_cmp",
       "nodes": [
         "cmp",
         "gnd"
       ],
       "params": {
-        "c": "5e-14"
+        "w": "5.780u",
+        "l": "5.780u",
+        "model": "cap_cmim"
       }
     }
   ],
@@ -2676,6 +4296,22 @@
       }
     },
     {
+      "kind": "nmos",
+      "name": "mdum",
+      "nodes": [
+        "gnd",
+        "gnd",
+        "gnd",
+        "gnd"
+      ],
+      "params": {
+        "w": "8u",
+        "l": "0.13u",
+        "ng": "1",
+        "model": "sg13_lv_nmos"
+      }
+    },
+    {
       "kind": "mim",
       "name": "xf1",
       "nodes": [
@@ -2684,8 +4320,8 @@
         "gnd"
       ],
       "params": {
-        "w": "16.000u",
-        "l": "16.000u",
+        "w": "14.500u",
+        "l": "14.500u",
         "model": "cap_rfcmim"
       }
     },
@@ -2698,48 +4334,49 @@
         "gnd"
       ],
       "params": {
-        "w": "16.000u",
-        "l": "16.000u",
+        "w": "14.500u",
+        "l": "14.500u",
         "model": "cap_rfcmim"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rfx",
       "nodes": [
         "fx",
+        "gnd",
         "gnd"
       ],
       "params": {
-        "r": "200000.0"
+        "w": "2.000u",
+        "l": "15.200u",
+        "b": "0"
       }
     },
     {
-      "kind": "mim",
+      "kind": "cmim",
       "name": "xb0p",
       "nodes": [
         "tp",
-        "a0",
-        "gnd"
+        "a0"
       ],
       "params": {
-        "w": "2.873u",
-        "l": "2.873u",
-        "model": "cap_rfcmim"
+        "w": "2.810u",
+        "l": "2.810u",
+        "model": "cap_cmim"
       }
     },
     {
-      "kind": "mim",
+      "kind": "cmim",
       "name": "xb0n",
       "nodes": [
         "tn",
-        "b0",
-        "gnd"
+        "b0"
       ],
       "params": {
-        "w": "2.873u",
-        "l": "2.873u",
-        "model": "cap_rfcmim"
+        "w": "2.810u",
+        "l": "2.810u",
+        "model": "cap_cmim"
       }
     },
     {
@@ -2759,25 +4396,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba0",
       "nodes": [
         "a0",
-        "bb0"
+        "bb0",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb0",
       "nodes": [
         "b0",
-        "bb0"
+        "bb0",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -2813,31 +4456,29 @@
       }
     },
     {
-      "kind": "mim",
+      "kind": "cmim",
       "name": "xb1p",
       "nodes": [
         "tp",
-        "a1",
-        "gnd"
+        "a1"
       ],
       "params": {
-        "w": "3.982u",
-        "l": "3.982u",
-        "model": "cap_rfcmim"
+        "w": "3.920u",
+        "l": "3.920u",
+        "model": "cap_cmim"
       }
     },
     {
-      "kind": "mim",
+      "kind": "cmim",
       "name": "xb1n",
       "nodes": [
         "tn",
-        "b1",
-        "gnd"
+        "b1"
       ],
       "params": {
-        "w": "3.982u",
-        "l": "3.982u",
-        "model": "cap_rfcmim"
+        "w": "3.920u",
+        "l": "3.920u",
+        "model": "cap_cmim"
       }
     },
     {
@@ -2857,25 +4498,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba1",
       "nodes": [
         "a1",
-        "bb1"
+        "bb1",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb1",
       "nodes": [
         "b1",
-        "bb1"
+        "bb1",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -2911,31 +4558,29 @@
       }
     },
     {
-      "kind": "mim",
+      "kind": "cmim",
       "name": "xb2p",
       "nodes": [
         "tp",
-        "a2",
-        "gnd"
+        "a2"
       ],
       "params": {
-        "w": "5.596u",
-        "l": "5.596u",
-        "model": "cap_rfcmim"
+        "w": "5.530u",
+        "l": "5.530u",
+        "model": "cap_cmim"
       }
     },
     {
-      "kind": "mim",
+      "kind": "cmim",
       "name": "xb2n",
       "nodes": [
         "tn",
-        "b2",
-        "gnd"
+        "b2"
       ],
       "params": {
-        "w": "5.596u",
-        "l": "5.596u",
-        "model": "cap_rfcmim"
+        "w": "5.530u",
+        "l": "5.530u",
+        "model": "cap_cmim"
       }
     },
     {
@@ -2955,25 +4600,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba2",
       "nodes": [
         "a2",
-        "bb2"
+        "bb2",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb2",
       "nodes": [
         "b2",
-        "bb2"
+        "bb2",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -3053,25 +4704,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba3",
       "nodes": [
         "a3",
-        "bb3"
+        "bb3",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb3",
       "nodes": [
         "b3",
-        "bb3"
+        "bb3",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -3151,25 +4808,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba4",
       "nodes": [
         "a4",
-        "bb4"
+        "bb4",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb4",
       "nodes": [
         "b4",
-        "bb4"
+        "bb4",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -3249,25 +4912,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba5",
       "nodes": [
         "a5",
-        "bb5"
+        "bb5",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb5",
       "nodes": [
         "b5",
-        "bb5"
+        "bb5",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -3347,25 +5016,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba6",
       "nodes": [
         "a6",
-        "bb6"
+        "bb6",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb6",
       "nodes": [
         "b6",
-        "bb6"
+        "bb6",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -3445,25 +5120,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba7",
       "nodes": [
         "a7",
-        "bb7"
+        "bb7",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb7",
       "nodes": [
         "b7",
-        "bb7"
+        "bb7",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -3543,25 +5224,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba8",
       "nodes": [
         "a8",
-        "bb8"
+        "bb8",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb8",
       "nodes": [
         "b8",
-        "bb8"
+        "bb8",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -3641,25 +5328,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba9",
       "nodes": [
         "a9",
-        "bb9"
+        "bb9",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb9",
       "nodes": [
         "b9",
-        "bb9"
+        "bb9",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -3739,25 +5432,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba10",
       "nodes": [
         "a10",
-        "bb10"
+        "bb10",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb10",
       "nodes": [
         "b10",
-        "bb10"
+        "bb10",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -3837,25 +5536,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rba11",
       "nodes": [
         "a11",
-        "bb11"
+        "bb11",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbb11",
       "nodes": [
         "b11",
-        "bb11"
+        "bb11",
+        "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -3935,25 +5640,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbadum",
       "nodes": [
         "adum",
+        "gnd",
         "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rbbdum",
       "nodes": [
         "bdum",
+        "gnd",
         "gnd"
       ],
       "params": {
-        "r": "2000000.0"
+        "w": "5.000u",
+        "l": "60.800u",
+        "b": "0"
       }
     },
     {
@@ -4017,36 +5728,31 @@
       }
     },
     {
-      "kind": "res",
+      "kind": "rhigh",
       "name": "rvp",
       "nodes": [
         "vgp",
-        "vvb"
-      ],
-      "params": {
-        "r": "2000000.0"
-      }
-    },
-    {
-      "kind": "res",
-      "name": "rvn",
-      "nodes": [
-        "vgn",
-        "vvb"
-      ],
-      "params": {
-        "r": "2000000.0"
-      }
-    },
-    {
-      "kind": "vsrc",
-      "name": "vvb",
-      "nodes": [
         "vvb",
         "gnd"
       ],
       "params": {
-        "dc": "0.3"
+        "w": "0.500u",
+        "l": "42.095u",
+        "b": "16"
+      }
+    },
+    {
+      "kind": "rhigh",
+      "name": "rvn",
+      "nodes": [
+        "vgn",
+        "vvb",
+        "gnd"
+      ],
+      "params": {
+        "w": "0.500u",
+        "l": "42.095u",
+        "b": "16"
       }
     },
     {
@@ -4111,6 +5817,17 @@
         "l": "0.13u",
         "ng": "2",
         "model": "sg13_lv_nmos"
+      }
+    },
+    {
+      "kind": "vsrc",
+      "name": "vvb_bias",
+      "nodes": [
+        "vvb",
+        "gnd"
+      ],
+      "params": {
+        "dc": "0.3"
       }
     },
     {

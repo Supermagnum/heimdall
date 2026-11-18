@@ -8,8 +8,9 @@
 *.iopin gnd
 Xm1 tp tn tail gnd sg13_lv_nmos w=32u l=0.13u ng=8 m=1 mm_ok=1
 Xm2 tn tp tail gnd sg13_lv_nmos w=32u l=0.13u ng=8 m=1 mm_ok=1
-Xxf1 tp fx gnd cap_rfcmim w=1.600000e-05 l=1.600000e-05 wfeed=5.0e-6 m=1 mm_ok=1
-Xxf2 tn fx gnd cap_rfcmim w=1.600000e-05 l=1.600000e-05 wfeed=5.0e-6 m=1 mm_ok=1
-rfx fx gnd 200000.0
+Xmdum gnd gnd gnd gnd sg13_lv_nmos w=8u l=0.13u ng=1 m=1 mm_ok=1
+Xxf1 tp fx gnd cap_rfcmim w=1.450000e-05 l=1.450000e-05 wfeed=5.0e-6 m=1 mm_ok=1
+Xxf2 tn fx gnd cap_rfcmim w=1.450000e-05 l=1.450000e-05 wfeed=5.0e-6 m=1 mm_ok=1
+Xrfx fx gnd gnd rhigh w=2.000000e-06 l=1.520000e-05 m=1 b=0 mm_ok=1
 **.ends
 .end

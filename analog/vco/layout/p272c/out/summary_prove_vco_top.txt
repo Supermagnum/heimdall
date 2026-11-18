@@ -1,3 +1,4 @@
 drc_clean=True non_density=['M1.b'] svaricap_M1.b=True
 klayout=False netgen=False
 lvs_gds=vco_top_lvs.gds
+spice=vco_top_sch_flat.spice

@@ -1,25 +1,26 @@
 v {xschem version=3.4.7 file_version=1.2}
 G {}
 K {type=subcircuit
+schematic=vco_var.sch
 format="@name @pinlist @symname"
 template="name=x1"
 }
 V {}
 S {}
 E {}
-L 4 -80 -40 80 -40 {}
-L 4 -80 40 80 40 {}
-L 4 -80 -40 -80 40 {}
-L 4 80 -40 80 40 {}
+L 4 -80 -26 80 -26 {}
+L 4 -80 26 80 26 {}
+L 4 -80 -26 -80 26 {}
+L 4 80 -26 80 26 {}
 T {vco_var} -60 -10 0 0 0.3 0.3 {}
 T {@name} 40 -30 0 0 0.2 0.2 {}
-B 5 -82.5 -32.5 -77.5 -27.5 {name=tp dir=inout}
-T {tp} -75 -30 0 0 0.15 0.15 {}
-B 5 -82.5 -17.5 -77.5 -12.5 {name=tn dir=inout}
-T {tn} -75 -15 0 0 0.15 0.15 {}
+B 5 -82.5 -18.5 -77.5 -13.5 {name=tp dir=inout}
+T {tp} -75 -16 0 0 0.15 0.15 {}
+B 5 -82.5 -10.5 -77.5 -5.5 {name=tn dir=inout}
+T {tn} -75 -8 0 0 0.15 0.15 {}
 B 5 -82.5 -2.5 -77.5 2.5 {name=vt dir=inout}
 T {vt} -75 0 0 0 0.15 0.15 {}
-B 5 -82.5 12.5 -77.5 17.5 {name=vbp dir=inout}
-T {vbp} -75 15 0 0 0.15 0.15 {}
-B 5 -82.5 27.5 -77.5 32.5 {name=gnd dir=inout}
-T {gnd} -75 30 0 0 0.15 0.15 {}
+B 5 -82.5 5.5 -77.5 10.5 {name=vbp dir=inout}
+T {vbp} -75 8 0 0 0.15 0.15 {}
+B 5 -82.5 13.5 -77.5 18.5 {name=gnd dir=inout}
+T {gnd} -75 16 0 0 0.15 0.15 {}

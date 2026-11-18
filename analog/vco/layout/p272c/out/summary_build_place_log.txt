@@ -1,6 +1,15 @@
+routed groups: ['place']
+Technology SG13_dev is loaded.
+GRID : 0.01
+GRID inverse : 100.0
+EPSILON1  : 0.001
+EPSILON2  : 1e-9
+Success.
+stripped 12 bank bb* pin texts [TOOL]
 core+tank load LVS pin-only /foss/designs/analog/vco/layout/p272b/out/vco_core_tank_lvs.gds [TOOL]
 patched vco_core_tank TM1.b notches (6 fills) [GDS]
-tail-next pack LL bank=(-208.78, 0.0) core=(0.0, 282.77) tail=(144.78, 282.77) var=(81.77, 446.26) det=(-13.719999999999999, 614.73) east_gap=8.0 [HAND]
+fixed 3 SVaricap terminal texts (G1/G2 drop, W→vt) [TOOL]
+tail-next pack LL bank=(-208.78, 0.0) core=(0.0, 282.77) tail=(144.78, 282.77) var=(47.115, 474.875) det=(-143.285, 494.875) east_gap=8.0 [HAND]
 place vco_bank bb=(-208.78,0;342.3,274.77)
   pin g0 @ (-174.46,212.94)
   pin g1 @ (-95.08,212.84)
@@ -34,24 +43,24 @@ place tail_block bb=(144.78,282.77;404.4,657.06)
   pin tail @ (146.78,392.23)
   pin vbp_tail @ (309.56,310.38)
   pin vdd @ (393.90,387.38)
-place vco_var bb=(81.77,446.26;123.07,606.73)
-  pin W @ (83.77,446.51)
-  pin gnd @ (122.82,481.56)
-  pin tn @ (82.77,499.83)
-  pin tp @ (82.77,463.28)
-  pin vbp @ (94.06,604.38)
-place ampcal_det bb=(-13.72,614.73;136.78,738.155)
-  pin cmp @ (70.30,676.71)
-  pin ct @ (9.71,678.32)
-  pin en @ (136.46,644.74)
-  pin gnd @ (-5.47,660.96)
-  pin hold @ (0.92,666.96)
-  pin rep @ (14.70,663.96)
-  pin tn @ (19.58,672.07)
-  pin tp @ (-0.16,672.07)
-  pin vdd @ (9.46,674.22)
-  pin vthn @ (71.87,659.14)
-outline bbox=(-208.78,0;404.4,738.155) area=0.4526 mm2 [GDS]
+place vco_var bb=(47.115,474.875;92.915,635.345)
+  pin W @ (49.12,475.12)
+  pin gnd @ (92.67,510.18)
+  pin tn @ (88.67,528.45)
+  pin tp @ (48.12,491.90)
+  pin vbp @ (61.66,633.00)
+place ampcal_det bb=(-143.285,494.875;9.115,618.3)
+  pin cmp @ (-57.36,556.85)
+  pin ct @ (-117.95,558.46)
+  pin en @ (8.80,524.88)
+  pin gnd @ (-133.13,541.10)
+  pin hold @ (-126.74,547.10)
+  pin rep @ (-112.96,544.10)
+  pin tn @ (-142.98,564.86)
+  pin tp @ (-141.98,535.10)
+  pin vdd @ (-118.21,554.36)
+  pin vthn @ (-55.79,539.29)
+outline bbox=(-208.78,0;404.4,657.06) area=0.4029 mm2 [GDS]
 wrote /foss/designs/analog/vco/layout/p272c/out/vco_top_lvs.gds (pin-only inductor) [TOOL]
 wrote fab /foss/designs/analog/vco/layout/p272c/out/vco_top.gds with spiral from /foss/designs/analog/vco/layout/p272b/out/vco_core_tank.gds [TOOL]
 wrote /foss/designs/analog/vco/layout/p272c/out/vco_top.gds.gz

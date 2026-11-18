@@ -1,9 +1,11 @@
 # P2.7 layout notes
 
-Status: **P2.7.2c rfcmim/join STOP** (2026-11-18). rfcmim 24=24 + g1/g2 unique
-PASS; band@35.6 PASS; outline 0.4029 mm²; island C 35.6/35.6 fF [GDS/SCH/TOOL].
-Unique LVS FAIL at tn_tp (`summary_p272c_rfcmim_join_stop.txt`). Chip art PASS.
-Blocks PASS.
+Status: **P2.7.2c flat-sch LVS STOP** (2026-11-18). Sign-off reference is
+flattened `vco_top.sch` (`vco_top_sch_flat.spice` + `lvs_setup.tcl`), not leaf
+spice. Placement-only m-weighted counts PASS; unique LVS FAIL at power (239 vs
+238 devices after merge; 1 NMOS) — `summary_p272c_flat_sch_lvs_stop.txt`.
+Outline 0.4029 mm²; island C 35.6/35.6 fF; band@35.6 prior [GDS/SCH/TOOL].
+Chip art PASS. Blocks PASS.
 
 ---
 
@@ -694,11 +696,30 @@ for sch ports.
 7. `controls` — vbp, exported gates/codes (buses at synth top)
 
 **Pass:** DRC clean (density + SVaricap M1.b waived); both LVS uniquely match
-`vco_top` hierarchy; inductor fab/LVS GDS diff still PASS; var W/L/Nx script compare;
-`ct` port present; fingers by script. Then die §8 re-total.
+flattened `vco_top.sch` (not leaf-assembled spice); inductor fab/LVS GDS diff
+still PASS; var W/L/Nx script compare; `ct` port present; fingers by script.
+Then die §8 re-total.
 
 **Artifacts:** `p272c/build_assemble.py`, `out/vco_top.gds.gz`, per-group
 `summary_drc_lvs_*.txt`, `summary_p272c_stop.txt`.
+
+#### P2.7.2c flattened sch LVS reference (2026-11-18) [TOOL/SCH]
+
+**Decision:** sign-off netlist = xschem export of `vco_top.sch`, flattened
+(`p272c/flatten_sch_spice.py` → `out/vco_top_sch_flat.spice`), vs flattened
+extract. Shared setup: `p272c/lvs_setup.tcl` (sources PDK netgen setup).
+
+| Mapping | Rule |
+|---------|------|
+| SVaricap | MODEL_MAP `sg13_hv_svaricap_fx`→`sg13_hv_svaricap`; G1/G2 local; W↔vt |
+| l2n0 | Omitted in flat LVS sch (leaf core practice); pin-only LVS GDS |
+| Bank b0..b2 | sch `cap_cmim` (layout kind); b3+ `cap_rfcmim` |
+| Bias R | sch `rhigh` with leaf W/L (not ideal R) |
+| Tail | sch matches dac_array unit cells (no ideal I/V in LVS sch) |
+
+**Placement-only:** m-weighted counts PASS (`summary_place_compare.txt`).
+**Unique LVS:** FAIL at power — after merge 239 vs 238 devices (1 NMOS), nets
+829 vs 831 [TOOL]. Stop: `summary_p272c_flat_sch_lvs_stop.txt`.
 
 #### P2.7.2c band-margin gate on routing C (2026-11-17) [SCH] — **FAIL**
 

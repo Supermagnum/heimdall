@@ -7,9 +7,8 @@
 *.iopin gnd
 Xxcp tp vgp gnd cap_rfcmim w=2.129200e-05 l=2.129200e-05 wfeed=5.0e-6 m=1 mm_ok=1
 Xxcn tn vgn gnd cap_rfcmim w=2.129200e-05 l=2.129200e-05 wfeed=5.0e-6 m=1 mm_ok=1
-rvp vgp vvb 2000000.0
-rvn vgn vvb 2000000.0
-vvb vvb gnd 0.3
+Xrvp vgp vvb gnd rhigh w=5.000000e-07 l=4.209500e-05 m=1 b=16 mm_ok=1
+Xrvn vgn vvb gnd rhigh w=5.000000e-07 l=4.209500e-05 m=1 b=16 mm_ok=1
 Xxv1 vgn vt vgp sub! sg13_hv_svaricap_fx w=3.74u l=0.3u Nx=10 mm_ok=1
 Xxv2 vgn vt vgp sub! sg13_hv_svaricap_fx w=3.74u l=0.3u Nx=10 mm_ok=1
 Xmbp_rvp vgp vbp vvb gnd sg13_lv_nmos w=5u l=0.13u ng=2 m=1 mm_ok=1

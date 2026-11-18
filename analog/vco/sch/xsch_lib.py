@@ -282,15 +282,36 @@ class Sch:
             f"only_toplevel=false\nvalue=\"{esc}\"\n}}\n"
         )
 
-    def subckt_inst(self, sym_rel, name, pin_nets: dict, x=None, y=None):
-        """Instantiate a hierarchical symbol; pin_nets maps pin name -> net."""
+    def subckt_inst(self, sym_rel, name, pin_nets: dict, x=None, y=None,
+                    pin_side="left"):
+        """Instantiate a hierarchical symbol; pin_nets maps pin name -> net.
+
+        Places a short wire + lab_pin at each symbol pin (same Y spacing as
+        write_sym) so xschem spice netlisting binds nets by name. Attribute
+        pin=net alone does not create connectivity in xschem [TOOL].
+        """
         if x is None:
             x, y = self._slot()
         attrs = "\n".join(f"{k}={v}" for k, v in pin_nets.items())
-        # xschem hierarchical: connect with lab_pins at pin positions from .sym
         self.lines.append(
             f"C {{{sym_rel}}} {x:g} {y:g} 0 0 {{name={name}\n{attrs}\n}}\n"
         )
+        pins = list(pin_nets.keys())
+        for i, p in enumerate(pins):
+            yy = y + pin_y(i, len(pins))
+            if pin_side == "left":
+                x_pin, x_lab = x - 80, x - 100
+            else:
+                x_pin, x_lab = x + 80, x + 100
+            net = pin_nets[p]
+            self.lines.append(
+                f"N {x_lab:g} {yy:g} {x_pin:g} {yy:g} {{}}\n"
+            )
+            self.lines.append(
+                f"C {{devices/lab_pin.sym}} {x_lab:g} {yy:g} 0 "
+                f"{0 if pin_side == 'left' else 1} "
+                f"{{name=l_{name}_{p} lab={net}}}\n"
+            )
         return x, y
 
     def write(self):
@@ -300,25 +321,36 @@ class Sch:
         return self.path
 
 
+def pin_y(i, n, pitch=8.0):
+    """Pin Y in symbol coords; pitch keeps 5-unit boxes from overlapping."""
+    if n <= 1:
+        return 0.0
+    half = 0.5 * pitch * (n - 1)
+    return -half + pitch * i
+
+
 def write_sym(path, cell, pins, pin_side="left"):
     """Hierarchical symbol: pins listed top-to-bottom on the left (or split)."""
+    n = len(pins)
+    half = abs(pin_y(0, n)) if n > 1 else 40.0
+    top, bot = -half - 10.0, half + 10.0
     lines = [
         "v {xschem version=3.4.7 file_version=1.2}\n",
         "G {}\n",
         "K {type=subcircuit\n",
+        f"schematic={cell}.sch\n",
         'format="@name @pinlist @symname"\n',
         'template="name=x1"\n}\n',
         "V {}\nS {}\nE {}\n",
-        "L 4 -80 -40 80 -40 {}\n",
-        "L 4 -80 40 80 40 {}\n",
-        "L 4 -80 -40 -80 40 {}\n",
-        "L 4 80 -40 80 40 {}\n",
+        f"L 4 -80 {top:g} 80 {top:g} {{}}\n",
+        f"L 4 -80 {bot:g} 80 {bot:g} {{}}\n",
+        f"L 4 -80 {top:g} -80 {bot:g} {{}}\n",
+        f"L 4 80 {top:g} 80 {bot:g} {{}}\n",
         f"T {{{cell}}} -60 -10 0 0 0.3 0.3 {{}}\n",
         "T {@name} 40 -30 0 0 0.2 0.2 {}\n",
     ]
-    n = len(pins)
     for i, p in enumerate(pins):
-        yy = -30 + (60 * i / max(n - 1, 1)) if n > 1 else 0
+        yy = pin_y(i, n)
         if pin_side == "left":
             lines.append(
                 f"B 5 -82.5 {yy-2.5:g} -77.5 {yy+2.5:g} "

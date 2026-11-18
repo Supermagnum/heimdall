@@ -44,7 +44,23 @@ N 240 30 240 30 {lab=tail}
 C {devices/lab_pin.sym} 240 30 0 0 {name=p7 sig_type=std_logic lab=tail}
 N 240 0 240 0 {lab=gnd}
 C {devices/lab_pin.sym} 240 0 0 0 {name=p8 sig_type=std_logic lab=gnd}
-C {sg13g2_pr/cap_rfcmim.sym} 440 0 0 0 {name=xf1
+C {sg13g2_pr/sg13_lv_nmos.sym} 440 0 0 0 {name=mdum
+w=8u
+l=0.13u
+ng=1
+m=1
+model=sg13_lv_nmos
+spiceprefix=X
+}
+N 460 -30 460 -30 {lab=gnd}
+C {devices/lab_pin.sym} 460 -30 0 0 {name=p9 sig_type=std_logic lab=gnd}
+N 420 0 420 0 {lab=gnd}
+C {devices/lab_pin.sym} 420 0 0 1 {name=p10 sig_type=std_logic lab=gnd}
+N 460 30 460 30 {lab=gnd}
+C {devices/lab_pin.sym} 460 30 0 0 {name=p11 sig_type=std_logic lab=gnd}
+N 460 0 460 0 {lab=gnd}
+C {devices/lab_pin.sym} 460 0 0 0 {name=p12 sig_type=std_logic lab=gnd}
+C {sg13g2_pr/cap_rfcmim.sym} 660 0 0 0 {name=xf1
 model=cap_rfcmim
 lvs_model=rfcmim
 w=1.450000e-05
@@ -54,36 +70,39 @@ m=1
 mm_ok=1
 spiceprefix=X
 }
-N 440 -30 440 -30 {lab=tp}
-C {devices/lab_pin.sym} 440 -30 0 0 {name=p9 sig_type=std_logic lab=tp}
-N 440 30 440 30 {lab=fx}
-C {devices/lab_pin.sym} 440 30 0 0 {name=p10 sig_type=std_logic lab=fx}
-N 410 0 410 0 {lab=gnd}
-C {devices/lab_pin.sym} 410 0 0 0 {name=p11 sig_type=std_logic lab=gnd}
-C {sg13g2_pr/cap_rfcmim.sym} 660 0 0 0 {name=xf2
-model=cap_rfcmim
-lvs_model=rfcmim
-w=1.450000e-05
-l=1.450000e-05
-wfeed=5.0e-6
-m=1
-mm_ok=1
-spiceprefix=X
-}
-N 660 -30 660 -30 {lab=tn}
-C {devices/lab_pin.sym} 660 -30 0 0 {name=p12 sig_type=std_logic lab=tn}
+N 660 -30 660 -30 {lab=tp}
+C {devices/lab_pin.sym} 660 -30 0 0 {name=p13 sig_type=std_logic lab=tp}
 N 660 30 660 30 {lab=fx}
-C {devices/lab_pin.sym} 660 30 0 0 {name=p13 sig_type=std_logic lab=fx}
+C {devices/lab_pin.sym} 660 30 0 0 {name=p14 sig_type=std_logic lab=fx}
 N 630 0 630 0 {lab=gnd}
-C {devices/lab_pin.sym} 630 0 0 0 {name=p14 sig_type=std_logic lab=gnd}
-C {devices/res.sym} 880 0 0 0 {name=rfx
-value=200000.0
+C {devices/lab_pin.sym} 630 0 0 0 {name=p15 sig_type=std_logic lab=gnd}
+C {sg13g2_pr/cap_rfcmim.sym} 880 0 0 0 {name=xf2
+model=cap_rfcmim
+lvs_model=rfcmim
+w=1.450000e-05
+l=1.450000e-05
+wfeed=5.0e-6
 m=1
-footprint=1206
-device=resistor
-sim_device=resistor
+mm_ok=1
+spiceprefix=X
 }
-N 880 -30 880 -30 {lab=fx}
-C {devices/lab_pin.sym} 880 -30 0 0 {name=p15 sig_type=std_logic lab=fx}
-N 880 30 880 30 {lab=gnd}
-C {devices/lab_pin.sym} 880 30 0 0 {name=p16 sig_type=std_logic lab=gnd}
+N 880 -30 880 -30 {lab=tn}
+C {devices/lab_pin.sym} 880 -30 0 0 {name=p16 sig_type=std_logic lab=tn}
+N 880 30 880 30 {lab=fx}
+C {devices/lab_pin.sym} 880 30 0 0 {name=p17 sig_type=std_logic lab=fx}
+N 850 0 850 0 {lab=gnd}
+C {devices/lab_pin.sym} 850 0 0 0 {name=p18 sig_type=std_logic lab=gnd}
+C {sg13g2_pr/rhigh.sym} 1100 0 0 0 {name=rfx
+w=2.000000e-06
+l=1.520000e-05
+b=0
+m=1
+model=rhigh
+body=gnd
+spiceprefix=X
+mm_ok=1
+}
+N 1100 -30 1100 -30 {lab=fx}
+C {devices/lab_pin.sym} 1100 -30 0 0 {name=p19 sig_type=std_logic lab=fx}
+N 1100 30 1100 30 {lab=gnd}
+C {devices/lab_pin.sym} 1100 30 0 0 {name=p20 sig_type=std_logic lab=gnd}

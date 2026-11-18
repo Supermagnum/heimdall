@@ -1,0 +1,29 @@
+# P2.7.2c placement-only compare (flat sch vs extract, m-weighted) [TOOL]
+# sch=/mnt/2e9a1e9f-2097-408c-ab9a-a01b32f11d28/github-projects/heimdall/analog/vco/layout/p272c/out/vco_top_sch_flat.spice
+# extract=/mnt/2e9a1e9f-2097-408c-ab9a-a01b32f11d28/github-projects/heimdall/analog/vco/layout/p272c/out/lvs_vco_top/vco_top_lvs_extracted.cir
+# extract_exists=True
+
+| model | sch(m) | lay(m) | d(m) | sch_raw | lay_raw | cause |
+|-------|-------:|-------:|-----:|--------:|--------:|-------|
+| cap_cmim | 16 | 16 | +0 | 16 | 10 | match (m-weighted) |
+| cap_rfcmim | 24 | 24 | +0 | 24 | 24 | match (m-weighted) |
+| rhigh | 33 | 33 | +0 | 33 | 33 | match (m-weighted) |
+| sg13_hv_svaricap | 2 | 2 | +0 | 2 | 2 | match (m-weighted) |
+| sg13_lv_nmos | 71 | 67 | -4 | 71 | 67 | fingered/split vs combine (raw 71/67); LVS --combine_devices is arbiter [TOOL] |
+| sg13_lv_pmos | 106 | 106 | +0 | 106 | 106 | match (m-weighted) |
+
+## Unmatched / explained detail
+
+### sg13_lv_nmos (fingered Δm=-4)
+- cause: fingered/split vs combine (raw 71/67); LVS --combine_devices is arbiter [TOOL]
+- sch `?`: 71 — Xcore_m1(m=1), Xcore_m2(m=1), Xcore_mdum(m=1), Xbank_ms0(m=1), Xbank_mbp_rba0(m=1), Xbank_mbp_rbb0(m=1), Xbank_ms1(m=1), Xbank_mbp_rba1(m=1) ...
+
+## Recorded unmatched-device list (step 2)
+
+1. **l2n0** — sch black-box instance; layout LVS GDS is pin-only (no spiral devices). Setup: BLACKBOX in flatten_sch_spice + lvs_setup.tcl. Not a layout error.
+2. **cap_cmim raw 16 vs 10** — sch has 7× cbf tiles; layout one device m=7. m-weighted counts match. Bank b0..b2 cmim (6) + det hold/rep/cl_cmp (3) on both sides.
+3. **sg13_lv_nmos raw 71 vs 67** — tail_mt 4×120u in sch vs one 480u extract (combine); bank bypass W snaps (0.156→0.15); det finger ng vs extract single; layout-only fill dummy ~9u. Not edited to force match — LVS combine decides.
+4. **SVaricap G1/G2** — local vgp/vgn; well W↔vt in assemble [TOOL]. MODEL_MAP fx→sg13_hv_svaricap.
+5. **Ideal R/I/V** — removed from LVS-facing bank/core/var/tail sch; sim ideals remain in vco_sim_flat only.
+
+# PASS placement-only (m-weighted + explained MOS): True

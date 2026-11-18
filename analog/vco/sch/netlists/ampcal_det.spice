@@ -1,5 +1,5 @@
 ** sch_path: /foss/designs/analog/vco/sch/ampcal_det.sch
-**.subckt ampcal_det tp tn ct vdd gnd cmp hold rep
+**.subckt ampcal_det tp tn ct vdd gnd cmp hold rep en vthn
 *.iopin tp
 *.iopin tn
 *.iopin ct
@@ -8,25 +8,33 @@
 *.iopin cmp
 *.iopin hold
 *.iopin rep
+*.iopin en
+*.iopin vthn
 Xmdtp vdd tp hold gnd sg13_lv_nmos w=0.5u l=0.13u ng=1 m=1 mm_ok=1
 Xmdtn vdd tn hold gnd sg13_lv_nmos w=0.5u l=0.13u ng=1 m=1 mm_ok=1
-idet hold gnd 4e-06
-chold hold gnd 4e-13
 Xmrtp vdd ct rep gnd sg13_lv_nmos w=0.5u l=0.13u ng=1 m=1 mm_ok=1
 Xmrtn vdd ct rep gnd sg13_lv_nmos w=0.5u l=0.13u ng=1 m=1 mm_ok=1
-irep rep gnd 4e-06
-crep rep gnd 4e-13
-vth vthn rep 0.405
+Xchold hold gnd cap_cmim w=1.627000e-05 l=1.627000e-05 m=1 mm_ok=1
+Xcrep rep gnd cap_cmim w=1.627000e-05 l=1.627000e-05 m=1 mm_ok=1
+Xrbias vdd nbias gnd rhigh w=5.000000e-07 l=7.800000e-05 m=1 b=0 mm_ok=1
+Xmdiode nbias nbias pd_d gnd sg13_lv_nmos w=1.0u l=1.0u ng=1 m=1 mm_ok=1
+Xmen_d pd_d en gnd gnd sg13_lv_nmos w=2.0u l=0.13u ng=1 m=1 mm_ok=1
+Xmid_h hold nbias pd_h gnd sg13_lv_nmos w=1.0u l=1.0u ng=1 m=1 mm_ok=1
+Xmen_h pd_h en gnd gnd sg13_lv_nmos w=2.0u l=0.13u ng=1 m=1 mm_ok=1
+Xmid_r rep nbias pd_r gnd sg13_lv_nmos w=1.0u l=1.0u ng=1 m=1 mm_ok=1
+Xmen_r pd_r en gnd gnd sg13_lv_nmos w=2.0u l=0.13u ng=1 m=1 mm_ok=1
+Xmid_tt ttail nbias pd_tt gnd sg13_lv_nmos w=5.5u l=1.0u ng=2 m=1 mm_ok=1
+Xmen_tt pd_tt en gnd gnd sg13_lv_nmos w=2.0u l=0.13u ng=1 m=1 mm_ok=1
+Xmid_ss ss2 nbias pd_ss gnd sg13_lv_nmos w=5.5u l=1.0u ng=2 m=1 mm_ok=1
+Xmen_ss pd_ss en gnd gnd sg13_lv_nmos w=2.0u l=0.13u ng=1 m=1 mm_ok=1
 Xmc1 co hold ttail gnd sg13_lv_nmos w=4u l=0.5u ng=2 m=1 mm_ok=1
 Xmc2 co2 vthn ttail gnd sg13_lv_nmos w=4u l=0.5u ng=2 m=1 mm_ok=1
-itt ttail gnd 2e-05
-rc1 vdd co 20000.0
-rc2 vdd co2 20000.0
+Xrc1 vdd co gnd rhigh w=5.000000e-07 l=6.960000e-06 m=1 b=0 mm_ok=1
+Xrc2 vdd co2 gnd rhigh w=5.000000e-07 l=6.960000e-06 m=1 b=0 mm_ok=1
 Xmcs1 n1 co2 ss2 gnd sg13_lv_nmos w=4u l=0.5u ng=2 m=1 mm_ok=1
 Xmcs2 cmp co ss2 gnd sg13_lv_nmos w=4u l=0.5u ng=2 m=1 mm_ok=1
-iss2 ss2 gnd 2e-05
 Xmpl1 n1 n1 vdd vdd sg13_lv_pmos w=4u l=0.5u ng=2 m=1 mm_ok=1
 Xmpl2 cmp n1 vdd vdd sg13_lv_pmos w=4u l=0.5u ng=2 m=1 mm_ok=1
-cl_cmp cmp gnd 5e-14
+Xcl_cmp cmp gnd cap_cmim w=5.780000e-06 l=5.780000e-06 m=1 mm_ok=1
 **.ends
 .end

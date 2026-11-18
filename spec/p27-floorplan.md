@@ -177,4 +177,6 @@ Rough Phase-5 squeeze check against the SX1255-compatible **MLPQ-W 5 × 5 mm** p
 
 **P2.7.2c rfcmim / join STOP (2026-11-18) [GDS/SCH/TOOL]:** island outline **0.4029 mm²** [GDS] (tail-next pack, tn_tp); island C **35.6/35.6 fF** [HAND]; tail L 91 µm, C≈9.1 fF [PDK/HAND]. rfcmim 24=24 and g1/g2 unique PASS; band@35.6 PASS (104/92 MHz) [SCH]. Unique LVS still FAIL at tn_tp (144 vs 145 nets) — see `summary_p272c_rfcmim_join_stop.txt`. Die row uses **0.4029** [GDS]; still fits ≈ 2.5 × 2.5 mm [HAND].
 
+**P2.7.2c flat-sch LVS STOP (2026-11-18) [GDS/SCH/TOOL]:** outline still **0.4029 mm²** [GDS]; die row unchanged. Flattened-sch reference wired; placement-only PASS; unique LVS FAIL at power (1 NMOS) — `summary_p272c_flat_sch_lvs_stop.txt`. tn/tp C / PEX not re-run.
+
 **Flag:** the §1 sketch of a **1.6 × 1.6 mm** active core **does not fit** the Phase 3/4 RX+TX + synth + digital + pads tally. Before Phase 5, plan on a die closer to **≥ ~2.2 × 2.2 mm** (≈ 4.8 mm²) or tighten RX/TX area after topology.

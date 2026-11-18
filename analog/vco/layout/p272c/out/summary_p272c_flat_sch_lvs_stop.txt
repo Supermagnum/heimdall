@@ -1,0 +1,44 @@
+# P2.7.2c STOP — flattened vco_top.sch LVS reference (2026-11-18) [TOOL/SCH/GDS]
+
+## Pass criteria vs result
+
+| Step | Criterion | Result |
+|------|-----------|--------|
+| 1 | Flatten export of vco_top.sch; leaf mappings in shared LVS setup; no hand-edit of reference | **PASS** — `flatten_sch_spice.py` → `out/vco_top_sch_flat.spice`; `lvs_setup.tcl` + MODEL_MAP / BLACKBOX; setup recorded in `spec/p27-layout-notes.md` |
+| 2 | Placement-only device counts match; every unmatched listed | **PASS** (m-weighted) — see `summary_place_compare.txt`. Raw NMOS 71 vs 67 explained; after netgen merge **65 vs 64** (1 NMOS left) |
+| 3 | Replay power→… unique LVS each group | **FAIL at power** (also fails at place) — DRC clean (density + SVaricap M1.b waived); KLayout + netgen **not** unique. Devices after merge 239 vs 238; nets 829 vs 831 [TOOL] |
+| 4 | Report tn/tp C, tail, outline, die §8 | Outline **0.4029 mm²** [GDS] unchanged. tn/tp C / RC PEX **not re-run** this job. Tail line unchanged from prior note |
+| 5 | Specs + commits | Specs updated; commit this job |
+
+## Unmatched-device list (step 2) with causes
+
+1. **l2n0** — omitted from flat LVS sch (leaf core practice); pin-only LVS GDS has no device [TOOL].
+2. **cap_cmim** — raw 16 vs 10; m-weighted 16=16 (cbf 7 tiles vs m=7) [TOOL].
+3. **sg13_lv_nmos** — raw 71 vs 67; merge 65 vs 64. Causes: fingered/split (mt 4×120 vs 480); W snaps; ota/det dummies; layout-only ~9 µm fill. **One NMOS after combine — bisect next** [TOOL].
+4. **SVaricap / rhigh / rfcmim / pmos** — m-weighted match [TOOL].
+5. **Sch was wrong for LVS** — bank b0..b2 were rfcmim + ideal R; now cmim + rhigh; tail rewritten to dac_array units (no ideal I/V). Re-sim of band/D20 **not re-run** this job after sch change (prior band@35.6 still the last [SCH] number).
+
+## What failed / uncertain
+
+- Unique LVS vs flattened sch fails at **power** (first replay group): 1 NMOS + net count (island tn/tp still not one net until tn_tp group).
+- `lvs_setup.tcl` previously had a Tcl `info commands` error; fixed (no functional equate beyond PDK).
+- Band/D20 after cmim LSB sch change: **uncertain until re-sim**.
+- Render PNG may fail in batch (exit 1); SVG path still written when possible [TOOL].
+
+## Decision needed
+
+1. Accept flattened-sch LVS path + sch LVS alignment (cmim LSB, rhigh, unit DAC) as the sign-off reference going forward?
+2. Bisect the remaining **1 NMOS** (likely ota/det dummy or 9 µm fill) before continuing join — agree to match sch to layout leaf sizes, or change layout?
+3. Re-run band@35.6 / D20 after bank cmim sch change before trusting margins?
+
+## Found, not done
+
+- Full unique LVS through controls (prompt step 3 remainder).
+- Inductor fab/LVS diff + var finger scripts re-check on this pack.
+- tn/tp extracted RC; die §8 re-total beyond outline hold.
+- Re-sim band/D20 after sch cmim/rhigh (prompt 06 / P2.7.2c).
+- Chip-art / Phase 5 unchanged.
+
+## Next run
+
+**P2.7.3** is premature until unique LVS. Next: **P2.7.2c continued** — bisect 1 NMOS + replay net groups to unique LVS vs `vco_top_sch_flat.spice`, then P2.7.3 (VCO PEX and post-layout checks).

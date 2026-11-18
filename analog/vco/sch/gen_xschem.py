@@ -116,20 +116,46 @@ def gen_l2n0():
     return sch
 
 
+# Layout LVS snaps for D24 bank LSB cmim (p272b_bank leaf spice) [GDS/TOOL]
+BANK_CMIM_SIDE = {0: "2.81u", 1: "3.92u", 2: "5.53u"}
+BANK_RHIGH_W, BANK_RHIGH_L = "5.0u", "60.8u"
+CORE_RHIGH_W, CORE_RHIGH_L = "2u", "15.2u"
+VAR_RHIGH_W, VAR_RHIGH_L, VAR_RHIGH_B = "0.5u", "42.095u", 16
+D9_RHIGH_W, D9_RHIGH_L, D9_RHIGH_B = "0.5u", "21.285u", 16
+CBF_SIDE, CBF_M = "68.94u", 7
+
+# dac_array unit list — identical order/gates to p272b_tail/out/tail_block.spice [GDS]
+DAC_ARRAY_UNITS = [
+    *[(f"b{i}", "code_gnd") for i in range(19)],
+    ("b4_0", "code4"), ("b3_0", "code3"), ("b2_0", "code2"),
+    ("b4_1", "code4"), ("b3_1", "code3"), ("b4_2", "code4"),
+    ("b1_0", "code1"), ("b4_3", "code4"), ("b4_4", "code4"),
+    ("b0_0", "code0"), ("b4_5", "code4"), ("b3_2", "code3"),
+    ("b4_6", "code4"), ("b2_1", "code2"), ("b3_3", "code3"),
+    ("b4_7", "code4"), ("b4_8", "code4"), ("b3_4", "code3"),
+    ("b2_2", "code2"), ("b4_9", "code4"), ("b3_5", "code3"),
+    ("b4_10", "code4"), ("b1_1", "code1"), ("b4_11", "code4"),
+    ("b4_12", "code4"), ("dmy", "code_vdd"), ("b3_6", "code3"),
+    ("b4_13", "code4"), ("b4_14", "code4"), ("b2_3", "code2"),
+    ("b3_7", "code3"), ("b4_15", "code4"),
+]
+
+
 def gen_vco_core(rng):
     sch = Sch("vco_core", os.path.join(HERE, "vco_core.sch"))
     for p in ("tp", "tn", "tail", "ct", "vdd", "gnd"):
         sch.iopin(p)
     sch.title("vco_core_XC")
-    # Cross-coupled pair (run_step2)
+    # Cross-coupled pair (run_step2); mdum matches layout GR fill [GDS]
     sch.nmos("m1", "tp", "tn", "tail", "gnd", "32u", "0.13u", 8)
     sch.nmos("m2", "tn", "tp", "tail", "gnd", "32u", "0.13u", 8)
+    sch.nmos("mdum", "gnd", "gnd", "gnd", "gnd", "8u", "0.13u", 1)
     cfix = float(rng["cfix"])
     if cfix > 0:
         s = side_um(2 * cfix)
         sch.mim("xf1", "tp", "fx", "gnd", f"{s:.3f}u", f"{s:.3f}u")
         sch.mim("xf2", "tn", "fx", "gnd", f"{s:.3f}u", f"{s:.3f}u")
-        sch.res("rfx", "fx", "gnd", 200e3)
+        sch.rhigh("rfx", "fx", "gnd", "gnd", w=CORE_RHIGH_W, l=CORE_RHIGH_L)
     sch.write()
     write_sym(os.path.join(HERE, "vco_core.sym"), "vco_core",
               ["tp", "tn", "tail", "ct", "vdd", "gnd"])
@@ -137,50 +163,34 @@ def gen_vco_core(rng):
 
 
 def gen_vco_tail_dac():
-    """D22 V_DS-matched OTA DAC + tail (amp_common sizes) + D9 filter + bypass."""
-    import amp_common as A
+    """Layout-accurate tail for LVS (p272b_tail leaf). Sim ideals live in vco_sim_flat."""
     sch = Sch("vco_tail_dac", os.path.join(HERE, "vco_tail_dac.sch"))
     for p in ("tail", "vdd", "gnd", "vbp_tail", "nb", "nbf",
               "code0", "code1", "code2", "code3", "code4"):
         sch.iopin(p)
-    sch.title("vco_tail_dac_D22")
-    # Unit DAC (code pins drive switch gates: 0=on in sim via logic; here pins)
-    # Master + offset + 5 bits — switches gated by code* (1.2=off, 0=on in deck)
-    sch.isrc("imaster", "pbias", "gnd", A.I_MASTER)
-    sch.pmos("mm0", "pbias", "pbias", "vdd", "vdd", "2u", "2u", 1)
-    sch.pmos("moff", "xoff", "pbias", "vdd", "vdd", "38u", "2u", 19)
-    sch.pmos("msoff", "xraw", "gnd", "xoff", "vdd", "38u", "0.13u", 1)
-    bits = [(0, 1), (1, 2), (2, 4), (3, 8), (4, 16)]
-    for b, m in bits:
-        sch.pmos(f"mdb{b}", f"xd{b}", "pbias", "vdd", "vdd",
-                 f"{2*m}u", "2u", m)
-        # Switch gate = code{b}: schematic pin; TB ties 0 or vdd
-        sch.pmos(f"msw{b}", "xraw", f"code{b}", f"xd{b}", "vdd",
-                 f"{2*m}u", "0.13u", 1)
-    # V_DS-matched mirror + OTA
-    sch.vsrc("vsense", "xraw", "xref", 0)
-    sch.nmos("mr", "xref", "nbf", "gnd", "gnd", A.W_MR, "4u", A.NG_MR)
-    sch.nmos("mt", "tail", "nbf", "gnd", "gnd", A.W_MT, "4u", A.NG_MT)
-    sch.res("rtf", "tail", "tail_f", 100e3)
-    sch.capa("ctf", "tail_f", "gnd", 1e-12)
-    sch.nmos("mo1", "d1", "xref", "ss", "gnd", "8u", "2u", 2)
-    sch.nmos("mo2", "d2", "tail_f", "ss", "gnd", "8u", "2u", 2)
-    sch.isrc("iss", "ss", "gnd", 20e-6)
+    sch.title("vco_tail_dac_LVS")
+    # dac_array as unit cells (2u/2u + 2u/0.13) — not binary-weighted [GDS]
+    for iname, code in DAC_ARRAY_UNITS:
+        xd = f"xd_{iname}"
+        sch.pmos(f"mdb_{iname}", xd, "pbias", "vdd", "vdd", "2u", "2u", 1)
+        sch.pmos(f"msw_{iname}", "xraw", code, xd, "vdd", "2u", "0.13u", 1)
+    # tail_mt: 4× 120u/4u ng=24 (= 480u total) [GDS]
+    for i in range(4):
+        sch.nmos(f"mt{i}", "tail", "nbf", "gnd", "gnd", "120u", "4u", 24)
+    # ota_vds: xraw≡xref; out=nb; dummies MdL/MdR [GDS]
+    sch.nmos("mo1", "d1", "xraw", "ss", "gnd", "8u", "2u", 2)
+    sch.nmos("mo2", "nb", "tail_f", "ss", "gnd", "8u", "2u", 2)
     sch.pmos("mp1", "d1", "d1", "vdd", "vdd", "4u", "2u", 2)
-    sch.pmos("mp2", "d2", "d1", "vdd", "vdd", "4u", "2u", 2)
-    sch.res("rout", "d2", "nb", 1)
-    sch.res("rbf", "nb", "nbf", 1e6)
-    # D9 cbf: 7× cmim near Cmax (8 pF / 73 µm) → 50 pF. PN/swing vs ideal PASS
-    # 2026-11-14 [SCH]; rfcmim 16-tile area rejected [decisions].
-    n_cbf = 7
-    s_tile = side_um(50e3 / n_cbf)
-    for i in range(n_cbf):
-        sch.mim(f"cbf{i}", "nbf", "gnd", "gnd", f"{s_tile:.3f}u", f"{s_tile:.3f}u",
-                kind="cmim")
-    sch.res("rpd", "nb", "gnd", 200e3)
-    sch.capa("ctail", "tail", "gnd", 8e-12)
-    # start-up bypass across rbf
+    sch.pmos("mp2", "nb", "d1", "vdd", "vdd", "4u", "2u", 2)
+    sch.nmos("mdL", "gnd", "gnd", "gnd", "gnd", "4u", "2u", 1)
+    sch.nmos("mdR", "gnd", "gnd", "gnd", "gnd", "4u", "2u", 1)
+    # d9_rc [GDS]
+    sch.rhigh("rbf", "nb", "nbf", "gnd", w=D9_RHIGH_W, l=D9_RHIGH_L,
+              bends=D9_RHIGH_B)
     sch.nmos("mbp_rbf", "nb", "vbp_tail", "nbf", "gnd", "20u", "0.13u", 4)
+    # cbf: 7 parallel cmim (layout m=7) [GDS]
+    for i in range(CBF_M):
+        sch.mim(f"cbf{i}", "nbf", "gnd", "gnd", CBF_SIDE, CBF_SIDE, kind="cmim")
     sch.write()
     write_sym(os.path.join(HERE, "vco_tail_dac.sym"), "vco_tail_dac",
               ["tail", "vdd", "gnd", "vbp_tail", "nb", "nbf",
@@ -209,12 +219,17 @@ def gen_vco_bank(rng):
         s = side_um(c_mim)
         w = SW_PER_FF * lsb * wt * tr
         ng = min(100, max(1, int(round(w / 2.5))))  # PCell clamp [TOOL]
-        sch.mim(f"xb{k}p", "tp", f"a{k}", "gnd", f"{s:.3f}u", f"{s:.3f}u")
-        sch.mim(f"xb{k}n", "tn", f"b{k}", "gnd", f"{s:.3f}u", f"{s:.3f}u")
+        # D24: b0..b2 cmim (layout); b3+ rfcmim [GDS / summary_rc_bank]
+        kind = "cmim" if (S2.BANK_ARCH == "d24" and k < 3) else "rfcmim"
+        side = BANK_CMIM_SIDE.get(k, f"{s:.3f}u") if kind == "cmim" else f"{s:.3f}u"
+        sch.mim(f"xb{k}p", "tp", f"a{k}", "gnd", side, side, kind=kind)
+        sch.mim(f"xb{k}n", "tn", f"b{k}", "gnd", side, side, kind=kind)
         sch.nmos(f"ms{k}", f"a{k}", f"g{k}", f"b{k}", "gnd",
                  f"{w:.2f}u", "0.13u", ng)
-        sch.res(f"rba{k}", f"a{k}", f"bb{k}", R_BIAS)
-        sch.res(f"rbb{k}", f"b{k}", f"bb{k}", R_BIAS)
+        sch.rhigh(f"rba{k}", f"a{k}", f"bb{k}", "gnd",
+                  w=BANK_RHIGH_W, l=BANK_RHIGH_L)
+        sch.rhigh(f"rbb{k}", f"b{k}", f"bb{k}", "gnd",
+                  w=BANK_RHIGH_W, l=BANK_RHIGH_L)
         bw, bl, bng = S2.bank_bypass_geom(k)
         sch.nmos(f"mbp_rba{k}", f"a{k}", "vbp", f"bb{k}", "gnd",
                  f"{bw:.4g}u", f"{bl:g}u", bng)
@@ -233,8 +248,10 @@ def gen_vco_bank(rng):
         sch.mim("xbdumn", "gnd", "bdum", "gnd", f"{s:.3f}u", f"{s:.3f}u")
         sch.nmos("msdum", "adum", "gnd", "bdum", "gnd",
                  f"{w:.2f}u", "0.13u", ng)
-        sch.res("rbadum", "adum", "gnd", R_BIAS)
-        sch.res("rbbdum", "bdum", "gnd", R_BIAS)
+        sch.rhigh("rbadum", "adum", "gnd", "gnd",
+                  w=BANK_RHIGH_W, l=BANK_RHIGH_L)
+        sch.rhigh("rbbdum", "bdum", "gnd", "gnd",
+                  w=BANK_RHIGH_W, l=BANK_RHIGH_L)
         sch.nmos("mbp_rbadum", "adum", "gnd", "gnd", "gnd",
                  f"{bw:.4g}u", f"{bl:g}u", bng)
         sch.nmos("mbp_rbbdum", "bdum", "gnd", "gnd", "gnd",
@@ -253,9 +270,11 @@ def gen_vco_var(rng):
     sc = side_um(5 * nfing * 6.8)
     sch.mim("xcp", "tp", "vgp", "gnd", f"{sc:.3f}u", f"{sc:.3f}u")
     sch.mim("xcn", "tn", "vgn", "gnd", f"{sc:.3f}u", f"{sc:.3f}u")
-    sch.res("rvp", "vgp", "vvb", R_BIAS)
-    sch.res("rvn", "vgn", "vvb", R_BIAS)
-    sch.vsrc("vvb", "vvb", "gnd", 0.3)
+    # Bias to well: layout rhigh + shared vvb net (no ideal vsrc in LVS sch) [GDS]
+    sch.rhigh("rvp", "vgp", "vvb", "gnd", w=VAR_RHIGH_W, l=VAR_RHIGH_L,
+              bends=VAR_RHIGH_B)
+    sch.rhigh("rvn", "vgn", "vvb", "gnd", w=VAR_RHIGH_W, l=VAR_RHIGH_L,
+              bends=VAR_RHIGH_B)
     nx1 = nfing - nfing // 2
     nx2 = nfing // 2
     sch.svaricap_fx("xv1", "vgp", "vt", "vgn", "gnd", nx=nx1)
@@ -369,29 +388,32 @@ def gen_vco_top(rng, blocks):
         sch.iopin(p)
     sch.title("vco_top_P272a_hier")
 
+    # Tall bank symbol (~28 pins × 8) — keep instances from overlapping [TOOL]
+    y_top, y_bot, dx = 0, 280, 220
+
     # Inductor (tank L)
     sch.subckt_inst("l2n0.sym", "xl",
-                    {"p": "tp", "n": "tn", "ct": "ct"}, x=0, y=0)
+                    {"p": "tp", "n": "tn", "ct": "ct"}, x=0, y=y_top)
 
     # Core + fixed cap
     sch.subckt_inst(
         "vco_core.sym", "xcore",
         {"tp": "tp", "tn": "tn", "tail": "tail", "ct": "ct",
          "vdd": "vdd", "gnd": "gnd"},
-        x=200, y=0)
+        x=dx, y=y_top)
 
     # D24 bank
     bank_nets = {"tp": "tp", "tn": "tn", "vbp": "vbp", "gnd": "gnd"}
     for k in range(ncell):
         bank_nets[f"g{k}"] = f"g{k}"
         bank_nets[f"bb{k}"] = f"bb{k}"
-    sch.subckt_inst("vco_bank.sym", "xbank", bank_nets, x=400, y=0)
+    sch.subckt_inst("vco_bank.sym", "xbank", bank_nets, x=2 * dx, y=y_top)
 
     # Varactor + bias / bypass
     sch.subckt_inst(
         "vco_var.sym", "xvar",
         {"tp": "tp", "tn": "tn", "vt": "vt", "vbp": "vbp", "gnd": "gnd"},
-        x=600, y=0)
+        x=3 * dx, y=y_top)
 
     # Tail DAC / OTA / RC / bypass
     sch.subckt_inst(
@@ -400,7 +422,7 @@ def gen_vco_top(rng, blocks):
          "nb": "nb", "nbf": "nbf",
          "code0": "code0", "code1": "code1", "code2": "code2",
          "code3": "code3", "code4": "code4"},
-        x=200, y=200)
+        x=dx, y=y_bot)
 
     # D22 detector + SE comparator (fab: en, vthn)
     sch.subckt_inst(
@@ -408,7 +430,7 @@ def gen_vco_top(rng, blocks):
         {"tp": "tp", "tn": "tn", "ct": "ct", "vdd": "vdd", "gnd": "gnd",
          "cmp": "cmp", "hold": "hold", "rep": "rep",
          "en": "en", "vthn": "vthn"},
-        x=400, y=200)
+        x=2 * dx, y=y_bot)
 
     sch.write()
     write_sym(os.path.join(HERE, "vco_top.sym"), "vco_top", top_ports)
@@ -444,9 +466,10 @@ def build_flat_inventory(rng):
     # Bank
     for d in blocks["vco_bank"].devices:
         _emit(sim, d)
-    # Var
+    # Var (LVS sch has no ideal bias; sim flat restores 0.3 V on vvb) [SCH]
     for d in blocks["vco_var"].devices:
         _emit(sim, d)
+    sim.vsrc("vvb_bias", "vvb", "gnd", 0.3)
     # Stand-alone tail (step2 style) for range TB — also emit D22 block separately
     sim.capa("ctail", "tail", "gnd", 8e-12)
     sim.nmos("mt", "tail", "nbf", "gnd", "gnd", "160u", "4u", 32)
@@ -514,6 +537,9 @@ def _emit(sch: Sch, d):
         sch.svaricap_fx(d.name, *d.nodes, p["w"], p["l"], int(p["nx"]))
     elif d.kind == "res":
         sch.res(d.name, *d.nodes, float(p["r"]))
+    elif d.kind == "rhigh":
+        sch.rhigh(d.name, d.nodes[0], d.nodes[1], d.nodes[2],
+                  w=p["w"], l=p["l"], bends=int(p.get("b", 0)))
     elif d.kind == "capa":
         sch.capa(d.name, *d.nodes, float(p["c"]))
     elif d.kind == "ind":

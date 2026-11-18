@@ -14,6 +14,7 @@ model isource isource
 
 m1 (tp tn tail 0) sg13_lv_nmos w=32u l=0.13u ng=8
 m2 (tn tp tail 0) sg13_lv_nmos w=32u l=0.13u ng=8
-xf1 (tp fx 0) cap_rfcmim w=16.000u l=16.000u
-xf2 (tn fx 0) cap_rfcmim w=16.000u l=16.000u
-rfx (fx 0) resistor r=200000.0
+mdum (0 0 0 0) sg13_lv_nmos w=8u l=0.13u ng=1
+xf1 (tp fx 0) cap_rfcmim w=14.500u l=14.500u
+xf2 (tn fx 0) cap_rfcmim w=14.500u l=14.500u
+rfx (fx 0 0) rhigh w=2.000u l=15.200u b=0

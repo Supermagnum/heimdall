@@ -12,7 +12,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "out")
 PDK_DRC = "/foss/pdks/ihp-sg13g2/libs.tech/klayout/tech/drc/run_drc.py"
 PDK_LVS = "/foss/pdks/ihp-sg13g2/libs.tech/klayout/tech/lvs/run_lvs.py"
-NETGEN_SETUP = "/foss/pdks/ihp-sg13g2/libs.tech/netgen/ihp-sg13g2_setup.tcl"
+NETGEN_SETUP_PDK = "/foss/pdks/ihp-sg13g2/libs.tech/netgen/ihp-sg13g2_setup.tcl"
+# Shared leaf mappings (SVaricap, l2n0 black-box notes) — sources PDK setup [decisions]
+NETGEN_SETUP = os.path.join(HERE, "lvs_setup.tcl")
+# Sign-off reference: flattened xschem vco_top.sch (not leaf-assembled spice)
+SCH_FLAT = os.path.join(OUT, "vco_top_sch_flat.spice")
 DENSITY = {"AFil.g", "GFil.g", "M1.j", "M2.j", "M3.j", "M4.j", "M5.j", "M5.k",
            "TM1.c", "TM2.c", "TM1.d", "TM2.d"}
 # SVaricap PCell M1.b waived at block level (vco_var); same at top [decisions]
@@ -71,8 +75,11 @@ def prove(cell: str) -> dict:
     gds_lvs = os.path.join(OUT, f"{cell}_lvs.gds")  # pin-only inductor — LVS
     if not os.path.exists(gds_lvs):
         gds_lvs = gds
-    spice = os.path.join(OUT, f"{cell}.spice")
-    res = {"cell": cell, "gds_lvs": gds_lvs}
+    # Prefer flattened sch export for vco_top; else cell.spice [decisions 2026-11-18]
+    spice = SCH_FLAT if (cell == "vco_top" and os.path.exists(SCH_FLAT)) \
+        else os.path.join(OUT, f"{cell}.spice")
+    res = {"cell": cell, "gds_lvs": gds_lvs, "spice": spice}
+    print(f"  LVS netlist={os.path.basename(spice)}", flush=True)
     drc_dir = os.path.join(OUT, f"drc_{cell}")
     os.makedirs(drc_dir, exist_ok=True)
     res["drc"] = run([
@@ -87,10 +94,16 @@ def prove(cell: str) -> dict:
 
     lvs_dir = os.path.join(OUT, f"lvs_{cell}")
     os.makedirs(lvs_dir, exist_ok=True)
-    # PDK run_lvs appends to {cell}.log; truncate so PASS/FAIL is this run only.
-    cell_log = os.path.join(lvs_dir, f"{cell}.log")
-    if os.path.exists(cell_log):
-        open(cell_log, "w").close()
+    # PDK run_lvs names the log from the layout basename (vco_top_lvs.gds →
+    # vco_top_lvs.log), not always {topcell}.log [TOOL].
+    gds_stem = os.path.splitext(os.path.basename(gds_lvs))[0]
+    cell_logs = [
+        os.path.join(lvs_dir, f"{gds_stem}.log"),
+        os.path.join(lvs_dir, f"{cell}.log"),
+    ]
+    for cell_log in cell_logs:
+        if os.path.exists(cell_log):
+            open(cell_log, "w").close()
     # LVS always on pin-only inductor GDS (spiral DC-shorts tn/tp/ct) [TOOL]
     res["klayout_lvs"] = run([
         "python3", PDK_LVS, f"--layout={gds_lvs}", f"--netlist={spice}",
@@ -99,9 +112,14 @@ def prove(cell: str) -> dict:
         "--combine_devices", "--top_lvl_pins",
     ], os.path.join(OUT, f"lvs_klayout_{cell}.log"))
     print(f"  LVS layout={os.path.basename(gds_lvs)}", flush=True)
-    # PDK run_lvs can print Status PASS from a stale run; trust the cell log.
-    kl_cell = open(cell_log, errors="ignore").read() if os.path.exists(cell_log) else ""
-    # Last match wins
+    # Trust the newest non-empty cell log from this run.
+    kl_cell = ""
+    for cell_log in cell_logs:
+        if os.path.exists(cell_log):
+            txt = open(cell_log, errors="ignore").read()
+            if txt.strip():
+                kl_cell = txt
+                break
     last_ok = kl_cell.rfind("Congratulations! Netlists match")
     last_bad = kl_cell.rfind("ERROR : Netlists don't match")
     res["klayout_pass"] = last_ok > last_bad and last_ok >= 0
@@ -114,11 +132,13 @@ def prove(cell: str) -> dict:
     res["extracted"] = ext
     res["netgen_pass"] = False
     res["netgen"] = None
-    if ext and os.path.exists(NETGEN_SETUP):
+    ng_setup = NETGEN_SETUP if os.path.exists(NETGEN_SETUP) else NETGEN_SETUP_PDK
+    if ext and os.path.exists(ng_setup):
         # rfcmim extract uses C-prefix + name "rfcmim"; netgen setup wants
         # cap_rfcmim and X-prefix for 3-terminal devices [PDK / assemble].
         def for_netgen(txt: str) -> str:
             txt = txt.replace(" rfcmim ", " cap_rfcmim ")
+            txt = txt.replace(" cmim ", " cap_cmim ")
             out = []
             for ln in txt.splitlines():
                 s = ln.lstrip()
@@ -126,6 +146,7 @@ def prove(cell: str) -> dict:
                 # need X-prefix for netgen multi-terminal parse [PDK]
                 if ((s.startswith("C") and (
                         " cap_rfcmim " in f" {s} " or
+                        " cap_cmim " in f" {s} " or
                         " sg13_hv_svaricap " in f" {s} ")) or
                         (s.startswith("R") and " rhigh " in f" {s} ")):
                     i = len(ln) - len(s)
@@ -141,7 +162,7 @@ def prove(cell: str) -> dict:
         json_out = os.path.join(OUT, f"netgen_{cell}.json")
         open(tcl, "w").write(
             f'lvs {{{spice_ng} {cell}}} {{{ext_ng} {cell}}} '
-            f'{NETGEN_SETUP} {json_out}\n')
+            f'{ng_setup} {json_out}\n')
         res["netgen"] = run(
             ["netgen", "-batch", "source", tcl],
             os.path.join(OUT, f"netgen_{cell}.log"), timeout=600)
@@ -173,6 +194,7 @@ def main():
         f"svaricap_M1.b={r.get('drc_svaricap_m1b')}\n"
         f"klayout={r['klayout_pass']} netgen={r['netgen_pass']}\n"
         f"lvs_gds={os.path.basename(r.get('gds_lvs') or '')}\n"
+        f"spice={os.path.basename(r.get('spice') or '')}\n"
     )
     ok = r["drc_clean"] and r["klayout_pass"] and r["netgen_pass"]
     return 0 if ok else 1

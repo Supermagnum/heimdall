@@ -1,6 +1,6 @@
 # VCO topology memo (P2.3)
 
-Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** rfcmim 24=24 + g1/g2 PASS; band@35.6 PASS; outline 0.4029 mm² [GDS/SCH/TOOL]. **STOP** unique LVS at tn_tp (`summary_p272c_rfcmim_join_stop.txt`). Next: unique LVS from place, then P2.7.3. See §9.
+Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** flat-sch LVS reference in place; placement-only PASS; **STOP** unique LVS at power (1 NMOS after merge) — `summary_p272c_flat_sch_lvs_stop.txt`. Outline 0.4029 mm²; band@35.6 prior [GDS/SCH/TOOL]. Next: bisect 1 NMOS + replay to unique LVS, then P2.7.3. See §9.
 
 ---
 
@@ -282,6 +282,15 @@ top **104.0** / bot **92.1** MHz [SCH]; no cfix change. Outline **0.4029 mm²**,
 island C 35.6/35.6 fF, tail L 91 µm [GDS/HAND]. Unique LVS still FAIL at tn_tp
 (144 vs 145 nets; mismatch already at place) —
 `summary_p272c_rfcmim_join_stop.txt`.
+
+### P2.7.2c flattened sch LVS reference (2026-11-18) [TOOL/SCH]
+
+Sign-off reference = flattened `vco_top.sch` (`vco_top_sch_flat.spice` +
+`lvs_setup.tcl`), not leaf-assembled spice [decisions]. Sch LVS alignment:
+bank b0..b2 cmim + rhigh; tail = dac_array units; l2n0 omitted in LVS flat.
+Placement-only m-weighted PASS. Unique LVS FAIL at power: 239 vs 238 devices
+(1 NMOS after merge), 829 vs 831 nets [TOOL]. Band/D20 **not re-sim’d** after
+cmim sch change. Stop: `summary_p272c_flat_sch_lvs_stop.txt`.
 
 ### D9 filter capacitor notes (2026-11-13) — MIM kept; MOS swing cause
 

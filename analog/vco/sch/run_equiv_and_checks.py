@@ -53,12 +53,13 @@ def xschem_export(sch_path):
     env.setdefault("PDK", "ihp-sg13g2")
     env["DISPLAY"] = env.get("DISPLAY", ":99")
     # netlist
+    # Netlist from sch dir so hierarchical schematic=*.sch resolves [TOOL]
     r = subprocess.run(
         ["xschem", "-x", "-q", "-n", sch_path],
-        cwd=work, capture_output=True, text=True, env=env, timeout=60,
+        cwd=HERE, capture_output=True, text=True, env=env, timeout=120,
     )
-    spice = os.path.join(work, "simulations", base + ".spice")
-    alt = os.path.join(HERE, "simulations", base + ".spice")
+    spice = os.path.join(HERE, "simulations", base + ".spice")
+    alt = os.path.join(work, "simulations", base + ".spice")
     found = spice if os.path.exists(spice) else (alt if os.path.exists(alt) else None)
     if found:
         dst = os.path.join(NET, base + ".spice")
