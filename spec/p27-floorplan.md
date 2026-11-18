@@ -179,4 +179,6 @@ Rough Phase-5 squeeze check against the SX1255-compatible **MLPQ-W 5 × 5 mm** p
 
 **P2.7.2c flat-sch LVS STOP (2026-11-18) [GDS/SCH/TOOL]:** outline still **0.4029 mm²** [GDS]; die row unchanged. Flattened-sch reference wired; placement-only PASS; unique LVS FAIL at power (1 NMOS) — `summary_p272c_flat_sch_lvs_stop.txt`. tn/tp C / PEX not re-run.
 
+**P2.7.2c varactor bypass / vvb_bias STOP (2026-11-18) [TOOL/HAND]:** outline still **0.4029 mm²** [GDS]. Drains of M$888/M$899 separate; merge from orphan `$589` / hold `$551`/`$564` [TOOL]. vvb_bias requirement written (open). Unique LVS still FAIL — `summary_p272c_varactor_bypass_stop.txt`.
+
 **Flag:** the §1 sketch of a **1.6 × 1.6 mm** active core **does not fit** the Phase 3/4 RX+TX + synth + digital + pads tally. Before Phase 5, plan on a die closer to **≥ ~2.2 × 2.2 mm** (≈ 4.8 mm²) or tighten RX/TX area after topology.

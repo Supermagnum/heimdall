@@ -616,6 +616,10 @@ class Asm:
                     c.shapes(self.m2).insert(pya.DBox(*box))
                 self.say("power M2.b notch fills applied [TOOL]")
 
+        # vbp bank↔var and det tp/tn name-joins: see summary_p272c_varactor_bypass_stop.txt.
+        # Prior early-join attempts: H@y=80 shorted vbp|gnd; fat pads shorted
+        # vbp|vvb; west strap left vbp vs vbp$1 open at bank pin [TOOL].
+
         # ---- ct: TM2 west of inductor spiral (l2n0 TM2 ≈ x∈[-58.6,195.4],
         # y∈[461,715] on fab GDS) [GDS/TOOL]. TM1 alley hit tn/tp; M3 hit power.
         if "ct" in routed and "ct" in cp:
@@ -1036,48 +1040,53 @@ class Asm:
             self.say(f"vt shielded escape y={y_vt:.2f} (gnd_spine={y_gnd:.2f}) "
                      f"x_col={x_col:.1f}")
 
-        # ---- controls: vbp only on island; gates/codes exported ----
+        # ---- controls: vbp bank↔var (west of island) + gate/code exports ----
         if "controls" in routed:
             if "vbp" in bp and "vbp" in vp:
                 x0, y0 = bp["vbp"]
                 x1, y1 = vp["vbp"]
-                # Stay south of tank: use bank mid Y, columns outside cells
-                y_ctrl = min(y0, 80.0)
-                x_col0 = bank_bb.left - 3.0
-                x_col1 = var_bb.right + 3.0
-                # pin → south/west column → H → east column → pin
-                c.shapes(self.m2).insert(
-                    pya.DBox(min(x0, x_col0) - 0.2, y0 - 1.0,
-                             max(x0, x_col0) + 0.2, y0 + 1.0))
-                c.shapes(self.m3).insert(
-                    pya.DBox(x_col0 - 1.0, min(y0, y_ctrl),
-                             x_col0 + 1.0, max(y0, y_ctrl)))
-                c.shapes(self.m2).insert(
-                    pya.DBox(min(x_col0, x_col1), y_ctrl - 1.0,
-                             max(x_col0, x_col1), y_ctrl + 1.0))
-                c.shapes(self.m3).insert(
-                    pya.DBox(x_col1 - 1.0, min(y_ctrl, y1),
-                             x_col1 + 1.0, max(y_ctrl, y1)))
-                c.shapes(self.m2).insert(
-                    pya.DBox(min(x_col1, x1) - 0.2, y1 - 1.0,
-                             max(x_col1, x1) + 0.2, y1 + 1.0))
-                c.shapes(self.m2).insert(
-                    pya.DBox(x0 - 1.0, y0 - 1.0, x0 + 1.0, y0 + 1.0))
-                c.shapes(self.m2).insert(
-                    pya.DBox(x1 - 1.0, y1 - 1.0, x1 + 1.0, y1 + 1.0))
+                # West of bank/det — do not H through bank at y≈80 (vbp|gnd)
+                # [TOOL 2026-11-18]. Narrow pads — fat ±1 µm shorted vbp|vvb.
+                x_west = min(bank_bb.left, det_bb.left) - 10.0
+                x_var_col = var_bb.left - 3.0
+                hw2, hw3, pad_b, pad_v = 0.20, 0.50, 0.60, 0.30
+
+                def m2h(xa, ya, xb, yb):
+                    c.shapes(self.m2).insert(
+                        pya.DBox(min(xa, xb) - hw2, min(ya, yb) - hw2,
+                                 max(xa, xb) + hw2, max(ya, yb) + hw2))
+
+                def m3v(xx, ya, yb):
+                    c.shapes(self.m3).insert(
+                        pya.DBox(xx - hw3, min(ya, yb),
+                                 xx + hw3, max(ya, yb)))
+
+                m2h(x0, y0, x_west, y0)
+                for lyr in (self.m1, self.m2):
+                    c.shapes(lyr).insert(
+                        pya.DBox(x0 - pad_b, y0 - pad_b,
+                                 x0 + pad_b, y0 + pad_b))
                 c.insert(pya.DCellInstArray(
                     vs12, pya.DTrans(pya.DVector(x0, y0))))
                 c.insert(pya.DCellInstArray(
-                    vs23, pya.DTrans(pya.DVector(x_col0, y0))))
+                    vs23, pya.DTrans(pya.DVector(x_west, y0))))
+                m3v(x_west, y0, y1)
                 c.insert(pya.DCellInstArray(
-                    vs23, pya.DTrans(pya.DVector(x_col0, y_ctrl))))
+                    vs23, pya.DTrans(pya.DVector(x_west, y1))))
+                m2h(x_west, y1, x_var_col, y1)
                 c.insert(pya.DCellInstArray(
-                    vs23, pya.DTrans(pya.DVector(x_col1, y_ctrl))))
-                c.insert(pya.DCellInstArray(
-                    vs23, pya.DTrans(pya.DVector(x_col1, y1))))
+                    vs23, pya.DTrans(pya.DVector(x_var_col, y1))))
+                m2h(x_var_col, y1, x1, y1)
+                for lyr in (self.m1, self.m2):
+                    c.shapes(lyr).insert(
+                        pya.DBox(x1 - pad_v, y1 - pad_v,
+                                 x1 + pad_v, y1 + pad_v))
                 c.insert(pya.DCellInstArray(
                     vs12, pya.DTrans(pya.DVector(x1, y1))))
-                self.say(f"vbp bank↔var via y_ctrl={y_ctrl:.1f}")
+                self.say(
+                    f"controls: vbp bank↔var west_col={x_west:.1f} "
+                    f"y_pin={y1:.1f} [TOOL]"
+                )
             self.say("controls: gate/code pins exported; AFE buses at synthesizer top")
 
         # LVS GDS: pin-only inductor (what extract must see) [TOOL]

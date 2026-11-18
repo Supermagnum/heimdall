@@ -278,6 +278,17 @@ P2.5 result review: accepted by the owner 2026-10-25, with step 4 for the three 
 
 I_cp follows V_REF / R_B. With R_B of the same resistor type as the loop-filter R1, the product I_cp · R1, and so the loop bandwidth, does not depend on the resistor's absolute value. V_REF (0.4 V) comes from the chip reference (shared block, not yet designed; an ideal source until then). In the final pump the source segments switch with the code too, so the current density stays as in step 2a.
 
+**Open — VCO `vvb_bias` (0.3 V) from this bias generator** (2026-11-18)
+[decisions / `spec/vco-topology.md` §9]: the VCO has no on-chip source for the
+AC-coupled SVaricap gate bias. Add an output (or accept another owner choice):
+
+| Item | Requirement | Tag |
+|------|-------------|-----|
+| Nominal | 0.3 V | [SCH] |
+| Load | ≈ 0 DC; wake transient when VCO bias bypasses close | [HAND] |
+| Accuracy | ±30 mV | [HAND] |
+| Noise | ≤ 8 nV/√Hz @ 100 kHz and @ 1 MHz (PN add ≤ 0.2 dB at peak K_VCO) | [HAND]/[SCH] |
+
 **Window delay cell, and the lock detector made two-sided.** A rising edge sets a flip-flop, which releases a MIM capacitor (≈ 33 fF) charged by 4 µA; an inverter pair is the threshold, and its output resets the flip-flop (self-timed strobe, so the 2.5 ns MMD output pulse is enough). Delay ≈ C · V_th / I + gate delays: target 7 ns, allowed 5–12 ns (above the 4.7 ns locked UP pulse including reset; below T_ref / 2). Two identical cells: reference + t_w samples UP (divider late by more than t_w), divider + t_w samples DN (divider early by more than t_w). The step-2c detector sampled both at the reference strobe only, and a DN pulse ends at the reference edge, so an early divider was seen only beyond T_ref − t_w ≈ 21 ns; with a frequency error below about 1.2 % it could report lock. Two-sided, a phase walk of 0.25 ns per cycle (≈ 0.9 % frequency error) no longer locks (`test_lockdet.py`, three tests pass).
 
 **V_tune hold switch.** During band calibration, transmission gates (NMOS 10 µm, PMOS 20 µm) connect the charge-pump node and the C2 node of the loop filter to V_DD / 2 from a 2 × 1 kΩ divider that is on only during hold (≈ 0.6 mA for ≈ 30 µs per calibration). Holding the C2 node directly avoids the R1·C2 = 3.4 µs time constant; the expected time constant is ≈ 0.4 µs. The first calibration trial now settles for 64 reference cycles (`bandcal.sv` SETTLE0) so that the loop filter can come from anywhere in 0–1.2 V; later trials only change the bank (16 cycles). Calibration 30.5 µs instead of 29.2 µs. Limit: V_tune within 10 mV on average over the first count (0.4 MHz at the VCO, a tenth of a count).

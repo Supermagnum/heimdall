@@ -292,6 +292,26 @@ Placement-only m-weighted PASS. Unique LVS FAIL at power: 239 vs 238 devices
 (1 NMOS after merge), 829 vs 831 nets [TOOL]. Band/D20 **not re-sim’d** after
 cmim sch change. Stop: `summary_p272c_flat_sch_lvs_stop.txt`.
 
+### P2.7.2c varactor bypass merge / vvb_bias (2026-11-18) [TOOL/HAND]
+
+M$888/M$899 drains **$507 ≠ $571** in extract — not a drain short; SVaricap
+remap not the cause. Orphan gate `$589` (duplicate `vbp` pin text vs bank)
++ shared S drives netgen false merge; PDK 65 vs 64 also from hold mdtp/mdtn
+orphan S (`$551`/`$564` vs tp/tn). Place+power unique LVS still **FAIL**.
+Stop: `layout/p272c/out/summary_p272c_varactor_bypass_stop.txt`.
+
+**Open — vvb_bias (0.3 V) requirement** (no on-chip source in VCO; supply from
+PLL bias generator at synthesizer top unless owner decides otherwise
+[decisions]):
+
+| Item | Requirement | Tag |
+|------|-------------|-----|
+| Biases | SVaricap gates through rvp/rvn (D11 AC-coupled) | [SCH] |
+| Nominal | 0.3 V | [SCH] |
+| Load | ≈ 0 DC; wake transient when bypasses close | [HAND] |
+| Accuracy | ±30 mV | [HAND] |
+| Noise | ≤ 8 nV/√Hz @ 100 kHz and @ 1 MHz (PN add ≤ 0.2 dB at K_VCO 38.8 MHz/V vs L_tot −119.6 dBc/Hz @ 1 MHz) | [HAND]/[SCH] |
+
 ### D9 filter capacitor notes (2026-11-13) — MIM kept; MOS swing cause
 
 **Device:** `cbf` = 50 pF **rfcmim** W=L=182.574 µm (cmim PCell clamps; side ≥ 7 µm → rfcmim) [PDK]. MOS rejected (`decisions.md` 2026-11-13); D23 island ≤ 0.34 mm².

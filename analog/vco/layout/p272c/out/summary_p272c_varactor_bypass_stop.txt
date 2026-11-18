@@ -1,0 +1,102 @@
+# P2.7.2c — Varactor bypass merge, vvb_bias stop [TOOL]
+
+Date: 2026-11-18. Prompt 06 after f4d03ee WIP (not accepted). decisions.md
+"2026-11-18 — Varactor bypass merge, vvb_bias" recorded.
+
+## Step results vs pass criteria
+
+| Step | Criterion | Result |
+|------|-----------|--------|
+| 0 WIP | Commit prior LVS-setup WIP not accepted | **PASS** — f4d03ee |
+| 1 M$888/M$899 | Drain nets; root-cause merge; place+power unique | **FAIL** — see below [TOOL] |
+| 2 Step-2 @35.6 | overlap; bank boundary; D20; PN | **not run** (stopped on step 1) |
+| 3 vvb_bias requirement | write open item in VCO + PLL specs | **PASS** (requirement text) |
+| 4 Net-group replay | DRC+LVS unique after each | **not run** |
+| 5 Report / specs | update + commit | **this stop**; partial specs |
+
+## Step 1 — drains and merge root cause [TOOL]
+
+Extract (place+power, no early name-join):
+
+```
+M$888  D=$507  G=$589  S=$592  W=5u L=0.13u
+M$899  D=$571  G=$589  S=$592  W=5u L=0.13u
+```
+
+- Drains **$507 ≠ $571** (separate nets). Not a top-level short between
+  varactor bias drains in the extract.
+- SVaricap remap (G1/W/G2/gnd) does **not** join the bias nodes; matched var
+  subgraph unique with remap on or off (prior run).
+- Gate net **$589** is orphan: only the two bypasses. Bank bypasses use named
+  port **vbp**. Duplicate pin text "vbp" on disconnected islands → extract
+  keeps `vbp` on the bank and leaves var gates as `$589`.
+- Source **$592** is the on-chip vvb node (no port).
+
+### What merges
+
+1. **parallel none** (bisect): lay 67→66; removing M$888 or M$899 stops it.
+   Shared orphan G + shared S, different D → netgen 1.5.324 still merges.
+2. **PDK LVS setup** (parallel enable): sch 67→65, lay 67→64 (extra −1).
+   Leave-one-out hits are **hold** switches M$824/M$827
+   (`vdd $551 hold gnd` / `vdd $564 hold gnd`) with floating S (should be
+   tp/tn). Leaf ampcal_det extract has them on tp/tn; top loses the name
+   because duplicate "tp"/"tn" pin text (tank vs det) until tn_tp joins.
+   Spice rename $551→tp, $564→tn → NMOS **65=65** [TOOL].
+
+SVaricap pin remap is not the merge cause. Decision's "likely real short or
+remap" is **superseded**: extract shows separate drains; cause is
+**orphan shared terminals + netgen parallel**, plus hold orphans for the
+PDK 65 vs 64 gap.
+
+### Layout fix attempts (reverted / deferred)
+
+- Early det M2 taps at place/power: shorted nets (gnd|vbp) — reverted.
+- vbp H at y=80 through bank bbox: shorted vbp|gnd — do not use.
+- Fat ±1 µm M2 pads on var.vbp: shorted vbp|vvb — use ≤0.3 µm pad.
+- West-of-island vbp strap (controls path updated): var side becomes
+  `vbp$1`, bank stays `vbp` — **open at bank pin** still; not closed this
+  run. controls now uses the west path + narrow pads for the full join.
+
+Place+power: DRC clean (density + SVaricap M1.b waived) **PASS**;
+KLayout LVS and netgen **FAIL** unique (65 vs 64 NMOS after merge;
+nets 144 vs 151) [TOOL].
+
+## Step 3 — vvb_bias requirement (open item) [HAND/SCH]
+
+Written into `spec/vco-topology.md` §9 and `spec/pll-topology.md` §12.
+
+| Item | Value | Tag |
+|------|-------|-----|
+| What it biases | AC-coupled SVaricap gates (D11 option A) via rvp/rvn (2 MΩ class) | [SCH] |
+| Nominal | 0.3 V DC | [SCH] |
+| Load current | ≈ 0 DC (gate leakage); wake transient when bypasses close | [HAND] |
+| Accuracy | ±30 mV (keep steep region vs V_tune window) | [HAND] |
+| Noise | ≤ **8 nV/√Hz** at 100 kHz and 1 MHz so PN add ≤ 0.2 dB at peak K_VCO 38.8 MHz/V vs L_tot −119.6 dBc/Hz @ 1 MHz | [HAND] from [SCH] K_VCO / PN |
+| Source | PLL bias generator at synthesizer top (unless owner chooses else) | [decisions] |
+
+## What failed or is uncertain
+
+- Place+power unique LVS not achieved.
+- Electrically continuous bank.vbp↔var.vbp metal join not proven (vbp vs
+  vbp$1 open in extract when strap tried).
+- Hold tp/tn name-join deferred to tn_tp group (early taps unsafe).
+
+## Decision needed
+
+1. Accept root cause (orphan duplicate pin nets + netgen merge), and either:
+   (a) close bank↔var vbp in controls with a proven extract join (fix the
+       bank-pin open), and rely on tn_tp for hold sources; or
+   (b) documented LVS setup / D–S rule that forbids this false merge without
+       editing netlists.
+2. Confirm vvb_bias ±30 mV / 8 nV/√Hz / bias-generator source, or revise.
+
+## Found, not done
+
+- Step-2 checks @35.6 fF (overlap, bank boundary, D20, PN).
+- Net-group replay to unique LVS; fab/LVS diff; varactor scripts; ct port.
+- Outline / die re-total / SVG–PDF refresh after unique LVS.
+- P2.7.3 VCO PEX — blocked until unique LVS on flat vco_top.sch.
+
+## Next run
+
+**P2.7.2c — close vbp join + hold name-join, unique LVS** (then P2.7.3 PEX).

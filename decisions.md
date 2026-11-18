@@ -963,3 +963,13 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   (source / drain permutation for every MOS device name and wrapper), applied to KLayout and
   netgen alike, after showing the circuits are identical. Fallback: D / S label swap on the
   schematic device, documented. A device is removed only if shown not to belong.
+
+## 2026-11-18 — Varactor bypass merge, vvb_bias
+- MOS identity 67 = 67 accepted [TOOL]; D / S permutation in lvs_setup.tcl.
+- Extract drains of M$888 / M$899 are **separate** ($507 ≠ $571) [TOOL]. SVaricap remap does
+  not join them. Merge cause: orphan shared gate `$589` (duplicate `vbp` pin text vs bank) plus
+  shared S, and (under PDK parallel) hold mdtp/mdtn orphan sources `$551`/`$564` vs named
+  tp/tn until tn_tp joins. Not a drain short. See `summary_p272c_varactor_bypass_stop.txt`.
+- vvb_bias 0.3 V has no on-chip source: finding. Requirement written in `spec/vco-topology.md`
+  §9 and `spec/pll-topology.md` §12 (≤ 8 nV/√Hz @ 100 kHz / 1 MHz, ±30 mV, ≈ 0 DC);
+  supplied by the PLL bias generator at the synthesizer top unless the owner decides otherwise.

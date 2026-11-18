@@ -813,6 +813,13 @@ mA/µm, C≈7 fF — inside targets. Filtered gate node stays inside `tail_block
 per side [HAND]. Replay net groups: power → ct → tail → tn/tp → V_tune →
 controls → detector; DRC + both LVS after each.
 
+**Var bypass / vvb (2026-11-18) [TOOL]:** place+power extract keeps var bypass
+gates on orphan `$589` (bank has named `vbp`) and hold mdtp/mdtn sources on
+`$551`/`$564` (should be tp/tn). That drives the netgen 65 vs 64 NMOS gap.
+controls vbp path must stay **west of the bank** (H through y≈80 shorted
+vbp|gnd); var.vbp pads ≤ 0.3 µm (fat pads shorted vvb). Detail:
+`summary_p272c_varactor_bypass_stop.txt`.
+
 **STOP (same day) [TOOL/HAND]:** short corridor alone is electrically OK.
 Full join stops when placing var/det with the east tail: east tn-aligned pack
 blocks the short tail Y; north pack needs parent TM1 that either exceeds the
