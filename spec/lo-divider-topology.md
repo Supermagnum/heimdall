@@ -1,6 +1,6 @@
 # LO divider and phase-generation topology memo (P2.4)
 
-Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1–3 done; P2.4 accepted 2026-10-21.** P2.6 UHF floor −150.1 dBc/Hz [SCH]. **P2.7.4a:** C_ck floor FAIL ≈ −147.8 [HAND]. **P2.7.4a2 (2026-11-19):** xschem capture; UHF floor C_ck=15 fF **−154.7 PASS** [SCH] at I_latch=0.75 mA; VHF D7 over [HAND]; VHF ss FAIL (MOSFET tails); peak MC N=20 PASS. **P2.7.4a3 diagnosis (2026-11-19):** VHF ÷3 frequency sweep + option table (§11); owner picks topology before implement. Next: implement chosen ÷3 option, finish a3, then **P2.7.4b**. Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
+Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1–3 done; P2.4 accepted 2026-10-21.** P2.6 UHF floor −150.1 dBc/Hz [SCH]. **P2.7.4a2:** UHF floor C_ck=15 fF **−154.7 PASS** [SCH] at I_latch=0.75 mA. **P2.7.4a3 (2026-11-19):** VHF ÷3 = **tail-less CML** (owner); VR_ANA1 V_min **1.181 V** [SCH/HAND]; B2=4 delivers ≥0.5 V/side @ 4.20 ss; corners + MC PASS; floors PASS; **D7 VHF 10.69 mA over by 0.69 mA** [HAND] — STOP for owner. Next: D7 decision, then **P2.7.4b**. Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
 
 ---
 
@@ -288,3 +288,28 @@ simple D4 8-phase unless dual-edge logic is added.
 
 **Decision needed:** owner chooses a / b / c (or hybrid). Next run implements the
 chosen option, then finishes a3 sizing / floor / D7 / peak.
+
+## 12. P2.7.4a3 — tail-less ÷3 implemented (2026-11-19)
+
+Owner: `decisions.md` “VHF ÷3 topology: tail-less CML”. Folded / re-order not taken.
+Chain order kept (÷3 → Johnson ÷8). Sources:
+`analog/vco/ldo/out/summary_vrana1_corner_vmin.txt`,
+`analog/lo/sch/out/summary_vhf_buffer_size.txt`,
+`summary_vhf_a3_corners.txt`, `summary_a3_floor_d7.txt`.
+
+| Item | Result | Tag |
+|---|---|---|
+| VR_ANA1 V_min (ss/125, VHF load − route IR) | **1.181 V** (pad 1.186 − 5.3 mV) | [SCH/HAND] |
+| VR_ANA1 V_max (ff/−40, UHF load) | **1.208 V** | [SCH/HAND] |
+| LO-enable step ΔVpk (ss VHF) | −83 mV | [SCH] |
+| ÷3 topology | Tail-less CML latches; NOR MOSFET tail; UHF ÷2 stacked | xschem |
+| Buffer @ 4.20 ss V_min | B2=**4** µm → **0.516 V/side**; divide OK | [SCH] |
+| Corners tt/ss UHF+VHF | All divide; UHF φ ≤ 0.33°; VHF φ ≤ 0.11° | [SCH] |
+| f_max ss | ≈ **5.2 GHz** | [SCH] |
+| MC N=20 VHF ss 4.20 | **20/20**; φ mean/σ/max 0.32/0.10/0.51° | [SCH] |
+| Floor C_ck=15 fF | UHF **−154.7 PASS**; VHF **−158.6 PASS** | [SCH] |
+| LO current vs D7 | UHF 8.44 OK; VHF **10.69** (−0.69 mA) | [HAND] |
+| Peak MC N=20 | Prior PASS (VCO unchanged) | [PEX-RC] |
+
+**STOP:** D7 overrun — owner options in `summary_a3_floor_d7.txt`. Do not start
+P2.7.4b until D7 is settled.

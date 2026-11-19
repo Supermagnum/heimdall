@@ -1,0 +1,54 @@
+# P2.7.4a3 step 5 — floor + D7 (tailless ÷3, B2=4) [SCH/HAND]
+
+C_ck=15 fF/side. I_latch=0.75 mA; B2=4; VHF_TAILLESS=True.
+stage_noise exit=0.
+
+## Floor
+
+| Band | Floor (dBc/Hz) | Target | Gate |
+|---|---:|---:|---|
+| UHF | -154.7 | ≤ -151 | PASS |
+| VHF | -158.6 | ≤ -150 | PASS |
+
+## Per-stage (UHF)
+
+| Stage | L → LO (dBc/Hz) |
+|---|---:|
+| buffer | -168.3 |
+| cml | -162.2 |
+| converter | -160.7 |
+| logic | -157.5 |
+
+## Per-stage (VHF)
+
+| Stage | L → LO (dBc/Hz) |
+|---|---:|
+| buffer | -176.3 |
+| cml | -166.7 |
+| converter | -165.2 |
+| logic | -160.7 |
+
+## LO current vs D7 (≤ 10 mA typ) [HAND]
+
+| Piece | UHF | VHF |
+|---|---:|---:|
+| Buffer (B2=4) | 1.00 | 1.00 |
+| CML (2× / 5× I_latch) | 1.50 | 3.75 |
+| Converter + logic | 0.85 | 0.85 |
+| Chain subtotal | 3.35 | 5.60 |
+| VCO typ + PLL HAND | 5.09 | 5.09 |
+| **LO total** | **8.44** | **10.69** |
+
+D7: FAIL — VHF over by 0.69 mA.
+
+## STOP — D7 overrun (owner)
+
+Smallest VHF LO total with UHF-path-only sizing: **10.69 mA** (−0.69 mA vs 10 mA).
+Options:
+1. Accept / raise D7 by ≥ 0.7 mA for VHF typ.
+2. Cut C_ck in layout (reduce I_latch back toward 0.5 mA) if floor still holds.
+3. Share / duty-cycle bias or shrink converter clock driver.
+4. Measure tailless ÷3 current [SCH] — HAND 5×I may be high; if lower, re-close D7.
+
+Peak MC N=20: unchanged VCO (D22) — prior PASS 1.249+3σ ≤ 1.50 [PEX-RC] `analog/vco/step3/out/summary_pex_vco_peak_mc_schstyle.txt` (not re-run; no VCO change).
+

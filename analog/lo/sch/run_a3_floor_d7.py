@@ -29,13 +29,18 @@ def main():
     os.environ["LO_SCH_OUT"] = OUT
     C.apply_knobs(i_latch=0.75e-3, b2=4.0, vhf_tailless=True)
 
-    print("stage noise…", flush=True)
-    r = subprocess.run(
-        [sys.executable, "-u", os.path.join(HERE, "run_stage_noise.py"),
-         "uhf", "vhf", "i=0.75", "b2=4"],
-        cwd=HERE,
-    )
     sn_path = os.path.join(OUT, "stage_noise.json")
+    skip = "skip_noise" in sys.argv[1:]
+    r = type("R", (), {"returncode": 0})()
+    if skip and os.path.exists(sn_path):
+        print("using existing stage_noise.json", flush=True)
+    else:
+        print("stage noise…", flush=True)
+        r = subprocess.run(
+            [sys.executable, "-u", os.path.join(HERE, "run_stage_noise.py"),
+             "uhf", "vhf", "i=0.75", "b2=4"],
+            cwd=HERE,
+        )
     sn = json.load(open(sn_path)) if os.path.exists(sn_path) else {}
     L_uhf = sn.get("uhf", {}).get("L_sum", float("nan"))
     L_vhf = sn.get("vhf", {}).get("L_sum", float("nan"))
@@ -75,8 +80,8 @@ def main():
         "| Stage | L → LO (dBc/Hz) |",
         "|---|---:|",
     ]
-    for name, _, L in parts_u:
-        lines.append(f"| {name} | {L:.1f} |")
+    for p in parts_u:
+        lines.append(f"| {p.get('stage', '?')} | {p.get('L_lo', p.get('L', float('nan'))):.1f} |")
     lines += [
         "",
         "## Per-stage (VHF)",
@@ -84,8 +89,8 @@ def main():
         "| Stage | L → LO (dBc/Hz) |",
         "|---|---:|",
     ]
-    for name, _, L in parts_v:
-        lines.append(f"| {name} | {L:.1f} |")
+    for p in parts_v:
+        lines.append(f"| {p.get('stage', '?')} | {p.get('L_lo', p.get('L', float('nan'))):.1f} |")
 
     d7_ok = i_lo_vhf <= D7 + 0.05e-3
     lines += [

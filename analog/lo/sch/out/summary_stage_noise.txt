@@ -14,10 +14,6 @@ C_ck=15 fF/side. I_latch=0.75 mA, B2=4 µm. Method: ZOH → TIE L(f); avg 3–10
 **Summed LO floor:** -154.7 dBc/Hz [SCH]
 Target ≤ -151 → PASS
 
-## Dominant UHF stage
-
-**logic** (-157.5 dBc/Hz → LO)
-
 ## VHF
 
 | Stage | Method | f_out | jit fs | L@f_out | L→LO |
@@ -28,3 +24,7 @@ Target ≤ -151 → PASS
 | logic | tran-zoh | — | 133 | -160.7 | -160.7 |
 
 **Summed LO floor:** -158.6 dBc/Hz [SCH]
+
+## Dominant UHF stage
+
+**logic** (-157.5 dBc/Hz → LO)
