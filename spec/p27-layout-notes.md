@@ -1059,12 +1059,19 @@ Leaf cells: `lo_converter`, `lo_tspc`, `lo_nand2`, `lo_inv_*`, `cml_dff_uhf`,
 (`netlists/lo_*_flat.SUPERSEDED.txt`). Sanity VHF tt/ss 4.20: divides, |φ|
 0.09° / 0.11° [SCH] (matches a3).
 
-##### `cml_pair_loads_tail` (2026-11-19) — FAIL [TOOL]
+##### `cml_tail` (2026-11-19) — PASS [TOOL]
 
-Step 3b2: MOSFET W=15 µm on `s`. DRC **FAIL** M1.b, V1.b (same class as first
-latch / VCO pair fill). KLayout LVS and netgen **FAIL**. Re-build with VCO
-method: no M1 across opposite S/D; via pitch; dummies G=S=D tied without
-blanket M1 over Activ. Regen XC and full latch **not started**.
+Standalone MOSFET W=15 µm ng=5. DRC / KLayout LVS / netgen **PASS**. Lessons:
+route D south (not into gate Cont zone); gate exit in device–dummy gap (not
+through dummy — that shorted nb_lo≡gnd).
+
+##### `cml_pair_loads_tail` join (2026-11-19) — FAIL [TOOL]
+
+Instantiating proven pair_loads + cml_tail: first joins shorted d2|gnd|s
+(M2/M1 through child bboxes; M1 east from `s` crossed d2 vertical strap).
+Latest: nets separated but `s` not tied to `drain`; DRC M1.b/M2.b/V1.b on
+escape. Need gap-only corridor with face pins. Regen XC / full latch **not
+started**.
 
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  

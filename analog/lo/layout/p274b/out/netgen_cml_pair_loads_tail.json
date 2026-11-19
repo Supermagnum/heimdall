@@ -1,96 +1,21 @@
 
-Class cml_pair_loads_tail (0):  Merged 1 parallel devices.
 Subcircuit summary:
 Circuit 1: cml_pair_loads_tail             |Circuit 2: cml_pair_loads_tail             
 -------------------------------------------|-------------------------------------------
-sg13_lv_nmos (5->4)                        |sg13_lv_nmos (6) **Mismatch**              
-gnd (2)                                    |(no matching element)                      
-(no matching element)                      |d2|gnd|nb_lo|s (2)                         
-Number of devices: 6 **Mismatch**          |Number of devices: 8 **Mismatch**          
-Number of nets: 8 **Mismatch**             |Number of nets: 10 **Mismatch**            
+sg13_lv_nmos (4)                           |sg13_lv_nmos (4)                           
+gnd (2)                                    |gnd (2)                                    
+Number of devices: 6                       |Number of devices: 6                       
+Number of nets: 8 **Mismatch**             |Number of nets: 9 **Mismatch**             
 ---------------------------------------------------------------------------------------
 NET mismatches: Class fragments follow (with fanout counts):
 Circuit 1: cml_pair_loads_tail             |Circuit 2: cml_pair_loads_tail             
 
 ---------------------------------------------------------------------------------------
-Net: d1                                    |Net: d1                                    
-  sg13_lv_nmos/(drain|source) = 1          |  sg13_lv_nmos/(drain|source) = 1          
-  gnd/(end_a|end_b) = 1                    |  d2|gnd|nb_lo|s/(end_a|end_b) = 1         
-                                           |                                           
-Net: d2                                    |Net: \$6                                   
-  sg13_lv_nmos/(drain|source) = 1          |  sg13_lv_nmos/(drain|source) = 2          
-  gnd/(end_a|end_b) = 1                    |                                           
-                                           |                                           
-Net: vdd                                   |Net: vdd                                   
-  gnd/(end_a|end_b) = 2                    |  d2|gnd|nb_lo|s/(end_a|end_b) = 2         
-                                           |                                           
-Net: g1                                    |Net: g1                                    
-  sg13_lv_nmos/gate = 1                    |  sg13_lv_nmos/gate = 1                    
-                                           |                                           
-Net: g2                                    |Net: g2                                    
-  sg13_lv_nmos/gate = 1                    |  sg13_lv_nmos/gate = 1                    
-                                           |                                           
-Net: nb_lo                                 |Net: \$11                                  
-  sg13_lv_nmos/gate = 1                    |  sg13_lv_nmos/gate = 1                    
-                                           |                                           
-Net: s                                     |Net: \$4                                   
+Net: s                                     |Net: s                                     
   sg13_lv_nmos/(drain|source) = 3          |  sg13_lv_nmos/(drain|source) = 2          
                                            |                                           
-Net: gnd                                   |Net: \$10                                  
-  sg13_lv_nmos/bulk = 4                    |  sg13_lv_nmos/gate = 1                    
-  sg13_lv_nmos/(drain|source) = 3          |                                           
-  sg13_lv_nmos/gate = 1                    |                                           
-                                           |                                           
-(no matching net)                          |Net: \$1                                   
+(no matching net)                          |Net: drain                                 
                                            |  sg13_lv_nmos/(drain|source) = 1          
-                                           |                                           
-(no matching net)                          |Net: d2|gnd|nb_lo|s                        
-                                           |  sg13_lv_nmos/bulk = 6                    
-                                           |  sg13_lv_nmos/(drain|source) = 6          
-                                           |  sg13_lv_nmos/gate = 2                    
-                                           |  d2|gnd|nb_lo|s/(end_a|end_b) = 1         
----------------------------------------------------------------------------------------
-DEVICE mismatches: Class fragments follow (with node fanout counts):
-Circuit 1: cml_pair_loads_tail             |Circuit 2: cml_pair_loads_tail             
-
----------------------------------------------------------------------------------------
-Instance: sg13_lv_nmos:m1                  |Instance: sg13_lv_nmos:$1                  
-  (drain,source) = (3,2)                   |  (drain,source) = (2,2)                   
-  gate = 1                                 |  gate = 1                                 
-  bulk = 8                                 |  bulk = 15                                
-                                           |                                           
-Instance: sg13_lv_nmos:m2                  |Instance: sg13_lv_nmos:$2                  
-  (drain,source) = (3,2)                   |  (drain,source) = (15,1)                  
-  gate = 1                                 |  gate = 15                                
-  bulk = 8                                 |  bulk = 15                                
-                                           |                                           
-Instance: sg13_lv_nmos:dum                 |Instance: sg13_lv_nmos:$7                  
-  (drain,source) = (8,8)                   |  (drain,source) = (2,2)                   
-  gate = 8                                 |  gate = 1                                 
-  bulk = 8                                 |  bulk = 15                                
-                                           |                                           
-Instance: sg13_lv_nmos:mt                  |Instance: sg13_lv_nmos:$8                  
-  (drain,source) = (8,3)                   |  (drain,source) = (15,15)                 
-  gate = 1                                 |  gate = 15                                
-  bulk = 8                                 |  bulk = 15                                
-                                           |                                           
-Instance: gnd:rlp                          |Instance: sg13_lv_nmos:$9                  
-  (end_a,end_b) = (2,2)                    |  (drain,source) = (15,2)                  
-                                           |  gate = 1                                 
-                                           |  bulk = 15                                
-                                           |                                           
-Instance: gnd:rln                          |Instance: sg13_lv_nmos:$14                 
-  (end_a,end_b) = (2,2)                    |  (drain,source) = (15,15)                 
-                                           |  gate = 1                                 
-                                           |  bulk = 15                                
-                                           |                                           
-(no matching instance)                     |Instance: d2|gnd|nb_lo|s:$20               
-                                           |  (end_a,end_b) = (2,2)                    
-                                           |                                           
-                                           |                                           
-(no matching instance)                     |Instance: d2|gnd|nb_lo|s:$21               
-                                           |  (end_a,end_b) = (15,2)                   
-                                           |                                           
 ---------------------------------------------------------------------------------------
 Netlists do not match.
 Port matching may fail to disambiguate symmetries.
@@ -98,15 +23,15 @@ Port matching may fail to disambiguate symmetries.
 Subcircuit pins:
 Circuit 1: cml_pair_loads_tail             |Circuit 2: cml_pair_loads_tail             
 -------------------------------------------|-------------------------------------------
-d1                                         |(no pin, node is \$4)                      
-d2                                         |(no pin, node is \$6)                      
-vdd                                        |d1 **Mismatch**                            
-g1                                         |vdd **Mismatch**                           
-g2                                         |(no pin, node is \$10)                     
-nb_lo                                      |(no pin, node is \$11)                     
-s                                          |g1 **Mismatch**                            
-gnd                                        |g2 **Mismatch**                            
-(no pin, node is gnd)                      |d2|gnd|nb_lo|s                             
+s                                          |s                                          
+nb_lo                                      |nb_lo                                      
+g2                                         |g2                                         
+g1                                         |g1                                         
+vdd                                        |vdd                                        
+d2                                         |d2                                         
+d1                                         |d1                                         
+gnd                                        |gnd                                        
+(no pin, node is s)                        |drain                                      
 ---------------------------------------------------------------------------------------
 Cell pin lists for cml_pair_loads_tail and cml_pair_loads_tail altered to match.
 Device classes cml_pair_loads_tail and cml_pair_loads_tail are equivalent.
