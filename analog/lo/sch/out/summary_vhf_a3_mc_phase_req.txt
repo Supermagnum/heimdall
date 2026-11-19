@@ -1,0 +1,46 @@
+# P2.7.4b step 0b — MC phase error assignment and requirement [SCH/DER/HAND]
+
+Source MC: `summary_vhf_a3_final_corners.txt` — Monte Carlo N=20,
+**VHF ss 4.20 GHz**, max|φ| mean/σ/max = 0.322 / 0.104 / **0.510°**.
+
+## Which path is the 0.51°?
+
+It is **VHF 8-phase**, not UHF I/Q.
+
+Evidence:
+- The MC loop in `run_vhf_a3_final_corners.py` builds `band="vhf"` only.
+- `analyse()` reports `max_phase_err` over the VHF LO phase nodes vs their
+  ideal 45° grid (`names` / `ideal` from `build_band_body("vhf", …)`).
+- Separate UHF corner runs in the same summary show systematic I/Q
+  max|φ| ≤ **0.33°** [SCH], already inside the P2.4 UHF gate of 0.46°.
+
+## Requirements (snapshot)
+
+| Path | Spec | Number | Source |
+|---|---|---|---|
+| UHF I/Q → image | Image ≥ 40 dB after host I/Q calibration | `spec/rf-frontend.md` §4 | `[PROP]` / TX table |
+| VHF 8-phase → HR3 | 3 × LO rejection ≥ 60 dB | `spec/rf-frontend.md` §3 / §5 | `[DER]` §7.3; Phase 3 mixer |
+| On-chip LO phase alone | ~1° phase + 1 % gain ≈ 40 dB HR3 untrimmed; 60 dB needs board preselection too | `spec/lo-divider-topology.md` §3 | `[HAND]` |
+
+P2.4 accepted 0.46° as the **UHF systematic I/Q** corner gate
+(`spec/lo-divider-topology.md` §8–9). It is **not** a VHF 8-phase limit.
+VHF systematic corners in P2.4 were ≤ 0.12–0.13°; MC σ ≈ 0.2–0.3°.
+
+## Pass / fail for 0.51°
+
+- Against P2.4 **0.46° UHF I/Q gate**: not applicable (wrong path).
+- Against VHF **~1°** that still leaves ~40 dB on-chip HR3 [HAND §3]:
+  **0.51° < 1° → PASS** for the LO contribution.
+- Against raw 60 dB from LO phase alone: not the design split — §3 and
+  `derived-limits.md` §7.3 put the remainder on the harmonic-reject mixer
+  **plus board preselection** (Phase 3).
+
+**Gate: PASS.** Record accepted VHF MC 8-phase max|φ| ≤ **0.51°** (N=20,
+ss 4.20) as within the ~1° LO input to the HR budget. No matching / sizing
+fix required before layout for this item.
+
+## Image (UHF) cross-check
+
+UHF corner I/Q ≤ 0.33° [SCH]. Phase-only IRR ≈ −20·log10(θ_rad):
+0.33° → ≈ **44.8 dB** raw; host calibration removes static error toward
+≥ 40 dB (`rf-frontend.md` §4). PASS.
