@@ -1089,3 +1089,13 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
 - If the combination fails: topology change on the ÷3 only; owner preference tail-less clock
   pair, provided floor and D7 hold at every corner; otherwise folded PMOS-load. Boosted sink
   and MCML not preferred.
+
+## 2026-11-19 — VHF ÷3: diagnosis before topology
+- Wide tail + raised clock CM fails at all points [SCH]. Tail-less ÷3 divides at ss 3.12 GHz
+  (1.108 and 1.08 V) but not at 1.05 V or at 4.20 GHz, where the buffer delivers 0.38 V / side.
+  Higher VCO swing is not allowed (D22, 1.40 / 1.50 V limits).
+- Next run diagnoses before any build: ÷3 pass / fail and buffer swing against clock frequency
+  at ss (tailed and tail-less); the re-ordered VHF chain (÷2 first, ÷3 at ≤ 2.1 GHz) including
+  whether it can provide the phases the VHF mixer needs; an option table (corners, supply
+  margin, current against D7, area, phases / duty) for tail-less + faster buffer, folded
+  PMOS-load and the re-ordered chain. The owner chooses from that table.
