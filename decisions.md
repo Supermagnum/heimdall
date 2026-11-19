@@ -1079,3 +1079,13 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   level-shift sweep). If raising it fixes the divider, it is set by lower buffer swing (≥ 0.5 V
   per side kept) or AC coupling with a gate bias. A topology change (unstacked / folded / MCML)
   only if the clock CM does not fix it, with numbers, for the owner.
+
+## 2026-11-19 — VHF ÷3: combined fix before topology
+- Clock CM alone (ideal shift 0.35–0.80 V) does not fix the ÷3 at ss / 125 °C: tail V_DS
+  0.05 → 0.18 V against V_dsat ≈ 215 mV [SCH]. Tail widening alone does not fix it either.
+- Next: both together — wider tail (lower V_dsat) and raised clock CM — first with an ideal
+  shift, then as a schematic change (AC coupling into the ÷3 clock pair with gate bias, wider
+  tail). ÷3 only; ÷2 stages unchanged.
+- If the combination fails: topology change on the ÷3 only; owner preference tail-less clock
+  pair, provided floor and D7 hold at every corner; otherwise folded PMOS-load. Boosted sink
+  and MCML not preferred.
