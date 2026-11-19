@@ -1,0 +1,26 @@
+# P2.7.4a2 VHF ss — OPEN [Found, not done]
+
+Status: **OPEN**. No further VHF docker until UHF noise/floor closed.
+
+## Facts (host compare + measured)
+
+| Item | UHF ss 3.84 (working @ 0.75 mA) | VHF ss 4.20 (FAIL @ 0.5 mA; open @ 0.75) |
+|---|---|---|
+| Divide | ÷2 CML | ÷3 CML + NOR (`vref`, 5 tails) |
+| I_latch used in FAIL runs | 0.50 mA (`iref=5e-4`, `mdi w=10u`) | 0.50 mA same |
+| I_latch recheck | 0.75 mA → PASS (0.35°) | ideal-tails / w40 bisects → still 999° or killed 137 |
+| Tank amp (ss) | 0.467 V @ VCM 0.54 | 0.55 V @ VCM 0.54 |
+| vref | n/a | `dc=0.830` (= VDD − I·R/2 at 1.08 V) — single source OK |
+| TB structure | pulse supplies, nbias TG, MOSFET tails | same + NOR/`vref`; no clear TB bug vs UHF |
+
+## Bisect status (stopped)
+
+- A w40: VHF ss still FAIL 999°
+- B ideal-tails: killed mid-`E.run` (137) after `I=0.75mA / has isource True False`
+- Multi-case bisects: **stopped**; do not resume until noise/floor done
+
+## Conclusion
+
+VHF ss divide failure is **not** explained by a clear duplicate-`vref` / missing-TB bug versus working UHF ss. Likely ÷3 regeneration / enable / kick / current at ss — **owner decision** on next probe (single ideal-tail or kick restore), not more parallel bisects.
+
+Gate: **OPEN — Found, not done.**

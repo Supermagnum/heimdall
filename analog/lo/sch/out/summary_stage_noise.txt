@@ -1,19 +1,19 @@
 # P2.7.4a2 per-stage LO noise [SCH]
 
-C_ck=15 fF/side. I_latch=0.5 mA, B2=4 µm. Method: ZOH transient noise.
+C_ck=15 fF/side. I_latch=0.75 mA, B2=4 µm. Method: ZOH → TIE L(f); avg 3–10 MHz (p26 HAND scale).
 
 ## UHF
 
 | Stage | Method | f_out | jit fs | L@f_out | L→LO |
 |---|---|---|---|---|---|
-| buffer | tran-zoh | — | 53 | -57.8 | -75.9 |
-| converter | tran-zoh | — | 134 | -55.8 | -67.9 |
-| logic | tran-zoh | — | 127 | -68.3 | -68.3 |
-| cml | FAILED | — | — | — | — |
+| buffer | tran-zoh | — | 53 | -150.3 | -168.3 |
+| cml | tran-zoh | — | 94 | -150.2 | -162.2 |
+| converter | tran-zoh | — | 130 | -148.6 | -160.7 |
+| logic | tran-zoh | — | 134 | -157.5 | -157.5 |
 
-**Summed LO floor:** -64.7 dBc/Hz [SCH]
-Target ≤ -151 → FAIL
+**Summed LO floor:** -154.7 dBc/Hz [SCH]
+Target ≤ -151 → PASS
 
 ## Dominant UHF stage
 
-**converter** (-67.9 dBc/Hz → LO)
+**logic** (-157.5 dBc/Hz → LO)

@@ -1,0 +1,48 @@
+# P2.7.4a2 stop report [2026-11-19]
+
+Sole worker: c27c7b72. No push. Ask before commit.
+
+## Done
+
+| Item | Result |
+|---|---|
+| Kill mega pipelines / watchdogs | Done (scripts `*.DISABLED`; no allowlist loops) |
+| Duplicate VHF `vref` TB | Fixed (body-only; `.3f` rewrite) |
+| Equiv tt (4/4) | PASS @ I=0.5→0.75 path |
+| Equiv ss @ 0.5 mA | 4/4 FAIL |
+| Equiv UHF ss 3.84 @ 0.75 mA | PASS |
+| UHF stage noise C_ck=15 fF HAND-scale | PASS summed LO **−154.7** dBc/Hz (CML edges fixed: th=VDD−I·R/2; TIE L(f) 3–10 MHz) |
+| `stage_noise.json` | Written |
+| Floor vs ≤−151 | UHF **PASS** (−154.7) |
+| D7 ≤10 mA | **FAIL** — LO total VHF **10.69 mA** [HAND]; UHF 8.44 mA |
+
+## Open / Found not done
+
+| Item | Status |
+|---|---|
+| VHF ss divide | **OPEN** — see `summary_vhf_ss_open.txt`. Bisects stopped. No VHF docker until owner resumes. |
+| Remaining ss @ 0.75 mA (uhf 3.20, vhf ×2) | Not all re-run |
+| Peak MC N=5 | Pending if memory free after this report |
+| Commit | **Ask first** — not committing |
+
+## Artifacts (`analog/lo/sch/out_a2_c27/` + copied to `out/`)
+
+- `summary_equiv_lo.txt`
+- `summary_stage_noise.txt`, `stage_noise.json`
+- `summary_floor_fix.txt`, `floor_fix_knobs.json`
+- `summary_vhf_ss_open.txt`
+- `summary_ss_diag.txt`
+- `summary_p274a2_stop.txt`
+
+## Owner decisions needed
+
+1. Accept I_latch=0.75 mA (ss UHF recovered; D7 VHF 10.69 mA over 10 mA) vs cut C_ck / raise D7 / other.
+2. Resume VHF ss with **one** probe (kick restore or single ideal-tail) — not multi-case bisects.
+3. Whether to commit noise/floor/TB fixes.
+4. Peak N=5 batch when LO idle.
+
+## Peak N=5 attempt
+
+Ran alone (`quick` → N=5) with ~20 GiB MemAvailable, no sibling LO dockers.
+**Failed before samples:** `measure_vos_dual failed both PEX topos: invalid literal for int() with base 10: b''`
+(empty parse — not exit 137). Peak samples still **0**. Log: `analog/vco/step3/out/summary_pex_vco_peak_mc_schstyle_n5_run.txt`.

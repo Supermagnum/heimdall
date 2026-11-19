@@ -1,0 +1,23 @@
+# P2.7.4a2 ss FAIL diagnosis [SCH]
+
+## Observation
+
+| Band | Corner | f_VCO | I_latch | Result |
+|---|---|---|---|---|
+| uhf | ss | 3.20 / 3.84 | 0.50 mA | FAIL (phase 139–157°) |
+| vhf | ss | 3.12 / 4.20 | 0.50 mA | FAIL (999° = no edges) |
+| uhf | ss | 3.84 | 0.75 mA | PASS (0.35°, duty 25.5/25.6) |
+
+ss decks at FAIL used `iref_nb dc=5.0000e-04` and `mdi_tb w=10u` (0.5 mA sizing).
+`circuit.py` default is now `I_LATCH=0.75e-3` with comment that 0.75 mA restores ÷N/phase at ss.
+
+## Conclusion (measured)
+
+- Root cause of recorded ss 4/4 FAIL: CML latch current 0.5 mA insufficient at ss (1.08 V, 125 °C) with MOSFET tails.
+- Raising I_latch to 0.75 mA recovers UHF ss 3.84 GHz divide/phase in a single re-run.
+- Remaining ss cases at 0.75 mA not all re-run this session (uhf 3.20 / vhf 3.12 / vhf 4.20 still pending one-case rechecks).
+
+## Noise note
+
+Prior −64.7 dBc/Hz sum was a broken metric (integrated TIE power + CML threshold VDD/2 with no edges).
+Fixed: CML mid = VDD−I·R/2; L(f) via p26 TIE FFT; report 3–10 MHz. UHF table at I=0.75 mA, C_ck=15 fF: summed LO −154.7 dBc/Hz [SCH].

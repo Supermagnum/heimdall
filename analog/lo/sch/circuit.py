@@ -128,27 +128,39 @@ def replace_holds(body: str) -> str:
     return body + "".join(extra)
 
 
+def _sync_cml_params():
+    """Keep step1 cml_params RL/W in lockstep with I_LATCH / SWING."""
+    i = I_LATCH
+    sw = SWING
+    L3.I_LATCH = i
+    L1.cml_params = lambda _i, _vdd, _ii=i, _sw=sw: (
+        _ii, _sw / _ii, max(1.0, 10.0 * _ii / 1e-3)
+    )
+
+
 def apply_knobs(i_latch=None, b2=None, k=None, swing=None):
     global I_LATCH, B2, SWING, K_REGEN
     if i_latch is not None:
         I_LATCH = i_latch
-        L3.I_LATCH = i_latch
-        L1.cml_params = lambda i, vdd: (
-            I_LATCH, SWING / I_LATCH, max(1.0, 10.0 * I_LATCH / 1e-3)
-        )
+    if swing is not None:
+        SWING = swing
+    # Always resync — module default I_LATCH alone does not update L1.
+    _sync_cml_params()
     if b2 is not None:
         B2 = b2
         L2.B2 = b2
     if k is not None:
         K_REGEN = k
         L1.VARIANT["k"] = k
-    if swing is not None:
-        SWING = swing
+
+
+# Sync once at import so default I_LATCH=0.75 mA sizes RL correctly.
+_sync_cml_params()
 
 
 def build_band_body(band: str, vdd: float, i_latch=None) -> tuple[str, list, dict, int, float]:
     """Return LO body (buffer+chain) with MOSFET tails / keepers, plus meta."""
-    apply_knobs(i_latch=i_latch)
+    apply_knobs(i_latch=I_LATCH if i_latch is None else i_latch)
     # Force step3 defaults already loaded; rebuild converter/buffer as step3
     body, names, ideal, ndiv, duty = L2.chain(band, vdd)
     body = body.replace("(vdd ", "(vdv ")
