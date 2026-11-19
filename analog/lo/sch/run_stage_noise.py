@@ -58,7 +58,12 @@ def noisy(body):
 
 
 def tie_spectrum(t, v, th, f0):
-    """Rising edges → TIE → L(f) dBc/Hz (p26 run_p26s2.tie_spectrum)."""
+    """Rising edges → TIE → L(f) dBc/Hz (p26 run_p26s2.tie_spectrum).
+
+    Uses the *measured* mean edge rate as the sampling frequency for the TIE
+    FFT when it differs from the assumed f0 by >2 % (wrong-divide / free-run
+    would otherwise inflate rms TIE into tens of ps).
+    """
     idx = np.where((v[:-1] < th) & (v[1:] >= th))[0]
     if len(idx) < 16:
         return None, None, float("nan")
@@ -66,15 +71,17 @@ def tie_spectrum(t, v, th, f0):
     te = te[len(te) // 10:]
     if len(te) < 16:
         return None, None, float("nan")
+    f_meas = (len(te) - 1) / (te[-1] - te[0])
+    f_use = f_meas if abs(f_meas / f0 - 1.0) > 0.02 else f0
     k = np.arange(len(te))
     x = te - np.polyval(np.polyfit(k, te, 1), k)
     n = len(x)
     w = np.hanning(n)
     X = np.fft.rfft(x * w)
-    fs = f0
+    fs = f_use
     psd = 2 * np.abs(X) ** 2 / (fs * np.sum(w ** 2))
     fr = np.fft.rfftfreq(n, 1 / fs)
-    L = 10 * np.log10((2 * math.pi * f0) ** 2 * psd / 2 + 1e-300)
+    L = 10 * np.log10((2 * math.pi * f_use) ** 2 * psd / 2 + 1e-300)
     return fr[1:], L[1:], float(np.std(x))
 
 
@@ -167,16 +174,24 @@ def stage_buffer(band, f_vco, corner):
 def stage_cml(band, f_vco, corner):
     ctag, mos, vdd, temp = corner
     i_, rl, w = C.L1.cml_params(C.I_LATCH, vdd)
+    # Match production: VHF ÷3 is tail-less (owner 2026-11-19). Prior TB left
+    # VARIANT['tailless']=False → stacked ÷3; wrong period / TIE → ~60 ps "jitter".
+    if band == "vhf" and C.VHF_TAILLESS:
+        C.L1.VARIANT["tailless"] = True
+    else:
+        C.L1.VARIANT["tailless"] = False
     body_cml, out = C.L1.div_body(2 if band == "uhf" else 3, i_, rl, w, vdd)
     body_cml = body_cml.replace("(vdd ", "(vdv ")
     body_cml = C.replace_tails(body_cml, C.I_LATCH)
     f_out = f_vco / (2 if band == "uhf" else 3)
     # VHF CML NOR vref already comes from L1.div_body — no second TB source.
+    # D15-style enable: bias / en high after clocks exist (avoids free-run lock).
     body = (f"vdvs (vdv 0) vsource dc={vdd}\nvdds (vdd 0) vsource dc={vdd}\n"
             + nbias_standin()
             + f"cckp (ckp 0) capacitor c={C_CK}\n"
             + f"cckn (ckn 0) capacitor c={C_CK}\n"
             + noisy(body_cml))
+    # Clock CM: CML latch clocks sit ~0.55 V below VDD (step1 amp check).
     hdr = C.HEADER.format(title="cml", mos=mos, f=f_vco, amp=0.55,
                           vcm=vdd - 0.55, shape=0.0, offs=0.0, t0=-1, tr=1e-12)
     hdr += "xck (ckp ckn) clk\n"
