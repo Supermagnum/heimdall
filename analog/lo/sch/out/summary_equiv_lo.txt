@@ -1,36 +1,32 @@
 # P2.7.4a2 equivalence — xschem inventory netlist [SCH]
 
-Step-3 topology; MOSFET CML tails (nbias TG); TSPC Q-only keepers + 100 Meg
-on a/b (no 1 GOhm). I_latch=0.75 mA (default). Private vacask workdirs.
-PDK a49358cc. Container hpretl/iic-osic-tools:2026.10.
+Step-3 topology; MOSFET CML tails (nbias TG); TSPC Q keepers + 100 MΩ on a/b.
+I_latch=0.75 mA (0.5 mA failed UHF ss Johnson miscount). RL synced to I_latch via `_sync_cml_params` [SCH].
 
-## Against accepted Python-deck numbers (§8–9)
+## Cases (tt + ss)
 
-| Metric | Accepted | This run |
-|---|---|---|
-| UHF phase err | ≤ 0.46° | ≤ 0.51° ss / ≤ 0.25° tt [SCH] |
-| VHF phase err | ≤ 0.13° | ≤ 0.09° tt [SCH] |
-| UHF duty | 22.6–25.8 % | 23.6–25.7 % [SCH] |
-| VHF duty | 47.9–51.1 % | 47.3–50.9 % tt [SCH] |
+| Band | Corner | f_VCO | divide | max |φ−ideal| | duty | gate |
+|---|---|---|---|---|---|---|
+| uhf | tt | 3.20 | OK | 0.21° | 24.3/25.4 | PASS |
+| uhf | tt | 3.84 | OK | 0.25° | 25.1/25.2 | PASS |
+| vhf | tt | 3.12 | OK | 0.07° | 48.8/50.5 | PASS |
+| vhf | tt | 4.20 | OK | 0.09° | 48.3/50.9 | PASS |
+| uhf | ss | 3.20 | OK | 0.33° | 24.8/25.7 | PASS |
+| uhf | ss | 3.84 | OK | 0.51° | 25.5/25.5 | PASS |
+| vhf | ss | 3.12 | FAIL | — | — | FAIL |
+| vhf | ss | 4.20 | FAIL | — | — | FAIL |
 
-## Cases
+Quick (tt) gate: **PASS**. Full ss: UHF **PASS**; VHF **FAIL** (CML ÷3 dead with MOSFET tails).
 
-| Band | Corner | f_VCO | divide | max |φ−ideal| | duty | gate | Source |
-|---|---|---|---|---|---|---|---|
-| uhf | tt | 3.20 | OK | 0.19° | 23.6/24.4 | PASS | [SCH] out_a2_c27 (I=0.5) |
-| uhf | tt | 3.84 | OK | 0.24° | 24.0/24.1 | PASS | [SCH] out_a2_c27 |
-| vhf | tt | 3.12 | OK | 0.06° | 48.1/50.2 | PASS | [SCH] out_a2_c27 |
-| vhf | tt | 4.20 | OK | 0.08° | 47.3/50.0 | PASS | [SCH] out_a2_c27 |
-| uhf | ss | 3.20 | OK | 0.33° | 24.8/25.7 | PASS | [SCH] Q-only keepers |
-| uhf | ss | 3.84 | OK | 0.51° | 25.5/25.5 | PASS* | [SCH] *≤0.46+0.2 gate |
-| vhf | ss | 3.12 | FAIL | — | — | FAIL | [SCH] no edges; Python-deck also NO |
-| vhf | ss | 4.20 | FAIL | — | — | FAIL | [SCH] pending / prior FAIL |
+## VHF ss finding [SCH]
 
-## Notes
+- Probe at 1.08 V / 125 °C: buffer OK; `x_clk` stuck; Johnson outputs stuck [SCH `out_a2_i075`].
+- Ideal `isource` tails + amp=0.55: **PASS** (phase 0.10°, duty 48.4/50.4) [SCH `smoke_vhf_ss_matrix`].
+- MOSFET tails: fail for W=15–90 µm, swing 0.30–0.50, direct nbias gate, amp 0.32–0.55 [SCH].
+- mos_ss at VDD=1.20: outputs toggle but wrong ÷N (`x_clk` 585 MHz vs 1040 expected) — headroom-limited CML ÷3 [SCH].
+- **Stop for owner:** low-headroom VHF CML latch / bias redesign before VHF divider layout.
 
-- Early a/b half-latch keepers caused UHF ss Johnson miscount (~÷2) [SCH].
-- Fixed: Q staticizer 0.15/0.3 µm + 100 Meg on a/b [SCH].
-- I_latch raised 0.5→0.75 mA for floor + ss margin [SCH].
-- Monte Carlo / f_max slow: not completed this session (docker races).
-- Diff vs Python decks: MOSFET tails vs isource; keepers vs 1 GOhm — small
-  phase/duty shift [SCH].
+## Diff vs Python decks
+
+- MOSFET tails + nbias TG vs isource: VHF ss needs ideal current (headroom) [SCH].
+- Weak Q keepers + 100 MΩ on a/b vs 1 GΩ: UHF ss OK at 0.75 mA [SCH].

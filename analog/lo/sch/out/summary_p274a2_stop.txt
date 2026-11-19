@@ -1,48 +1,66 @@
 # P2.7.4a2 stop report [2026-11-19]
 
-Sole worker: c27c7b72. No push. Ask before commit.
+Sole owner run. No push. Ask before commit. Next: **P2.7.4b**.
 
-## Done
+## Steps 1–6
 
-| Item | Result |
+| Step | Result |
 |---|---|
-| Kill mega pipelines / watchdogs | Done (scripts `*.DISABLED`; no allowlist loops) |
-| Duplicate VHF `vref` TB | Fixed (body-only; `.3f` rewrite) |
-| Equiv tt (4/4) | PASS @ I=0.5→0.75 path |
-| Equiv ss @ 0.5 mA | 4/4 FAIL |
-| Equiv UHF ss 3.84 @ 0.75 mA | PASS |
-| UHF stage noise C_ck=15 fF HAND-scale | PASS summed LO **−154.7** dBc/Hz (CML edges fixed: th=VDD−I·R/2; TIE L(f) 3–10 MHz) |
-| `stage_noise.json` | Written |
-| Floor vs ≤−151 | UHF **PASS** (−154.7) |
-| D7 ≤10 mA | **FAIL** — LO total VHF **10.69 mA** [HAND]; UHF 8.44 mA |
+| 1 xschem capture / export | PASS 3/3 SVG+PDF (`lo_bias`, `lo_uhf_top`, `lo_vhf_top`); vacask netlists from sch |
+| 2 Equivalence [SCH] | tt UHF/VHF PASS; ss UHF PASS @ I_latch=0.75 mA; **VHF ss FAIL** (MOSFET tails; ideal isource PASS) |
+| 3 Per-stage noise C_ck=15 fF | UHF summed **−154.7 PASS**; VHF **−158.6** [SCH] |
+| 4 Floor fix ≤−151 | I_latch 0.5→**0.75 mA**; UHF **PASS**; D7 VHF **10.69 mA over** [HAND] |
+| 5 Peak MC N=20 | **PASS** peak+3σ = 1.249 V ≤ 1.50 [PEX-RC lumped] |
+| 6 Specs | Updated phase2-plan / lo-divider / p27-floorplan / p27-layout-notes. **Commit: ask first** |
 
-## Open / Found not done
+Equiv runner fix: `HEADER.format` now gets `shape=0.0`, `offs=0.0` (was `NoneType.__format__`).
 
-| Item | Status |
-|---|---|
-| VHF ss divide | **OPEN** — see `summary_vhf_ss_open.txt`. Bisects stopped. No VHF docker until owner resumes. |
-| Remaining ss @ 0.75 mA (uhf 3.20, vhf ×2) | Not all re-run |
-| Peak MC N=5 | Pending if memory free after this report |
-| Commit | **Ask first** — not committing |
+## Per-stage noise (C_ck=15 fF, I_latch=0.75 mA) [SCH]
 
-## Artifacts (`analog/lo/sch/out_a2_c27/` + copied to `out/`)
+Method: ZOH → TIE L(f); avg 3–10 MHz (p26 HAND scale).
 
-- `summary_equiv_lo.txt`
-- `summary_stage_noise.txt`, `stage_noise.json`
-- `summary_floor_fix.txt`, `floor_fix_knobs.json`
-- `summary_vhf_ss_open.txt`
-- `summary_ss_diag.txt`
-- `summary_p274a2_stop.txt`
+### UHF
 
-## Owner decisions needed
+| Stage | jit fs | L@f_out | L→LO |
+|---|---|---|---|
+| buffer | 53 | −150.3 | **−168.3** |
+| cml | 94 | −150.2 | **−162.2** |
+| converter | 130 | −148.6 | **−160.7** |
+| logic | 134 | −157.5 | **−157.5** |
 
-1. Accept I_latch=0.75 mA (ss UHF recovered; D7 VHF 10.69 mA over 10 mA) vs cut C_ck / raise D7 / other.
-2. Resume VHF ss with **one** probe (kick restore or single ideal-tail) — not multi-case bisects.
-3. Whether to commit noise/floor/TB fixes.
-4. Peak N=5 batch when LO idle.
+**Summed LO floor: −154.7 dBc/Hz** → PASS vs ≤ −151. Dominant: **logic**.
 
-## Peak N=5 attempt
+### VHF
 
-Ran alone (`quick` → N=5) with ~20 GiB MemAvailable, no sibling LO dockers.
-**Failed before samples:** `measure_vos_dual failed both PEX topos: invalid literal for int() with base 10: b''`
-(empty parse — not exit 137). Peak samples still **0**. Log: `analog/vco/step3/out/summary_pex_vco_peak_mc_schstyle_n5_run.txt`.
+| Stage | jit fs | L@f_out | L→LO |
+|---|---|---|---|
+| buffer | 52 | −148.7 | **−176.3** |
+| cml | 60305* | −148.6 | **−166.7** |
+| converter | 144 | −147.1 | **−165.2** |
+| logic | 133 | −160.7 | **−160.7** |
+
+**Summed LO floor: −158.6 dBc/Hz** [SCH].  
+\*VHF CML `jit fs` outlier — L→LO used for sum; treat jitter column as uncertain.
+
+## Open / owner decisions
+
+1. Accept I_latch=0.75 mA vs cut C_ck / raise D7 / other (VHF LO **10.69 mA** vs D7 ≤10 typ).
+2. VHF ss redesign (CML ÷3 headroom with MOSFET tails) before VHF GDS.
+3. Whether to commit LO sch + specs + peak summaries (ask — not committing).
+4. LO MC / f_max slow still open (docker races).
+
+## Artifacts
+
+- `analog/lo/sch/out/summary_equiv_lo.txt`
+- `analog/lo/sch/out/summary_stage_noise.txt`, `stage_noise.json`
+- `analog/lo/sch/out/summary_floor_fix.txt`, `floor_fix_knobs.json`
+- `analog/vco/step3/out/summary_pex_vco_peak_mc_schstyle.txt` (N=20 PASS)
+- Specs: `lo-divider-topology.md`, `phase2-plan.md`, `p27-floorplan.md`, `p27-layout-notes.md`
+
+`decisions.md`: no new invented text (owner P2.7.4 floor direction already present).
+
+## Found, not done
+
+- Leaf xschem hierarchy still 3 flat tops (not full leaf cells) — refine in P2.7.4b if needed.
+- Divider GDS — P2.7.4b.
+- VHF CML stage jitter column anomaly — re-check method if VHF floor tightens.

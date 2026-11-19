@@ -1,0 +1,20 @@
+# P2.7.3c transient peak MC — schematic-style re-run [PEX-RC lumped]
+
+
+Corner: mos_ss / cap_bcs / 85 °C / top; N=20; Vos σ=2.76 mV. PEX C_side=68.22 fF; Cctl included (c_tail_tn=4.44 / c_tail_tp=4.05 fF); Rtb_op=1 MΩ on det tb only (bias; not hold/rep/tank); Rtail=10 Ω; dual OP C→B [PEX-RC lumped / TOOL]. Peak = max over SAR search trials (amp and amp_peak_run). Limit peak+3σ ≤ 1.50 V.
+
+## Bench notes (owner open items)
+
+- Prior 1.250 V: final Amp at bit=−1 / code 31 after SAR landed tnr (not mid-SAR trial). SCH peak 1.4935 V was at bit3 / code 24 [SCH summary_peak_mc.txt].
+
+## Batch start=11 n=5 (of total N=20) [PEX-RC lumped]
+
+
+skip_nom: resume at sample index 11
+
+  [12/20] peak=1.249 @bit-1/c31 final_code=31
+  [13/20] peak=1.249 @bit-1/c31 final_code=31
+  [14/20] peak=1.249 @bit-1/c31 final_code=31
+  [15/20] peak=1.249 @bit-1/c31 final_code=31
+  [16/20] peak=1.249 @bit-1/c31 final_code=31
+BATCH_DONE start=11 n=5 wrote /foss/designs/analog/vco/step3/out/summary_pex_vco_peak_mc_schstyle_batch_11_15.txt

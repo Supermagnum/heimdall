@@ -136,9 +136,22 @@ def measure_vos_dual(mos, cap, temp, bcode, bias, tag, vos):
 PM.measure_vos = measure_vos_dual
 
 
+def _arg_int(prefix: str, default: int) -> int:
+    for a in sys.argv[1:]:
+        if a.startswith(prefix):
+            return int(a.split("=", 1)[1])
+    return default
+
+
 def main():
     quick = "quick" in sys.argv
-    n = 5 if quick else PM.N
+    # Batch resume: start=K n=5 skips nominal + burns RNG for samples 0..K-1.
+    # total=N labels [i+1/N] and gates only when this batch reaches end of N.
+    start = _arg_int("start=", 0)
+    n = _arg_int("n=", 5 if quick else PM.N)
+    total = _arg_int("total=", PM.N if (start or "n=" in " ".join(sys.argv)) else n)
+    skip_nom = "skip_nom" in sys.argv or start > 0
+    batch_only = start > 0 or any(a.startswith("n=") for a in sys.argv[1:])
     rtb_note = (
         "Rtb_op=1 MΩ on det tb only (bias; not hold/rep/tank)"
         if USE_RTB else "Rtb_op omitted"
@@ -146,7 +159,7 @@ def main():
     lines = [
         "# P2.7.3c transient peak MC — schematic-style re-run [PEX-RC lumped]\n\n",
         f"Corner: {PM.MOS} / {PM.CAP} / {PM.TEMP} °C / {PM.BAND}; "
-        f"N={n}; Vos σ={PM.SIG*1e3:.2f} mV. "
+        f"N={total}; Vos σ={PM.SIG*1e3:.2f} mV. "
         f"PEX C_side={_L['c_side_ff']:.2f} fF; Cctl included "
         f"(c_tail_tn={_L.get('c_tail_tn_ff', 0):.2f} / "
         f"c_tail_tp={_L.get('c_tail_tp_ff', 0):.2f} fF); "
@@ -164,30 +177,44 @@ def main():
         f"{(_L.get('c_tail_tn_ff') or 0)+(_L.get('c_tail_tp_ff') or 0):.2f} fF "
         "into C_tail_pn for OP. This re-run keeps them.\n\n",
     ]
+    if batch_only:
+        lines.append(
+            f"## Batch start={start} n={n} (of total N={total}) "
+            f"[PEX-RC lumped]\n\n"
+        )
     print(lines[0], flush=True)
     print("".join(lines[1:4]), flush=True)
+    if batch_only:
+        print(lines[-1], flush=True)
 
-    nom = PM.sar_vos((0.0, 0.0), "p273c_peak_ss_nom")
-    ps = nom["peak_step"]
-    lines.append(
-        f"Nominal: code={nom['code']} peak={nom['amp_peak']:.3f} "
-        f"at bit={ps['bit']} trial={ps['trial']} kind={ps['kind']} "
-        f"[PEX-RC lumped]\n\n"
-    )
-    print(lines[-1], flush=True)
-    # Print per-bit trail for transparency
-    for s in nom.get("steps", []):
-        print(
-            f"  nom bit{s['bit']} c{s['trial']} keep={int(s['keep'])} "
-            f"Amp={s['amp']:.3f} peak_run={s['amp_peak_run']:.3f} "
-            f"cmp={s['cmp']:.3f}",
-            flush=True,
+    if not skip_nom:
+        nom = PM.sar_vos((0.0, 0.0), "p273c_peak_ss_nom")
+        ps = nom["peak_step"]
+        lines.append(
+            f"Nominal: code={nom['code']} peak={nom['amp_peak']:.3f} "
+            f"at bit={ps['bit']} trial={ps['trial']} kind={ps['kind']} "
+            f"[PEX-RC lumped]\n\n"
         )
+        print(lines[-1], flush=True)
+        # Print per-bit trail for transparency
+        for s in nom.get("steps", []):
+            print(
+                f"  nom bit{s['bit']} c{s['trial']} keep={int(s['keep'])} "
+                f"Amp={s['amp']:.3f} peak_run={s['amp_peak_run']:.3f} "
+                f"cmp={s['cmp']:.3f}",
+                flush=True,
+            )
+    else:
+        print(f"skip_nom: resume at sample index {start}\n", flush=True)
 
     rng = np.random.default_rng(20261119)
+    # Burn RNG so vos draws match a contiguous N=total run from i=0.
+    for _ in range(start):
+        rng.normal(0, PM.SIG)
+        rng.normal(0, PM.SIG)
     peaks = []
     overs = []
-    for i in range(n):
+    for i in range(start, start + n):
         vos = (float(rng.normal(0, PM.SIG)), float(rng.normal(0, PM.SIG)))
         r = PM.sar_vos(vos, f"p273c_peak_ss_mc{i}")
         peaks.append(r["amp_peak"])
@@ -196,11 +223,29 @@ def main():
             overs.append(dict(i=i, vos=vos, **r))
             mark = " OVER"
         print(
-            f"  [{i+1}/{n}] peak={r['amp_peak']:.3f} "
+            f"  [{i+1}/{total}] peak={r['amp_peak']:.3f} "
             f"@bit{r['peak_step']['bit']}/c{r['peak_step']['trial']}"
             f" final_code={r['code']}{mark}",
             flush=True,
         )
+
+    # Batch-only runs append sample peaks; full gate written by host aggregator
+    # unless this invocation covers the complete [0, total) span.
+    covers_all = start == 0 and n >= total
+    if not covers_all:
+        batch_path = os.path.join(
+            OUT, f"summary_pex_vco_peak_mc_schstyle_batch_{start}_{start+n-1}.txt"
+        )
+        open(batch_path, "w").write(
+            "".join(lines)
+            + "\n".join(
+                f"  [{start + j + 1}/{total}] peak={peaks[j]:.6f}"
+                for j in range(len(peaks))
+            )
+            + f"\nBATCH_DONE start={start} n={n}\n"
+        )
+        print(f"BATCH_DONE start={start} n={n} wrote {batch_path}", flush=True)
+        return 0
 
     arr = np.array(peaks, dtype=float)
     mean = float(arr.mean())

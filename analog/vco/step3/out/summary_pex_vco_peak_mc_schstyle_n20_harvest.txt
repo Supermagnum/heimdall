@@ -1,0 +1,9 @@
+# Harvested before N=20 one-shot was stopped for N=5 batch resume
+# Corner: mos_ss / cap_bcs / 85 °C / top; seed=20261119; sch-style PEX-RC lumped
+# Samples 1-6 completed at 1.249 V (identical); gate not yet written.
+  [1/20] peak=1.249 @bit-1/c31 final_code=31
+  [2/20] peak=1.249 @bit-1/c31 final_code=31
+  [3/20] peak=1.249 @bit-1/c31 final_code=31
+  [4/20] peak=1.249 @bit-1/c31 final_code=31
+  [5/20] peak=1.249 @bit-1/c31 final_code=31
+  [6/20] peak=1.249 @bit-1/c31 final_code=31

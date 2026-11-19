@@ -1,6 +1,6 @@
 # P2.7.4a2 xschem LO divider capture
 
-Generated from step-3 defaults with MOSFET CML tails (nbias TG) and TSPC weak half-latch keepers on a/b/q (no 1 GOhm). I_latch=0.75 mA, swing via step3, k=1.5.
+Generated from step-3 defaults with MOSFET CML tails (nbias TG) and TSPC weak Q keepers + 100Meg on a/b (no 1 GOhm). I_latch=0.75 mA, swing via step3, k=1.5.
 
 ## Hierarchy
 
@@ -23,6 +23,7 @@ Generated from step-3 defaults with MOSFET CML tails (nbias TG) and TSPC weak ha
 ## Ideal parts removed vs Python decks
 
 - CML `isource` tails → MOSFET mirrors on `nb_lo`
-- TSPC `resistor r=1G` → weak half-latch keepers on a/b/q
+- TSPC `resistor r=1G` → weak Q keepers + 100Meg on a/b
 
 Exports: `exports/*.svg`, `exports/*.pdf`. Netlists: `netlists/`.
+

@@ -17,3 +17,14 @@ Target ≤ -151 → PASS
 ## Dominant UHF stage
 
 **logic** (-157.5 dBc/Hz → LO)
+
+## VHF
+
+| Stage | Method | f_out | jit fs | L@f_out | L→LO |
+|---|---|---|---|---|---|
+| buffer | tran-zoh | — | 52 | -148.7 | -176.3 |
+| cml | tran-zoh | — | 60305 | -148.6 | -166.7 |
+| converter | tran-zoh | — | 144 | -147.1 | -165.2 |
+| logic | tran-zoh | — | 133 | -160.7 | -160.7 |
+
+**Summed LO floor:** -158.6 dBc/Hz [SCH]

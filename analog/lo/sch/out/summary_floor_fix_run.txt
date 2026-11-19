@@ -1,0 +1,21 @@
+# P2.7.4a2 UHF floor fix [SCH]
+
+Baseline after I_latch 0.5→0.75 mA (required for UHF ss divide) and RL sync.
+C_ck=15 fF/side. Stage noise already **-154.7 dBc/Hz** vs target ≤ −151 → **PASS** without further current.
+
+Dominant referred stage: **logic** (-157.5 dBc/Hz → LO).
+
+## Current budget vs D7 (≤ 10 mA) [HAND]
+
+| Piece | UHF | VHF |
+|---|---:|---:|
+| Buffer (B2=4) | 1.00 | 1.00 |
+| CML (2× / 5× I_latch) | 1.50 | 3.75 |
+| Converter + logic | 0.85 | 0.85 |
+| Chain subtotal | 3.35 | 5.60 |
+| VCO typ + PLL HAND | 5.09 | 5.09 |
+| **LO total** | **8.44** | **10.69** |
+
+VHF total **≈ 10.7 mA** is ~0.7 mA over D7 typ with I_latch=0.75 and 5 CML tails — flag for owner (VHF ss open may change I).
+
+No additional floor_fix knob raise this run (already below −151).

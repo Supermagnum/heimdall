@@ -1052,3 +1052,12 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   [HAND scale] against ≤ −150). Fix chosen from a per-stage noise breakdown on the xschem
   netlist; current added only to the dominant stage(s). Target ≤ −151 dBc/Hz with C_ck 15 fF;
   total LO current reported against D7 (≤ 10 mA).
+
+## 2026-11-19 — Divider floor fix sizing
+- UHF floor with C_ck 15 fF reaches −154.7 dBc/Hz at I_latch 0.75 mA [HAND-scale / TIE], but
+  LO current at VHF is 10.69 mA against D7 ≤ 10 mA. Not accepted; D7 is not raised.
+- Current is sized to the target (UHF ≤ −151 dBc/Hz with C_ck 15 fF) and added only on UHF-path
+  stages; VHF-only stages keep their current if the VHF floor meets its own requirement.
+- VHF chain at ss is checked first (divides, maximum frequency, duty cycle, phase errors).
+- The VCO peak MC is re-run once at N = 20 after the parse fix; stray background jobs are
+  stopped.

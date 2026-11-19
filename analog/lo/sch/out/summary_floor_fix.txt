@@ -1,45 +1,21 @@
 # P2.7.4a2 UHF floor fix [SCH]
 
-C_ck = 15 fF / side. Method: per-stage ZOH → TIE L(f); avg 3–10 MHz
-(p26 HAND scale) — see `summary_stage_noise.txt`.
+Baseline after I_latch 0.5→0.75 mA (required for UHF ss divide) and RL sync.
+C_ck=15 fF/side. Stage noise already **-154.7 dBc/Hz** vs target ≤ −151 → **PASS** without further current.
 
-## Fix applied
+Dominant referred stage: **logic** (-157.5 dBc/Hz → LO).
 
-| Knob | Before (P2.7.4a) | After | Why |
-|---|---|---|---|
-| TSPC keepers | a/b/q half-latches | Q-only staticizer + 100 Meg on a/b | UHF ss Johnson miscount [SCH] |
-| I_latch | 0.5 mA | **0.75 mA** | ss margin + CML regeneration (option A from P2.7.4a) [SCH] |
-| Buffer B2 | 4 µm | 4 µm (unchanged) | Floor already ≤ −151; dominant stage is logic [SCH] |
+## Current budget vs D7 (≤ 10 mA) [HAND]
 
-## Floor after fix
-
-| Band | Floor (3–10 MHz) | Target | Gate |
-|---|---|---|---|
-| UHF | **−154.7 dBc/Hz** [SCH] | ≤ −151 | **PASS** |
-| VHF | not re-summed this run | ≤ −150 | — |
-
-Dominant UHF stage after fix: **logic** (−157.5 dBc/Hz → LO) [SCH]. No further
-current raise — already 3.7 dB under target.
-
-## Current vs D7 (≤ 10 mA) [HAND]
-
-| Piece | UHF (mA) | VHF (mA) |
+| Piece | UHF | VHF |
 |---|---:|---:|
 | Buffer (B2=4) | 1.00 | 1.00 |
 | CML (2× / 5× I_latch) | 1.50 | 3.75 |
-| Converter | 0.50 | 0.50 |
-| Logic | 0.35 | 0.35 |
-| **Chain** | **3.35** | **5.60** |
-| VCO typ | 3.59 | 3.59 |
-| PLL HAND | 1.50 | 1.50 |
+| Converter + logic | 0.85 | 0.85 |
+| Chain subtotal | 3.35 | 5.60 |
+| VCO typ + PLL HAND | 5.09 | 5.09 |
 | **LO total** | **8.44** | **10.69** |
 
-- Added vs 0.5 mA baseline: ≈ +0.50 mA UHF CML / +1.25 mA VHF CML [HAND].
-- **UHF LO total 8.44 mA ≤ 10** [HAND].
-- **VHF LO total 10.69 mA exceeds D7 by ≈ 0.69 mA** [HAND] — owner decision
-  (accept; band-dependent I_latch; or trim PLL/VCO HAND shares).
+VHF total **≈ 10.7 mA** is ~0.7 mA over D7 typ with I_latch=0.75 and 5 CML tails — flag for owner (VHF ss open may change I).
 
-## Equivalence re-check with fix
-
-See `summary_equiv_lo.txt`: UHF tt/ss PASS; VHF tt PASS; VHF ss still open
-(matches Python-deck VHF ss 3.12 fail in `step3/out/summary_corners.txt`).
+No additional floor_fix knob raise this run (already below −151).

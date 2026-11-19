@@ -1,8 +1,9 @@
 # P2.7 layout notes
 
 Status: **P2.7.3a–c** VCO post-layout **complete** **[PEX-RC lumped / MODEL]**
-(peak sch-style PASS). **P2.7.4a2:** xschem LO + UHF floor C_ck **−154.7 PASS**
-[SCH]; VHF D7 over [HAND]; no divider GDS yet. Sign-off flattened `vco_top.sch` + `lvs_setup.tcl`.
+(peak sch-style N=20 PASS 1.249+3σ). **P2.7.4a2:** xschem LO + UHF floor C_ck
+**−154.7 PASS** [SCH]; VHF D7 over [HAND]; VHF ss FAIL; no divider GDS yet.
+Next **P2.7.4b**. Sign-off flattened `vco_top.sch` + `lvs_setup.tcl`.
 Full-cell bbox 0.4624 mm² [GDS]. Chip art PASS. Blocks PASS.
 
 ---
@@ -963,14 +964,16 @@ GDS this run.
 #### P2.7.4a2 — xschem + equiv + floor fix (2026-11-19)
 **Capture:** `analog/lo/sch/` — `lo_bias`, `lo_uhf_top`, `lo_vhf_top`; SVG/PDF;
 vacask netlists from xschem. MOSFET CML tails; TSPC Q-only keepers + 100 Meg a/b.
-**Equiv [SCH]:** tt UHF/VHF PASS; ss UHF PASS after keeper fix; VHF ss open;
+**Equiv [SCH]:** tt UHF/VHF PASS; ss UHF PASS (I_latch=0.75 mA + RL sync);
+VHF ss FAIL with MOSFET tails (ideal isource PASS — CML ÷3 headroom);
 MC/f_max not completed.
 **Noise [SCH]:** per-stage ZOH + p26 HAND scale (3–10 MHz), C_ck=15 fF,
-I_latch=0.75 mA → UHF **−154.7 PASS** vs ≤ −151; dominant **logic**.
+I_latch=0.75 mA → UHF **−154.7 PASS** vs ≤ −151; VHF **−158.6**; dominant UHF **logic**.
 **D7 [HAND]:** UHF LO ≈ 8.44 mA OK; VHF ≈ 10.69 mA over — owner decision.
-**Peak MC N=20:** not completed this session (N=5 was 1.249 PASS).
+**Peak MC N=20 [PEX-RC lumped]:** PASS — peak+3σ = 1.249 V ≤ 1.50
+(`analog/vco/step3/out/summary_pex_vco_peak_mc_schstyle.txt`).
 **No divider GDS** this run. Next: P2.7.4b first divider cell layout (after
-owner D7 call).
+owner D7 / VHF ss call).
 
 #### P2.7.4a routing method (plan — apply VCO flow)
 Same as VCO: pcells / scripted fingers; named net groups; pin fan-out check;

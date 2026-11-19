@@ -1,0 +1,22 @@
+# P2.7.3c transient peak MC — schematic-style re-run [PEX-RC lumped]
+
+
+Corner: mos_ss / cap_bcs / 85 °C / top; N=5; Vos σ=2.76 mV. PEX C_side=68.22 fF; Cctl included (c_tail_tn=4.44 / c_tail_tp=4.05 fF); Rtb_op=1 MΩ on det tb only (bias; not hold/rep/tank); Rtail=10 Ω; dual OP C→B [PEX-RC lumped / TOOL]. Peak = max over SAR search trials (amp and amp_peak_run). Limit peak+3σ ≤ 1.50 V.
+
+## Bench notes (owner open items)
+
+- Prior 1.250 V: final Amp at bit=−1 / code 31 after SAR landed tnr (not mid-SAR trial). SCH peak 1.4935 V was at bit3 / code 24 [SCH summary_peak_mc.txt].
+
+Traceback (most recent call last):
+  File "/foss/designs/analog/vco/step3/run_p273c_peak_mc_schstyle.py", line 239, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/foss/designs/analog/vco/step3/run_p273c_peak_mc_schstyle.py", line 170, in main
+    nom = PM.sar_vos((0.0, 0.0), "p273c_peak_ss_nom")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/foss/designs/analog/vco/ampcal/run_peak_mc.py", line 112, in sar_vos
+    r = measure_vos(MOS, CAP, TEMP, BCODE, trial, tag, vos)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/foss/designs/analog/vco/step3/run_p273c_peak_mc_schstyle.py", line 133, in measure_vos_dual
+    raise RuntimeError(f"measure_vos_dual failed both PEX topos: {last_err}")
+RuntimeError: measure_vos_dual failed both PEX topos: invalid literal for int() with base 10: b''

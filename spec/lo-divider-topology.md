@@ -1,6 +1,6 @@
 # LO divider and phase-generation topology memo (P2.4)
 
-Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1–3 done; P2.4 accepted 2026-10-21.** P2.6 UHF floor −150.1 dBc/Hz [SCH]. **P2.7.4a:** C_ck floor FAIL ≈ −147.8 [HAND]. **P2.7.4a2 (2026-11-19):** xschem capture; UHF floor C_ck=15 fF **−154.7 PASS** [SCH] at I_latch=0.75 mA; VHF D7 over [HAND]. Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
+Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1–3 done; P2.4 accepted 2026-10-21.** P2.6 UHF floor −150.1 dBc/Hz [SCH]. **P2.7.4a:** C_ck floor FAIL ≈ −147.8 [HAND]. **P2.7.4a2 (2026-11-19):** xschem capture; UHF floor C_ck=15 fF **−154.7 PASS** [SCH] at I_latch=0.75 mA; VHF D7 over [HAND]; VHF ss FAIL (MOSFET tails); peak MC N=20 PASS. Next **P2.7.4b**. Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
 
 ---
 
@@ -223,12 +223,13 @@ See `analog/lo/step3/out/summary_p274a_uhf_floor_layout_c.txt`. Compact C_ck ≈
 | Ideal parts removed | CML MOSFET tails on `nb_lo`; TSPC Q-only keepers + 100 Meg on a/b (no 1 GΩ) |
 | Remaining TB inputs | `tp`/`tn` VCO; split supplies; `nbias` stand-in; `en_lodiv`; VHF `vref` |
 | Equiv tt | UHF/VHF PASS; phase ≤0.24° / ≤0.08° [SCH] |
-| Equiv ss | UHF PASS (Q-only keepers); VHF ss still open (matches Python-deck 3.12 ss fail) |
+| Equiv ss | UHF PASS at I_latch=0.75 mA + RL sync [SCH]. VHF ss **FAIL** with MOSFET tails (CML ÷3 dead at 1.08 V); **PASS** with ideal `isource` tails [SCH]. Headroom-limited — owner redesign before VHF GDS |
 | MC / f_max slow | **Not completed** (docker races) |
-| Per-stage noise C_ck=15 fF | ZOH→TIE L(f) avg 3–10 MHz (p26 HAND scale): UHF **−154.7 PASS** vs ≤ −151 [SCH] |
+| Per-stage noise C_ck=15 fF | ZOH→TIE L(f) avg 3–10 MHz (p26 HAND scale): UHF **−154.7 PASS**; VHF **−158.6** [SCH] |
 | Dominant stage | **logic** (−157.5 → LO) [SCH] |
 | Fix | I_latch **0.5 → 0.75 mA**; B2 unchanged; keepers as above |
 | D7 | UHF LO ≈ **8.44 mA OK**; VHF LO ≈ **10.69 mA over** by ~0.69 mA [HAND] |
+| Peak MC N=20 | VCO ampcal sch-style **PASS** 1.249+3σ ≤1.50 [PEX-RC lumped] (re-check after floor knobs) |
 
 Detail: `analog/lo/sch/out/summary_equiv_lo.txt`, `summary_stage_noise.txt`,
 `summary_floor_fix.txt`.
