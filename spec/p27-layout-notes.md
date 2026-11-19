@@ -1,10 +1,9 @@
 # P2.7 layout notes
 
 Status: **P2.7.3a–c** VCO post-layout **complete** **[PEX-RC lumped / MODEL]**
-(peak sch-style N=20 PASS 1.249+3σ). **P2.7.4a2:** xschem LO + UHF floor C_ck
-**−154.7 PASS** [SCH]; VHF D7 over [HAND]; VHF ss FAIL; no divider GDS yet.
-Next **P2.7.4b**. Sign-off flattened `vco_top.sch` + `lvs_setup.tcl`.
-Full-cell bbox 0.4624 mm² [GDS]. Chip art PASS. Blocks PASS.
+(peak sch-style N=20 PASS 1.249+3σ). **P2.7.4a3 sizing accepted** (D7 PASS).
+**P2.7.4b** pre-checks PASS; divider layout in progress. Sign-off flattened
+`vco_top.sch` + `lvs_setup.tcl`. Full-cell bbox 0.4624 mm² [GDS]. Chip art PASS.
 
 ---
 
@@ -983,6 +982,47 @@ clock; TM1 shield over matched `ckp`/`ckn` where over substrate. Matched-length
 diff pairs (±1 µm). Shield grounded M1/M2 beside clocks. Power: VR_ANA1 star
 from pad side; local MIM at each CML/TSPC tap (GHz return). Away from tank and
 V_tune.
+
+#### P2.7.4b — divider layout plan + first cells (2026-11-19)
+
+**Pre-checks [SCH]** (`summary_vhf_a3_ff_precheck.txt`,
+`summary_vhf_a3_mc_phase_req.txt`):
+- VHF ff/−40 and ff/125 at V_min 1.181 V and V_max 1.208 V, 3.12–4.20 GHz:
+  all **divide**; LO tot ≤ **9.79 mA**; max|φ| ≤ 0.08°.
+- MC max 0.51° is **VHF 8-phase** (not UHF I/Q). Against §3 ~1° LO input to
+  HR3 (60 dB needs board too): **PASS**. UHF I/Q ≤ 0.33° ≤ 0.46°.
+- **Layout gate:** every cell reports extracted C on clock nets vs **≤ 15 fF/side**
+  floor assumption (`decisions.md` 2026-11-19 sizing accepted).
+
+##### Cell list (bottom-up)
+
+| Cell | Role | Repeat | I / style |
+|---|---|---|---|
+| `cml_latch_uhf` | UHF ÷2 latch | 4× (2 DFF × master/slave) | 0.75 mA, **tailed** |
+| `cml_latch_vhf_tl` | VHF ÷3 latch | 4× in ÷3 | 0.30 mA, **tail-less** |
+| `cml_nor_vhf` | ÷3 NOR | 1× | MOSFET tail |
+| `lo_bias` | en_lodiv TG + nb_lo | 1× shared | already xschem |
+| `lo_buffer` | VCO buffer B2=4 | 1× | AC-coupled inv |
+| `cml_conv` | CML→CMOS | 1×/band | AC self-bias |
+| `tspc_dff` | Johnson / retime | many | size 2 |
+| `lo_uhf_top` / `lo_vhf_top` | band assembly | 1× each | place S of VCO |
+
+##### Placement / layers (Option A floorplan)
+
+- LO island **south of VCO** tank/buffer face (`p27-floorplan.md` §3).
+- Matched `ckp`/`ckn`: M2 E–W equal length (±1 µm); M3 N–S feeds; grounded
+  M1/M2 shields; TM1 over long runs.
+- Power: VR_ANA1 star; local MIM at each CML/TSPC tap.
+- Away from L2n0 and V_tune.
+
+##### Method (same as VCO)
+
+- PDK **pcells**; fingers by script (`check_fingers.py`); `guardRingType=none`
+  + hand ptap (avoid GR M1 shorts).
+- Named net groups; pin fan-out check; flattened xschem spice reference.
+- **Both LVS tools:** KLayout unique PASS + netgen “Circuits match uniquely”.
+- Density DRC waived; all other DRC clean.
+- Clock-net C reported per cell vs 15 fF/side budget share.
 
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  
