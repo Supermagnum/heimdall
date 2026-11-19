@@ -28,6 +28,9 @@ TAIL_L = "0.13u"
 # (tail V_DS≪V_dsat) [SCH summary_vhf_headroom_budget]. Wider → lower V_DS
 # in linear region at fixed Id.
 TAIL_UM_PER_MA = 20.0
+# VHF ÷3 only: ground latch clock-pair sources (step1 VARIANT tailless).
+# Leaves ÷2 path unchanged when band=='uhf'. Owner pick after combo FAIL.
+VHF_TAILLESS = False
 
 
 def _load_step3():
@@ -143,8 +146,8 @@ def _sync_cml_params():
 
 
 def apply_knobs(i_latch=None, b2=None, k=None, swing=None,
-                tail_um_per_ma=None, tail_l=None):
-    global I_LATCH, B2, SWING, K_REGEN, TAIL_UM_PER_MA, TAIL_L
+                tail_um_per_ma=None, tail_l=None, vhf_tailless=None):
+    global I_LATCH, B2, SWING, K_REGEN, TAIL_UM_PER_MA, TAIL_L, VHF_TAILLESS
     if i_latch is not None:
         I_LATCH = i_latch
     if swing is not None:
@@ -153,6 +156,8 @@ def apply_knobs(i_latch=None, b2=None, k=None, swing=None,
         TAIL_UM_PER_MA = float(tail_um_per_ma)
     if tail_l is not None:
         TAIL_L = str(tail_l)
+    if vhf_tailless is not None:
+        VHF_TAILLESS = bool(vhf_tailless)
     # Always resync — module default I_LATCH alone does not update L1.
     _sync_cml_params()
     if b2 is not None:
@@ -170,6 +175,11 @@ _sync_cml_params()
 def build_band_body(band: str, vdd: float, i_latch=None) -> tuple[str, list, dict, int, float]:
     """Return LO body (buffer+chain) with MOSFET tails / keepers, plus meta."""
     apply_knobs(i_latch=I_LATCH if i_latch is None else i_latch)
+    # ÷3 only: tailless clock pair. ÷2 (UHF) keeps stacked tails.
+    if band == "vhf" and VHF_TAILLESS:
+        L1.VARIANT["tailless"] = True
+    else:
+        L1.VARIANT["tailless"] = False
     # Force step3 defaults already loaded; rebuild converter/buffer as step3
     body, names, ideal, ndiv, duty = L2.chain(band, vdd)
     body = body.replace("(vdd ", "(vdv ")
