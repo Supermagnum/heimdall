@@ -1,0 +1,5 @@
+* P2.7.4b cml_diff_pair LVS reference [SCH]
+.subckt cml_diff_pair d1 d2 g1 g2 s gnd
+Mmm1 d1 g1 s 0 sg13_lv_nmos w=7.50u l=0.13u
+Mmm2 d2 g2 s 0 sg13_lv_nmos w=7.50u l=0.13u
+.ends

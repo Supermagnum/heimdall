@@ -5115,9 +5115,9 @@ text {font-family: Sans-Serif;}
 <text fill="#00ddff"  xml:space="preserve" font-size="1.77312" transform="translate(429.63, 12.11)" >0</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="2.14924" transform="translate(472.527, 96.6)" >         /work/analog/lo/sch/lo_vhf_top.sch</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="2.14924" transform="translate(472.527, 93.5001)" >HT13G-M P2.7.1</text>
-<text fill="#cccccc"  xml:space="preserve" font-size="2.14924" transform="translate(532.641, 93.5001)" >2026-11-19  12:59:07</text>
+<text fill="#cccccc"  xml:space="preserve" font-size="2.14924" transform="translate(532.641, 93.5001)" >2026-11-19  16:30:39</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="5.3731" transform="translate(448.762, 96.4274)" >SCHEM</text>
-<text fill="#00ddff"  xml:space="preserve" font-size="1.77312" transform="translate(455.136, 94.9023)" >lo_vhf_top_flat</text>
+<text fill="#00ddff"  xml:space="preserve" font-size="1.77312" transform="translate(449.136, 94.9023)" >lo_vhf_top_flat_golden</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="1.07462" transform="translate(442.762, 87.8746)" >xenb_p</text>
 <text fill="#ff0000"  xml:space="preserve" font-size="0.805965" transform="translate(446.406, 89.6972)" >G</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="1.07462" transform="translate(451.345, 92.9709)" >sg13_lv_pmos</text>

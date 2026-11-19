@@ -1,0 +1,11 @@
+* P2.7.4b cml_latch_vhf_tl LVS reference [SCH]
+.subckt cml_latch_vhf_tl dp dn ckp ckn qp qn vdd gnd
+Rrlap vdd qp gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
+Rrlan vdd qn gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
+Mma1 qn dp s1a 0 sg13_lv_nmos w=7.50u l=0.13u
+Mma2 qp dn s1a 0 sg13_lv_nmos w=7.50u l=0.13u
+Mma3 qn qp s2a 0 sg13_lv_nmos w=11.25u l=0.13u
+Mma4 qp qn s2a 0 sg13_lv_nmos w=11.25u l=0.13u
+Mma5 s1a ckp 0 0 sg13_lv_nmos w=7.50u l=0.13u
+Mma6 s2a ckn 0 0 sg13_lv_nmos w=7.50u l=0.13u
+.ends

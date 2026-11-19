@@ -1,0 +1,28 @@
+v {xschem version=3.4.7 file_version=1.2}
+G {}
+K {type=subcircuit
+schematic=lo_buffer.sch
+format="@name @pinlist @symname"
+template="name=x1"
+}
+V {}
+S {}
+E {}
+L 4 -80 -30 80 -30 {}
+L 4 -80 30 80 30 {}
+L 4 -80 -30 -80 30 {}
+L 4 80 -30 80 30 {}
+T {lo_buffer} -60 -10 0 0 0.3 0.3 {}
+T {@name} 40 -30 0 0 0.2 0.2 {}
+B 5 -82.5 -22.5 -77.5 -17.5 {name=tp dir=inout}
+T {tp} -75 -20 0 0 0.15 0.15 {}
+B 5 -82.5 -14.5 -77.5 -9.5 {name=tn dir=inout}
+T {tn} -75 -12 0 0 0.15 0.15 {}
+B 5 -82.5 -6.5 -77.5 -1.5 {name=ckp dir=inout}
+T {ckp} -75 -4 0 0 0.15 0.15 {}
+B 5 -82.5 1.5 -77.5 6.5 {name=ckn dir=inout}
+T {ckn} -75 4 0 0 0.15 0.15 {}
+B 5 -82.5 9.5 -77.5 14.5 {name=vbuf dir=inout}
+T {vbuf} -75 12 0 0 0.15 0.15 {}
+B 5 -82.5 17.5 -77.5 22.5 {name=0 dir=inout}
+T {0} -75 20 0 0 0.15 0.15 {}

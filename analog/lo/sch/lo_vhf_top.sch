@@ -24,7 +24,7 @@ C {devices/iopin.sym} -200 -680 0 0 {name=vdg lab=vdg}
 C {devices/iopin.sym} -200 -720 0 0 {name=vdd lab=vdd}
 C {devices/iopin.sym} -200 -760 0 0 {name=0 lab=0}
 C {devices/title.sym} 0 40 0 0 {name=t1 author="HT13G-M P2.7.1"}
-C {devices/lab_pin.sym} 200 40 0 0 {name=ttitle lab=lo_vhf_top_flat}
+C {devices/lab_pin.sym} 200 40 0 0 {name=ttitle lab=lo_vhf_top_flat_golden}
 C {sg13g2_pr/sg13_lv_pmos.sym} 0 0 0 0 {name=xenb_p
 w=1u
 l=0.13u

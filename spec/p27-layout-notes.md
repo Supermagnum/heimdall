@@ -1030,10 +1030,19 @@ Scripts: `analog/lo/layout/p274b/`. Fingers PASS (6×ng=5, 1×ng=10). Clock C
 estimate **2.48 fF/side** of 15 fF [HAND/GDS]. Area ≈ 0.00087 mm² [GDS].
 
 **FAIL:** DRC `M1.b`; KLayout + netgen LVS — extract still merges gate/drain
-nets (`ckn|ckp|dn|dp|qn`). Root cause: dense M1 gate-exit / drain buses on a
-multi-row CML stack (same class as early `vco_xc_pair`). Stop before
-`cml_latch_vhf_tl`. Fix: per-net M2 spines, outboard-only gate exits, no M1
-across finger arrays — then re-prove.
+nets (`ckn|ckp|dn|dp|qn`).
+
+**Rule broken** (from `vco_xc_pair` lessons in this file): *Never M1-strap
+across the finger array at a Y that hits another terminal's drop; join
+same-net columns via side spurs + M2.* The first latch fill drew M1 through
+Activ height (shorting D–S) and crossed multi-row buses on M1.
+
+##### `cml_diff_pair` re-build (2026-11-19) — PASS [TOOL]
+
+Bottom-up step 3a: open-gate NMOS pair W=7.5 ng=5 + end dummies, VCO method.
+DRC clean (density waived); KLayout LVS PASS; netgen unique PASS; fingers
+PASS (2×5 + 2×1); C ≈ **2.29 fF/side** of 15 fF [HAND/GDS]; PNG render.
+`out/cml_diff_pair.gds.gz`. Next: loads → tail → regen XC, then full latch.
 
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  

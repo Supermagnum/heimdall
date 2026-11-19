@@ -1,0 +1,1 @@
+lvs {/work/analog/lo/layout/p274b/out/cml_diff_pair.spice cml_diff_pair} {/work/analog/lo/layout/p274b/out/lvs_cml_diff_pair/cml_diff_pair_extracted.cir cml_diff_pair} /foss/pdks/ihp-sg13g2/libs.tech/netgen/ihp-sg13g2_setup.tcl /work/analog/lo/layout/p274b/out/netgen_cml_diff_pair.json

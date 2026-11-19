@@ -1,0 +1,31 @@
+* P2.7.4b lo_buffer LVS reference [SCH]
+.subckt lo_buffer tp tn ckp ckn vbuf gnd
+ccp (tp x_bip) capacitor c=100f
+rfp (x_bip x_bop) resistor r=50k
+Mxb1pp x_bop x_bip vbuf vbuf sg13_lv_pmos w=4u l=0.13u
+Mxb1pn x_bop x_bip 0 0 sg13_lv_nmos w=2u l=0.13u
+ccmp (x_bop x_mip) capacitor c=50f
+rfmp (x_mip x_bmp) resistor r=50k
+Mxbmpp x_bmp x_mip vbuf vbuf sg13_lv_pmos w=6u l=0.13u
+Mxbmpn x_bmp x_mip 0 0 sg13_lv_nmos w=3u l=0.13u
+Mxb2pp ckp x_bmp vbuf vbuf sg13_lv_pmos w=8.0u l=0.13u
+Mxb2pn ckp x_bmp 0 0 sg13_lv_nmos w=4.0u l=0.13u
+ccn (tn x_bin) capacitor c=100f
+rfn (x_bin x_bon) resistor r=50k
+Mxb1np x_bon x_bin vbuf vbuf sg13_lv_pmos w=4u l=0.13u
+Mxb1nn x_bon x_bin 0 0 sg13_lv_nmos w=2u l=0.13u
+ccmn (x_bon x_min) capacitor c=50f
+rfmn (x_min x_bmn) resistor r=50k
+Mxbmnp x_bmn x_min vbuf vbuf sg13_lv_pmos w=6u l=0.13u
+Mxbmnn x_bmn x_min 0 0 sg13_lv_nmos w=3u l=0.13u
+Mxb2np ckn x_bmn vbuf vbuf sg13_lv_pmos w=8.0u l=0.13u
+Mxb2nn ckn x_bmn 0 0 sg13_lv_nmos w=4.0u l=0.13u
+Mxbxpp x_bon x_bop vbuf vbuf sg13_lv_pmos w=1u l=0.13u
+Mxbxpn x_bon x_bop 0 0 sg13_lv_nmos w=0.5u l=0.13u
+Mxbxnp x_bop x_bon vbuf vbuf sg13_lv_pmos w=1u l=0.13u
+Mxbxnn x_bop x_bon 0 0 sg13_lv_nmos w=0.5u l=0.13u
+Mxbopp ckn ckp vbuf vbuf sg13_lv_pmos w=2u l=0.13u
+Mxbopn ckn ckp 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxbonp ckp ckn vbuf vbuf sg13_lv_pmos w=2u l=0.13u
+Mxbonn ckp ckn 0 0 sg13_lv_nmos w=1u l=0.13u
+.ends

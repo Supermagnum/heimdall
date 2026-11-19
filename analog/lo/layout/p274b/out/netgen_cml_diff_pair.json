@@ -1,0 +1,27 @@
+
+Subcircuit summary:
+Circuit 1: cml_diff_pair                   |Circuit 2: cml_diff_pair                   
+-------------------------------------------|-------------------------------------------
+sg13_lv_nmos (3)                           |sg13_lv_nmos (3)                           
+Number of devices: 3                       |Number of devices: 3                       
+Number of nets: 6                          |Number of nets: 6                          
+---------------------------------------------------------------------------------------
+Resolving symmetries by property value.
+Resolving symmetries by pin name.
+Netlists match uniquely.
+
+Subcircuit pins:
+Circuit 1: cml_diff_pair                   |Circuit 2: cml_diff_pair                   
+-------------------------------------------|-------------------------------------------
+gnd                                        |gnd                                        
+s                                          |s                                          
+d2                                         |d2                                         
+d1                                         |d1                                         
+g2                                         |g2                                         
+g1                                         |g1                                         
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes cml_diff_pair and cml_diff_pair are equivalent.
+
+Final result: Circuits match uniquely.
+.

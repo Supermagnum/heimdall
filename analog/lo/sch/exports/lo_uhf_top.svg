@@ -3287,9 +3287,9 @@ text {font-family: Sans-Serif;}
 <text fill="#00ddff"  xml:space="preserve" font-size="2.76679" transform="translate(390.194, 13.0122)" >0</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="3.35368" transform="translate(457.132, 112.604)" >         /work/analog/lo/sch/lo_uhf_top.sch</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="3.35368" transform="translate(457.132, 107.767)" >HT13G-M P2.7.1</text>
-<text fill="#cccccc"  xml:space="preserve" font-size="3.35368" transform="translate(549.701, 107.767)" >2026-11-19  12:59:07</text>
+<text fill="#cccccc"  xml:space="preserve" font-size="3.35368" transform="translate(549.701, 107.767)" >2026-11-19  16:30:39</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="8.38421" transform="translate(420.048, 112.334)" >SCHEM</text>
-<text fill="#00ddff"  xml:space="preserve" font-size="2.76679" transform="translate(428.279, 109.955)" >lo_uhf_top_flat</text>
+<text fill="#00ddff"  xml:space="preserve" font-size="2.76679" transform="translate(417.279, 109.955)" >lo_uhf_top_flat_golden</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="1.67684" transform="translate(414.048, 98.9886)" >xenb_p</text>
 <text fill="#ff0000"  xml:space="preserve" font-size="1.25763" transform="translate(416.629, 101.833)" >G</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="1.67684" transform="translate(424.079, 106.941)" >sg13_lv_pmos</text>

@@ -1,0 +1,19 @@
+# P2.7.4b xschem leaf cells
+
+Leaf cells are LVS references. Flat tops remain the sim golden (circuit.py body). Leaf symbols are placed on the top sheet for hierarchy documentation; flat device connectivity is unchanged.
+
+| Cell | Devices | Ports |
+|---|---:|---:|
+| `lo_bias` | 5 | 5 |
+| `cml_latch_uhf` | 9 | 9 |
+| `cml_latch_vhf_tl` | 8 | 8 |
+| `cml_diff_pair` | 2 | 6 |
+| `lo_buffer` | 28 | 6 |
+| `lo_uhf_top` | 185 | 14 |
+| `lo_vhf_top` | 293 | 19 |
+
+## Flat netlist compare vs accepted
+
+- lo_uhf_flat devices: **PASS** (missing 0 extra 0; title-only diffs ignored)
+- lo_vhf_flat devices: **PASS** (missing 0 extra 0; title-only diffs ignored)
+

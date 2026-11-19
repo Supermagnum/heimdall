@@ -1,6 +1,6 @@
 # LO divider and phase-generation topology memo (P2.4)
 
-Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1–3 done; P2.4 accepted 2026-10-21.** P2.6 UHF floor −150.1 dBc/Hz [SCH]. **P2.7.4a3 sizing accepted** (D7 PASS 8.18 / 8.66 mA). **P2.7.4b step0 PASS** (VHF ff re-check; MC 0.51° = VHF 8-phase OK vs ~1° HR). First latch GDS **DRC/LVS FAIL** — stop. Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
+Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1–3 done; P2.4 accepted 2026-10-21.** P2.6 UHF floor −150.1 dBc/Hz [SCH]. **P2.7.4a3 sizing accepted** (D7 PASS 8.18 / 8.66 mA). **P2.7.4b step0 PASS** (VHF ff re-check; MC 0.51° = VHF 8-phase OK vs ~1° HR). Leaf xschem + `cml_diff_pair` LVS **PASS**; full latch rebuild in progress. Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
 
 ---
 

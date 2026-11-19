@@ -1,0 +1,32 @@
+v {xschem version=3.4.7 file_version=1.2}
+G {}
+K {type=subcircuit
+schematic=cml_latch_vhf_tl.sch
+format="@name @pinlist @symname"
+template="name=x1"
+}
+V {}
+S {}
+E {}
+L 4 -80 -38 80 -38 {}
+L 4 -80 38 80 38 {}
+L 4 -80 -38 -80 38 {}
+L 4 80 -38 80 38 {}
+T {cml_latch_vhf_tl} -60 -10 0 0 0.3 0.3 {}
+T {@name} 40 -30 0 0 0.2 0.2 {}
+B 5 -82.5 -30.5 -77.5 -25.5 {name=dp dir=inout}
+T {dp} -75 -28 0 0 0.15 0.15 {}
+B 5 -82.5 -22.5 -77.5 -17.5 {name=dn dir=inout}
+T {dn} -75 -20 0 0 0.15 0.15 {}
+B 5 -82.5 -14.5 -77.5 -9.5 {name=ckp dir=inout}
+T {ckp} -75 -12 0 0 0.15 0.15 {}
+B 5 -82.5 -6.5 -77.5 -1.5 {name=ckn dir=inout}
+T {ckn} -75 -4 0 0 0.15 0.15 {}
+B 5 -82.5 1.5 -77.5 6.5 {name=qp dir=inout}
+T {qp} -75 4 0 0 0.15 0.15 {}
+B 5 -82.5 9.5 -77.5 14.5 {name=qn dir=inout}
+T {qn} -75 12 0 0 0.15 0.15 {}
+B 5 -82.5 17.5 -77.5 22.5 {name=vdd dir=inout}
+T {vdd} -75 20 0 0 0.15 0.15 {}
+B 5 -82.5 25.5 -77.5 30.5 {name=0 dir=inout}
+T {0} -75 28 0 0 0.15 0.15 {}

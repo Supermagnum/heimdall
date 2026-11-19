@@ -1,0 +1,8 @@
+* P2.7.4b lo_bias LVS reference [SCH]
+.subckt lo_bias nbias en_lodiv nb_lo vdd gnd
+Mxenb_p en_n en_lodiv vdd vdd sg13_lv_pmos w=1u l=0.13u
+Mxenb_n en_n en_lodiv 0 0 sg13_lv_nmos w=0.5u l=0.13u
+Mtgn nb_lo en_lodiv nbias 0 sg13_lv_nmos w=4u l=0.13u
+Mtgp nb_lo en_n nbias vdd sg13_lv_pmos w=8u l=0.13u
+Mmpd nb_lo en_n 0 0 sg13_lv_nmos w=2u l=0.13u
+.ends
