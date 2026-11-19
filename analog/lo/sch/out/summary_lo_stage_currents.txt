@@ -1,0 +1,62 @@
+# P2.7.4a3 — measured LO stage currents [SCH]
+
+I_latch=0.75 mA; B2=4; VHF_TAILLESS=True. Split supplies; I = mean |*:flow(br)| after 70 % settle.
+VCO 3.59 mA + PLL 1.5 mA [HAND] added for LO total.
+
+| Band | Corner | T | VDD | ok | I_buf | I_CML | I_conv | I_logic | I_bias | I_chain | LO total |
+|---|---|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|
+| uhf | tt_m40 | -40 | 1.200 | OK | 1.039 | 1.165 | 0.525 | 0.345 | 0.750 | 3.823 | 8.913 |
+| uhf | tt | 27 | 1.200 | OK | 1.049 | 1.173 | 0.531 | 0.335 | 0.750 | 3.838 | 8.928 |
+| uhf | tt_125 | 125 | 1.200 | OK | 1.074 | 1.175 | 0.576 | 0.331 | 0.750 | 3.905 | 8.995 |
+| uhf | ss_m40 | -40 | 1.181 | OK | 0.927 | 1.056 | 0.460 | 0.323 | 0.750 | 3.517 | 8.607 |
+| uhf | ss_27 | 27 | 1.181 | OK | 0.938 | 1.054 | 0.469 | 0.318 | 0.750 | 3.528 | 8.618 |
+| uhf | ss | 125 | 1.181 | OK | 0.956 | 1.044 | 0.495 | 0.316 | 0.750 | 3.560 | 8.650 |
+| uhf | ff_m40 | -40 | 1.208 | OK | 1.177 | 1.254 | 0.550 | 0.347 | 0.750 | 4.077 | 9.167 |
+| uhf | ff_27 | 27 | 1.208 | OK | 1.176 | 1.260 | 0.578 | 0.344 | 0.750 | 4.108 | 9.198 |
+| uhf | ff_125 | 125 | 1.208 | OK | 1.199 | 1.266 | 0.643 | 0.346 | 0.750 | 4.204 | 9.294 |
+| vhf | tt_m40 | -40 | 1.200 | OK | 1.431 | 5.518 | 0.467 | 0.375 | 0.750 | 8.542 | 13.632 |
+| vhf | tt | 27 | 1.200 | OK | 1.424 | 5.494 | 0.481 | 0.374 | 0.750 | 8.522 | 13.612 |
+| vhf | tt_125 | 125 | 1.200 | OK | 1.430 | 5.312 | 0.512 | 0.374 | 0.750 | 8.378 | 13.468 |
+| vhf | ss_m40 | -40 | 1.181 | OK | 1.245 | 4.163 | 0.442 | 0.364 | 0.750 | 6.964 | 12.054 |
+| vhf | ss_27 | 27 | 1.181 | OK | 1.222 | 4.078 | 0.447 | 0.359 | 0.750 | 6.856 | 11.946 |
+| vhf | ss | 125 | 1.181 | OK | 1.211 | 3.958 | 0.467 | 0.350 | 0.750 | 6.736 | 11.826 |
+| vhf | ff_m40 | -40 | 1.208 | OK | 1.528 | 6.360 | 0.505 | 0.408 | 0.750 | 9.551 | 14.641 |
+| vhf | ff_27 | 27 | 1.208 | OK | 1.538 | 6.299 | 0.522 | 0.398 | 0.750 | 9.507 | 14.597 |
+| vhf | ff_125 | 125 | 1.208 | FAIL | — | — | — | — | — | — | — |
+
+## ÷3 current vs HAND 5×I_latch
+
+HAND was 3.75 mA (5 × 0.75). Measured I_CML = vdvs (÷3 + NOR for VHF; ÷2 for UHF).
+
+- uhf tt: I_CML = 1.173 mA [SCH] (HAND 3.75 for VHF / 1.50 for UHF)
+- vhf tt: I_CML = 5.494 mA [SCH] (HAND 3.75 for VHF / 1.50 for UHF)
+- uhf ss: I_CML = 1.044 mA [SCH] (HAND 3.75 for VHF / 1.50 for UHF)
+- vhf ss: I_CML = 3.958 mA [SCH] (HAND 3.75 for VHF / 1.50 for UHF)
+
+## D7 interpretation [HAND]
+
+`I_bias` is the TB `iref_nb` stand-in on `vdds` (0.75 mA). On silicon that current
+comes from the PLL bias block already counted in PLL ≈ 1.5 mA [HAND] — **do not
+add I_bias again** to LO total.
+
+Corrected LO total ≈ I_buf+I_CML+I_conv+I_logic + VCO 3.59 + PLL 1.5.
+
+| Band | Corner | I_chain (no bias) | LO total corr. |
+|---|---|---:|---:|
+| uhf | tt_m40 | 3.074 | 8.16 |
+| uhf | tt | 3.088 | 8.18 |
+| uhf | tt_125 | 3.155 | 8.25 |
+| uhf | ss_m40 | 2.767 | 7.86 |
+| uhf | ss_27 | 2.778 | 7.87 |
+| uhf | ss | 2.810 | 7.90 |
+| uhf | ff_m40 | 3.328 | 8.42 |
+| uhf | ff_27 | 3.358 | 8.45 |
+| uhf | ff_125 | 3.454 | 8.54 |
+| vhf | tt_m40 | 7.792 | 12.88 |
+| vhf | tt | 7.772 | 12.86 |
+| vhf | tt_125 | 7.628 | 12.72 |
+| vhf | ss_m40 | 6.214 | 11.30 |
+| vhf | ss_27 | 6.106 | 11.20 |
+| vhf | ss | 5.986 | 11.08 |
+| vhf | ff_m40 | 8.801 | 13.89 |
+| vhf | ff_27 | 8.757 | 13.85 |

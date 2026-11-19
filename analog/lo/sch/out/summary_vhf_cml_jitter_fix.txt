@@ -1,0 +1,34 @@
+# P2.7.4a3 — VHF CML noise TB jitter fix [SCH]
+
+## What was wrong
+
+Prior VHF CML stage reported rms TIE **≈ 60 ps** (60305 fs) while UHF CML
+was ≈ 94 fs (`summary_stage_noise.txt` before fix). Root cause:
+
+1. **`stage_cml()` did not set `L1.VARIANT['tailless']=True` for VHF** even
+   though `apply_knobs(vhf_tailless=True)` was called. The noise TB therefore
+   built a **stacked** ÷3 while production is **tail-less**. Wrong headroom /
+   mode → irregular edges.
+2. **`tie_spectrum()` forced the FFT rate to the assumed f_out** (f_VCO/3).
+   When the actual edge rate drifted, TIE residuals blew up into tens of ps.
+
+L@f_out looked only mildly bad (−148.6) because the band average can stay
+finite while rms TIE is meaningless.
+
+## Fix
+
+- Set `VARIANT['tailless']` from `C.VHF_TAILLESS` before `div_body` in
+  `stage_cml()` (`run_stage_noise.py`).
+- Use measured mean edge rate in `tie_spectrum` when |f_meas/f0 − 1| > 2 %.
+
+## After fix [SCH]
+
+| Stage | jit fs | L@f_out | L→LO |
+|---|---:|---:|---:|
+| buffer | 52 | −148.7 | −176.3 |
+| **cml** | **43** | **−158.4** | **−176.5** |
+| converter | 144 | −147.1 | −165.2 |
+| logic | FAILED (no raw — disk full mid-run) | — | — |
+
+Partial sum (buf+cml+conv) ≈ −164.6 dBc/Hz. Logic re-run follows with floor
+sizing. Prior UHF table unchanged (−154.7).
