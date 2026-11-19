@@ -1,0 +1,47 @@
+# P2.7.4a3 — VR_ANA1 real supply minimum [SCH + HAND]
+
+LDO sense target V_LDO=1.2965 V (Vref=0.6482); R_ser=10 Ω;
+Vin=2.7 V. Loads: UHF=8.44 mA, VHF=10.69 mA,
+pre-en_lodiv≈5.1 mA [HAND a2/D21].
+
+## Operating-point pad voltage [SCH]
+
+| Corner | MOS | T (°C) | I_load | V_LDO | V_pad | ΔV_R |
+|---|---|---:|---:|---:|---:|---:|
+| tt typ | mos_tt | 27 | 9.65 mA | 1.2950 | 1.1985 | 96.5 mV |
+| ss VHF | mos_ss | 125 | 10.69 mA | 1.2932 | 1.1863 | 106.9 mV |
+| ss UHF | mos_ss | 125 | 8.44 mA | 1.2946 | 1.2102 | 84.4 mV |
+| ff UHF | mos_ff | -40 | 8.44 mA | 1.2958 | 1.2114 | 84.4 mV |
+| ff VHF | mos_ff | -40 | 10.69 mA | 1.2949 | 1.1880 | 106.9 mV |
+| tt VHF | mos_tt | 27 | 10.69 mA | 1.2945 | 1.1876 | 106.9 mV |
+
+## Supply-route IR [HAND]
+
+Option A (p27-floorplan): pad star → LO south of VCO ≈ 350 µm M2/M3
+at w ≥ 4 µm. RSMET2 typ 88 mΩ/sq [DS] ×1.35 @125 °C → metal ≈ 10 mΩ;
+via array ≈ 0.45 Ω → **R_route_ss ≈ 0.50 Ω**, R_route_ff ≈ 0.35 Ω [HAND].
+IR_ss @ I_VHF = 5.34 mV; IR_ff @ I_UHF = 2.95 mV.
+
+## V_min / V_max at the divider [SCH − HAND]
+
+- **V_min (ss / 125 °C, VHF load)** = V_pad 1.1863 − IR 5.34 mV = **1.1809 V**
+- **V_max (ff / −40 °C, UHF load)** = V_pad 1.2114 − IR 2.95 mV = **1.2084 V**
+  (ff VHF pad 1.1880 V for reference)
+- tt typ pad (check) = 1.1985 V [SCH]
+
+## LO-enable step load at ss / 125 °C [SCH]
+
+Pulse I_pad 5.1 → 10.69 mA (≈ en_lodiv).
+
+| Mode | V_pad pre | V_pad post | ΔVpk (mV) |
+|---|---:|---:|---:|
+| VHF en_lodiv | 1.2461 | 1.1863 | -83.4 |
+| UHF en_lodiv | 1.2461 | 1.2101 | -50.9 |
+
+## Replacement of prior assumptions
+
+Prior LO checks used VDD=1.08 V and a 30 mV margin to 1.05 V [HAND].
+Those are **replaced** by V_min above for subsequent a3 buffer / ÷3 work.
+
+**Use VDD = 1.181 V** (rounded) for ss / 125 °C divider TBs.
+**Use VDD = 1.208 V** (rounded) for ff / −40 °C max checks.
