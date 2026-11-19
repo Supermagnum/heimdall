@@ -42,6 +42,22 @@
 !**/layout/p272*/out/lvs_*/*.log
 !**/layout/p272*/out/summary_*.txt
 !**/layout/p272*/out/pex_lumped.json
+# P2.7.4b LO divider cells
+!**/layout/p274*/out/
+!**/layout/p274*/out/*.gds.gz
+!**/layout/p274*/out/*.png
+!**/layout/p274*/out/*.svg
+!**/layout/p274*/out/*.spice
+!**/layout/p274*/out/*_extracted.cir
+!**/layout/p274*/out/*.log
+!**/layout/p274*/out/netgen_*.json
+!**/layout/p274*/out/netgen_*.tcl
+!**/layout/p274*/out/lvs_*/
+!**/layout/p274*/out/lvs_*/*.cir
+!**/layout/p274*/out/lvs_*/*.log
+!**/layout/p274*/out/summary_*.txt
+**/layout/p274*/out/*.gds
+**/layout/p274*/out/drc_*/
 # P2.7.3a PEX subtree (spice + lumped JSON + logs; regenerate .ext via script)
 !**/layout/p272*/out/pex_vco_top/
 !**/layout/p272*/out/pex_vco_top/*.spice
