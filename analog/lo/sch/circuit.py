@@ -29,8 +29,8 @@ TAIL_L = "0.13u"
 # in linear region at fixed Id.
 TAIL_UM_PER_MA = 20.0
 # VHF ÷3 only: ground latch clock-pair sources (step1 VARIANT tailless).
-# Leaves ÷2 path unchanged when band=='uhf'. Owner pick after combo FAIL.
-VHF_TAILLESS = False
+# Leaves ÷2 path unchanged when band=='uhf'. Owner 2026-11-19: tail-less CML.
+VHF_TAILLESS = True
 
 
 def _load_step3():

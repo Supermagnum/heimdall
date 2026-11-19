@@ -25,9 +25,11 @@ REF = {
     "uhf_duty": (22.6, 25.8),
     "vhf_duty": (47.9, 51.1),
 }
+# ss VDD = VR_ANA1 V_min at divider (LDO ss/125 + route IR) [SCH/HAND]
+# analog/vco/ldo/out/summary_vrana1_corner_vmin.txt — replaces 1.08 V.
 CORNERS = {
     "tt": ("tt", "mos_tt", 1.20, 27),
-    "ss": ("ss", "mos_ss", 1.08, 125),
+    "ss": ("ss", "mos_ss", 1.181, 125),
 }
 CASES = {"uhf": [3.20e9, 3.84e9], "vhf": [3.12e9, 4.20e9]}
 MM = {"n": (3.9e-3, 0.005), "p": (2.2e-3, 0.0033)}

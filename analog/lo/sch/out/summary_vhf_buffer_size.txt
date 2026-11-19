@@ -1,0 +1,23 @@
+# P2.7.4a3 — LO buffer sizing @ 4.20 GHz ss V_min [SCH]
+
+VDD=1.181 V (VR_ANA1 V_min); mos_ss / 125 °C; tailless ÷3;
+tank amp = tank_amp(4.20) = 0.550 V/side (D22 unchanged);
+target ≥ 0.50 V/side at ÷3 clock.
+
+| B2 (µm) | divide | max|φ| | buf V/side | I_buf [SCH] | area last+front [HAND µm²] |
+|---:|---|---:|---:|---:|---:|
+| 4 | OK | 0.11 | 0.516 | n/a | 8.2 |
+| 5 | OK | 0.11 | 0.546 | n/a | 9.0 |
+| 6 | OK | 0.11 | 0.558 | n/a | 9.8 |
+| 8 | OK | 0.11 | 0.552 | n/a | 11.3 |
+| 10 | OK | 0.11 | 0.495 | n/a | 12.9 |
+| 12 | FAIL | 999.00 | 0.421 | n/a | 14.4 |
+
+## Pick
+
+**Selected B2 = 4 µm** (last inv 4/8 µm).
+Swing 0.516 V/side ≥ 0.5; divide OK (phase 0.11°).
+Buffer current ≈ 1.00 mA [HAND] (Δ vs B2=4 baseline 1.00 mA: +0.00 mA).
+Buffer active area ≈ 8 µm² [HAND] (was 8 µm² at B2=4).
+
+Apply: `C.apply_knobs(b2=..., vhf_tailless=True)`; set circuit.B2.

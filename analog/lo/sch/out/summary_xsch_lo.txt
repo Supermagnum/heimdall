@@ -1,6 +1,6 @@
-# P2.7.4a2 xschem LO divider capture
+# P2.7.4a3 xschem LO divider capture
 
-Generated from step-3 defaults with MOSFET CML tails (nbias TG) and TSPC weak Q keepers + 100Meg on a/b (no 1 GOhm). I_latch=0.75 mA, swing via step3, k=1.5.
+Generated from step-3 defaults with MOSFET CML tails (nbias TG) and TSPC weak Q keepers + 100Meg on a/b (no 1 GOhm). I_latch=0.75 mA, swing via step3, k=1.5. VHF ÷3 tailless=True (owner 2026-11-19); UHF ÷2 stacked.
 
 ## Hierarchy
 
@@ -8,7 +8,7 @@ Generated from step-3 defaults with MOSFET CML tails (nbias TG) and TSPC weak Q 
 |---|---:|---:|
 | `lo_bias` | 5 | 5 |
 | `lo_uhf_top` | 185 | 14 |
-| `lo_vhf_top` | 297 | 19 |
+| `lo_vhf_top` | 293 | 19 |
 
 ## Remaining test-bench inputs (not on-chip)
 
@@ -26,4 +26,3 @@ Generated from step-3 defaults with MOSFET CML tails (nbias TG) and TSPC weak Q 
 - TSPC `resistor r=1G` → weak Q keepers + 100Meg on a/b
 
 Exports: `exports/*.svg`, `exports/*.pdf`. Netlists: `netlists/`.
-
