@@ -1,6 +1,6 @@
 # P2.7.4a2 xschem LO dividers
 
-Generated from step-3 defaults with MOSFET CML tails (nbias TG) and TSPC weak Q keepers + 100Meg on a/b (no 1 GOhm). I_latch=0.75 mA, swing via step3, k=1.5. VHF ÷3 tailless=True (owner 2026-11-19); UHF ÷2 stacked.
+Generated from step-3 defaults with MOSFET CML tails (nbias TG) and TSPC weak Q keepers + 100Meg on a/b (no 1 GOhm). I_latch UHF=0.75 mA / VHF=0.3 mA, swing via step3, k=1.5. VHF ÷3 tailless=True (owner 2026-11-19); UHF ÷2 stacked.
 
 ## Hierarchy
 

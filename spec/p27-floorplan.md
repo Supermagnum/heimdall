@@ -205,6 +205,11 @@ divider GDS yet. Die re-total unchanged (VCO **0.4624** [GDS]); still fits
 **P2.7.4a3 tail-less ÷3 (2026-11-19) [SCH/HAND]:** VHF ÷3 latches tail-less; B2
 stays **4 µm** (0.516 V/side @ 4.20 / V_min 1.181 V [SCH]). LO area still
 **≈ 0.05–0.09 mm²** [HAND] (no buffer growth; fewer ÷3 tail devices). No
-divider GDS. Die re-total unchanged. D7 VHF **10.69 mA** over — STOP.
+divider GDS. Die re-total unchanged. D7 VHF **10.69 mA** over — STOP (superseded below).
+
+**P2.7.4a3 current sizing (2026-11-19) [SCH/HAND]:** VHF I_latch **0.30 mA**
+(UHF 0.75 mA); LO area still **≈ 0.05–0.09 mm²** [HAND] (narrower VHF CML).
+D7 **PASS** VHF 8.66 / UHF 8.18 mA. Final corners + MC 20/20; f_max_ss ≈
+4.8 GHz. Ready for P2.7.4b layout.
 
 **Flag:** the §1 sketch of a **1.6 × 1.6 mm** active core **does not fit** the Phase 3/4 RX+TX + synth + digital + pads tally. Before Phase 5, plan on a die closer to **≥ ~2.2 × 2.2 mm** (≈ 4.8 mm²) or tighten RX/TX area after topology.

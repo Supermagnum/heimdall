@@ -110,7 +110,8 @@ def main():
         "# P2.7.4a3 xschem LO divider capture\n\n",
         "Generated from step-3 defaults with MOSFET CML tails (nbias TG) and "
         "TSPC weak Q keepers + 100Meg on a/b (no 1 GOhm). "
-        f"I_latch={C.I_LATCH*1e3:g} mA, swing via step3, k={C.K_REGEN:g}. "
+        f"I_latch UHF={C.I_LATCH*1e3:g} mA / VHF={C.VHF_I_LATCH*1e3:g} mA, "
+        f"swing via step3, k={C.K_REGEN:g}. "
         f"VHF ÷3 tailless={C.VHF_TAILLESS} (owner 2026-11-19); UHF ÷2 stacked.\n\n",
         "## Hierarchy\n\n| Cell | Devices | Ports |\n|---|---:|---:|\n",
     ]

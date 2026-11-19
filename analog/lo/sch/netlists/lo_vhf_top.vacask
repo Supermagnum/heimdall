@@ -63,44 +63,44 @@ xbopp (ckn ckp vbuf vbuf) sg13_lv_pmos w=2u l=0.13u
 xbopn (ckn ckp 0 0) sg13_lv_nmos w=1u l=0.13u
 xbonp (ckp ckn vbuf vbuf) sg13_lv_pmos w=2u l=0.13u
 xbonn (ckp ckn 0 0) sg13_lv_nmos w=1u l=0.13u
-rgp (vdv orp) resistor r=666.7
-rgn (vdv orn) resistor r=666.7
-mga (orn q1p tg 0) sg13_lv_nmos w=7.50u l=0.13u
-mgb (orn q2p tg 0) sg13_lv_nmos w=7.50u l=0.13u
-mgr (orp vref tg 0) sg13_lv_nmos w=7.50u l=0.13u
-mtg (tg nb_lo 0 0) sg13_lv_nmos w=15u l=0.13u
-rlamp (vdv map) resistor r=666.7
-rlamn (vdv man) resistor r=666.7
-mam1 (man orn s1am 0) sg13_lv_nmos w=7.50u l=0.13u
-mam2 (map orp s1am 0) sg13_lv_nmos w=7.50u l=0.13u
-mam3 (man map s2am 0) sg13_lv_nmos w=11.25u l=0.13u
-mam4 (map man s2am 0) sg13_lv_nmos w=11.25u l=0.13u
-mam5 (s1am ckp 0 0) sg13_lv_nmos w=7.50u l=0.13u
-mam6 (s2am ckn 0 0) sg13_lv_nmos w=7.50u l=0.13u
-rlasp (vdv q1p) resistor r=666.7
-rlasn (vdv q1n) resistor r=666.7
-mas1 (q1n map s1as 0) sg13_lv_nmos w=7.50u l=0.13u
-mas2 (q1p man s1as 0) sg13_lv_nmos w=7.50u l=0.13u
-mas3 (q1n q1p s2as 0) sg13_lv_nmos w=11.25u l=0.13u
-mas4 (q1p q1n s2as 0) sg13_lv_nmos w=11.25u l=0.13u
-mas5 (s1as ckn 0 0) sg13_lv_nmos w=7.50u l=0.13u
-mas6 (s2as ckp 0 0) sg13_lv_nmos w=7.50u l=0.13u
-rlbmp (vdv mbp) resistor r=666.7
-rlbmn (vdv mbn) resistor r=666.7
-mbm1 (mbn q1p s1bm 0) sg13_lv_nmos w=7.50u l=0.13u
-mbm2 (mbp q1n s1bm 0) sg13_lv_nmos w=7.50u l=0.13u
-mbm3 (mbn mbp s2bm 0) sg13_lv_nmos w=11.25u l=0.13u
-mbm4 (mbp mbn s2bm 0) sg13_lv_nmos w=11.25u l=0.13u
-mbm5 (s1bm ckp 0 0) sg13_lv_nmos w=7.50u l=0.13u
-mbm6 (s2bm ckn 0 0) sg13_lv_nmos w=7.50u l=0.13u
-rlbsp (vdv q2p) resistor r=666.7
-rlbsn (vdv q2n) resistor r=666.7
-mbs1 (q2n mbp s1bs 0) sg13_lv_nmos w=7.50u l=0.13u
-mbs2 (q2p mbn s1bs 0) sg13_lv_nmos w=7.50u l=0.13u
-mbs3 (q2n q2p s2bs 0) sg13_lv_nmos w=11.25u l=0.13u
-mbs4 (q2p q2n s2bs 0) sg13_lv_nmos w=11.25u l=0.13u
-mbs5 (s1bs ckn 0 0) sg13_lv_nmos w=7.50u l=0.13u
-mbs6 (s2bs ckp 0 0) sg13_lv_nmos w=7.50u l=0.13u
+rgp (vdv orp) resistor r=1666.7
+rgn (vdv orn) resistor r=1666.7
+mga (orn q1p tg 0) sg13_lv_nmos w=3.00u l=0.13u
+mgb (orn q2p tg 0) sg13_lv_nmos w=3.00u l=0.13u
+mgr (orp vref tg 0) sg13_lv_nmos w=3.00u l=0.13u
+mtg (tg nb_lo 0 0) sg13_lv_nmos w=6u l=0.13u
+rlamp (vdv map) resistor r=1666.7
+rlamn (vdv man) resistor r=1666.7
+mam1 (man orn s1am 0) sg13_lv_nmos w=3.00u l=0.13u
+mam2 (map orp s1am 0) sg13_lv_nmos w=3.00u l=0.13u
+mam3 (man map s2am 0) sg13_lv_nmos w=4.50u l=0.13u
+mam4 (map man s2am 0) sg13_lv_nmos w=4.50u l=0.13u
+mam5 (s1am ckp 0 0) sg13_lv_nmos w=3.00u l=0.13u
+mam6 (s2am ckn 0 0) sg13_lv_nmos w=3.00u l=0.13u
+rlasp (vdv q1p) resistor r=1666.7
+rlasn (vdv q1n) resistor r=1666.7
+mas1 (q1n map s1as 0) sg13_lv_nmos w=3.00u l=0.13u
+mas2 (q1p man s1as 0) sg13_lv_nmos w=3.00u l=0.13u
+mas3 (q1n q1p s2as 0) sg13_lv_nmos w=4.50u l=0.13u
+mas4 (q1p q1n s2as 0) sg13_lv_nmos w=4.50u l=0.13u
+mas5 (s1as ckn 0 0) sg13_lv_nmos w=3.00u l=0.13u
+mas6 (s2as ckp 0 0) sg13_lv_nmos w=3.00u l=0.13u
+rlbmp (vdv mbp) resistor r=1666.7
+rlbmn (vdv mbn) resistor r=1666.7
+mbm1 (mbn q1p s1bm 0) sg13_lv_nmos w=3.00u l=0.13u
+mbm2 (mbp q1n s1bm 0) sg13_lv_nmos w=3.00u l=0.13u
+mbm3 (mbn mbp s2bm 0) sg13_lv_nmos w=4.50u l=0.13u
+mbm4 (mbp mbn s2bm 0) sg13_lv_nmos w=4.50u l=0.13u
+mbm5 (s1bm ckp 0 0) sg13_lv_nmos w=3.00u l=0.13u
+mbm6 (s2bm ckn 0 0) sg13_lv_nmos w=3.00u l=0.13u
+rlbsp (vdv q2p) resistor r=1666.7
+rlbsn (vdv q2n) resistor r=1666.7
+mbs1 (q2n mbp s1bs 0) sg13_lv_nmos w=3.00u l=0.13u
+mbs2 (q2p mbn s1bs 0) sg13_lv_nmos w=3.00u l=0.13u
+mbs3 (q2n q2p s2bs 0) sg13_lv_nmos w=4.50u l=0.13u
+mbs4 (q2p q2n s2bs 0) sg13_lv_nmos w=4.50u l=0.13u
+mbs5 (s1bs ckn 0 0) sg13_lv_nmos w=3.00u l=0.13u
+mbs6 (s2bs ckp 0 0) sg13_lv_nmos w=3.00u l=0.13u
 ccap (q2p x_cip) capacitor c=50f
 rcap (x_cip x_o2p) resistor r=50k
 xcapp (x_o2p x_cip vcv vcv) sg13_lv_pmos w=4u l=0.13u

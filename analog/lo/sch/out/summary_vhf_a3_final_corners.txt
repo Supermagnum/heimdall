@@ -1,0 +1,37 @@
+# P2.7.4a3 final corners — sized currents [SCH]
+
+UHF I_latch=0.75 mA; VHF I_latch=0.3 mA; B2=4; tailless; ss VDD=1.181 V.
+
+## Corners
+
+| Band | Corner | f (GHz) | divide | max|φ| | duty min/max % |
+|---|---|---:|---|---:|---|
+| uhf | tt | 3.20 | OK | 0.21 | 24.2/25.6 |
+| uhf | tt | 3.84 | OK | 0.25 | 25.0/25.4 |
+| uhf | ss | 3.20 | OK | 0.25 | 24.9/25.6 |
+| uhf | ss | 3.84 | OK | 0.33 | 25.3/25.6 |
+| vhf | tt | 3.12 | OK | 0.07 | 48.7/50.6 |
+| vhf | tt | 4.20 | OK | 0.09 | 48.3/50.8 |
+| vhf | ss | 3.12 | OK | 0.08 | 48.6/50.4 |
+| vhf | ss | 4.20 | OK | 0.11 | 47.9/50.7 |
+
+## VHF ss f_max [SCH]
+
+- 4.20 GHz: OK (φ=0.11)
+- 4.50 GHz: OK (φ=0.11)
+- 4.80 GHz: OK (φ=0.12)
+- 5.20 GHz: FAIL (φ=0.10)
+**f_max_ss ≈ 4.8 GHz**
+
+## Monte Carlo N=20 VHF ss 4.20 [SCH]
+
+| Pass | 20/20 |
+| max|φ| mean/σ/max | 0.322 / 0.104 / 0.510 ° |
+
+## Gates
+
+- Corner fails: 0
+- UHF I/Q ≤ 0.46°: see max|φ| column
+- VHF 8-phase: table + MC
+- Duty: UHF ~25 %, VHF ~50 % (min/max column)
+

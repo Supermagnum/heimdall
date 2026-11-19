@@ -1,6 +1,6 @@
 # LO divider and phase-generation topology memo (P2.4)
 
-Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1–3 done; P2.4 accepted 2026-10-21.** P2.6 UHF floor −150.1 dBc/Hz [SCH]. **P2.7.4a2:** UHF floor C_ck=15 fF **−154.7 PASS** [SCH] at I_latch=0.75 mA. **P2.7.4a3 (2026-11-19):** VHF ÷3 = **tail-less CML** (owner); VR_ANA1 V_min **1.181 V** [SCH/HAND]; B2=4 delivers ≥0.5 V/side @ 4.20 ss; corners + MC PASS; floors PASS; **D7 VHF 10.69 mA over by 0.69 mA** [HAND] — STOP for owner. Next: D7 decision, then **P2.7.4b**. Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
+Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1–3 done; P2.4 accepted 2026-10-21.** P2.6 UHF floor −150.1 dBc/Hz [SCH]. **P2.7.4a3 (2026-11-19):** VHF ÷3 **tail-less CML** accepted; VR_ANA1 V_min **1.181 V**; B2=4; measured ÷3 current; VHF I_latch sized to **0.30 mA** (UHF 0.75 mA); floors −154.7 / −159.1; **D7 PASS** UHF 8.18 / VHF 8.66 mA [SCH/HAND]. Next **P2.7.4b**. Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
 
 ---
 
@@ -311,5 +311,44 @@ Chain order kept (÷3 → Johnson ÷8). Sources:
 | LO current vs D7 | UHF 8.44 OK; VHF **10.69** (−0.69 mA) | [HAND] |
 | Peak MC N=20 | Prior PASS (VCO unchanged) | [PEX-RC] |
 
-**STOP:** D7 overrun — owner options in `summary_a3_floor_d7.txt`. Do not start
-P2.7.4b until D7 is settled.
+**Was STOP:** D7 overrun at HAND 10.69 mA — superseded by §13 sizing (**D7 PASS**).
+
+## 13. P2.7.4a3 — measured current, sizing, D7 PASS (2026-11-19)
+
+Owner: `decisions.md` “Tail-less ÷3 accepted, D7 deferred”. Sources:
+`summary_lo_stage_currents.txt`, `summary_vhf_cml_jitter_fix.txt`,
+`summary_a3_current_size.txt`, `summary_vhf_a3_final_corners.txt`.
+
+### Measured stage currents [SCH]
+
+At I_latch=0.75 mA / B2=4 / tailless, VHF I_CML (vdvs) is **3.96–5.52 mA**
+across corners — above HAND 5×0.75=3.75 mA (tailless clocks to gnd are not
+tail-limited). UHF I_CML ≈ 1.04–1.27 mA. TB `I_bias` 0.75 mA is the nbias
+stand-in (counted in PLL HAND, not added again).
+
+Corrected LO total @ 0.75 mA: UHF tt **8.18 mA**; VHF ss **11.08 mA** (over D7).
+
+### VHF CML noise jitter
+
+60 ps rms was a TB bug: stacked VARIANT in `stage_cml` + TIE rate locked to
+assumed f_out. After fix: CML jit **43 fs**, L→LO **−176.5** [SCH].
+
+### Sizing
+
+| Knob | Value |
+|---|---|
+| I_latch UHF | **0.75 mA** |
+| I_latch VHF | **0.30 mA** |
+| B2 | 4 µm |
+
+Floor aims (requirement + ≈1 dB): UHF ≤ −152 (req ≤ −151); VHF ≤ −151
+(req ≤ −150 [PROP] §1). At selected knobs: UHF **−154.7**, VHF **−159.1** PASS
+[SCH]. Buffer @ 4.20 ss V_min: **0.619 V/side**. LO totals: UHF **8.18**,
+VHF **8.66 mA** → **D7 PASS**.
+
+### Final corners / MC [SCH] (`summary_vhf_a3_final_corners.txt`)
+
+All UHF/VHF tt+ss band-edge cases divide. Duty filled: UHF ~24–26 %, VHF
+~48–51 %. UHF I/Q max **0.33°** ≤ 0.46°. VHF 8-phase corner max **0.11°**;
+MC 20/20 at ss 4.20, max|φ| **0.51°** (mean 0.32°). f_max_ss ≈ **4.8 GHz**
+(FAIL at 5.2; was ≈5.2 GHz at I=0.75 mA).
