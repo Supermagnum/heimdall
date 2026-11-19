@@ -16,15 +16,18 @@ import sys
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, "out")
+OUT = os.path.join(HERE, os.environ.get("LO_SCH_OUT", "out_sole"))
 sys.path.insert(0, HERE)
 import circuit as C  # noqa: E402
 
 C_CK = 15e-15
 F_VCO_UHF, F_VCO_VHF = 3.84e9, 4.20e9
 CORNER = ("tt", "mos_tt", 1.20, 27)
-TSTOP = 0.4e-6
+# ≥1 µs needed for 3–10 MHz L(f) resolution (p26/run_uhf_floor uses 1 µs).
+TSTOP = 1.0e-6
 TARGET_UHF = -151.0
+# HAND-scale report band (matches p26 / layout-C note ≈ −148 dBc/Hz).
+L_BAND = (3e6, 10e6)
 
 
 def parse_opts():
@@ -54,23 +57,43 @@ def noisy(body):
 
 
 def tie_spectrum(t, v, th, f0):
-    s = v > th
-    idx = np.where(~s[:-1] & s[1:])[0]
-    if len(idx) < 8:
-        return float("nan"), float("nan")
+    """Rising edges → TIE → L(f) dBc/Hz (p26 run_p26s2.tie_spectrum)."""
+    idx = np.where((v[:-1] < th) & (v[1:] >= th))[0]
+    if len(idx) < 16:
+        return None, None, float("nan")
     te = t[idx] + (th - v[idx]) * (t[idx + 1] - t[idx]) / (v[idx + 1] - v[idx])
-    p = 1.0 / f0
-    n0 = np.round((te - te[0]) / p)
-    err = te - te[0] - n0 * p
-    if len(err) > 2:
-        coef = np.polyfit(n0, err, 1)
-        err = err - np.polyval(coef, n0)
-    jit = float(np.std(err))
-    L0 = 10 * math.log10(max(4 * math.pi ** 2 * f0 ** 2 * jit ** 2, 1e-30))
-    return L0, jit
+    te = te[len(te) // 10:]
+    if len(te) < 16:
+        return None, None, float("nan")
+    k = np.arange(len(te))
+    x = te - np.polyval(np.polyfit(k, te, 1), k)
+    n = len(x)
+    w = np.hanning(n)
+    X = np.fft.rfft(x * w)
+    fs = f0
+    psd = 2 * np.abs(X) ** 2 / (fs * np.sum(w ** 2))
+    fr = np.fft.rfftfreq(n, 1 / fs)
+    L = 10 * np.log10((2 * math.pi * f0) ** 2 * psd / 2 + 1e-300)
+    return fr[1:], L[1:], float(np.std(x))
 
 
-def write_run(name, mos, temp, hdr_extra, body, probe, f_out, vdd):
+def band_avg(fr, L, a, b):
+    m = (fr >= a) & (fr <= b)
+    if not np.any(m):
+        return float("nan")
+    return float(10 * math.log10(np.mean(10 ** (L[m] / 10))))
+
+
+def pick_threshold(v, th0):
+    """Prefer nominal th; if too few crossings, use mid-swing [SCH]."""
+    for th in (th0, 0.5 * (float(np.min(v)) + float(np.max(v)))):
+        n = int(np.sum((v[:-1] < th) & (v[1:] >= th)))
+        if n >= 16:
+            return th, n
+    return th0, 0
+
+
+def write_run(name, mos, temp, hdr_extra, body, probe, f_out, vdd, th=None):
     path = os.path.join(OUT, name + ".sim")
     warm = round(30e-9 * max(f_out, 1e6)) / max(f_out, 1e6)
     open(path, "w").write(
@@ -100,15 +123,31 @@ def write_run(name, mos, temp, hdr_extra, body, probe, f_out, vdd):
         return dict(ok=False, method="tran-zoh FAILED",
                     err=open(log).read()[-300:], stage=name, f_out=f_out)
     raw_shared = os.path.join(work, "tr.raw")
-    if not os.path.isfile(raw_shared):
+    if not os.path.isfile(raw_shared) or os.path.getsize(raw_shared) < 64:
         return dict(ok=False, method="tran-zoh no raw", stage=name, f_out=f_out)
     shutil.copy2(raw_shared, raw_mine)
     d = rawread(raw_mine).get()
-    t, v = np.real(d["time"]), np.real(d[probe])
-    L, jit = tie_spectrum(t, v, vdd / 2, f_out)
+    try:
+        t, v = np.real(d["time"]), np.real(d[probe])
+    except Exception as e:
+        return dict(ok=False, method=f"tran-zoh probe {probe}: {e}",
+                    stage=name, f_out=f_out)
+    if t.size < 2:
+        return dict(ok=False, method="tran-zoh empty raw", stage=name, f_out=f_out)
+    th0 = vdd / 2 if th is None else th
+    th_use, n_edge = pick_threshold(v, th0)
+    if n_edge < 16:
+        return dict(ok=False, method="tran-zoh no edges", stage=name, f_out=f_out,
+                    vmin=float(np.min(v)), vmax=float(np.max(v)), th=th_use)
+    fr, Lspec, jit = tie_spectrum(t, v, th_use, f_out)
+    if fr is None:
+        return dict(ok=False, method="tran-zoh no edges", stage=name, f_out=f_out,
+                    vmin=float(np.min(v)), vmax=float(np.max(v)), th=th_use)
+    L = band_avg(fr, Lspec, *L_BAND)
     if math.isnan(L):
-        return dict(ok=False, method="tran-zoh no edges", stage=name, f_out=f_out)
-    return dict(ok=True, method="tran-zoh", L=L, jit=jit, f_out=f_out, stage=name)
+        return dict(ok=False, method="tran-zoh no L-band", stage=name, f_out=f_out)
+    return dict(ok=True, method="tran-zoh", L=L, jit=jit, f_out=f_out, stage=name,
+                th=th_use)
 
 
 def stage_buffer(band, f_vco, corner):
@@ -140,7 +179,10 @@ def stage_cml(band, f_vco, corner):
     hdr = C.HEADER.format(title="cml", mos=mos, f=f_vco, amp=0.55,
                           vcm=vdd - 0.55, shape=0.0, offs=0.0, t0=-1, tr=1e-12)
     hdr += "xck (ckp ckn) clk\n"
-    return write_run(f"st_{band}_cml", mos, temp, hdr, body, out[0], f_out, vdd)
+    # CML loads to vdv: swing ~VDD..VDD-IR, mid ≈ VDD - I·R/2 — not VDD/2.
+    th_cml = vdd - i_ * rl / 2
+    return write_run(f"st_{band}_cml", mos, temp, hdr, body, out[0], f_out, vdd,
+                     th=th_cml)
 
 
 def stage_converter(band, f_vco, corner):
@@ -204,15 +246,16 @@ def stage_logic(band, f_vco, corner):
 
 
 def sum_to_lo(rows, f_lo):
-    sig2, parts = 0.0, []
+    """Power-sum stage L@f_out densities, referred to LO by (f_lo/f_out)^2."""
+    lin_lo, parts = 0.0, []
     for r in rows:
         if not r.get("ok"):
             continue
-        s2 = 10 ** (r["L"] / 10) / (4 * math.pi ** 2 * r["f_out"] ** 2)
-        L_lo = 10 * math.log10(max(4 * math.pi ** 2 * f_lo ** 2 * s2, 1e-30))
+        # Same edge jitter: L_LO = L_meas + 20 log10(f_LO / f_meas)
+        L_lo = r["L"] + 20 * math.log10(f_lo / r["f_out"])
         parts.append((r["stage"].split("_")[-1], r["L"], L_lo, r["jit"]))
-        sig2 += s2
-    L_sum = 10 * math.log10(max(4 * math.pi ** 2 * f_lo ** 2 * sig2, 1e-30))
+        lin_lo += 10 ** (L_lo / 10)
+    L_sum = 10 * math.log10(max(lin_lo, 1e-30))
     return L_sum, parts
 
 
@@ -222,7 +265,8 @@ def main():
     lines = [
         "# P2.7.4a2 per-stage LO noise [SCH]\n\n",
         f"C_ck={C_CK*1e15:g} fF/side. I_latch={C.I_LATCH*1e3:g} mA, "
-        f"B2={C.B2:g} µm. Method: ZOH transient noise.\n\n",
+        f"B2={C.B2:g} µm. Method: ZOH → TIE L(f); "
+        f"avg {L_BAND[0]/1e6:.0f}–{L_BAND[1]/1e6:.0f} MHz (p26 HAND scale).\n\n",
     ]
     print(lines[0], flush=True)
     all_results = {}
@@ -266,9 +310,20 @@ def main():
         lines.append(f"## Dominant UHF stage\n\n**{dom[0]}** "
                      f"({dom[2]:.1f} dBc/Hz → LO)\n")
     open(os.path.join(OUT, "summary_stage_noise.txt"), "w").write("".join(lines))
+    # Drop large spectral arrays from JSON if present
+    slim = {}
+    for band, info in all_results.items():
+        slim[band] = {
+            "L_sum": info["L_sum"],
+            "parts": [
+                {"stage": n, "L": Lm, "L_lo": Llo, "jit": jit}
+                for (n, Lm, Llo, jit) in info["parts"]
+            ],
+        }
     open(os.path.join(OUT, "stage_noise.json"), "w").write(
-        json.dumps(all_results, indent=2))
-    print("Wrote out/summary_stage_noise.txt", flush=True)
+        json.dumps(slim, indent=2))
+    print("Wrote", os.path.join(OUT, "summary_stage_noise.txt"), flush=True)
+    print("Wrote", os.path.join(OUT, "stage_noise.json"), flush=True)
     return 0
 
 

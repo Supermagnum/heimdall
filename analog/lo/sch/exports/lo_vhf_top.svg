@@ -6404,7 +6404,7 @@ text {font-family: Sans-Serif;}
 <text fill="#00ddff"  xml:space="preserve" font-size="1.43295" transform="translate(443.13, 15.1413)" >vdd</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="1.7369" transform="translate(477.798, 80.0815)" >         /foss/designs/analog/lo/sch/lo_vhf_top.sch</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="1.7369" transform="translate(477.798, 77.5763)" >HT13G-M P2.7.1</text>
-<text fill="#cccccc"  xml:space="preserve" font-size="1.7369" transform="translate(523.35, 77.5763)" >2026-11-19  03:01:30</text>
+<text fill="#cccccc"  xml:space="preserve" font-size="1.7369" transform="translate(523.35, 77.5763)" >2026-11-19  03:02:47</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="4.34226" transform="translate(458.592, 79.942)" >SCHEM</text>
 <text fill="#00ddff"  xml:space="preserve" font-size="1.43295" transform="translate(461.249, 78.7095)" >lo_vhf_top_flat</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="0.868452" transform="translate(453.381, 73.0301)" >xenb_p</text>

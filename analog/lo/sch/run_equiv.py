@@ -14,7 +14,8 @@ import sys
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, "out")
+# Private out dir avoids races with parallel sibling agents on out/tr.raw.
+OUT = os.path.join(HERE, os.environ.get("LO_SCH_OUT", "out_sole"))
 sys.path.insert(0, HERE)
 import circuit as C  # noqa: E402
 
@@ -86,6 +87,15 @@ def build(band, f, corner, rng=None, tag="", amp=None, i_latch=None):
     sup = (f'type="pulse" val0=0 val1={vdd} delay=0.2n rise=1n '
            f"fall=1n width=1")
     # VHF CML NOR vref lives in div_body — do not inject a second TB source.
+    # Force vacask-safe dc=.3f (rejects 0.9500 in some builds).
+    _, rl, _ = C.L1.cml_params(i_l, vdd)
+    vref = vdd - i_l * rl / 2
+    body = re.sub(
+        r"^vref \(vref 0\) vsource dc=\S+",
+        f"vref (vref 0) vsource dc={vref:.3f}",
+        body,
+        flags=re.M,
+    )
     tb = (
         f"vbufs (vbuf 0) vsource {sup}\n"
         f"vdvs (vdv 0) vsource {sup}\n"
@@ -112,32 +122,48 @@ def build(band, f, corner, rng=None, tag="", amp=None, i_latch=None):
 
 
 def run(path):
-    """Run vacask in a private work dir (own tr.raw; no shared-out races)."""
+    """Run vacask in a unique work dir; flock + atomic rename for tr.raw."""
+    import fcntl
     import shutil
+    import tempfile
+    import time
     from vacask.rawfile import rawread
     name = os.path.basename(path)[:-4]
     log = os.path.join(OUT, name + ".log")
     raw_mine = os.path.join(OUT, name + ".tr.raw")
-    work = os.path.join(OUT, f"_w_{name}")
-    if os.path.isdir(work):
-        shutil.rmtree(work)
-    os.makedirs(work)
-    sim_in_work = os.path.join(work, name + ".sim")
-    shutil.copy2(path, sim_in_work)
-    with open(log, "w") as fh:
-        r = subprocess.run(["vacask", name + ".sim"], cwd=work,
-                           stdout=fh, stderr=subprocess.STDOUT)
-    if r.returncode:
-        raise RuntimeError(
-            f"vacask {name} failed: " + open(log).read()[-600:])
-    raw_shared = os.path.join(work, "tr.raw")
-    if not os.path.isfile(raw_shared):
-        raise RuntimeError(f"vacask {name}: missing tr.raw in {work}")
-    shutil.copy2(raw_shared, raw_mine)
+    raw_tmp = raw_mine + f".{os.getpid()}.tmp"
+    # Serialize same-case writers (sibling agents) on one flock file.
+    lock_path = os.path.join(OUT, f".vacask_{name}.lock")
+    work = tempfile.mkdtemp(prefix=f"_w_{name}_", dir=OUT)
     try:
-        return rawread(raw_mine).get()
-    except Exception as e:
-        raise RuntimeError(f"rawread {name}.tr.raw: {e}") from e
+        with open(lock_path, "w") as lk:
+            fcntl.flock(lk.fileno(), fcntl.LOCK_EX)
+            sim_in_work = os.path.join(work, name + ".sim")
+            shutil.copy2(path, sim_in_work)
+            with open(log, "w") as fh:
+                r = subprocess.run(["vacask", name + ".sim"], cwd=work,
+                                   stdout=fh, stderr=subprocess.STDOUT)
+            if r.returncode:
+                raise RuntimeError(
+                    f"vacask {name} failed: " + open(log).read()[-600:])
+            raw_shared = os.path.join(work, "tr.raw")
+            if not os.path.isfile(raw_shared) or os.path.getsize(raw_shared) < 64:
+                raise RuntimeError(f"vacask {name}: missing/empty tr.raw in {work}")
+            shutil.copy2(raw_shared, raw_tmp)
+            os.replace(raw_tmp, raw_mine)
+            # Brief settle so a parallel reader never sees a half write.
+            time.sleep(0.05)
+            try:
+                return rawread(raw_mine).get()
+            except Exception as e:
+                raise RuntimeError(f"rawread {name}.tr.raw: {e}") from e
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
+        if os.path.isfile(raw_tmp):
+            try:
+                os.remove(raw_tmp)
+            except OSError:
+                pass
 
 
 def edges(t, v, th):
@@ -147,15 +173,30 @@ def edges(t, v, th):
 
 
 def analyse(d, names, ideal, ndiv, duty_ideal, vdd, f_vco):
-    t = np.real(d["time"])
+    if d is None:
+        raise RuntimeError("analyse: raw dataset is None (empty/missing tr.raw)")
+    try:
+        t = np.real(d["time"])
+    except Exception as e:
+        raise RuntimeError(f"analyse: no time vector in raw ({e})") from e
+    if t.size < 2:
+        raise RuntimeError(
+            f"analyse: empty/short raw time vector (n={t.size}; vacask no. points?)")
     keep = t >= t[-1] * 0.45
     tk = t[keep]
+    if tk.size < 2:
+        raise RuntimeError("analyse: keep-window empty after settle cut")
     rows = []
     ref = None
     f_lo = f_vco / ndiv
     ok_div = True
     for lab, node in names:
-        v = np.real(d[node])[keep]
+        try:
+            v = np.real(d[node])[keep]
+        except Exception as e:
+            rows.append((lab, None, None, None, None))
+            ok_div = False
+            continue
         e = edges(tk, v, vdd / 2)
         if len(e) < 3:
             rows.append((lab, None, None, None, None))

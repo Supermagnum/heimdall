@@ -268,7 +268,7 @@ text {font-family: Sans-Serif;}
 <text fill="#00ddff"  xml:space="preserve" font-size="13.6296" transform="translate(31.7541, 249.044)" >0</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(361.499, 453.711)" >         /foss/designs/analog/lo/sch/lo_bias.sch</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(361.499, 429.883)" >HT13G-M P2.7.1</text>
-<text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(797, 429.883)" >2026-11-19  03:01:30</text>
+<text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(797, 429.883)" >2026-11-19  03:02:47</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="41.3019" transform="translate(178.818, 452.384)" >SCHEM</text>
 <text fill="#00ddff"  xml:space="preserve" font-size="13.6296" transform="translate(212.743, 440.661)" >lo_bias_nbias_en</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="8.26039" transform="translate(149.818, 386.64)" >xenb_p</text>

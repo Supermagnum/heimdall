@@ -16,7 +16,7 @@ import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, "out")
+OUT = os.path.join(HERE, os.environ.get("LO_SCH_OUT", "out_sole"))
 sys.path.insert(0, HERE)
 import circuit as C  # noqa: E402
 

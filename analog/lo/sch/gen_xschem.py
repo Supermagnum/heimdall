@@ -55,7 +55,10 @@ def gen_lo_bias():
 
 
 def gen_band(band):
+    import re
     body, names, ideal, ndiv, duty = C.build_band_body(band, 1.2)
+    # On-chip sch: drop TB-only ideal vref source (pin remains for VHF).
+    body = re.sub(r"^vref \(vref 0\) vsource .*\n", "", body, flags=re.M)
     if band == "uhf":
         ports = ["tp", "tn", "nbias", "en_lodiv",
                  "x_p0", "x_p1", "x_p2", "x_p3",
@@ -106,7 +109,7 @@ def main():
     lines = [
         "# P2.7.4a2 xschem LO divider capture\n\n",
         "Generated from step-3 defaults with MOSFET CML tails (nbias TG) and "
-        "TSPC weak half-latch keepers on a/b/q (no 1 GOhm). "
+        "TSPC weak Q keepers + 100Meg on a/b (no 1 GOhm). "
         f"I_latch={C.I_LATCH*1e3:g} mA, swing via step3, k={C.K_REGEN:g}.\n\n",
         "## Hierarchy\n\n| Cell | Devices | Ports |\n|---|---:|---:|\n",
     ]
@@ -123,7 +126,7 @@ def main():
         "| `vref` (VHF) | CML NOR reference = V_DD − I·R_L/2 |\n",
         "\n## Ideal parts removed vs Python decks\n\n",
         "- CML `isource` tails → MOSFET mirrors on `nb_lo`\n",
-        "- TSPC `resistor r=1G` → weak half-latch keepers on a/b/q\n",
+        "- TSPC `resistor r=1G` → weak Q keepers + 100Meg on a/b\n",
         "\nExports: `exports/*.svg`, `exports/*.pdf`. Netlists: `netlists/`.\n",
     ]
     summary = "".join(lines)

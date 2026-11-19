@@ -15,11 +15,14 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 
-I_LATCH = 0.5e-3
+# 0.5 mA MOSFET-tail chain fails UHF/VHF ss @ 125 °C (Johnson miscount /
+# dead outputs). 0.75 mA restores ÷N and phase at ss [SCH out_a2_fix].
+I_LATCH = 0.75e-3
 SWING = 0.5
 K_REGEN = 1.5
 B2 = 4.0
-# Short-L 1:1 with TB diode. Long-L W=I/1µA gave Vgs≈Vt and dead CML [SCH].
+# Short-L 1:1 with TB diode (UHF/VHF smoke PASS). Do not widen to 500u@2u —
+# that slows VHF and was only a TB OP hack [SCH].
 TAIL_L = "0.13u"
 
 
@@ -89,13 +92,12 @@ def replace_tails(body: str, i_latch=None) -> str:
 
 
 def replace_holds(body: str) -> str:
-    """Remove 1 GOhm TSPC holds; add weak half-latch keepers on a/b/q.
+    """Remove 1 GOhm TSPC holds; add weak keepers.
 
-    step-2 puts rk{n}0..5 on (q, a, b, x1, x2, x3). Keepers on q/a/b give a
-    DC OP without ideal R; x1–x3 stay floating (clocked often enough) [HAND].
-    Strength ~0.15× size-2 so edges are not fought.
+    step-2 puts rk{n}0..5 on (q, a, b, x1, x2, x3). Half-latches on a/b fought
+    the TSPC at ss/125 °C (UHF Johnson miscount → ~÷2) [SCH out_a2_c27].
+    Keep: weak Q staticizer only + 100 MΩ on a/b for DC OP [HAND].
     """
-    # Map tag -> {0:q, 1:a, 2:b, ...}
     holds = re.findall(
         r"^rk(\S+)([0-5]) \((\S+) 0\) resistor r=1G\s*$", body, flags=re.M)
     by_tag: dict[str, dict[str, str]] = {}
@@ -104,22 +106,25 @@ def replace_holds(body: str) -> str:
     body = re.sub(r"^rk\S+ \(\S+ 0\) resistor r=1G\s*$", "", body, flags=re.M)
     extra = []
     for tag, nodes in by_tag.items():
-        for key, suffix in (("0", "q"), ("1", "a"), ("2", "b")):
-            if key not in nodes:
-                continue
-            nd = nodes[key]
-            mid = f"x_{tag}_k{suffix}"
-            # Weak inv pair (0.3/0.6 µm) — same as converging P2.7.4a2 smoke.
+        if "0" in nodes:  # Q
+            nd = nodes["0"]
+            mid = f"x_{tag}_kq"
+            # ~1/8 of size-1 — hold leakage, do not fight ss edges.
             extra.append(
-                f"x{tag}k{suffix}1p ({mid} {nd} vdg vdg) sg13_lv_pmos "
-                f"w=0.6u l=0.13u\n"
-                f"x{tag}k{suffix}1n ({mid} {nd} 0 0) sg13_lv_nmos "
+                f"x{tag}kq1p ({mid} {nd} vdg vdg) sg13_lv_pmos "
                 f"w=0.3u l=0.13u\n"
-                f"x{tag}k{suffix}2p ({nd} {mid} vdg vdg) sg13_lv_pmos "
-                f"w=0.6u l=0.13u\n"
-                f"x{tag}k{suffix}2n ({nd} {mid} 0 0) sg13_lv_nmos "
+                f"x{tag}kq1n ({mid} {nd} 0 0) sg13_lv_nmos "
+                f"w=0.15u l=0.13u\n"
+                f"x{tag}kq2p ({nd} {mid} vdg vdg) sg13_lv_pmos "
                 f"w=0.3u l=0.13u\n"
+                f"x{tag}kq2n ({nd} {mid} 0 0) sg13_lv_nmos "
+                f"w=0.15u l=0.13u\n"
             )
+        for key in ("1", "2"):  # a, b — soft DC only
+            if key in nodes:
+                extra.append(
+                    f"rk{tag}{key} ({nodes[key]} 0) resistor r=100Meg\n"
+                )
     return body + "".join(extra)
 
 
@@ -151,7 +156,14 @@ def build_band_body(band: str, vdd: float, i_latch=None) -> tuple[str, list, dic
     lo = buf + body
     lo = replace_tails(lo, I_LATCH)
     lo = replace_holds(lo)
-    # Keep body vref (VHF CML NOR). Callers must not inject a second vref.
+    # Keep body vref (VHF CML NOR); vacask rejects dc=0.9500 — use 3 decimals.
+    lo = re.sub(
+        r"^(vref \(vref 0\) vsource dc=)([0-9.]+)",
+        lambda m: m.group(1) + f"{float(m.group(2)):.3f}",
+        lo,
+        flags=re.M,
+    )
+    # Callers must not inject a second vref.
     lo = lo_bias_netlist("vdd") + lo
     return lo, names, ideal, ndiv, duty
 
