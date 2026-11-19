@@ -1,0 +1,39 @@
+# P2.7.4a3 — clock CM does not fix VHF ÷3; STOP for topology [SCH]
+
+## Step 1 diagnosis
+
+Original tail 20 µm/mA, swing 0.5, I_latch 0.75 mA, mos_ss / 125 °C.
+
+| VDD | buf CM | V/side at ÷3 clocks | divide | tail V_DS |
+|---:|---:|---:|---|---:|
+| 1.108 [HAND pad ss] | 0.524 | 0.498 | FAIL | 0.102 |
+| 1.08 (LO floor) | 0.504 | 0.443 | FAIL | 0.083 |
+
+Ideal series level-shift of CML latch clock gates only (swing preserved):
+target CM 0.35–0.80 V at both supplies — **all FAIL** (phase 999°).
+Tail V_DS rose with CM (0.05→0.18 V at 1.108) but stayed below ~V_dsat≈0.22 V
+and the ÷3 never toggled [SCH `summary_vhf_clock_cm_sweep.txt`].
+
+**Pass criterion for CM fix:** not met → no schematic buffer/AC change.
+
+## Topology options (owner pick) — headroom sketch [HAND]
+
+Stack today: R_L + data + clock + MOSFET tail ≈ need swing 0.5 + 3×V_dsat(~0.15–0.22)
+≈ **1.0–1.2 V**; pad ss only **1.108 V**.
+
+| Option | Stack height | Approx. min VDD for 0.5 V swing [HAND] | Notes |
+|---|---|---:|---|
+| 1 Tail-less clock (step1 `tailless`) | R_L+data+ck→gnd (2) | ≈ 0.5+2×0.18 ≈ **0.86 V** | Existing variant; re-check UHF ÷2 + noise |
+| 2 Folded PMOS-load CML | NMOS data/ck over 1 tail | ≈ 0.5+2×0.18 ≈ **0.86 V** | New cell; PMOS bias |
+| 3 Low-stack MCML | 1–2 NMOS | ≈ **0.7–0.9 V** | Larger redesign |
+| 4 Boosted / thick-oxide / ideal-like sink | Keep 3-high if V_min,tail≤80 mV | ≈ 0.5+0.08+2×0.18 ≈ **0.94 V** | Closest to known-PASS ideal `isource` [SCH a2] |
+
+Ideal `isource` tails already **PASS** VHF ss [SCH a2] — option 4 reproduces that
+electrically without changing the latch graph.
+
+## STOP
+
+Per decisions.md: topology only with owner approval after CM fail.
+Steps 2–4 of this prompt (schematic CM fix, floor sizing, peak, specs) **not run**.
+
+**Decision needed:** choose option 1–4 (or other).
