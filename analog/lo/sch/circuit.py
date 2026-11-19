@@ -17,7 +17,8 @@ REPO = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 
 # 0.5 mA MOSFET-tail chain fails UHF/VHF ss @ 125 °C (Johnson miscount /
 # dead outputs). 0.75 mA restores ÷N and phase at ss [SCH out_a2_fix].
-I_LATCH = 0.75e-3
+I_LATCH = 0.75e-3          # UHF ÷2 (floor / ss)
+VHF_I_LATCH = 0.30e-3      # VHF ÷3 tailless (sized a3; D7 PASS)
 SWING = 0.5
 K_REGEN = 1.5
 B2 = 4.0
@@ -146,10 +147,13 @@ def _sync_cml_params():
 
 
 def apply_knobs(i_latch=None, b2=None, k=None, swing=None,
-                tail_um_per_ma=None, tail_l=None, vhf_tailless=None):
-    global I_LATCH, B2, SWING, K_REGEN, TAIL_UM_PER_MA, TAIL_L, VHF_TAILLESS
+                tail_um_per_ma=None, tail_l=None, vhf_tailless=None,
+                vhf_i_latch=None):
+    global I_LATCH, VHF_I_LATCH, B2, SWING, K_REGEN, TAIL_UM_PER_MA, TAIL_L, VHF_TAILLESS
     if i_latch is not None:
         I_LATCH = i_latch
+    if vhf_i_latch is not None:
+        VHF_I_LATCH = vhf_i_latch
     if swing is not None:
         SWING = swing
     if tail_um_per_ma is not None:
@@ -174,7 +178,13 @@ _sync_cml_params()
 
 def build_band_body(band: str, vdd: float, i_latch=None) -> tuple[str, list, dict, int, float]:
     """Return LO body (buffer+chain) with MOSFET tails / keepers, plus meta."""
-    apply_knobs(i_latch=I_LATCH if i_latch is None else i_latch)
+    global I_LATCH
+    i_uhf_save = I_LATCH
+    if i_latch is None:
+        i_use = VHF_I_LATCH if band == "vhf" else I_LATCH
+    else:
+        i_use = i_latch
+    apply_knobs(i_latch=i_use)
     # ÷3 only: tailless clock pair. ÷2 (UHF) keeps stacked tails.
     if band == "vhf" and VHF_TAILLESS:
         L1.VARIANT["tailless"] = True
@@ -185,7 +195,7 @@ def build_band_body(band: str, vdd: float, i_latch=None) -> tuple[str, list, dic
     body = body.replace("(vdd ", "(vdv ")
     buf = L2.buffer()
     lo = buf + body
-    lo = replace_tails(lo, I_LATCH)
+    lo = replace_tails(lo, i_use)
     lo = replace_holds(lo)
     # Keep body vref (VHF CML NOR); vacask rejects dc=0.9500 — use 3 decimals.
     lo = re.sub(
@@ -196,6 +206,9 @@ def build_band_body(band: str, vdd: float, i_latch=None) -> tuple[str, list, dic
     )
     # Callers must not inject a second vref.
     lo = lo_bias_netlist("vdd") + lo
+    # Restore UHF I_LATCH so a later UHF build is not poisoned by VHF sizing.
+    if band == "vhf" and i_latch is None:
+        apply_knobs(i_latch=i_uhf_save)
     return lo, names, ideal, ndiv, duty
 
 

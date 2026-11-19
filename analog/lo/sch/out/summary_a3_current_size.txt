@@ -1,0 +1,67 @@
+# P2.7.4a3 — current sizing to floor + D7 [SCH]
+
+UHF I_latch fixed 0.75 mA; B2=4; VHF_TAILLESS.
+VHF requirement ≤ -150 dBc/Hz [PROP §1]; aim ≤ -151 (≈1 dB margin).
+UHF requirement ≤ -151; aim ≤ -152.
+ss V_min=1.181 V. I_bias TB excluded from D7 (in PLL HAND).
+
+## Sweep VHF I_latch (divide + swing + current)
+
+| I_vhf | 3.12 | 4.20 | sw@4.20 | I_buf | I_CML | I_conv | I_logic | LO tot |
+|---:|---|---|---:|---:|---:|---:|---:|---:|
+| 0.75 | OK | OK | 0.516 | 1.211 | 3.958 | 0.467 | 0.350 | 11.08 |
+| 0.60 | OK | OK | 0.560 | 1.165 | 3.331 | 0.468 | 0.355 | 10.41 |
+| 0.50 | OK | OK | 0.585 | 1.122 | 2.845 | 0.465 | 0.356 | 9.88 |
+| 0.40 | OK | OK | 0.605 | 1.070 | 2.308 | 0.465 | 0.359 | 9.29 |
+| 0.35 | OK | OK | 0.613 | 1.042 | 2.023 | 0.461 | 0.359 | 8.98 |
+| 0.30 | OK | OK | 0.619 | 1.013 | 1.732 | 0.461 | 0.360 | 8.66 |
+
+UHF ss 3.84 @ 0.75 mA: OK φ=0.33°
+
+## Pick smallest I_vhf that divides + swing, then check floors
+
+- I_vhf=0.30: UHF -154.7 (PASS vs -152); VHF -159.1 (PASS vs -151); LO=8.66 mA
+
+## Selected
+
+| Knob | Value |
+|---|---|
+| I_latch UHF | 0.75 mA |
+| I_latch VHF | 0.3 mA |
+| B2 | 4 µm |
+| sw @ 4.20 ss | 0.619 V/side |
+
+## Per-stage noise (selected) [SCH]
+
+| Band | Floor | Aim | Gate |
+|---|---:|---:|---|
+| UHF | -154.7 | ≤ -152 | PASS |
+| VHF | -159.1 | ≤ -151 | PASS |
+
+### UHF stages (L→LO)
+
+| Stage | L→LO |
+|---|---:|
+| buffer | -168.3 |
+| cml | -162.2 |
+| converter | -160.7 |
+| logic | -157.5 |
+
+### VHF stages (L→LO)
+
+| Stage | L→LO |
+|---|---:|
+| buffer | -176.3 |
+| cml | -173.0 |
+| converter | -165.2 |
+| logic | -160.7 |
+
+## LO current vs D7 [SCH chain + HAND VCO/PLL]
+
+| Mode | I_buf | I_CML | I_conv | I_logic | +VCO+PLL | LO total |
+|---|---:|---:|---:|---:|---:|---:|
+| UHF tt | 1.049 | 1.173 | 0.531 | 0.335 | 5.09 | **8.18** |
+| VHF ss | 1.013 | 1.732 | 0.461 | 0.360 | 5.09 | **8.66** |
+
+D7 ≤ 10 mA: PASS.
+

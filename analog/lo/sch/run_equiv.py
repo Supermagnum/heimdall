@@ -82,7 +82,12 @@ def build(band, f, corner, rng=None, tag="", amp=None, i_latch=None):
     body, names, ideal, ndiv, duty = C.build_band_body(band, vdd, i_latch)
     if rng is not None:
         body = mismatch(body, rng)
-    i_l = C.I_LATCH if i_latch is None else i_latch
+    if i_latch is not None:
+        i_l = i_latch
+    elif band == "vhf":
+        i_l = C.VHF_I_LATCH
+    else:
+        i_l = C.I_LATCH
     # D15: enable after supplies/clock settle (2 ns matches step-3 default)
     en = ('en_lodiv (en_lodiv 0) vsource type="pulse" val0=0 '
           f'val1={vdd} delay=2n rise=100p fall=100p width=1\n')

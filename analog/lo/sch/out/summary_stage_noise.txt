@@ -1,30 +1,15 @@
 # P2.7.4a2 per-stage LO noise [SCH]
 
-C_ck=15 fF/side. I_latch=0.75 mA, B2=4 µm. Method: ZOH → TIE L(f); avg 3–10 MHz (p26 HAND scale).
-
-## UHF
-
-| Stage | Method | f_out | jit fs | L@f_out | L→LO |
-|---|---|---|---|---|---|
-| buffer | tran-zoh | — | 53 | -150.3 | -168.3 |
-| cml | tran-zoh | — | 94 | -150.2 | -162.2 |
-| converter | tran-zoh | — | 130 | -148.6 | -160.7 |
-| logic | tran-zoh | — | 134 | -157.5 | -157.5 |
-
-**Summed LO floor:** -154.7 dBc/Hz [SCH]
-Target ≤ -151 → PASS
+C_ck=15 fF/side. I_latch=0.3 mA, B2=4 µm. Method: ZOH → TIE L(f); avg 3–10 MHz (p26 HAND scale).
 
 ## VHF
 
 | Stage | Method | f_out | jit fs | L@f_out | L→LO |
 |---|---|---|---|---|---|
 | buffer | tran-zoh | — | 52 | -148.7 | -176.3 |
-| cml | tran-zoh | — | 60305 | -148.6 | -166.7 |
+| cml | tran-zoh | — | 65 | -154.9 | -173.0 |
 | converter | tran-zoh | — | 144 | -147.1 | -165.2 |
 | logic | tran-zoh | — | 133 | -160.7 | -160.7 |
 
-**Summed LO floor:** -158.6 dBc/Hz [SCH]
+**Summed LO floor:** -159.1 dBc/Hz [SCH]
 
-## Dominant UHF stage
-
-**logic** (-157.5 dBc/Hz → LO)
