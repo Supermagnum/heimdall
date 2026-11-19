@@ -1,0 +1,105 @@
+# P2.7.4a3 diagnosis — VHF ÷3 vs frequency [SCH]
+
+mos_ss / 125 °C; I_latch=0.75 mA; swing=0.5; real buffer (B2=4); MOSFET NOR tail.
+TD = stacked tailed latches; TL = VARIANT tailless (clock→gnd).
+
+## VCO-rate sweep
+
+| Mode | VDD | f_VCO | divide | max|φ| | buf V/side | tail V_DS | ck V_DS |
+|---|---:|---:|---|---:|---:|---:|---:|
+| TD | 1.108 | 3.12 | FAIL | 999.00 | 0.498 | 0.102 | 0.364 |
+| TD | 1.108 | 3.40 | FAIL | 999.00 | 0.493 | 0.100 | 0.366 |
+| TD | 1.108 | 3.70 | FAIL | 999.00 | 0.478 | 0.096 | 0.373 |
+| TD | 1.108 | 4.00 | FAIL | 999.00 | 0.456 | 0.091 | 0.382 |
+| TD | 1.108 | 4.20 | FAIL | 999.00 | 0.440 | 0.087 | 0.388 |
+| TD | 1.080 | 3.12 | FAIL | 999.00 | 0.443 | 0.083 | 0.378 |
+| TD | 1.080 | 3.40 | FAIL | 999.00 | 0.444 | 0.083 | 0.377 |
+| TD | 1.080 | 3.70 | FAIL | 999.00 | 0.433 | 0.081 | 0.381 |
+| TD | 1.080 | 4.00 | FAIL | 999.00 | 0.413 | 0.076 | 0.388 |
+| TD | 1.080 | 4.20 | FAIL | 999.00 | 0.398 | 0.073 | 0.394 |
+| TL | 1.108 | 3.12 | OK | 0.09 | 0.484 | nan | nan |
+| TL | 1.108 | 3.40 | OK | 0.10 | 0.478 | nan | nan |
+| TL | 1.108 | 3.70 | OK | 0.11 | 0.463 | nan | nan |
+| TL | 1.108 | 4.00 | OK | 0.12 | 0.441 | nan | nan |
+| TL | 1.108 | 4.20 | OK | 0.12 | 0.424 | nan | nan |
+| TL | 1.080 | 3.12 | OK | 0.10 | 0.429 | nan | nan |
+| TL | 1.080 | 3.40 | OK | 0.11 | 0.430 | nan | nan |
+| TL | 1.080 | 3.70 | FAIL | 48.40 | 0.418 | nan | nan |
+| TL | 1.080 | 4.00 | FAIL | 999.00 | 0.397 | nan | nan |
+| TL | 1.080 | 4.20 | FAIL | 999.00 | 0.382 | nan | nan |
+
+## Failure class
+
+- TD @ 1.108 V: **headroom (fails all f)**
+- TD @ 1.080 V: **headroom (fails all f)**
+- TL @ 1.108 V: **all PASS**
+- TL @ 1.080 V: **drive/BW (fails above ~3.70 GHz)**
+
+## ÷3 at ≤ 2.1 GHz (re-ordered chain clock = VCO/2) [SCH]
+
+| Mode | VDD | f_ck | divide | max|φ| | buf V/side |
+|---|---:|---:|---|---:|---:|
+| TD | 1.080 | 1.56 | FAIL | 999.00 | 0.565 |
+| TD | 1.080 | 1.70 | FAIL | 999.00 | 0.565 |
+| TD | 1.080 | 1.85 | FAIL | 999.00 | 0.565 |
+| TD | 1.080 | 2.00 | FAIL | 999.00 | 0.564 |
+| TD | 1.080 | 2.10 | FAIL | 999.00 | 0.562 |
+| TD | 1.050 | 1.56 | FAIL | 999.00 | 0.550 |
+| TD | 1.050 | 1.70 | FAIL | 999.00 | 0.550 |
+| TD | 1.050 | 1.85 | FAIL | 999.00 | 0.549 |
+| TD | 1.050 | 2.00 | FAIL | 999.00 | 0.546 |
+| TD | 1.050 | 2.10 | FAIL | 999.00 | 0.544 |
+| TL | 1.080 | 1.56 | OK | 0.05 | 0.565 |
+| TL | 1.080 | 1.70 | OK | 0.05 | 0.565 |
+| TL | 1.080 | 1.85 | OK | 0.06 | 0.564 |
+| TL | 1.080 | 2.00 | OK | 0.06 | 0.563 |
+| TL | 1.080 | 2.10 | OK | 0.07 | 0.561 |
+| TL | 1.050 | 1.56 | OK | 0.05 | 0.550 |
+| TL | 1.050 | 1.70 | OK | 0.06 | 0.550 |
+| TL | 1.050 | 1.85 | OK | 0.06 | 0.548 |
+| TL | 1.050 | 2.00 | OK | 0.07 | 0.545 |
+| TL | 1.050 | 2.10 | OK | 0.07 | 0.542 |
+
+## 8-phase requirement (re-ordered chain)
+
+**Required:** VHF 8 phases (45°) for the harmonic-reject mixer.
+**Source:** D4 (`decisions.md` 2026-10-19; `spec/phase2-plan.md` §5; this memo §1).
+HR mixer status: Phase 3 still sizes the mixer's share; the ≥60 dB 3×LO target
+including board preselection is in `spec/rf-frontend.md` §3 / `[DER]` §7.3 — D4
+is not revoked.
+
+**Can ÷2 → ÷3 → remaining ÷4 give the phases?**
+- Total ratio ÷2×÷3×÷4 = ÷24 (correct).
+- CMOS Johnson ÷4 on the ÷3 output gives **4 phases only** — fails D4.
+- For **8 phases** with this order: clock a dual-edge / dual-rail ÷4 from a
+  **50 %-duty** ÷3 at f_VCO/6 (rising → 4 phases, falling → interleaved 4),
+  or equivalent. Cost [HAND]: ÷3 duty becomes a hard requirement (today D4
+  makes ÷3 duty irrelevant); edge-matched dual counters; extra phase-error
+  risk from rise/fall mismatch; more CMOS area/current. Not simulated here.
+
+**÷3 at ≤ 2.1 GHz [SCH]:** tailed (TD) FAIL at all points at 1.08 and 1.05 V
+despite buffer ≥0.54 V/side — still **headroom**. Tail-less (TL) PASS all
+≤2.1 GHz at 1.08 and 1.05 V. Re-order alone does not revive the stacked latch.
+
+## Option table (do not implement this run)
+
+| Opt | Corners / margin | Extra I vs D7 (≤10 mA typ) | Area [HAND] | I/Q, 8-ph, duty | Schematic change |
+|---|---|---|---|---|---|
+| **a** Tail-less ÷3 + faster buffer (≥0.5 V/side @ 4.20 ss) | TL full band PASS @ 1.108 V [SCH this]; @ 1.08 FAIL ≥3.70 GHz (sw 0.38–0.42) [SCH]; prior 1.05@3.12 FAIL; B2=8 + default tank amp still FAIL 4.20 ss; B2=6 + tank 0.75 V PASS [SCH prior] — **4.20@1.08 + 30 mV not closed without D22 swing raise** | Buffer +0.5–1.5 mA [HAND]; VHF LO already **10.69 mA** over D7 [HAND a2] | +buffer stages small | Keep ÷3→÷8 Johnson (8 ph); TL matching / noise open [HAND] | Enable `VARIANT['tailless']`; redesign buffer (B2 / stages). No D22 tank raise allowed |
+| **b** Folded PMOS-load ÷3 | Not sim'd this run. Addresses stack headroom (TD fails all f; ideal `isource` PASS [SCH a2]). Expect ss 4.20 + 1.05 margin after sizing [PROP] | ÷3 ~2.5–3.5 mA + PMOS bias ~0.2–0.5 mA [HAND]; may allow later I_latch cut vs D7 | New latch cell ~+20–40 % vs R_L CML [HAND] | Keep D4 chain; re-check 8-ph MC / duty [SCH needed] | New folded latch + bias; xschem / netlist redo for VHF CML |
+| **c** Re-ordered chain (÷2→÷3→÷4) | ÷3 TL PASS ≤2.1 @ 1.08 and 1.05 [SCH]; TD still FAIL all [SCH] — still needs TL or folded ÷3 | +CML ÷2 ~1.0 mA if not shared [HAND]; lower-f ÷3 may save latch I [HAND] | +÷2 or band mux; dual-edge 8-ph extra [HAND] | **4 ph** unless dual-edge 50 %-duty path (cost above); D16 first stage becomes ÷2 on VHF | Re-wire VHF chain; phase-gen change if 8 ph kept |
+
+**Recommendation: (b) folded PMOS-load ÷3.**
+Reasons: (1) TD failure class is headroom at every frequency, including ≤2.1 GHz
+with good swing — topology must unstack the latch. (2) Option (a) already failed
+4.20 ss with B2=8 and production tank amp [SCH prior]; closing it needs tank swing
+forbidden by D22, and VHF is already over D7. (3) Option (c) does not fix TD
+headroom and breaks the simple D4 8-phase path unless dual-edge logic is added.
+
+**Decision needed:** owner picks a / b / c (or hybrid). Do not implement here.
+
+## Found, not done
+- Implement chosen ÷3 option; finish P2.7.4a3 steps 2–6 (sizing, floor, D7, peak).
+- Folded latch schematic / sim; faster-buffer sizing to prove ≥0.5 V/side @ 4.20 ss.
+- Full-chain re-order TB (÷2+÷3+÷4) and dual-edge 8-phase if (c) chosen.
+- UHF ÷2 impact if tailless shared; noise floor re-check after topology change.

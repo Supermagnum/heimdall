@@ -1,6 +1,6 @@
 # LO divider and phase-generation topology memo (P2.4)
 
-Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1–3 done; P2.4 accepted 2026-10-21.** P2.6 UHF floor −150.1 dBc/Hz [SCH]. **P2.7.4a:** C_ck floor FAIL ≈ −147.8 [HAND]. **P2.7.4a2 (2026-11-19):** xschem capture; UHF floor C_ck=15 fF **−154.7 PASS** [SCH] at I_latch=0.75 mA; VHF D7 over [HAND]; VHF ss FAIL (MOSFET tails); peak MC N=20 PASS. Next **P2.7.4b**. Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
+Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1–3 done; P2.4 accepted 2026-10-21.** P2.6 UHF floor −150.1 dBc/Hz [SCH]. **P2.7.4a:** C_ck floor FAIL ≈ −147.8 [HAND]. **P2.7.4a2 (2026-11-19):** xschem capture; UHF floor C_ck=15 fF **−154.7 PASS** [SCH] at I_latch=0.75 mA; VHF D7 over [HAND]; VHF ss FAIL (MOSFET tails); peak MC N=20 PASS. **P2.7.4a3 diagnosis (2026-11-19):** VHF ÷3 frequency sweep + option table (§11); owner picks topology before implement. Next: implement chosen ÷3 option, finish a3, then **P2.7.4b**. Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
 
 ---
 
@@ -240,3 +240,51 @@ LO buffer input faces VCO tank south; CML ÷2/÷3 next; converter + TSPC south
 toward mixers; away from inductor and V_tune (NE). Symmetric clock trees for
 I/Q and 8-phase. Area estimate with I_latch=0.75 mA: buffer+CML+conv+TSPC
 **≈ 0.05–0.09 mm²** [HAND] (`p27-floorplan` §8); die re-total unchanged until GDS.
+
+## 11. P2.7.4a3 — VHF ÷3 diagnosis before topology (2026-11-19) [SCH]
+
+Decision recorded: `decisions.md` “VHF ÷3: diagnosis before topology”. No production
+schematic change this run (TB / knobs only). Source:
+`analog/lo/sch/out/summary_vhf_freq_diag.txt` (`run_vhf_freq_diag.py`).
+mos_ss / 125 °C; I_latch=0.75 mA; swing=0.5; real buffer B2=4; MOSFET NOR tail.
+TD = stacked tailed latches; TL = `VARIANT['tailless']` (clock→gnd).
+
+#### Frequency sweep (VCO rate)
+
+| Mode | VDD | 3.12 | 3.40 | 3.70 | 4.00 | 4.20 | Class |
+|---|---:|---|---|---|---|---|---|
+| TD | 1.108 | FAIL | FAIL | FAIL | FAIL | FAIL | **headroom** (all f) |
+| TD | 1.080 | FAIL | FAIL | FAIL | FAIL | FAIL | **headroom** (all f) |
+| TL | 1.108 | OK | OK | OK | OK | OK | all PASS (buf 0.42–0.48 V/side) |
+| TL | 1.080 | OK | OK | FAIL | FAIL | FAIL | **drive/BW** (fails ≥ ~3.70 GHz) |
+
+At TD fail points buffer is still 0.40–0.50 V/side and tail V_DS ≈ 0.07–0.10 V
+(triode) [SCH]. Higher VCO swing not allowed (D22). Detail table in the summary.
+
+#### Re-ordered chain (÷2 → ÷3 → ÷4)
+
+- **8-phase VHF required** for the harmonic-reject mixer: **D4** (`decisions.md`
+  2026-10-19; `spec/phase2-plan.md` §5; §1 above). Phase 3 still sizes the mixer's
+  HR share; D4 is not revoked.
+- ÷2×÷3×÷4 = ÷24 (ratio OK) but Johnson ÷4 → **4 phases only** — fails D4.
+  Eight phases need dual-edge / interleaved ÷4 on a **50 %-duty** ÷3 at f_VCO/6
+  (cost [HAND]: duty constraint, edge-matched dual counters, phase-error risk).
+- ÷3 at ≤ 2.1 GHz [SCH]: **TD FAIL** all points at 1.08 and 1.05 V (buf ≥ 0.54 V/side)
+  — still headroom. **TL PASS** all ≤ 2.1 GHz at 1.08 and 1.05 V. Re-order alone
+  does not revive the stacked latch.
+
+#### Option table (owner pick; not implemented)
+
+| Opt | Corners / 30 mV margin | Extra I vs D7 | Area [HAND] | 8-ph / duty | Schematic change |
+|---|---|---|---|---|---|
+| **a** Tail-less + faster buffer (≥0.5 V/side @ 4.20 ss) | Full band PASS @ 1.108 [SCH]; @ 1.08 FAIL ≥3.70; prior 1.05@3.12 FAIL; B2=8 + default tank FAIL 4.20 ss; B2=6 + tank 0.75 PASS [SCH prior] — **not closed without D22** | Buf +0.5–1.5 mA [HAND]; VHF LO already 10.69 mA over D7 [HAND a2] | +buffer small | Keep ÷3→÷8; TL match/noise open | `tailless` + buffer redesign |
+| **b** Folded PMOS-load ÷3 | Not sim'd here; targets stack headroom (ideal `isource` PASS [SCH a2]) [PROP] | ÷3 ~2.5–3.5 + bias ~0.2–0.5 mA [HAND] | New cell +20–40 % | Keep D4; re-check MC | New folded latch + bias; xschem redo |
+| **c** Re-order ÷2→÷3→÷4 | TL ÷3 PASS ≤2.1 @ 1.08/1.05 [SCH]; TD still FAIL — still needs TL or folded | +÷2 ~1 mA if not shared [HAND] | +÷2 / dual-edge | **4 ph** unless dual-edge 50 %-duty path | Re-wire VHF; phase-gen if 8 ph |
+
+**Recommendation: (b) folded PMOS-load.** TD is headroom at every frequency
+(including ≤2.1 GHz). (a) already failed 4.20 ss with B2=8 and production tank
+[SCH prior] under D22; VHF is over D7. (c) does not fix TD headroom and breaks
+simple D4 8-phase unless dual-edge logic is added.
+
+**Decision needed:** owner chooses a / b / c (or hybrid). Next run implements the
+chosen option, then finishes a3 sizing / floor / D7 / peak.
