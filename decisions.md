@@ -1099,3 +1099,15 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   whether it can provide the phases the VHF mixer needs; an option table (corners, supply
   margin, current against D7, area, phases / duty) for tail-less + faster buffer, folded
   PMOS-load and the re-ordered chain. The owner chooses from that table.
+
+## 2026-11-19 — VHF ÷3 topology: tail-less CML
+- VHF ÷3 becomes a tail-less CML latch (common low-voltage high-speed divider practice); chain
+  order kept (÷3 first, Johnson ÷8 for the 8 phases). Folded PMOS-load and re-ordering not
+  taken.
+- Supply margin from the real VR_ANA1 minimum: LDO simulated at ss / 125 °C with the
+  divider / buffer load, plus IR drop of the supply route; replaces the 1.08 V / 30 mV
+  assumptions.
+- LO buffer sized to deliver ≥ 0.5 V / side at 4.20 GHz at that minimum; VCO swing unchanged
+  (D22).
+- LO current against D7 reported after the UHF-path-only sizing; an overrun comes to the owner
+  with numbers.
