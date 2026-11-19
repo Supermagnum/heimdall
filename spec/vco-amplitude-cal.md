@@ -1,6 +1,6 @@
 # VCO amplitude control (P2.3 open point §9.3)
 
-Status: **D22 topology / step-1 (ideal parts) accepted 2026-11-02 / 2026-11-11** (§10). **P2.7.2b fab layout: accepted** — ampcal_det full join DRC clean (density waived); KLayout LVS Congrats; netgen uniquely; fingers by script; bbox **0.0186** > pocket 0.0121 [GDS]. Face re-pin accepted; assembly ampcal_det.gnd column moved west of bank (rfcmim mid short) [TOOL 2026-11-18]. See `summary_p272c_rfcmim_join_stop.txt`.
+Status: **D22 topology / step-1 (ideal parts) accepted 2026-11-02 / 2026-11-11** (§10). **P2.7.2b fab layout: accepted**. **P2.7.3c** post-layout swing / D22 / wake **accepted** **[PEX-RC lumped / MODEL]**; transient peak **not yet accepted** (`decisions.md` 2026-11-19). Summaries: `summary_pex_vco_swing.txt`, `summary_pex_vco_d22_search.txt`, `summary_pex_vco_peak_mc.txt`, `summary_pex_vco_wake.txt`. Ampcal_det bbox **0.0186** > pocket 0.0121 [GDS].
 
 Items 1–2 of `prompts/06-design-next-step.md` are closed (P2.6 accepted 2026-10-31; open points 1–3 closed). Newest status report `reports/status-2026-10-30.md`: no failed re-run; amplitude cal listed as open work, not as an unverified blocking result.
 
@@ -315,4 +315,25 @@ Sources: `analog/vco/ampcal/out/summary_search.txt` (1d), `amp_common.py` (CMP_H
 **vs step 1c:** 12/15 top bands +1 LSB (bottom unchanged). Cause: SE `cmp` trips slightly later than `vsense > V_th` (1c MC mean SE offset ≈ +5.8 mV; CMP_HIGH=0.85 leaves a soft region near the Amp/2 trip) — search keeps one more bit. Final Amp still inside the window.
 
 **D22 step 1 is done. Interim A2 is retired for all bands.** The on-chip calibration sets every band; bottom bands end at code 31 with tnr = 1.
+
+### P2.7.3c post-layout [PEX-RC lumped] (2026-11-18)
+
+Netlist: schematic PDK + L2n0 EM + PEX lumped C/R/tail (+ Rtail=10 Ω) +
+couplings; det/cmp on. SAR: omit C(tail−tn/tp) fold→C_tail; `Rtb_op`=1 MΩ
+on det tb for OP @ 85 °C [TOOL]. Summaries under `analog/vco/step3/out/` and
+`layout/p272c/out/`.
+
+| Gate | Result |
+|---|---|
+| Swing at fab-retune codes; bottom ff/wcs/85 ≥ 0.54 V; all ≤ 1.40 V | **PASS** (0.658 V; max ≤1.40) [PEX-RC lumped] |
+| Det tank C/side from extract ≤ 10 fF | **PASS** (tn 4.59 / tp 4.54 fF) [PEX-RC] |
+| D22 SAR 30 corners; tops 1.25±0.10 or tnr; bottoms 31+tnr | **PASS** [PEX-RC lumped] |
+| Wake ≤ 150 µs | **PASS** (max 130 µs) [MODEL] |
+| Transient peak MC ss/bcs/85 top; peak+3σ ≤ 1.50 V | **open** (reported 1.250 V at final code 31; SCH 1.4935 at bit3/c24) [PEX-RC lumped] |
+
+Note: several 85 °C tops finish at code 31 / tnr=1 with Amp still inside
+1.25±0.10 (cmp soft with PEX + Rtb). Bottoms remain code 31 + tnr as SCH.
+Peak MC at ss/bcs/85 top also lands code 31 for all Vos samples — owner left
+peak unaccepted until measure point / Rtb_op / Cctl are explained or re-run
+as the schematic case (`decisions.md` 2026-11-19).
 

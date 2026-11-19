@@ -1,0 +1,129 @@
+  SAR mos_tt/cap_typ/-40/top …
+    code=13 Amp=1.236 peak=1.290 tnr=0 (cache)
+    → OK
+  SAR mos_tt/cap_typ/-40/bottom …
+    code=31 Amp=0.966 peak=0.966 tnr=1 (cache)
+    → OK
+  SAR mos_tt/cap_typ/27/top …
+    code=20 Amp=1.276 peak=1.315 tnr=0 (cache)
+    → OK
+  SAR mos_tt/cap_typ/27/bottom …
+    code=31 Amp=0.829 peak=0.829 tnr=1 (cache)
+    → OK
+  SAR mos_tt/cap_typ/85/top …
+    code=31 Amp=1.234 peak=1.234 tnr=1
+    → OK
+  SAR mos_tt/cap_typ/85/bottom …
+    code=31 Amp=0.675 peak=0.675 tnr=1
+    → OK
+  SAR mos_ss/cap_wcs/-40/top …
+    code=13 Amp=1.231 peak=1.278 tnr=0
+    → OK
+  SAR mos_ss/cap_wcs/-40/bottom …
+    code=31 Amp=0.873 peak=0.873 tnr=1
+    → OK
+  SAR mos_ss/cap_wcs/27/top …
+    code=21 Amp=1.268 peak=1.297 tnr=0
+    → OK
+  SAR mos_ss/cap_wcs/27/bottom …
+    code=31 Amp=0.703 peak=0.703 tnr=1
+    → OK
+  SAR mos_ss/cap_wcs/85/top …
+    code=31 Amp=1.214 peak=1.214 tnr=1
+    → OK
+  SAR mos_ss/cap_wcs/85/bottom …
+    code=31 Amp=0.526 peak=0.526 tnr=1
+    → OK
+  SAR mos_ss/cap_bcs/-40/top …
+    code=11 Amp=1.226 peak=1.317 tnr=0
+    → OK
+  SAR mos_ss/cap_bcs/-40/bottom …
+    code=31 Amp=1.023 peak=1.023 tnr=1
+    → OK
+  SAR mos_ss/cap_bcs/27/top …
+    code=18 Amp=1.271 peak=1.333 tnr=0
+    → OK
+  SAR mos_ss/cap_bcs/27/bottom …
+    code=31 Amp=0.865 peak=0.866 tnr=1
+    → OK
+  SAR mos_ss/cap_bcs/85/top …
+    code=31 Amp=1.250 peak=1.250 tnr=1
+    → OK
+  SAR mos_ss/cap_bcs/85/bottom …
+    code=31 Amp=0.692 peak=0.693 tnr=1
+    → OK
+  SAR mos_ff/cap_wcs/-40/top …
+    code=16 Amp=1.245 peak=1.385 tnr=0
+    → OK
+  SAR mos_ff/cap_wcs/-40/bottom …
+    code=31 Amp=0.913 peak=0.913 tnr=1
+    → OK
+  SAR mos_ff/cap_wcs/27/top …
+    code=23 Amp=1.282 peak=1.293 tnr=0
+    → OK
+  SAR mos_ff/cap_wcs/27/bottom …
+    code=31 Amp=0.800 peak=0.800 tnr=1
+    → OK
+  SAR mos_ff/cap_wcs/85/top …
+    code=31 Amp=1.220 peak=1.220 tnr=1
+    → OK
+  SAR mos_ff/cap_wcs/85/bottom …
+    code=31 Amp=0.658 peak=0.659 tnr=1
+    → OK
+  SAR mos_ff/cap_bcs/-40/top …
+    code=14 Amp=1.243 peak=1.280 tnr=0
+    → OK
+  SAR mos_ff/cap_bcs/-40/bottom …
+    code=31 Amp=1.036 peak=1.037 tnr=1
+    → OK
+  SAR mos_ff/cap_bcs/27/top …
+    code=20 Amp=1.280 peak=1.325 tnr=0
+    → OK
+  SAR mos_ff/cap_bcs/27/bottom …
+    code=31 Amp=0.923 peak=0.924 tnr=1
+    → OK
+  SAR mos_ff/cap_bcs/85/top …
+    code=31 Amp=1.251 peak=1.251 tnr=1
+    → OK
+  SAR mos_ff/cap_bcs/85/bottom …
+    code=31 Amp=0.790 peak=0.790 tnr=1
+    → OK
+# P2.7.3c D22 amplitude SAR [PEX-RC lumped]
+
+Fab det/cmp on; bank bypass off; tail bypass closed during search. PEX C_side=68.22 fF, C_tail_pn=9.55 fF from `/foss/designs/analog/vco/step3/../layout/p272c/out/pex_pn_lumped.json`. OP aids: Rtb_op=1 MΩ on det tb; omit Cctl (fold → C_tail_pn); Rtail=10 Ω; prefer topo C (Ccvbp), fallback B (vbp→Cr) [PEX-RC lumped / TOOL]. Decision: v(cmp) > 0.85 V; target 1.25±0.1 V; steady ≤1.4 V.
+
+| MOS | CAP | T | band | code | Amp | tnr | Amp_peak | in_window | steady≤1.40 | peak≤1.50 |
+|---|---|---:|---|---:|---:|---:|---:|---|---|---|
+| mos_tt | cap_typ | -40 | top | 13 | 1.236 | 0 | 1.290 | yes | PASS | PASS |
+| mos_tt | cap_typ | -40 | bottom | 31 | 0.966 | 1 | 0.966 | tnr | PASS | PASS |
+| mos_tt | cap_typ | 27 | top | 20 | 1.276 | 0 | 1.315 | yes | PASS | PASS |
+| mos_tt | cap_typ | 27 | bottom | 31 | 0.829 | 1 | 0.829 | tnr | PASS | PASS |
+| mos_tt | cap_typ | 85 | top | 31 | 1.234 | 1 | 1.234 | yes | PASS | PASS |
+| mos_tt | cap_typ | 85 | bottom | 31 | 0.675 | 1 | 0.675 | tnr | PASS | PASS |
+| mos_ss | cap_wcs | -40 | top | 13 | 1.231 | 0 | 1.278 | yes | PASS | PASS |
+| mos_ss | cap_wcs | -40 | bottom | 31 | 0.873 | 1 | 0.873 | tnr | PASS | PASS |
+| mos_ss | cap_wcs | 27 | top | 21 | 1.268 | 0 | 1.297 | yes | PASS | PASS |
+| mos_ss | cap_wcs | 27 | bottom | 31 | 0.703 | 1 | 0.703 | tnr | PASS | PASS |
+| mos_ss | cap_wcs | 85 | top | 31 | 1.214 | 1 | 1.214 | yes | PASS | PASS |
+| mos_ss | cap_wcs | 85 | bottom | 31 | 0.526 | 1 | 0.526 | tnr | PASS | PASS |
+| mos_ss | cap_bcs | -40 | top | 11 | 1.226 | 0 | 1.317 | yes | PASS | PASS |
+| mos_ss | cap_bcs | -40 | bottom | 31 | 1.023 | 1 | 1.023 | tnr | PASS | PASS |
+| mos_ss | cap_bcs | 27 | top | 18 | 1.271 | 0 | 1.333 | yes | PASS | PASS |
+| mos_ss | cap_bcs | 27 | bottom | 31 | 0.865 | 1 | 0.866 | tnr | PASS | PASS |
+| mos_ss | cap_bcs | 85 | top | 31 | 1.250 | 1 | 1.250 | yes | PASS | PASS |
+| mos_ss | cap_bcs | 85 | bottom | 31 | 0.692 | 1 | 0.693 | tnr | PASS | PASS |
+| mos_ff | cap_wcs | -40 | top | 16 | 1.245 | 0 | 1.385 | yes | PASS | PASS |
+| mos_ff | cap_wcs | -40 | bottom | 31 | 0.913 | 1 | 0.913 | tnr | PASS | PASS |
+| mos_ff | cap_wcs | 27 | top | 23 | 1.282 | 0 | 1.293 | yes | PASS | PASS |
+| mos_ff | cap_wcs | 27 | bottom | 31 | 0.800 | 1 | 0.800 | tnr | PASS | PASS |
+| mos_ff | cap_wcs | 85 | top | 31 | 1.220 | 1 | 1.220 | yes | PASS | PASS |
+| mos_ff | cap_wcs | 85 | bottom | 31 | 0.658 | 1 | 0.659 | tnr | PASS | PASS |
+| mos_ff | cap_bcs | -40 | top | 14 | 1.243 | 0 | 1.280 | yes | PASS | PASS |
+| mos_ff | cap_bcs | -40 | bottom | 31 | 1.036 | 1 | 1.037 | tnr | PASS | PASS |
+| mos_ff | cap_bcs | 27 | top | 20 | 1.280 | 0 | 1.325 | yes | PASS | PASS |
+| mos_ff | cap_bcs | 27 | bottom | 31 | 0.923 | 1 | 0.924 | tnr | PASS | PASS |
+| mos_ff | cap_bcs | 85 | top | 31 | 1.251 | 1 | 1.251 | yes | PASS | PASS |
+| mos_ff | cap_bcs | 85 | bottom | 31 | 0.790 | 1 | 0.790 | tnr | PASS | PASS |
+
+D22 search gate: PASS [PEX-RC lumped]
+

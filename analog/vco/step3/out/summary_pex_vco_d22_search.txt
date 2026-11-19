@@ -1,0 +1,38 @@
+# P2.7.3c D22 amplitude SAR [PEX-RC lumped]
+
+Fab det/cmp on; bank bypass off; tail bypass closed during search. PEX C_side=68.22 fF, C_tail_pn=9.55 fF from `/foss/designs/analog/vco/step3/../layout/p272c/out/pex_pn_lumped.json`. OP aids: Rtb_op=1 MΩ on det tb; omit Cctl (fold → C_tail_pn); Rtail=10 Ω; prefer topo C (Ccvbp), fallback B (vbp→Cr) [PEX-RC lumped / TOOL]. Decision: v(cmp) > 0.85 V; target 1.25±0.1 V; steady ≤1.4 V.
+
+| MOS | CAP | T | band | code | Amp | tnr | Amp_peak | in_window | steady≤1.40 | peak≤1.50 |
+|---|---|---:|---|---:|---:|---:|---:|---|---|---|
+| mos_tt | cap_typ | -40 | top | 13 | 1.236 | 0 | 1.290 | yes | PASS | PASS |
+| mos_tt | cap_typ | -40 | bottom | 31 | 0.966 | 1 | 0.966 | tnr | PASS | PASS |
+| mos_tt | cap_typ | 27 | top | 20 | 1.276 | 0 | 1.315 | yes | PASS | PASS |
+| mos_tt | cap_typ | 27 | bottom | 31 | 0.829 | 1 | 0.829 | tnr | PASS | PASS |
+| mos_tt | cap_typ | 85 | top | 31 | 1.234 | 1 | 1.234 | yes | PASS | PASS |
+| mos_tt | cap_typ | 85 | bottom | 31 | 0.675 | 1 | 0.675 | tnr | PASS | PASS |
+| mos_ss | cap_wcs | -40 | top | 13 | 1.231 | 0 | 1.278 | yes | PASS | PASS |
+| mos_ss | cap_wcs | -40 | bottom | 31 | 0.873 | 1 | 0.873 | tnr | PASS | PASS |
+| mos_ss | cap_wcs | 27 | top | 21 | 1.268 | 0 | 1.297 | yes | PASS | PASS |
+| mos_ss | cap_wcs | 27 | bottom | 31 | 0.703 | 1 | 0.703 | tnr | PASS | PASS |
+| mos_ss | cap_wcs | 85 | top | 31 | 1.214 | 1 | 1.214 | yes | PASS | PASS |
+| mos_ss | cap_wcs | 85 | bottom | 31 | 0.526 | 1 | 0.526 | tnr | PASS | PASS |
+| mos_ss | cap_bcs | -40 | top | 11 | 1.226 | 0 | 1.317 | yes | PASS | PASS |
+| mos_ss | cap_bcs | -40 | bottom | 31 | 1.023 | 1 | 1.023 | tnr | PASS | PASS |
+| mos_ss | cap_bcs | 27 | top | 18 | 1.271 | 0 | 1.333 | yes | PASS | PASS |
+| mos_ss | cap_bcs | 27 | bottom | 31 | 0.865 | 1 | 0.866 | tnr | PASS | PASS |
+| mos_ss | cap_bcs | 85 | top | 31 | 1.250 | 1 | 1.250 | yes | PASS | PASS |
+| mos_ss | cap_bcs | 85 | bottom | 31 | 0.692 | 1 | 0.693 | tnr | PASS | PASS |
+| mos_ff | cap_wcs | -40 | top | 16 | 1.245 | 0 | 1.385 | yes | PASS | PASS |
+| mos_ff | cap_wcs | -40 | bottom | 31 | 0.913 | 1 | 0.913 | tnr | PASS | PASS |
+| mos_ff | cap_wcs | 27 | top | 23 | 1.282 | 0 | 1.293 | yes | PASS | PASS |
+| mos_ff | cap_wcs | 27 | bottom | 31 | 0.800 | 1 | 0.800 | tnr | PASS | PASS |
+| mos_ff | cap_wcs | 85 | top | 31 | 1.220 | 1 | 1.220 | yes | PASS | PASS |
+| mos_ff | cap_wcs | 85 | bottom | 31 | 0.658 | 1 | 0.659 | tnr | PASS | PASS |
+| mos_ff | cap_bcs | -40 | top | 14 | 1.243 | 0 | 1.280 | yes | PASS | PASS |
+| mos_ff | cap_bcs | -40 | bottom | 31 | 1.036 | 1 | 1.037 | tnr | PASS | PASS |
+| mos_ff | cap_bcs | 27 | top | 20 | 1.280 | 0 | 1.325 | yes | PASS | PASS |
+| mos_ff | cap_bcs | 27 | bottom | 31 | 0.923 | 1 | 0.924 | tnr | PASS | PASS |
+| mos_ff | cap_bcs | 85 | top | 31 | 1.251 | 1 | 1.251 | yes | PASS | PASS |
+| mos_ff | cap_bcs | 85 | bottom | 31 | 0.790 | 1 | 0.790 | tnr | PASS | PASS |
+
+D22 search gate: PASS [PEX-RC lumped]

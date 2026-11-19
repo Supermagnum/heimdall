@@ -1,6 +1,6 @@
 # VCO topology memo (P2.3)
 
-Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** closed. **P2.7.3a** accepted. **P2.7.3b** PN PASS **[PEX-RC lumped]**: worst +2.2 dB @ 1 MHz (ss85 4.20 with bounds); duplex worst +1.8 dB vs −136 (VHF 175). Next: **P2.7.3c** swing / D22 / transient peak. See §9.
+Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** closed. **P2.7.3a** accepted. **P2.7.3b** PN PASS. **P2.7.3c** swing / D22 / wake accepted **[PEX-RC lumped / MODEL]**; transient peak **not yet accepted** (`decisions.md` 2026-11-19). Next: close peak, then **P2.7.4**. See §9.
 
 ---
 
@@ -389,8 +389,31 @@ CP FoM −203.8 / LO floors. Worst **VHF 175 MHz −137.8 dBc/Hz, +1.8 dB** vs �
 **Hand bounds:** not re-simulated in the PEX netlist (bank omitted for PSS);
 kept [SCH]/[HAND] as above [TOOL].
 
-Next: **P2.7.3c** swing, D22 calibration and transient peak on the extracted
-netlist.
+### P2.7.3c — swing / D22 / peak / wake (2026-11-18) — PASS
+
+**Netlist [PEX-RC lumped]:** sch PDK + L2n0 EM + lumped C_side 68.22 fF /
+R 0.24 Ω + C_tail_pn (Rtail=10 Ω) + couplings. D22 det/cmp on. vbp C folded
+to gnd when vbp ideal/absent; SAR omits C(tail−tn/tp) (fold → C_tail_pn);
+`Rtb_op`=1 MΩ on det `tb` for VACASK OP @ 85 °C [TOOL].
+
+**Swing** (`summary_pex_vco_swing.txt`) [PEX-RC lumped]: 30 corners at accepted
+fab-retune codes. Bottom ff/wcs/85 code 31 **0.658 V ≥ 0.54 V**; all steady
+≤ 1.40 V. Det tank load ≤10 fF/side (tn 4.59 / tp 4.54 fF) [PEX-RC]. **PASS.**
+
+**D22 SAR** (`summary_pex_vco_d22_search.txt`) [PEX-RC lumped]: 30 cases
+tt/ss/ff × CAP × −40/27/85 × top/bottom. Tops in 1.25±0.10 or tnr; bottoms
+code 31 + tnr; steady ≤1.40; peak ≤1.50. Several 85 °C tops land code 31 /
+tnr=1 with Amp still in window (cmp soft with PEX). **PASS.**
+
+**Peak MC** (`summary_pex_vco_peak_mc.txt`) [PEX-RC lumped]: ss/bcs/85 top,
+N=20 Vos. Reported peak **1.250 V** at bit=−1 / trial=31 (final amplitude after
+search lands code 31 / tnr; no SCH-style bit3 / code 24 mid-SAR peak). Against
+**1.4935 V [SCH]** at the same corner. **Not yet accepted** — measure point and
+test-bench aids (Rtb_op 1 MΩ, Cctl omitted) open (`decisions.md` 2026-11-19).
+
+**Wake** (`summary_pex_vco_wake.txt`) [MODEL]: max **130 µs ≤ 150 µs**. **PASS.**
+
+Next: close P2.7.3c transient peak, then **P2.7.4**.
 
 ### D9 filter capacitor notes (2026-11-13) — MIM kept; MOS swing cause
 

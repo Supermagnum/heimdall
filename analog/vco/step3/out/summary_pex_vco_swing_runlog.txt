@@ -1,0 +1,110 @@
+  mos_ff/cap_bcs/-40/bottom code=31 …
+    Amp=1.036 (cache)
+  mos_ff/cap_bcs/-40/top code=13 …
+    Amp=1.223 (cache)
+  mos_ff/cap_bcs/27/bottom code=31 …
+    Amp=0.923 (cache)
+  mos_ff/cap_bcs/27/top code=16 …
+    Amp=1.224 (cache)
+  mos_ff/cap_bcs/85/bottom code=31 …
+    Amp=0.790 (cache)
+  mos_ff/cap_bcs/85/top code=20 …
+    Amp=1.185
+  mos_ff/cap_wcs/-40/bottom code=31 …
+    Amp=0.913
+  mos_ff/cap_wcs/-40/top code=14 …
+    Amp=1.209
+  mos_ff/cap_wcs/27/bottom code=31 …
+    Amp=0.800
+  mos_ff/cap_wcs/27/top code=18 …
+    Amp=1.220
+  mos_ff/cap_wcs/85/bottom code=31 …
+    Amp=0.658
+  mos_ff/cap_wcs/85/top code=22 …
+    Amp=1.169
+  mos_ss/cap_bcs/-40/bottom code=31 …
+    Amp=1.023
+  mos_ss/cap_bcs/-40/top code=9 …
+    Amp=1.179
+  mos_ss/cap_bcs/27/bottom code=31 …
+    Amp=0.865
+  mos_ss/cap_bcs/27/top code=12 …
+    Amp=1.192
+  mos_ss/cap_bcs/85/bottom code=31 …
+    Amp=0.692
+  mos_ss/cap_bcs/85/top code=16 …
+    Amp=1.153
+  mos_ss/cap_wcs/-40/bottom code=31 …
+    Amp=0.873
+  mos_ss/cap_wcs/-40/top code=11 …
+    Amp=1.186
+  mos_ss/cap_wcs/27/bottom code=31 …
+    Amp=0.703
+  mos_ss/cap_wcs/27/top code=14 …
+    Amp=1.187
+  mos_ss/cap_wcs/85/bottom code=31 …
+    Amp=0.526
+  mos_ss/cap_wcs/85/top code=18 …
+    Amp=1.133
+  mos_tt/cap_typ/-40/bottom code=31 …
+    Amp=0.966
+  mos_tt/cap_typ/-40/top code=12 …
+    Amp=1.215
+  mos_tt/cap_typ/27/bottom code=31 …
+    Amp=0.829
+  mos_tt/cap_typ/27/top code=15 …
+    Amp=1.216
+  mos_tt/cap_typ/85/bottom code=31 …
+    Amp=0.674
+  mos_tt/cap_typ/85/top code=19 …
+    Amp=1.166
+# P2.7.3c swing at accepted D22 codes [PEX-RC lumped]
+
+Netlist: schematic PDK + L2n0 EM + PEX lumped C/R/tail/couplings + D22 det/cmp on. C_side=68.22 fF, C_tail_pn=9.55 fF [PEX-RC]. Codes from summary_search_fab_retune.txt [SCH]. vbp C folded to gnd (tie_vbp=False) [PEX-RC].
+
+## Detector tank load per side [PEX-RC]
+
+- tn: named 0.08 fF + device Cgg ~1.0 fF + face≤5 → **4.59 fF** (PASS ≤ 10)
+  named: {'rep': 0.001, 'hold': 0.082}
+  anon top: [('a_11699_111481#', 3.505), ('a_34656_40472#', 1.863), ('a_47472_22874#', 1.831)]
+- tp: named 0.97 fF + device Cgg ~1.0 fF + face≤5 → **4.54 fF** (PASS ≤ 10)
+  named: {'rep': 0.299, 'hold': 0.669}
+  anon top: [('a_14478_60116#', 2.575), ('a_11699_111331#', 1.775), ('a_14482_35034#', 1.449)]
+
+| MOS | CAP | T | band | code | Amp (V) | ≤1.40 | note |
+|---|---|---:|---|---:|---:|---|---|
+| mos_ff | cap_bcs | -40 | bottom | 31 | 1.036 | PASS |  |
+| mos_ff | cap_bcs | -40 | top | 13 | 1.223 | PASS |  |
+| mos_ff | cap_bcs | 27 | bottom | 31 | 0.923 | PASS |  |
+| mos_ff | cap_bcs | 27 | top | 16 | 1.224 | PASS |  |
+| mos_ff | cap_bcs | 85 | bottom | 31 | 0.790 | PASS |  |
+| mos_ff | cap_bcs | 85 | top | 20 | 1.185 | PASS |  |
+| mos_ff | cap_wcs | -40 | bottom | 31 | 0.913 | PASS |  |
+| mos_ff | cap_wcs | -40 | top | 14 | 1.209 | PASS |  |
+| mos_ff | cap_wcs | 27 | bottom | 31 | 0.800 | PASS |  |
+| mos_ff | cap_wcs | 27 | top | 18 | 1.220 | PASS |  |
+| mos_ff | cap_wcs | 85 | bottom | 31 | 0.658 | PASS | LO min ≥0.54 PASS |
+| mos_ff | cap_wcs | 85 | top | 22 | 1.169 | PASS |  |
+| mos_ss | cap_bcs | -40 | bottom | 31 | 1.023 | PASS |  |
+| mos_ss | cap_bcs | -40 | top | 9 | 1.179 | PASS |  |
+| mos_ss | cap_bcs | 27 | bottom | 31 | 0.865 | PASS |  |
+| mos_ss | cap_bcs | 27 | top | 12 | 1.192 | PASS |  |
+| mos_ss | cap_bcs | 85 | bottom | 31 | 0.692 | PASS |  |
+| mos_ss | cap_bcs | 85 | top | 16 | 1.153 | PASS |  |
+| mos_ss | cap_wcs | -40 | bottom | 31 | 0.873 | PASS |  |
+| mos_ss | cap_wcs | -40 | top | 11 | 1.186 | PASS |  |
+| mos_ss | cap_wcs | 27 | bottom | 31 | 0.703 | PASS |  |
+| mos_ss | cap_wcs | 27 | top | 14 | 1.187 | PASS |  |
+| mos_ss | cap_wcs | 85 | bottom | 31 | 0.526 | PASS |  |
+| mos_ss | cap_wcs | 85 | top | 18 | 1.133 | PASS |  |
+| mos_tt | cap_typ | -40 | bottom | 31 | 0.966 | PASS |  |
+| mos_tt | cap_typ | -40 | top | 12 | 1.215 | PASS |  |
+| mos_tt | cap_typ | 27 | bottom | 31 | 0.829 | PASS |  |
+| mos_tt | cap_typ | 27 | top | 15 | 1.216 | PASS |  |
+| mos_tt | cap_typ | 85 | bottom | 31 | 0.674 | PASS |  |
+| mos_tt | cap_typ | 85 | top | 19 | 1.166 | PASS |  |
+
+Bottom ff/wcs/85 top-DAC (code 31): Amp=0.6581814498855549 V (≥ 0.54 V) [PEX-RC lumped]
+
+Swing gate: PASS [PEX-RC lumped]
+

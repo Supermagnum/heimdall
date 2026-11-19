@@ -1,0 +1,41 @@
+# P2.7.3c transient peak MC [PEX-RC lumped]
+
+
+Nominal: code=31 peak=1.250 at bit=-1 trial=31 [PEX-RC lumped]
+
+
+  [1/20] peak=1.250 @bit-1/c31
+  [2/20] peak=1.250 @bit-1/c31
+  [3/20] peak=1.250 @bit-1/c31
+  [4/20] peak=1.250 @bit-1/c31
+  [5/20] peak=1.250 @bit-1/c31
+  [6/20] peak=1.250 @bit-1/c31
+  [7/20] peak=1.250 @bit-1/c31
+  [8/20] peak=1.250 @bit-1/c31
+  [9/20] peak=1.250 @bit-1/c31
+  [10/20] peak=1.250 @bit-1/c31
+  [11/20] peak=1.250 @bit-1/c31
+  [12/20] peak=1.250 @bit-1/c31
+  [13/20] peak=1.250 @bit-1/c31
+  [14/20] peak=1.250 @bit-1/c31
+  [15/20] peak=1.250 @bit-1/c31
+  [16/20] peak=1.250 @bit-1/c31
+  [17/20] peak=1.250 @bit-1/c31
+  [18/20] peak=1.250 @bit-1/c31
+  [19/20] peak=1.250 @bit-1/c31
+  [20/20] peak=1.250 @bit-1/c31
+# P2.7.3c transient peak MC [PEX-RC lumped]
+
+Corner: mos_ss / cap_bcs / 85 °C / top; N=20; Vos σ=2.76 mV. PEX C_side=68.22 fF; Rtb_op=1 MΩ; omit Cctl; Rtail=10 Ω; dual OP C→B (C=Ccvbp; B=vbp→Cr) [PEX-RC lumped / TOOL]. Limit peak+3σ ≤ 1.50 V.
+
+Nominal: code=31 peak=1.250 at bit=-1 trial=31 [PEX-RC lumped]
+
+## Results [PEX-RC lumped]
+
+- peak mean = 1.2501 V
+- peak σ = 0.02 mV; 3σ = 0.07 mV
+- peak + 3σ = **1.2502 V** (limit 1.50 V) → PASS
+- observed min/max = 1.250 / 1.250 V
+
+Peak MC gate: PASS [PEX-RC lumped]
+

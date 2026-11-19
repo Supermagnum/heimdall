@@ -1031,3 +1031,13 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   effects; those checks report against it.
 - Tail-node C 9.55 fF (filter node separate). Full 17.5k-element PSS and in-PSS bank / CML
   devices not required for the gate.
+
+## 2026-11-19 — P2.7.3c, VCO post-layout
+- Accepted [PEX-RC lumped]: bottom-band swing ff / MIM worst / 85 °C 0.658 V ≥ 0.54 V; all
+  corners ≤ 1.40 V steady; detector tank load ≈ 4.6 fF / side; D22 search 30 / 30 pass; wake
+  130 µs ≤ 150 µs [MODEL].
+- Transient peak (1.250 V, against 1.4935 V [SCH] at the same corner) not yet accepted: the
+  measurement point (search trial bit 3 / code 24) and the test-bench changes (Rtb_op 1 MΩ,
+  Cctl omitted) are explained, or the peak is re-run as in the schematic case.
+- P2.7.4 starts with a plan run; the UHF LO-chain noise floor (−150.1 dBc/Hz against −150 [SCH /
+  HAND]) is estimated with layout parasitics before the divider is drawn.

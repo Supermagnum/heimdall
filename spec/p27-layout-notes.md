@@ -1,9 +1,10 @@
 # P2.7 layout notes
 
-Status: **P2.7.3a** accepted; **P2.7.3b** PN PASS **[PEX-RC lumped]** (2026-11-18).
-Sign-off reference flattened `vco_top.sch` + `lvs_setup.tcl`. Full-cell bbox
-0.4624 mm² [GDS]. Next: **P2.7.3c** swing / D22 / transient peak. Chip art PASS.
-Blocks PASS.
+Status: **P2.7.3a** accepted; **P2.7.3b** PN PASS; **P2.7.3c** swing / D22 /
+wake accepted **[PEX-RC lumped / MODEL]**; transient peak **not yet accepted**
+(`decisions.md` 2026-11-19). Sign-off flattened `vco_top.sch` + `lvs_setup.tcl`.
+Full-cell bbox 0.4624 mm² [GDS]. Next: close peak, then **P2.7.4**. Chip art
+PASS. Blocks PASS.
 
 ---
 
@@ -926,7 +927,21 @@ PDK 4-terminal svaricap (Magic 2-term not used) [TOOL].
   worst **+2.2 dB** (ss85 4.20, −118.2 vs −116) [PEX-RC lumped].
 - Duplex worst **+1.8 dB** at VHF 175 (−137.8 vs −136) [MODEL] (was +2.8 SCH).
 **Hand bounds** not re-sim'd in PEX netlist (bank omitted); kept [SCH]/[HAND].  
-**Next:** P2.7.3c swing / D22 / transient peak.
+**Next:** P2.7.3c (below).
+
+#### P2.7.3c — swing / D22 / peak / wake (2026-11-18 / 19) [PEX-RC lumped / MODEL]
+**Inputs:** `pex_pn_lumped.json`; scripts `run_p273c_*.py`, `pex_lumped_extra.py`.  
+**OP aids [TOOL]:** fold vbp→gnd when ideal; omit Cctl for SAR (fold→C_tail);
+Rtail=10 Ω; `Rtb_op`=1 MΩ on det tb (85 °C OP).  
+**Outputs:** `summary_pex_vco_swing.txt`, `summary_pex_vco_d22_search.txt`,
+`summary_pex_vco_peak_mc.txt`, `summary_pex_vco_wake.txt`.  
+**Accepted (`decisions.md` 2026-11-19):**
+- Swing: bottom ff/wcs/85 ≥0.54 V (0.658); all ≤1.40 V; det C ≈4.6 fF/side.
+- D22 SAR 30/30; bottoms code 31+tnr; tops in window or tnr.
+- Wake max 130 ≤ 150 µs [MODEL].
+**Open:** Peak MC reported 1.250 V at bit=−1 / code 31 (vs 1.4935 [SCH] at
+bit3 / code 24). Measure point and Rtb_op / Cctl not yet accepted.
+**Next:** close peak, then P2.7.4.
 
 ### P2.7.4 — xschem + layout: LO buffer, CML ÷2/÷3, converter, TSPC/Johnson
 **Inputs:** `analog/lo/step3/`; floorplan.  

@@ -1,0 +1,16 @@
+# P2.7.3c wake timing [MODEL]
+
+Post-layout VCO (P2.7.3a–c lumped) does not change AFE sequencer cycle counts. Band cal + D22 amp search + loop settle as `wake_timing.py` / D19 [MODEL].
+
+| item | time | source |
+|---|---:|---|
+| Tail bypass ≥6–7τ | 1.00 µs | 36 cyc @ 36 MHz [RTL] |
+| D22 amp cal (2×5×settle) | 10.00 µs | 360 cyc [RTL/D22] |
+| D20 band cal | 38.83 µs | 1398 cyc [RTL] |
+| Cal total (band+amp) | 48.83 µs | [MODEL] |
+| Wake min (prior + amp) | 109.0 µs | [MODEL] |
+| Wake max (prior + amp) | 130.0 µs | [MODEL] |
+| Limit | 150 µs | plan |
+
+Wake gate: PASS (max 130.0 ≤ 150 µs) [MODEL]
+
