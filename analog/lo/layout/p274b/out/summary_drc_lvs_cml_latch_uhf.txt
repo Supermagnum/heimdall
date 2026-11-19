@@ -1,0 +1,7 @@
+# P2.7.4b DRC/LVS — cml_latch_uhf
+
+- DRC clean (density waived): **FAIL** non-density=['M1.b']
+- KLayout LVS: **FAIL**
+- netgen unique: **FAIL**
+- extracted: `/work/analog/lo/layout/p274b/out/lvs_cml_latch_uhf/cml_latch_uhf_extracted.cir`
+

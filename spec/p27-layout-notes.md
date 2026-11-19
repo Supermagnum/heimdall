@@ -1024,6 +1024,17 @@ V_tune.
 - Density DRC waived; all other DRC clean.
 - Clock-net C reported per cell vs 15 fF/side budget share.
 
+##### First cell `cml_latch_uhf` (2026-11-19) — DRC/LVS FAIL [TOOL]
+
+Scripts: `analog/lo/layout/p274b/`. Fingers PASS (6×ng=5, 1×ng=10). Clock C
+estimate **2.48 fF/side** of 15 fF [HAND/GDS]. Area ≈ 0.00087 mm² [GDS].
+
+**FAIL:** DRC `M1.b`; KLayout + netgen LVS — extract still merges gate/drain
+nets (`ckn|ckp|dn|dp|qn`). Root cause: dense M1 gate-exit / drain buses on a
+multi-row CML stack (same class as early `vco_xc_pair`). Stop before
+`cml_latch_vhf_tl`. Fix: per-net M2 spines, outboard-only gate exits, no M1
+across finger arrays — then re-prove.
+
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  
 **Outputs:** sch + gds.gz + DRC/LVS; LF MOS area ≈ 0.062 mm².  

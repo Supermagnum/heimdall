@@ -1,0 +1,13 @@
+# cml_latch_uhf clock/output C estimate [HAND/GDS]
+
+Top M1 area 101.3 µm²; M2 11.1; poly 11.4.
+C dens M1=0.04 M2=0.03 poly=0.09 fF/µm² [HAND].
+
+| Net | C (fF/side) | of 15 fF budget |
+|---|---:|---:|
+| ckp or ckn (leaf share) | 2.48 | 16.6 % |
+| qp or qn (local) | 2.03 | — |
+
+Gate vs ≤15 fF/side: leaf uses **2.48 fF/side** (PASS share).
+Full-assembly clock C is the sum of leaf + route; re-check at assemble.
+

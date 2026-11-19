@@ -212,4 +212,9 @@ divider GDS. Die re-total unchanged. D7 VHF **10.69 mA** over — STOP (supersed
 D7 **PASS** VHF 8.66 / UHF 8.18 mA. Final corners + MC 20/20; f_max_ss ≈
 4.8 GHz. Ready for P2.7.4b layout.
 
+**P2.7.4b step0 (2026-11-19) [SCH]:** VHF ff/−40 & ff/125 PASS at final
+currents; MC 0.51° = VHF 8-phase OK vs ~1° HR. First latch GDS WIP —
+DRC/LVS FAIL (M1 shorts); area ≈ 0.00087 mm² [GDS]; clock C leaf ≈ 2.5 fF
+of 15 fF/side. Die re-total unchanged.
+
 **Flag:** the §1 sketch of a **1.6 × 1.6 mm** active core **does not fit** the Phase 3/4 RX+TX + synth + digital + pads tally. Before Phase 5, plan on a die closer to **≥ ~2.2 × 2.2 mm** (≈ 4.8 mm²) or tighten RX/TX area after topology.

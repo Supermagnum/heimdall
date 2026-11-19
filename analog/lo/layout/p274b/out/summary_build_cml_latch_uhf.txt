@@ -1,0 +1,8 @@
+tail mt (-2.7,0;2.7,1.86) W=15.0u ng=10
+clock m5/m6 (-5.35,7.86;-2.5,9.72) (2.5,7.86;5.35,9.72)
+data m1/m2 (-5.35,15.72;-2.5,17.58) (2.5,15.72;5.35,17.58) W=7.5u ng=5
+regen m3/m4 (-5.35,23.58;-2.5,26.19) (2.5,23.58;5.35,26.19) W=11.25u ng=5
+loads rppd (-5.35,29.58;-2.95,36.134) (2.5,29.58;4.9,36.134) R=666.7 [SCH]
+bbox (-9.6,-6.25;9.6,38.884); area 0.00087 mm² [GDS]
+WROTE /work/analog/lo/layout/p274b/out/cml_latch_uhf.gds / .gz
+WROTE /work/analog/lo/layout/p274b/out/cml_latch_uhf.spice
