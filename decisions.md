@@ -1061,3 +1061,12 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
 - VHF chain at ss is checked first (divides, maximum frequency, duty cycle, phase errors).
 - The VCO peak MC is re-run once at N = 20 after the parse fix; stray background jobs are
   stopped.
+
+## 2026-11-19 — VHF ÷3 headroom at ss
+- With real MOSFET tails, the CML ÷3 latch does not toggle at ss / 1.08 V / 125 °C [SCH]
+  (34eb638); ideal tails passed. Cause: headroom.
+- Fix order: (1) headroom budget per device at the failing corner, and the divider supply's
+  real slow-corner value (LDO simulated corner if it is an LDO rail); (2) tail transistor
+  resized for lower V_dsat; (3) lower swing via R_L if the next stage keeps ≥ 0.5 V-per-side
+  clock; (4) topology change (unstacked ÷3 logic) only with owner approval.
+- Then the divider current sizing continues (2026-11-19 "Divider floor fix sizing").
