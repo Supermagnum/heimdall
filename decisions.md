@@ -1138,3 +1138,12 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
 - Divider leaf cells get xschem schematics (SVG / PDF) matching lo_vhf_top; their netlists
   are the LVS reference.
 
+## 2026-11-19 — Divider leaf cells, latch progress
+- Leaf xschem cells accepted (cml_latch_uhf, cml_latch_vhf_tl, cml_diff_pair, lo_buffer,
+  lo_bias; SVG / PDF). cml_diff_pair and cml_pair_loads accepted (DRC, KLayout LVS, netgen,
+  fingers; clock C ≈ 2.29 fF / side [HAND / GDS]).
+- Divider tops become real hierarchies of the leaf cells (converter, Johnson / phase, TSPC
+  leaves added); simulation netlist and LVS reference generated from them, checked once against
+  the accepted flat netlist, which then stops being a source.
+- Latch continues bottom-up: tail, regenerative pair, full latch; then the tail-less ÷3 latch.
+
