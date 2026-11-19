@@ -1128,4 +1128,13 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   (max 0.51° against 0.46° from P2.4) is assigned to its path (UHF I/Q or VHF 8-phase) and
   compared with the derived image / harmonic-rejection requirement.
 - Divider layout gate: extracted wiring C per clock net ≤ 15 fF / side (the floor assumption).
+## 2026-11-19 — Divider pre-checks, first latch layout
+- VHF ff / −40 and ff / 125 °C at V_min / V_max, 3.12 / 4.20 GHz: all divide, max |φ| ≤ 0.08°,
+  LO ≤ 9.79 mA [SCH]. MC 0.51° is the VHF 8-phase error, within ≈ 1° for HR3 (60 dB with board
+  filtering); UHF I/Q ≤ 0.33°. Accepted.
+- cml_latch_uhf not accepted: DRC M1.b, LVS shorts (same class as the first vco_xc_pair).
+  Re-built with the documented VCO method (pair cell first, pcell S / D order checked, no M1
+  across opposite S / D, gates contacted off active).
+- Divider leaf cells get xschem schematics (SVG / PDF) matching lo_vhf_top; their netlists
+  are the LVS reference.
 
