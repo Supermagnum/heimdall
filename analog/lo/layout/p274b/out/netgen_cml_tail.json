@@ -1,0 +1,22 @@
+
+Subcircuit summary:
+Circuit 1: cml_tail                        |Circuit 2: cml_tail                        
+-------------------------------------------|-------------------------------------------
+sg13_lv_nmos (2)                           |sg13_lv_nmos (2)                           
+Number of devices: 2                       |Number of devices: 2                       
+Number of nets: 3                          |Number of nets: 3                          
+---------------------------------------------------------------------------------------
+Netlists match uniquely.
+
+Subcircuit pins:
+Circuit 1: cml_tail                        |Circuit 2: cml_tail                        
+-------------------------------------------|-------------------------------------------
+gnd                                        |gnd                                        
+drain                                      |drain                                      
+nb_lo                                      |nb_lo                                      
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes cml_tail and cml_tail are equivalent.
+
+Final result: Circuits match uniquely.
+.

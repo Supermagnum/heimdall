@@ -1,0 +1,10 @@
+Technology SG13_dev is loaded.
+GRID : 0.01
+GRID inverse : 100.0
+EPSILON1  : 0.001
+EPSILON2  : 1e-9
+Success.
+tail (-1.425,-0.18;1.425,3.18) W=15.0u ng=5
+even=D odd=S; nD=3 nS=3 [LVS]
+bbox (-11.665,-17.23;14.485,9.25); area 0.00069 mm² [GDS]
+WROTE /work/analog/lo/layout/p274b/out/cml_tail.gds
