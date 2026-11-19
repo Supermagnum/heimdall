@@ -1,0 +1,23 @@
+* P2.7.4b lo_converter LVS reference [SCH]
+.subckt lo_converter dp dn y vcv gnd
+ccap (dp x_cip) capacitor c=50f
+rcap (x_cip x_o2p) resistor r=50k
+Mxcapp x_o2p x_cip vcv vcv sg13_lv_pmos w=4u l=0.13u
+Mxcapn x_o2p x_cip 0 0 sg13_lv_nmos w=2u l=0.13u
+ccan (dn x_cin) capacitor c=50f
+rcan (x_cin x_o2n) resistor r=50k
+Mxcanp x_o2n x_cin vcv vcv sg13_lv_pmos w=4u l=0.13u
+Mxcann x_o2n x_cin 0 0 sg13_lv_nmos w=2u l=0.13u
+Mxcxpp x_o2n x_o2p vcv vcv sg13_lv_pmos w=1u l=0.13u
+Mxcxpn x_o2n x_o2p 0 0 sg13_lv_nmos w=0.5u l=0.13u
+Mxcxnp x_o2p x_o2n vcv vcv sg13_lv_pmos w=1u l=0.13u
+Mxcxnn x_o2p x_o2n 0 0 sg13_lv_nmos w=0.5u l=0.13u
+ccb (x_o2p x_cbi) capacitor c=50f
+rcb (x_cbi x_cy) resistor r=50k
+Mxcbp x_cy x_cbi vcv vcv sg13_lv_pmos w=4u l=0.13u
+Mxcbn x_cy x_cbi 0 0 sg13_lv_nmos w=2u l=0.13u
+Mxcv3p x_cz x_cy vcv vcv sg13_lv_pmos w=6.0u l=0.13u
+Mxcv3n x_cz x_cy 0 0 sg13_lv_nmos w=3.0u l=0.13u
+Mxcv4p y x_cz vcv vcv sg13_lv_pmos w=18.0u l=0.13u
+Mxcv4n y x_cz 0 0 sg13_lv_nmos w=9.0u l=0.13u
+.ends

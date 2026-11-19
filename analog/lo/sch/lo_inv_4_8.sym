@@ -1,0 +1,24 @@
+v {xschem version=3.4.7 file_version=1.2}
+G {}
+K {type=subcircuit
+schematic=lo_inv_4_8.sch
+format="@name @pinlist @symname"
+template="name=x1"
+}
+V {}
+S {}
+E {}
+L 4 -80 -22 80 -22 {}
+L 4 -80 22 80 22 {}
+L 4 -80 -22 -80 22 {}
+L 4 80 -22 80 22 {}
+T {lo_inv_4_8} -60 -10 0 0 0.3 0.3 {}
+T {@name} 40 -30 0 0 0.2 0.2 {}
+B 5 -82.5 -14.5 -77.5 -9.5 {name=a dir=inout}
+T {a} -75 -12 0 0 0.15 0.15 {}
+B 5 -82.5 -6.5 -77.5 -1.5 {name=y dir=inout}
+T {y} -75 -4 0 0 0.15 0.15 {}
+B 5 -82.5 1.5 -77.5 6.5 {name=vdd dir=inout}
+T {vdd} -75 4 0 0 0.15 0.15 {}
+B 5 -82.5 9.5 -77.5 14.5 {name=0 dir=inout}
+T {0} -75 12 0 0 0.15 0.15 {}

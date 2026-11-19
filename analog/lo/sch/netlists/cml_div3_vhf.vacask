@@ -1,0 +1,70 @@
+P2.7.4b cml_div3_vhf
+
+include "sg13g2_vacask_common.lib"
+include "cornerMOSlv.lib" section=mos_tt
+
+load "resistor.osdi"
+load "capacitor.osdi"
+
+model resistor  resistor
+model capacitor capacitor
+model vsource   vsource
+model isource   isource
+
+embed "clk.va" <<<FILE
+`include "constants.vams"
+`include "disciplines.vams"
+// Differential clock: sine (shape = 0) or smoothed square (shape > 0, tanh sharpness), common mode vcm.
+// Amplitude envelope: 0 before t0, linear ramp over tr, then full (t0 = -1 s: full from the start).
+module clk(p, n);
+    inout p, n;
+    electrical p, n;
+    real env, w;
+    analog begin
+        env = min(max(($abstime - (-1.0)) / 1.0000e-12, 0.0), 1.0);
+        w = (0.0 > 0) ? tanh(0.0 * (sin(2 * `M_PI * 3.840000e+09 * $abstime) - 0.0)) : sin(2 * `M_PI * 3.840000e+09 * $abstime);
+        V(p) <+ 0.6 + 0.5 * env * w;
+        V(n) <+ 0.6 - 0.5 * env * w;
+    end
+endmodule
+>>>FILE
+load "clk.va"
+model clk clk
+rgp (vdv orp) resistor r=1666.7
+rgn (vdv orn) resistor r=1666.7
+mga (orn q1p tg 0) sg13_lv_nmos w=3.00u l=0.13u
+mgb (orn q2p tg 0) sg13_lv_nmos w=3.00u l=0.13u
+mgr (orp vref tg 0) sg13_lv_nmos w=3.00u l=0.13u
+mtg (tg nb_lo 0 0) sg13_lv_nmos w=6u l=0.13u
+rlamp (vdv map) resistor r=1666.7
+rlamn (vdv man) resistor r=1666.7
+mam1 (man orn s1am 0) sg13_lv_nmos w=3.00u l=0.13u
+mam2 (map orp s1am 0) sg13_lv_nmos w=3.00u l=0.13u
+mam3 (man map s2am 0) sg13_lv_nmos w=4.50u l=0.13u
+mam4 (map man s2am 0) sg13_lv_nmos w=4.50u l=0.13u
+mam5 (s1am ckp 0 0) sg13_lv_nmos w=3.00u l=0.13u
+mam6 (s2am ckn 0 0) sg13_lv_nmos w=3.00u l=0.13u
+rlasp (vdv q1p) resistor r=1666.7
+rlasn (vdv q1n) resistor r=1666.7
+mas1 (q1n map s1as 0) sg13_lv_nmos w=3.00u l=0.13u
+mas2 (q1p man s1as 0) sg13_lv_nmos w=3.00u l=0.13u
+mas3 (q1n q1p s2as 0) sg13_lv_nmos w=4.50u l=0.13u
+mas4 (q1p q1n s2as 0) sg13_lv_nmos w=4.50u l=0.13u
+mas5 (s1as ckn 0 0) sg13_lv_nmos w=3.00u l=0.13u
+mas6 (s2as ckp 0 0) sg13_lv_nmos w=3.00u l=0.13u
+rlbmp (vdv mbp) resistor r=1666.7
+rlbmn (vdv mbn) resistor r=1666.7
+mbm1 (mbn q1p s1bm 0) sg13_lv_nmos w=3.00u l=0.13u
+mbm2 (mbp q1n s1bm 0) sg13_lv_nmos w=3.00u l=0.13u
+mbm3 (mbn mbp s2bm 0) sg13_lv_nmos w=4.50u l=0.13u
+mbm4 (mbp mbn s2bm 0) sg13_lv_nmos w=4.50u l=0.13u
+mbm5 (s1bm ckp 0 0) sg13_lv_nmos w=3.00u l=0.13u
+mbm6 (s2bm ckn 0 0) sg13_lv_nmos w=3.00u l=0.13u
+rlbsp (vdv q2p) resistor r=1666.7
+rlbsn (vdv q2n) resistor r=1666.7
+mbs1 (q2n mbp s1bs 0) sg13_lv_nmos w=3.00u l=0.13u
+mbs2 (q2p mbn s1bs 0) sg13_lv_nmos w=3.00u l=0.13u
+mbs3 (q2n q2p s2bs 0) sg13_lv_nmos w=4.50u l=0.13u
+mbs4 (q2p q2n s2bs 0) sg13_lv_nmos w=4.50u l=0.13u
+mbs5 (s1bs ckn 0 0) sg13_lv_nmos w=3.00u l=0.13u
+mbs6 (s2bs ckp 0 0) sg13_lv_nmos w=3.00u l=0.13u

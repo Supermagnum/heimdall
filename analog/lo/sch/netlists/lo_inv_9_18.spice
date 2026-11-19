@@ -1,0 +1,5 @@
+* P2.7.4b lo_inv_9_18 LVS reference [SCH]
+.subckt lo_inv_9_18 a y vdd gnd
+Mxp y a vdd vdd sg13_lv_pmos w=18u l=0.13u
+Mxn y a 0 0 sg13_lv_nmos w=9u l=0.13u
+.ends

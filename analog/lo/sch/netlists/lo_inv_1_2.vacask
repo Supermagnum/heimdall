@@ -1,0 +1,34 @@
+P2.7.4b lo_inv_1_2
+
+include "sg13g2_vacask_common.lib"
+include "cornerMOSlv.lib" section=mos_tt
+
+load "resistor.osdi"
+load "capacitor.osdi"
+
+model resistor  resistor
+model capacitor capacitor
+model vsource   vsource
+model isource   isource
+
+embed "clk.va" <<<FILE
+`include "constants.vams"
+`include "disciplines.vams"
+// Differential clock: sine (shape = 0) or smoothed square (shape > 0, tanh sharpness), common mode vcm.
+// Amplitude envelope: 0 before t0, linear ramp over tr, then full (t0 = -1 s: full from the start).
+module clk(p, n);
+    inout p, n;
+    electrical p, n;
+    real env, w;
+    analog begin
+        env = min(max(($abstime - (-1.0)) / 1.0000e-12, 0.0), 1.0);
+        w = (0.0 > 0) ? tanh(0.0 * (sin(2 * `M_PI * 3.840000e+09 * $abstime) - 0.0)) : sin(2 * `M_PI * 3.840000e+09 * $abstime);
+        V(p) <+ 0.6 + 0.5 * env * w;
+        V(n) <+ 0.6 - 0.5 * env * w;
+    end
+endmodule
+>>>FILE
+load "clk.va"
+model clk clk
+xp (y a vdd vdd) sg13_lv_pmos w=2u l=0.13u
+xn (y a 0 0) sg13_lv_nmos w=1u l=0.13u

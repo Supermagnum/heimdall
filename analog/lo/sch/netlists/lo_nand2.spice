@@ -1,0 +1,7 @@
+* P2.7.4b lo_nand2 LVS reference [SCH]
+.subckt lo_nand2 a b y vdg gnd
+Mxpa y a vdg vdg sg13_lv_pmos w=1u l=0.13u
+Mxpb y b vdg vdg sg13_lv_pmos w=1u l=0.13u
+Mxna y a mid 0 sg13_lv_nmos w=1u l=0.13u
+Mxnb mid b 0 0 sg13_lv_nmos w=1u l=0.13u
+.ends

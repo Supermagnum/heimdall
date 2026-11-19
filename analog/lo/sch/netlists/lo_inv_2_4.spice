@@ -1,0 +1,5 @@
+* P2.7.4b lo_inv_2_4 LVS reference [SCH]
+.subckt lo_inv_2_4 a y vdd gnd
+Mxp y a vdd vdd sg13_lv_pmos w=4u l=0.13u
+Mxn y a 0 0 sg13_lv_nmos w=2u l=0.13u
+.ends

@@ -270,7 +270,7 @@ text {font-family: Sans-Serif;}
 <text fill="#00ddff"  xml:space="preserve" font-size="13.6296" transform="translate(31.7541, 26.6485)" >0</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(361.499, 676.106)" >         /work/analog/lo/sch/lo_vhf_hier.sch</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(361.499, 652.278)" >HT13G-M P2.7.1</text>
-<text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(797, 652.278)" >2026-11-19  16:30:39</text>
+<text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(797, 652.278)" >2026-11-19  16:41:50</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="41.3019" transform="translate(178.818, 674.779)" >SCHEM</text>
 <text fill="#00ddff"  xml:space="preserve" font-size="13.6296" transform="translate(157.743, 663.056)" >lo_vhf_hier_leaf_symbols</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="12.3906" transform="translate(139.502, 637.805)" >cml_latch_vhf_tl</text>

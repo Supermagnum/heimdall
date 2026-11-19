@@ -1,0 +1,18 @@
+* P2.7.4b lo_tspc LVS reference [SCH]
+.subckt lo_tspc d ck q vdg gnd
+Mxp1 nx1 d vdg vdg sg13_lv_pmos w=2u l=0.13u
+Mxp2 na ck nx1 vdg sg13_lv_pmos w=2u l=0.13u
+Mxn1 na d 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxp3 nb ck vdg vdg sg13_lv_pmos w=2u l=0.13u
+Mxn2 nb na nx2 0 sg13_lv_nmos w=1u l=0.13u
+Mxn3 nx2 ck 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxp4 q nb vdg vdg sg13_lv_pmos w=2u l=0.13u
+Mxn4 q ck nx3 0 sg13_lv_nmos w=1u l=0.13u
+Mxn5 nx3 nb 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxkq1p nkq q vdg vdg sg13_lv_pmos w=0.3u l=0.13u
+Mxkq1n nkq q 0 0 sg13_lv_nmos w=0.15u l=0.13u
+Mxkq2p q nkq vdg vdg sg13_lv_pmos w=0.3u l=0.13u
+Mxkq2n q nkq 0 0 sg13_lv_nmos w=0.15u l=0.13u
+rka (na 0) resistor r=100Meg
+rkb (nb 0) resistor r=100Meg
+.ends

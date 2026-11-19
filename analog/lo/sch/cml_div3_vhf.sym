@@ -1,0 +1,32 @@
+v {xschem version=3.4.7 file_version=1.2}
+G {}
+K {type=subcircuit
+schematic=cml_div3_vhf.sch
+format="@name @pinlist @symname"
+template="name=x1"
+}
+V {}
+S {}
+E {}
+L 4 -80 -38 80 -38 {}
+L 4 -80 38 80 38 {}
+L 4 -80 -38 -80 38 {}
+L 4 80 -38 80 38 {}
+T {cml_div3_vhf} -60 -10 0 0 0.3 0.3 {}
+T {@name} 40 -30 0 0 0.2 0.2 {}
+B 5 -82.5 -30.5 -77.5 -25.5 {name=ckp dir=inout}
+T {ckp} -75 -28 0 0 0.15 0.15 {}
+B 5 -82.5 -22.5 -77.5 -17.5 {name=ckn dir=inout}
+T {ckn} -75 -20 0 0 0.15 0.15 {}
+B 5 -82.5 -14.5 -77.5 -9.5 {name=q2p dir=inout}
+T {q2p} -75 -12 0 0 0.15 0.15 {}
+B 5 -82.5 -6.5 -77.5 -1.5 {name=q2n dir=inout}
+T {q2n} -75 -4 0 0 0.15 0.15 {}
+B 5 -82.5 1.5 -77.5 6.5 {name=vref dir=inout}
+T {vref} -75 4 0 0 0.15 0.15 {}
+B 5 -82.5 9.5 -77.5 14.5 {name=nb_lo dir=inout}
+T {nb_lo} -75 12 0 0 0.15 0.15 {}
+B 5 -82.5 17.5 -77.5 22.5 {name=vdv dir=inout}
+T {vdv} -75 20 0 0 0.15 0.15 {}
+B 5 -82.5 25.5 -77.5 30.5 {name=0 dir=inout}
+T {0} -75 28 0 0 0.15 0.15 {}

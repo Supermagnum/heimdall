@@ -1050,6 +1050,22 @@ Step 3b1: pair + two rppd 666.7 Ω. DRC / KLayout LVS / netgen all **PASS**
 (`ps=0u` on spice to match extract). Next: MOSFET tail on `s`, then regen
 XC pair (W=11.25), then assemble `cml_latch_uhf`.
 
+##### Hierarchy tops (2026-11-19) — PASS [SCH]
+
+Leaf cells: `lo_converter`, `lo_tspc`, `lo_nand2`, `lo_inv_*`, `cml_dff_uhf`,
+`cml_div3_vhf`, `lo_johnson_uhf`, `lo_johnson_vhf` (+ prior latch/buffer/bias).
+`lo_*_top` instance leaves only. Device/size fingerprint vs accepted flat:
+**PASS** (UHF 185 / VHF 293). Flat marked superseded
+(`netlists/lo_*_flat.SUPERSEDED.txt`). Sanity VHF tt/ss 4.20: divides, |φ|
+0.09° / 0.11° [SCH] (matches a3).
+
+##### `cml_pair_loads_tail` (2026-11-19) — FAIL [TOOL]
+
+Step 3b2: MOSFET W=15 µm on `s`. DRC **FAIL** M1.b, V1.b (same class as first
+latch / VCO pair fill). KLayout LVS and netgen **FAIL**. Re-build with VCO
+method: no M1 across opposite S/D; via pitch; dummies G=S=D tied without
+blanket M1 over Activ. Regen XC and full latch **not started**.
+
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  
 **Outputs:** sch + gds.gz + DRC/LVS; LF MOS area ≈ 0.062 mm².  

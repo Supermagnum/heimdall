@@ -1,0 +1,37 @@
+# P2.7.4b hierarchical LO tops
+
+Tops instance leaf symbols only. Sim / LVS netlists are generated from the hierarchy (flattened for vacask). Accepted flat is compared once, then marked superseded.
+
+## lo_uhf_top
+
+- device/size fingerprint vs accepted flat: **PASS** (missing_keys=0 extra_keys=0)
+- hier devices: 185; golden devices: 185
+- sim netlist: `netlists/lo_uhf_hier.vacask` (sha256 809222777fa950b9)
+- LVS spice: `netlists/lo_uhf_top.spice`
+
+## lo_vhf_top
+
+- device/size fingerprint vs accepted flat: **PASS** (missing_keys=0 extra_keys=0)
+- hier devices: 293; golden devices: 293
+- sim netlist: `netlists/lo_vhf_hier.vacask` (sha256 915697e2d9c7d48c)
+- LVS spice: `netlists/lo_vhf_top.spice`
+
+## Leaf cells
+
+| Cell | Devices | Ports |
+|---|---:|---:|
+| `lo_converter` | 20 | 5 |
+| `lo_tspc` | 15 | 5 |
+| `lo_nand2` | 4 | 5 |
+| `lo_inv_05_1` | 2 | 4 |
+| `lo_inv_1_2` | 2 | 4 |
+| `lo_inv_2_4` | 2 | 4 |
+| `lo_inv_3_6` | 2 | 4 |
+| `lo_inv_4_8` | 2 | 4 |
+| `lo_inv_9_18` | 2 | 4 |
+| `cml_dff_uhf` | 18 | 9 |
+| `cml_div3_vhf` | 38 | 8 |
+| `lo_johnson_uhf` | 114 | 7 |
+| `lo_johnson_vhf` | 202 | 11 |
+| `lo_uhf_top` | 185 | 14 |
+| `lo_vhf_top` | 293 | 19 |

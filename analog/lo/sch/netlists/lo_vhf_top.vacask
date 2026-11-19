@@ -1,4 +1,4 @@
-P2.7.4a2 lo_vhf_top
+P2.7.4b lo_vhf from hierarchy
 
 include "sg13g2_vacask_common.lib"
 include "cornerMOSlv.lib" section=mos_tt

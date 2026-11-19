@@ -1,0 +1,23 @@
+* P2.7.4b cml_dff_uhf LVS reference [SCH]
+.subckt cml_dff_uhf dp dn ckp ckn qp qn nb_lo vdv gnd
+Rrlamp vdv map gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
+Rrlamn vdv man gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
+Mmam1 man dp s1am 0 sg13_lv_nmos w=7.50u l=0.13u
+Mmam2 map dn s1am 0 sg13_lv_nmos w=7.50u l=0.13u
+Mmam3 man map s2am 0 sg13_lv_nmos w=11.25u l=0.13u
+Mmam4 map man s2am 0 sg13_lv_nmos w=11.25u l=0.13u
+Mmam5 s1am ckp tam 0 sg13_lv_nmos w=7.50u l=0.13u
+Mmam6 s2am ckn tam 0 sg13_lv_nmos w=7.50u l=0.13u
+Mmtam tam nb_lo 0 0 sg13_lv_nmos w=15u l=0.13u
+
+Rrlasp vdv qp gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
+Rrlasn vdv qn gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
+Mmas1 qn map s1as 0 sg13_lv_nmos w=7.50u l=0.13u
+Mmas2 qp man s1as 0 sg13_lv_nmos w=7.50u l=0.13u
+Mmas3 qn qp s2as 0 sg13_lv_nmos w=11.25u l=0.13u
+Mmas4 qp qn s2as 0 sg13_lv_nmos w=11.25u l=0.13u
+Mmas5 s1as ckn tas 0 sg13_lv_nmos w=7.50u l=0.13u
+Mmas6 s2as ckp tas 0 sg13_lv_nmos w=7.50u l=0.13u
+Mmtas tas nb_lo 0 0 sg13_lv_nmos w=15u l=0.13u
+
+.ends

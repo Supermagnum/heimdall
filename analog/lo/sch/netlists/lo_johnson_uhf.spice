@@ -1,0 +1,153 @@
+* P2.7.4b lo_johnson_uhf LVS reference [SCH]
+.subckt lo_johnson_uhf x_clk x_p0 x_p1 x_p2 x_p3 vdg gnd
+Mxf1p1 x_f1_x1 x_q2 vdg vdg sg13_lv_pmos w=2u l=0.13u
+Mxf1p2 x_f1_a x_clk x_f1_x1 vdg sg13_lv_pmos w=2u l=0.13u
+Mxf1n1 x_f1_a x_q2 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxf1p3 x_f1_b x_clk vdg vdg sg13_lv_pmos w=2u l=0.13u
+Mxf1n2 x_f1_b x_f1_a x_f1_x2 0 sg13_lv_nmos w=1u l=0.13u
+Mxf1n3 x_f1_x2 x_clk 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxf1p4 x_q1 x_f1_b vdg vdg sg13_lv_pmos w=2u l=0.13u
+Mxf1n4 x_q1 x_clk x_f1_x3 0 sg13_lv_nmos w=1u l=0.13u
+Mxf1n5 x_f1_x3 x_f1_b 0 0 sg13_lv_nmos w=1u l=0.13u
+
+
+
+
+
+
+Mxi1p x_q1b x_q1 vdg vdg sg13_lv_pmos w=1.0u l=0.13u
+Mxi1n x_q1b x_q1 0 0 sg13_lv_nmos w=0.5u l=0.13u
+Mxf2p1 x_f2_x1 x_q1b vdg vdg sg13_lv_pmos w=2u l=0.13u
+Mxf2p2 x_f2_a x_clk x_f2_x1 vdg sg13_lv_pmos w=2u l=0.13u
+Mxf2n1 x_f2_a x_q1b 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxf2p3 x_f2_b x_clk vdg vdg sg13_lv_pmos w=2u l=0.13u
+Mxf2n2 x_f2_b x_f2_a x_f2_x2 0 sg13_lv_nmos w=1u l=0.13u
+Mxf2n3 x_f2_x2 x_clk 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxf2p4 x_q2 x_f2_b vdg vdg sg13_lv_pmos w=2u l=0.13u
+Mxf2n4 x_q2 x_clk x_f2_x3 0 sg13_lv_nmos w=1u l=0.13u
+Mxf2n5 x_f2_x3 x_f2_b 0 0 sg13_lv_nmos w=1u l=0.13u
+
+
+
+
+
+
+Mxi2p x_q2b x_q2 vdg vdg sg13_lv_pmos w=1.0u l=0.13u
+Mxi2n x_q2b x_q2 0 0 sg13_lv_nmos w=0.5u l=0.13u
+Mxg0pa x_n0 x_q1 vdg vdg sg13_lv_pmos w=1u l=0.13u
+Mxg0pb x_n0 x_q2b vdg vdg sg13_lv_pmos w=1u l=0.13u
+Mxg0na x_n0 x_q1 x_g0m 0 sg13_lv_nmos w=1u l=0.13u
+Mxg0nb x_g0m x_q2b 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxr0p1 x_r0_x1 x_n0 vdg vdg sg13_lv_pmos w=2u l=0.13u
+Mxr0p2 x_r0_a x_clk x_r0_x1 vdg sg13_lv_pmos w=2u l=0.13u
+Mxr0n1 x_r0_a x_n0 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxr0p3 x_r0_b x_clk vdg vdg sg13_lv_pmos w=2u l=0.13u
+Mxr0n2 x_r0_b x_r0_a x_r0_x2 0 sg13_lv_nmos w=1u l=0.13u
+Mxr0n3 x_r0_x2 x_clk 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxr0p4 x_p0 x_r0_b vdg vdg sg13_lv_pmos w=4u l=0.13u
+Mxr0n4 x_p0 x_clk x_r0_x3 0 sg13_lv_nmos w=1u l=0.13u
+Mxr0n5 x_r0_x3 x_r0_b 0 0 sg13_lv_nmos w=1u l=0.13u
+
+
+
+
+
+
+cpl0 (x_p0 0) capacitor c=20f
+Mxg1pa x_n1 x_q1 vdg vdg sg13_lv_pmos w=1u l=0.13u
+Mxg1pb x_n1 x_q2 vdg vdg sg13_lv_pmos w=1u l=0.13u
+Mxg1na x_n1 x_q1 x_g1m 0 sg13_lv_nmos w=1u l=0.13u
+Mxg1nb x_g1m x_q2 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxr1p1 x_r1_x1 x_n1 vdg vdg sg13_lv_pmos w=2u l=0.13u
+Mxr1p2 x_r1_a x_clk x_r1_x1 vdg sg13_lv_pmos w=2u l=0.13u
+Mxr1n1 x_r1_a x_n1 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxr1p3 x_r1_b x_clk vdg vdg sg13_lv_pmos w=2u l=0.13u
+Mxr1n2 x_r1_b x_r1_a x_r1_x2 0 sg13_lv_nmos w=1u l=0.13u
+Mxr1n3 x_r1_x2 x_clk 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxr1p4 x_p1 x_r1_b vdg vdg sg13_lv_pmos w=4u l=0.13u
+Mxr1n4 x_p1 x_clk x_r1_x3 0 sg13_lv_nmos w=1u l=0.13u
+Mxr1n5 x_r1_x3 x_r1_b 0 0 sg13_lv_nmos w=1u l=0.13u
+
+
+
+
+
+
+cpl1 (x_p1 0) capacitor c=20f
+Mxg2pa x_n2 x_q1b vdg vdg sg13_lv_pmos w=1u l=0.13u
+Mxg2pb x_n2 x_q2 vdg vdg sg13_lv_pmos w=1u l=0.13u
+Mxg2na x_n2 x_q1b x_g2m 0 sg13_lv_nmos w=1u l=0.13u
+Mxg2nb x_g2m x_q2 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxr2p1 x_r2_x1 x_n2 vdg vdg sg13_lv_pmos w=2u l=0.13u
+Mxr2p2 x_r2_a x_clk x_r2_x1 vdg sg13_lv_pmos w=2u l=0.13u
+Mxr2n1 x_r2_a x_n2 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxr2p3 x_r2_b x_clk vdg vdg sg13_lv_pmos w=2u l=0.13u
+Mxr2n2 x_r2_b x_r2_a x_r2_x2 0 sg13_lv_nmos w=1u l=0.13u
+Mxr2n3 x_r2_x2 x_clk 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxr2p4 x_p2 x_r2_b vdg vdg sg13_lv_pmos w=4u l=0.13u
+Mxr2n4 x_p2 x_clk x_r2_x3 0 sg13_lv_nmos w=1u l=0.13u
+Mxr2n5 x_r2_x3 x_r2_b 0 0 sg13_lv_nmos w=1u l=0.13u
+
+
+
+
+
+
+cpl2 (x_p2 0) capacitor c=20f
+Mxg3pa x_n3 x_q1b vdg vdg sg13_lv_pmos w=1u l=0.13u
+Mxg3pb x_n3 x_q2b vdg vdg sg13_lv_pmos w=1u l=0.13u
+Mxg3na x_n3 x_q1b x_g3m 0 sg13_lv_nmos w=1u l=0.13u
+Mxg3nb x_g3m x_q2b 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxr3p1 x_r3_x1 x_n3 vdg vdg sg13_lv_pmos w=2u l=0.13u
+Mxr3p2 x_r3_a x_clk x_r3_x1 vdg sg13_lv_pmos w=2u l=0.13u
+Mxr3n1 x_r3_a x_n3 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxr3p3 x_r3_b x_clk vdg vdg sg13_lv_pmos w=2u l=0.13u
+Mxr3n2 x_r3_b x_r3_a x_r3_x2 0 sg13_lv_nmos w=1u l=0.13u
+Mxr3n3 x_r3_x2 x_clk 0 0 sg13_lv_nmos w=1u l=0.13u
+Mxr3p4 x_p3 x_r3_b vdg vdg sg13_lv_pmos w=4u l=0.13u
+Mxr3n4 x_p3 x_clk x_r3_x3 0 sg13_lv_nmos w=1u l=0.13u
+Mxr3n5 x_r3_x3 x_r3_b 0 0 sg13_lv_nmos w=1u l=0.13u
+
+
+
+
+
+
+cpl3 (x_p3 0) capacitor c=20f
+Mxf1kq1p x_f1_kq x_q1 vdg vdg sg13_lv_pmos w=0.3u l=0.13u
+Mxf1kq1n x_f1_kq x_q1 0 0 sg13_lv_nmos w=0.15u l=0.13u
+Mxf1kq2p x_q1 x_f1_kq vdg vdg sg13_lv_pmos w=0.3u l=0.13u
+Mxf1kq2n x_q1 x_f1_kq 0 0 sg13_lv_nmos w=0.15u l=0.13u
+rkf11 (x_f1_a 0) resistor r=100Meg
+rkf12 (x_f1_b 0) resistor r=100Meg
+Mxf2kq1p x_f2_kq x_q2 vdg vdg sg13_lv_pmos w=0.3u l=0.13u
+Mxf2kq1n x_f2_kq x_q2 0 0 sg13_lv_nmos w=0.15u l=0.13u
+Mxf2kq2p x_q2 x_f2_kq vdg vdg sg13_lv_pmos w=0.3u l=0.13u
+Mxf2kq2n x_q2 x_f2_kq 0 0 sg13_lv_nmos w=0.15u l=0.13u
+rkf21 (x_f2_a 0) resistor r=100Meg
+rkf22 (x_f2_b 0) resistor r=100Meg
+Mxr0kq1p x_r0_kq x_p0 vdg vdg sg13_lv_pmos w=0.3u l=0.13u
+Mxr0kq1n x_r0_kq x_p0 0 0 sg13_lv_nmos w=0.15u l=0.13u
+Mxr0kq2p x_p0 x_r0_kq vdg vdg sg13_lv_pmos w=0.3u l=0.13u
+Mxr0kq2n x_p0 x_r0_kq 0 0 sg13_lv_nmos w=0.15u l=0.13u
+rkr01 (x_r0_a 0) resistor r=100Meg
+rkr02 (x_r0_b 0) resistor r=100Meg
+Mxr1kq1p x_r1_kq x_p1 vdg vdg sg13_lv_pmos w=0.3u l=0.13u
+Mxr1kq1n x_r1_kq x_p1 0 0 sg13_lv_nmos w=0.15u l=0.13u
+Mxr1kq2p x_p1 x_r1_kq vdg vdg sg13_lv_pmos w=0.3u l=0.13u
+Mxr1kq2n x_p1 x_r1_kq 0 0 sg13_lv_nmos w=0.15u l=0.13u
+rkr11 (x_r1_a 0) resistor r=100Meg
+rkr12 (x_r1_b 0) resistor r=100Meg
+Mxr2kq1p x_r2_kq x_p2 vdg vdg sg13_lv_pmos w=0.3u l=0.13u
+Mxr2kq1n x_r2_kq x_p2 0 0 sg13_lv_nmos w=0.15u l=0.13u
+Mxr2kq2p x_p2 x_r2_kq vdg vdg sg13_lv_pmos w=0.3u l=0.13u
+Mxr2kq2n x_p2 x_r2_kq 0 0 sg13_lv_nmos w=0.15u l=0.13u
+rkr21 (x_r2_a 0) resistor r=100Meg
+rkr22 (x_r2_b 0) resistor r=100Meg
+Mxr3kq1p x_r3_kq x_p3 vdg vdg sg13_lv_pmos w=0.3u l=0.13u
+Mxr3kq1n x_r3_kq x_p3 0 0 sg13_lv_nmos w=0.15u l=0.13u
+Mxr3kq2p x_p3 x_r3_kq vdg vdg sg13_lv_pmos w=0.3u l=0.13u
+Mxr3kq2n x_p3 x_r3_kq 0 0 sg13_lv_nmos w=0.15u l=0.13u
+rkr31 (x_r3_a 0) resistor r=100Meg
+rkr32 (x_r3_b 0) resistor r=100Meg
+.ends

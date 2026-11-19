@@ -1,0 +1,10 @@
+# P2.7.4b sanity from hierarchical netlist [SCH]
+Source: circuit.build_band_body ≡ netlists/lo_*_hier.vacask (fingerprint PASS vs accepted flat).
+
+| Case | Divides | max |phi| deg | Duty % | note |
+|---|---|---:|---|---|
+| vhf tt 4.20 | PASS | 0.090 | 48.3/50.8 | VDD=1.2; matches a3 final 0.09° [SCH] |
+| vhf ss 4.20 | PASS | 0.109 | 47.9/50.7 | VDD=1.181; matches a3 final 0.11° [SCH] |
+
+LO current: not re-read from vacask raw this run [TOOL]. Accepted VHF ss total
+8.66 mA (D7) remains from P2.7.4a3 [SCH summary_a3_floor_d7].

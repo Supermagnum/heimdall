@@ -635,7 +635,7 @@ text {font-family: Sans-Serif;}
 <text fill="#00ddff"  xml:space="preserve" font-size="11.8534" transform="translate(29.5708, 94.3885)" >0</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="14.3678" transform="translate(316.344, 300.014)" >         /work/analog/lo/sch/lo_buffer.sch</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="14.3678" transform="translate(316.344, 279.291)" >HT13G-M P2.7.1</text>
-<text fill="#cccccc"  xml:space="preserve" font-size="14.3678" transform="translate(702.591, 279.291)" >2026-11-19  16:30:39</text>
+<text fill="#cccccc"  xml:space="preserve" font-size="14.3678" transform="translate(702.591, 279.291)" >2026-11-19  16:41:50</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="35.9195" transform="translate(157.469, 298.86)" >SCHEM</text>
 <text fill="#00ddff"  xml:space="preserve" font-size="11.8534" transform="translate(198.987, 288.665)" >lo_buffer_B2_4</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="7.18391" transform="translate(164.377, 249.455)" >ccp</text>

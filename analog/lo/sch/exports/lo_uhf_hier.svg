@@ -251,7 +251,7 @@ text {font-family: Sans-Serif;}
 <text fill="#00ddff"  xml:space="preserve" font-size="13.6296" transform="translate(31.7541, 106.075)" >0</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(361.499, 596.679)" >         /work/analog/lo/sch/lo_uhf_hier.sch</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(361.499, 572.851)" >HT13G-M P2.7.1</text>
-<text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(797, 572.851)" >2026-11-19  16:30:39</text>
+<text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(797, 572.851)" >2026-11-19  16:41:50</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="41.3019" transform="translate(178.818, 595.352)" >SCHEM</text>
 <text fill="#00ddff"  xml:space="preserve" font-size="13.6296" transform="translate(156.743, 583.629)" >lo_uhf_hier_leaf_symbols</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="12.3906" transform="translate(139.502, 558.378)" >cml_latch_uhf</text>

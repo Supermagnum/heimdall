@@ -1,0 +1,43 @@
+* P2.7.4b cml_div3_vhf LVS reference [SCH]
+.subckt cml_div3_vhf ckp ckn q2p q2n vref nb_lo vdv gnd
+Rrgp vdv orp gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
+Rrgn vdv orn gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
+Mmga orn q1p tg 0 sg13_lv_nmos w=3.00u l=0.13u
+Mmgb orn q2p tg 0 sg13_lv_nmos w=3.00u l=0.13u
+Mmgr orp vref tg 0 sg13_lv_nmos w=3.00u l=0.13u
+Mmtg tg nb_lo 0 0 sg13_lv_nmos w=6u l=0.13u
+
+vref (vref 0) vsource dc=0.950
+Rrlamp vdv map gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
+Rrlamn vdv man gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
+Mmam1 man orn s1am 0 sg13_lv_nmos w=3.00u l=0.13u
+Mmam2 map orp s1am 0 sg13_lv_nmos w=3.00u l=0.13u
+Mmam3 man map s2am 0 sg13_lv_nmos w=4.50u l=0.13u
+Mmam4 map man s2am 0 sg13_lv_nmos w=4.50u l=0.13u
+Mmam5 s1am ckp 0 0 sg13_lv_nmos w=3.00u l=0.13u
+Mmam6 s2am ckn 0 0 sg13_lv_nmos w=3.00u l=0.13u
+Rrlasp vdv q1p gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
+Rrlasn vdv q1n gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
+Mmas1 q1n map s1as 0 sg13_lv_nmos w=3.00u l=0.13u
+Mmas2 q1p man s1as 0 sg13_lv_nmos w=3.00u l=0.13u
+Mmas3 q1n q1p s2as 0 sg13_lv_nmos w=4.50u l=0.13u
+Mmas4 q1p q1n s2as 0 sg13_lv_nmos w=4.50u l=0.13u
+Mmas5 s1as ckn 0 0 sg13_lv_nmos w=3.00u l=0.13u
+Mmas6 s2as ckp 0 0 sg13_lv_nmos w=3.00u l=0.13u
+Rrlbmp vdv mbp gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
+Rrlbmn vdv mbn gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
+Mmbm1 mbn q1p s1bm 0 sg13_lv_nmos w=3.00u l=0.13u
+Mmbm2 mbp q1n s1bm 0 sg13_lv_nmos w=3.00u l=0.13u
+Mmbm3 mbn mbp s2bm 0 sg13_lv_nmos w=4.50u l=0.13u
+Mmbm4 mbp mbn s2bm 0 sg13_lv_nmos w=4.50u l=0.13u
+Mmbm5 s1bm ckp 0 0 sg13_lv_nmos w=3.00u l=0.13u
+Mmbm6 s2bm ckn 0 0 sg13_lv_nmos w=3.00u l=0.13u
+Rrlbsp vdv q2p gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
+Rrlbsn vdv q2n gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
+Mmbs1 q2n mbp s1bs 0 sg13_lv_nmos w=3.00u l=0.13u
+Mmbs2 q2p mbn s1bs 0 sg13_lv_nmos w=3.00u l=0.13u
+Mmbs3 q2n q2p s2bs 0 sg13_lv_nmos w=4.50u l=0.13u
+Mmbs4 q2p q2n s2bs 0 sg13_lv_nmos w=4.50u l=0.13u
+Mmbs5 s1bs ckn 0 0 sg13_lv_nmos w=3.00u l=0.13u
+Mmbs6 s2bs ckp 0 0 sg13_lv_nmos w=3.00u l=0.13u
+.ends

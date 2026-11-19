@@ -352,7 +352,7 @@ text {font-family: Sans-Serif;}
 <text fill="#00ddff"  xml:space="preserve" font-size="11.8534" transform="translate(29.5708, 177.28)" >0</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="14.3678" transform="translate(316.344, 465.797)" >         /work/analog/lo/sch/cml_latch_uhf.sch</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="14.3678" transform="translate(316.344, 445.074)" >HT13G-M P2.7.1</text>
-<text fill="#cccccc"  xml:space="preserve" font-size="14.3678" transform="translate(702.591, 445.074)" >2026-11-19  16:30:39</text>
+<text fill="#cccccc"  xml:space="preserve" font-size="14.3678" transform="translate(702.591, 445.074)" >2026-11-19  16:41:50</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="35.9195" transform="translate(157.469, 464.643)" >SCHEM</text>
 <text fill="#00ddff"  xml:space="preserve" font-size="11.8534" transform="translate(105.987, 454.447)" >cml_latch_uhf_0p75mA_tailed</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="7.18391" transform="translate(164.377, 415.238)" >rlap</text>

@@ -1,0 +1,50 @@
+P2.7.4b cml_dff_uhf
+
+include "sg13g2_vacask_common.lib"
+include "cornerMOSlv.lib" section=mos_tt
+
+load "resistor.osdi"
+load "capacitor.osdi"
+
+model resistor  resistor
+model capacitor capacitor
+model vsource   vsource
+model isource   isource
+
+embed "clk.va" <<<FILE
+`include "constants.vams"
+`include "disciplines.vams"
+// Differential clock: sine (shape = 0) or smoothed square (shape > 0, tanh sharpness), common mode vcm.
+// Amplitude envelope: 0 before t0, linear ramp over tr, then full (t0 = -1 s: full from the start).
+module clk(p, n);
+    inout p, n;
+    electrical p, n;
+    real env, w;
+    analog begin
+        env = min(max(($abstime - (-1.0)) / 1.0000e-12, 0.0), 1.0);
+        w = (0.0 > 0) ? tanh(0.0 * (sin(2 * `M_PI * 3.840000e+09 * $abstime) - 0.0)) : sin(2 * `M_PI * 3.840000e+09 * $abstime);
+        V(p) <+ 0.6 + 0.5 * env * w;
+        V(n) <+ 0.6 - 0.5 * env * w;
+    end
+endmodule
+>>>FILE
+load "clk.va"
+model clk clk
+rlamp (vdv map) resistor r=666.7
+rlamn (vdv man) resistor r=666.7
+mam1 (man dp s1am 0) sg13_lv_nmos w=7.50u l=0.13u
+mam2 (map dn s1am 0) sg13_lv_nmos w=7.50u l=0.13u
+mam3 (man map s2am 0) sg13_lv_nmos w=11.25u l=0.13u
+mam4 (map man s2am 0) sg13_lv_nmos w=11.25u l=0.13u
+mam5 (s1am ckp tam 0) sg13_lv_nmos w=7.50u l=0.13u
+mam6 (s2am ckn tam 0) sg13_lv_nmos w=7.50u l=0.13u
+mtam (tam nb_lo 0 0) sg13_lv_nmos w=15u l=0.13u
+rlasp (vdv qp) resistor r=666.7
+rlasn (vdv qn) resistor r=666.7
+mas1 (qn map s1as 0) sg13_lv_nmos w=7.50u l=0.13u
+mas2 (qp man s1as 0) sg13_lv_nmos w=7.50u l=0.13u
+mas3 (qn qp s2as 0) sg13_lv_nmos w=11.25u l=0.13u
+mas4 (qp qn s2as 0) sg13_lv_nmos w=11.25u l=0.13u
+mas5 (s1as ckn tas 0) sg13_lv_nmos w=7.50u l=0.13u
+mas6 (s2as ckp tas 0) sg13_lv_nmos w=7.50u l=0.13u
+mtas (tas nb_lo 0 0) sg13_lv_nmos w=15u l=0.13u

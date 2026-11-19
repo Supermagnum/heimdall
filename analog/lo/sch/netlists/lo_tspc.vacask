@@ -1,0 +1,47 @@
+P2.7.4b lo_tspc
+
+include "sg13g2_vacask_common.lib"
+include "cornerMOSlv.lib" section=mos_tt
+
+load "resistor.osdi"
+load "capacitor.osdi"
+
+model resistor  resistor
+model capacitor capacitor
+model vsource   vsource
+model isource   isource
+
+embed "clk.va" <<<FILE
+`include "constants.vams"
+`include "disciplines.vams"
+// Differential clock: sine (shape = 0) or smoothed square (shape > 0, tanh sharpness), common mode vcm.
+// Amplitude envelope: 0 before t0, linear ramp over tr, then full (t0 = -1 s: full from the start).
+module clk(p, n);
+    inout p, n;
+    electrical p, n;
+    real env, w;
+    analog begin
+        env = min(max(($abstime - (-1.0)) / 1.0000e-12, 0.0), 1.0);
+        w = (0.0 > 0) ? tanh(0.0 * (sin(2 * `M_PI * 3.840000e+09 * $abstime) - 0.0)) : sin(2 * `M_PI * 3.840000e+09 * $abstime);
+        V(p) <+ 0.6 + 0.5 * env * w;
+        V(n) <+ 0.6 - 0.5 * env * w;
+    end
+endmodule
+>>>FILE
+load "clk.va"
+model clk clk
+xp1 (nx1 d vdg vdg) sg13_lv_pmos w=2u l=0.13u
+xp2 (na ck nx1 vdg) sg13_lv_pmos w=2u l=0.13u
+xn1 (na d 0 0) sg13_lv_nmos w=1u l=0.13u
+xp3 (nb ck vdg vdg) sg13_lv_pmos w=2u l=0.13u
+xn2 (nb na nx2 0) sg13_lv_nmos w=1u l=0.13u
+xn3 (nx2 ck 0 0) sg13_lv_nmos w=1u l=0.13u
+xp4 (q nb vdg vdg) sg13_lv_pmos w=2u l=0.13u
+xn4 (q ck nx3 0) sg13_lv_nmos w=1u l=0.13u
+xn5 (nx3 nb 0 0) sg13_lv_nmos w=1u l=0.13u
+xkq1p (nkq q vdg vdg) sg13_lv_pmos w=0.3u l=0.13u
+xkq1n (nkq q 0 0) sg13_lv_nmos w=0.15u l=0.13u
+xkq2p (q nkq vdg vdg) sg13_lv_pmos w=0.3u l=0.13u
+xkq2n (q nkq 0 0) sg13_lv_nmos w=0.15u l=0.13u
+rka (na 0) resistor r=100Meg
+rkb (nb 0) resistor r=100Meg
