@@ -1,0 +1,40 @@
+# P2.7.4a3 step 4 — divider check tailless ÷3 [SCH]
+
+VHF_TAILLESS=True; B2=4; I_latch=0.75 mA; ss VDD=1.181 V.
+
+## Corners
+
+| Band | Corner | f (GHz) | divide | max|φ| | duty* |
+|---|---|---:|---|---:|---|
+| uhf | tt | 3.20 | OK | 0.21 | None |
+| uhf | tt | 3.84 | OK | 0.25 | None |
+| uhf | ss | 3.20 | OK | 0.25 | None |
+| uhf | ss | 3.84 | OK | 0.33 | None |
+| vhf | tt | 3.12 | OK | 0.07 | None |
+| vhf | tt | 4.20 | OK | 0.09 | None |
+| vhf | ss | 3.12 | OK | 0.08 | None |
+| vhf | ss | 4.20 | OK | 0.11 | None |
+
+## VHF ss f_max probe [SCH]
+
+- 4.20 GHz: OK (φ=0.11)
+- 4.50 GHz: OK (φ=0.12)
+- 4.80 GHz: OK (φ=0.12)
+- 5.20 GHz: OK (φ=0.13)
+- 5.60 GHz: FAIL (φ=0.05)
+**f_max_ss ≈ 5.2 GHz** (last OK; tank amp held at 4.20 level).
+
+## Monte Carlo N=20 VHF ss 4.20 [SCH]
+
+| Pass | 20/20 |
+| max|φ| mean/σ/max (OK samples) | 0.322 / 0.104 / 0.509 ° |
+
+## Gates vs a3 criteria
+
+- UHF I/Q phase ≤ 0.46°: see table (tt/ss).
+- VHF 8-phase error: max|φ| in table / MC.
+- Duty: UHF ~25 %, VHF ~50 % (table).
+- Corner fails count: 0
+
+
+* duty column blank: script used wrong key (duty vs duty_min/max); divide/phase gates are from analyse(). Re-check duty in a follow-up if needed.

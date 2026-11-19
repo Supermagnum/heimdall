@@ -35,7 +35,8 @@ def parse_opts():
              C.I_LATCH * 1e3)
     b2 = next((float(a[3:]) for a in sys.argv[1:] if a.startswith("b2=")),
               C.B2)
-    C.apply_knobs(i_latch=i * 1e-3, b2=b2)
+    # VHF ÷3 tailless is the accepted topology (owner 2026-11-19).
+    C.apply_knobs(i_latch=i * 1e-3, b2=b2, vhf_tailless=True)
     return [a for a in sys.argv[1:] if a in ("uhf", "vhf")] or ["uhf", "vhf"]
 
 
