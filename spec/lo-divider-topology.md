@@ -1,6 +1,6 @@
 # LO divider and phase-generation topology memo (P2.4)
 
-Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1–3 done; P2.4 accepted 2026-10-21.** P2.6 UHF floor −150.1 dBc/Hz [SCH]. **P2.7.4a (2026-11-19):** inventory §10; UHF floor with layout C_ck **FAIL ≈ −147.8** [HAND] — stop before layout. Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
+Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1–3 done; P2.4 accepted 2026-10-21.** P2.6 UHF floor −150.1 dBc/Hz [SCH]. **P2.7.4a:** C_ck floor FAIL ≈ −147.8 [HAND]. **P2.7.4a2 (2026-11-19):** xschem capture; UHF floor C_ck=15 fF **−154.7 PASS** [SCH] at I_latch=0.75 mA; VHF D7 over [HAND]. Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
 
 ---
 
@@ -213,13 +213,29 @@ templates [SCH]. Multifinger `ng` not used (single finger widths).
 ### UHF floor with layout parasitics [HAND / SCH]
 
 See `analog/lo/step3/out/summary_p274a_uhf_floor_layout_c.txt`. Compact C_ck ≈
-12–15 fF/side → scaled floor **≈ −147.8 dBc/Hz FAIL** vs ≤ −150. **Stop before
-layout.** Fixes: raise CML I_latch and/or buffer drive (current cost); shorten
-clock. Owner decision required.
+12–15 fF/side → scaled floor **≈ −147.8 dBc/Hz FAIL** vs ≤ −150 (P2.7.4a).
+
+### P2.7.4a2 — xschem capture + floor fix (2026-11-19) [SCH]
+
+| Item | Status |
+|---|---|
+| xschem hierarchy | **`lo_bias` / `lo_uhf_top` / `lo_vhf_top`** + SVG/PDF; netlists from sch [`analog/lo/sch/`] |
+| Ideal parts removed | CML MOSFET tails on `nb_lo`; TSPC Q-only keepers + 100 Meg on a/b (no 1 GΩ) |
+| Remaining TB inputs | `tp`/`tn` VCO; split supplies; `nbias` stand-in; `en_lodiv`; VHF `vref` |
+| Equiv tt | UHF/VHF PASS; phase ≤0.24° / ≤0.08° [SCH] |
+| Equiv ss | UHF PASS (Q-only keepers); VHF ss still open (matches Python-deck 3.12 ss fail) |
+| MC / f_max slow | **Not completed** (docker races) |
+| Per-stage noise C_ck=15 fF | ZOH→TIE L(f) avg 3–10 MHz (p26 HAND scale): UHF **−154.7 PASS** vs ≤ −151 [SCH] |
+| Dominant stage | **logic** (−157.5 → LO) [SCH] |
+| Fix | I_latch **0.5 → 0.75 mA**; B2 unchanged; keepers as above |
+| D7 | UHF LO ≈ **8.44 mA OK**; VHF LO ≈ **10.69 mA over** by ~0.69 mA [HAND] |
+
+Detail: `analog/lo/sch/out/summary_equiv_lo.txt`, `summary_stage_noise.txt`,
+`summary_floor_fix.txt`.
 
 ### Floorplan sketch [HAND] (Option A)
 
 LO buffer input faces VCO tank south; CML ÷2/÷3 next; converter + TSPC south
 toward mixers; away from inductor and V_tune (NE). Symmetric clock trees for
-I/Q and 8-phase. Area estimate: buffer+CML+conv+TSPC **≈ 0.05–0.08 mm²**
-(`p27-floorplan` §2); die re-total §8 unchanged until GDS.
+I/Q and 8-phase. Area estimate with I_latch=0.75 mA: buffer+CML+conv+TSPC
+**≈ 0.05–0.09 mm²** [HAND] (`p27-floorplan` §8); die re-total unchanged until GDS.

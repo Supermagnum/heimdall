@@ -196,4 +196,10 @@ no GDS yet (UHF floor with C_ck FAIL; stop before layout). Die re-total:
 VCO island row still **0.4624** [GDS]; rest-of-synth **≈ 0.28–0.32** unchanged;
 still fits ≈ 2.5 × 2.5 mm [HAND].
 
+**P2.7.4a2 floor fix (2026-11-19) [SCH/HAND]:** xschem captured; I_latch 0.75 mA;
+UHF floor with C_ck=15 fF **−154.7 PASS** [SCH]. Area with fix: LO
+buffer+CML+conv+TSPC **≈ 0.05–0.09 mm²** [HAND] (slightly larger CML). No
+divider GDS yet. Die re-total unchanged (VCO **0.4624** [GDS]); still fits
+≈ 2.5 × 2.5 mm [HAND]. VHF LO current ≈ 10.69 mA vs D7 ≤ 10 — owner decision.
+
 **Flag:** the §1 sketch of a **1.6 × 1.6 mm** active core **does not fit** the Phase 3/4 RX+TX + synth + digital + pads tally. Before Phase 5, plan on a die closer to **≥ ~2.2 × 2.2 mm** (≈ 4.8 mm²) or tighten RX/TX area after topology.
