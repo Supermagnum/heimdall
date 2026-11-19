@@ -1,6 +1,6 @@
 # VCO topology memo (P2.3)
 
-Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** closed. **P2.7.3a** accepted. **P2.7.3b** PN PASS. **P2.7.3c** swing / D22 / wake accepted **[PEX-RC lumped / MODEL]**; transient peak **not yet accepted** (`decisions.md` 2026-11-19). Next: close peak, then **P2.7.4**. See §9.
+Status: **topology accepted (D8–D11; D24 2026-11-12).** P2.3 open items closed. **Layout:** blocks through D22 PASS; chip art PASS. **P2.7.2c** closed. **P2.7.3a–c** VCO post-layout **complete** **[PEX-RC lumped / MODEL]** (2026-11-19): swing / D22 / wake accepted; peak sch-style PASS 1.249 ≤ 1.50. Next: **P2.7.4** (UHF floor with layout C open). See §9.
 
 ---
 
@@ -405,15 +405,18 @@ tt/ss/ff × CAP × −40/27/85 × top/bottom. Tops in 1.25±0.10 or tnr; bottoms
 code 31 + tnr; steady ≤1.40; peak ≤1.50. Several 85 °C tops land code 31 /
 tnr=1 with Amp still in window (cmp soft with PEX). **PASS.**
 
-**Peak MC** (`summary_pex_vco_peak_mc.txt`) [PEX-RC lumped]: ss/bcs/85 top,
-N=20 Vos. Reported peak **1.250 V** at bit=−1 / trial=31 (final amplitude after
-search lands code 31 / tnr; no SCH-style bit3 / code 24 mid-SAR peak). Against
-**1.4935 V [SCH]** at the same corner. **Not yet accepted** — measure point and
-test-bench aids (Rtb_op 1 MΩ, Cctl omitted) open (`decisions.md` 2026-11-19).
+**Peak MC (prior)** (`summary_pex_vco_peak_mc.txt`) [PEX-RC lumped]: 1.250 V at
+bit=−1 / code 31 with Cctl omitted — final Amp, not SCH mid-SAR peak.
+
+**Peak MC sch-style re-run** (`summary_pex_vco_peak_mc_schstyle.txt`) [PEX-RC
+lumped]: Cctl included; Rtb_op=1 MΩ on det SF bias `tb` only (not hold/rep/tank;
+OP at 85 °C [TOOL]); peak = max over SAR trials. Nominal trail Amp 1.153→1.249
+(monotonic; bit3/c24 = 1.214, not SCH 1.493). N=5 Vos: peak+3σ **1.249 ≤ 1.50 V**.
+**PASS.** **P2.7.3 VCO complete.**
 
 **Wake** (`summary_pex_vco_wake.txt`) [MODEL]: max **130 µs ≤ 150 µs**. **PASS.**
 
-Next: close P2.7.3c transient peak, then **P2.7.4**.
+Next: **P2.7.4** LO divider layout (floor with layout C first).
 
 ### D9 filter capacitor notes (2026-11-13) — MIM kept; MOS swing cause
 

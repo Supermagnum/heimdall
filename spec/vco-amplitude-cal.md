@@ -1,6 +1,6 @@
 # VCO amplitude control (P2.3 open point §9.3)
 
-Status: **D22 topology / step-1 (ideal parts) accepted 2026-11-02 / 2026-11-11** (§10). **P2.7.2b fab layout: accepted**. **P2.7.3c** post-layout swing / D22 / wake **accepted** **[PEX-RC lumped / MODEL]**; transient peak **not yet accepted** (`decisions.md` 2026-11-19). Summaries: `summary_pex_vco_swing.txt`, `summary_pex_vco_d22_search.txt`, `summary_pex_vco_peak_mc.txt`, `summary_pex_vco_wake.txt`. Ampcal_det bbox **0.0186** > pocket 0.0121 [GDS].
+Status: **D22 topology / step-1 (ideal parts) accepted 2026-11-02 / 2026-11-11** (§10). **P2.7.2b fab layout: accepted**. **P2.7.3c** post-layout swing / D22 / wake / peak **complete** **[PEX-RC lumped / MODEL]** (peak sch-style 1.249 ≤ 1.50). Summaries: `summary_pex_vco_swing.txt`, `summary_pex_vco_d22_search.txt`, `summary_pex_vco_peak_mc.txt`, `summary_pex_vco_peak_mc_schstyle.txt`, `summary_pex_vco_wake.txt`. Ampcal_det bbox **0.0186** > pocket 0.0121 [GDS].
 
 Items 1–2 of `prompts/06-design-next-step.md` are closed (P2.6 accepted 2026-10-31; open points 1–3 closed). Newest status report `reports/status-2026-10-30.md`: no failed re-run; amplitude cal listed as open work, not as an unverified blocking result.
 
@@ -329,11 +329,10 @@ on det tb for OP @ 85 °C [TOOL]. Summaries under `analog/vco/step3/out/` and
 | Det tank C/side from extract ≤ 10 fF | **PASS** (tn 4.59 / tp 4.54 fF) [PEX-RC] |
 | D22 SAR 30 corners; tops 1.25±0.10 or tnr; bottoms 31+tnr | **PASS** [PEX-RC lumped] |
 | Wake ≤ 150 µs | **PASS** (max 130 µs) [MODEL] |
-| Transient peak MC ss/bcs/85 top; peak+3σ ≤ 1.50 V | **open** (reported 1.250 V at final code 31; SCH 1.4935 at bit3/c24) [PEX-RC lumped] |
+| Transient peak MC ss/bcs/85 top; peak+3σ ≤ 1.50 V | **PASS** sch-style 1.249 (Cctl on; Rtb on tb only) [PEX-RC lumped] |
 
 Note: several 85 °C tops finish at code 31 / tnr=1 with Amp still inside
 1.25±0.10 (cmp soft with PEX + Rtb). Bottoms remain code 31 + tnr as SCH.
-Peak MC at ss/bcs/85 top also lands code 31 for all Vos samples — owner left
-peak unaccepted until measure point / Rtb_op / Cctl are explained or re-run
-as the schematic case (`decisions.md` 2026-11-19).
+Sch-style peak: prior 1.250 was final Amp; re-run with Cctl keeps monotonic
+SAR (bit3/c24 Amp=1.214); Rtb_op justified on bias `tb` only.
 
