@@ -1111,3 +1111,12 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   (D22).
 - LO current against D7 reported after the UHF-path-only sizing; an overrun comes to the owner
   with numbers.
+
+## 2026-11-19 — Tail-less ÷3 accepted, D7 deferred
+- Tail-less ÷3 accepted [SCH]: VR_ANA1 V_min 1.181 V (ss / 125 °C, VHF load, route IR), V_max
+  1.208 V; buffer B2 = 4 gives 0.516 V / side at 4.20 GHz at V_min; all UHF / VHF corners
+  divide, UHF I/Q ≤ 0.33°, f_max ≈ 5.2 GHz, MC 20 / 20. Floors UHF −154.7, VHF −158.6 dBc/Hz.
+- D7 not decided yet: VHF 10.69 mA [HAND] uses an estimated tail-less ÷3 current and 0.75 mA in
+  every latch. First the tail-less current is simulated and latch / converter / logic currents
+  are sized down to the floor targets with ≈ 1 dB margin; the owner decides D7 only if VHF is
+  still over 10 mA.
