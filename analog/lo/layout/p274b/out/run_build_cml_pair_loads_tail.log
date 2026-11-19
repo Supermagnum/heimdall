@@ -1,0 +1,9 @@
+parent pins {'vdd': (0.0, 20.804000000000002), 's': (8.78, -5.48), 'g1': (-9.85, 7.5), 'g2': (9.85, 7.5), 'gnd': (0.0, -20.98), 'd1': (-12.85, -18.48), 'd2': (12.85, -18.48)}
+Technology SG13_dev is loaded.
+GRID : 0.01
+GRID inverse : 100.0
+EPSILON1  : 0.001
+EPSILON2  : 1e-9
+Success.
+tail cols=6 D=3 S=3
+WROTE /work/analog/lo/layout/p274b/out/cml_pair_loads_tail.gds

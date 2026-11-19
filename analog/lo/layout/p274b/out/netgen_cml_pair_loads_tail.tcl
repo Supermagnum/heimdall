@@ -1,0 +1,1 @@
+lvs {/work/analog/lo/layout/p274b/out/cml_pair_loads_tail.spice cml_pair_loads_tail} {/work/analog/lo/layout/p274b/out/lvs_cml_pair_loads_tail/cml_pair_loads_tail_extracted.cir cml_pair_loads_tail} /foss/pdks/ihp-sg13g2/libs.tech/netgen/ihp-sg13g2_setup.tcl /work/analog/lo/layout/p274b/out/netgen_cml_pair_loads_tail.json
