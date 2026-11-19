@@ -1070,3 +1070,12 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   resized for lower V_dsat; (3) lower swing via R_L if the next stage keeps ≥ 0.5 V-per-side
   clock; (4) topology change (unstacked ÷3 logic) only with owner approval.
 - Then the divider current sizing continues (2026-11-19 "Divider floor fix sizing").
+
+## 2026-11-19 — VHF ÷3: clock common-mode first
+- Headroom budget [SCH]: ÷3 latch tail in triode (V_DS ≈ 83 mV against V_dsat ≈ 215 mV) at
+  ss / 125 °C; tail widening (×6) and lower latch R_L do not fix it. Divider supply is the
+  VR_ANA1 pad (ss ≈ 1.108 V [HAND]); checks at 1.108 and 1.08 V.
+- Before any topology change, the clock common-mode at the ÷3 clock pair is tested (ideal
+  level-shift sweep). If raising it fixes the divider, it is set by lower buffer swing (≥ 0.5 V
+  per side kept) or AC coupling with a gate bias. A topology change (unstacked / folded / MCML)
+  only if the clock CM does not fix it, with numbers, for the owner.
