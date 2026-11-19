@@ -1,0 +1,54 @@
+v {xschem version=3.4.7 file_version=1.2}
+G {}
+K {type=subcircuit
+schematic=lo_vhf_top.sch
+format="@name @pinlist @symname"
+template="name=x1"
+}
+V {}
+S {}
+E {}
+L 4 -80 -82 80 -82 {}
+L 4 -80 82 80 82 {}
+L 4 -80 -82 -80 82 {}
+L 4 80 -82 80 82 {}
+T {lo_vhf_top} -60 -10 0 0 0.3 0.3 {}
+T {@name} 40 -30 0 0 0.2 0.2 {}
+B 5 -82.5 -74.5 -77.5 -69.5 {name=tp dir=inout}
+T {tp} -75 -72 0 0 0.15 0.15 {}
+B 5 -82.5 -66.5 -77.5 -61.5 {name=tn dir=inout}
+T {tn} -75 -64 0 0 0.15 0.15 {}
+B 5 -82.5 -58.5 -77.5 -53.5 {name=nbias dir=inout}
+T {nbias} -75 -56 0 0 0.15 0.15 {}
+B 5 -82.5 -50.5 -77.5 -45.5 {name=en_lodiv dir=inout}
+T {en_lodiv} -75 -48 0 0 0.15 0.15 {}
+B 5 -82.5 -42.5 -77.5 -37.5 {name=vref dir=inout}
+T {vref} -75 -40 0 0 0.15 0.15 {}
+B 5 -82.5 -34.5 -77.5 -29.5 {name=x_r1 dir=inout}
+T {x_r1} -75 -32 0 0 0.15 0.15 {}
+B 5 -82.5 -26.5 -77.5 -21.5 {name=x_r2 dir=inout}
+T {x_r2} -75 -24 0 0 0.15 0.15 {}
+B 5 -82.5 -18.5 -77.5 -13.5 {name=x_r3 dir=inout}
+T {x_r3} -75 -16 0 0 0.15 0.15 {}
+B 5 -82.5 -10.5 -77.5 -5.5 {name=x_r4 dir=inout}
+T {x_r4} -75 -8 0 0 0.15 0.15 {}
+B 5 -82.5 -2.5 -77.5 2.5 {name=x_r1b dir=inout}
+T {x_r1b} -75 0 0 0 0.15 0.15 {}
+B 5 -82.5 5.5 -77.5 10.5 {name=x_r2b dir=inout}
+T {x_r2b} -75 8 0 0 0.15 0.15 {}
+B 5 -82.5 13.5 -77.5 18.5 {name=x_r3b dir=inout}
+T {x_r3b} -75 16 0 0 0.15 0.15 {}
+B 5 -82.5 21.5 -77.5 26.5 {name=x_r4b dir=inout}
+T {x_r4b} -75 24 0 0 0.15 0.15 {}
+B 5 -82.5 29.5 -77.5 34.5 {name=vbuf dir=inout}
+T {vbuf} -75 32 0 0 0.15 0.15 {}
+B 5 -82.5 37.5 -77.5 42.5 {name=vdv dir=inout}
+T {vdv} -75 40 0 0 0.15 0.15 {}
+B 5 -82.5 45.5 -77.5 50.5 {name=vcv dir=inout}
+T {vcv} -75 48 0 0 0.15 0.15 {}
+B 5 -82.5 53.5 -77.5 58.5 {name=vdg dir=inout}
+T {vdg} -75 56 0 0 0.15 0.15 {}
+B 5 -82.5 61.5 -77.5 66.5 {name=vdd dir=inout}
+T {vdd} -75 64 0 0 0.15 0.15 {}
+B 5 -82.5 69.5 -77.5 74.5 {name=0 dir=inout}
+T {0} -75 72 0 0 0.15 0.15 {}

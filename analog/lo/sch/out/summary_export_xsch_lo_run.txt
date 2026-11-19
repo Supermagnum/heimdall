@@ -1,0 +1,9 @@
+# P2.7.4a2 xschem SVG/PDF export
+
+| sch | spice | svg | pdf | rc |
+|---|---|---|---|---|
+| lo_bias.sch | no | yes | yes | net=10 print=0 |
+| lo_uhf_top.sch | no | yes | yes | net=10 print=0 |
+| lo_vhf_top.sch | no | yes | yes | net=10 print=0 |
+
+Export gate: PASS (3/3 svg, 3/3 pdf)

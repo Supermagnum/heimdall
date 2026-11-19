@@ -1,0 +1,44 @@
+v {xschem version=3.4.7 file_version=1.2}
+G {}
+K {type=subcircuit
+schematic=lo_uhf_top.sch
+format="@name @pinlist @symname"
+template="name=x1"
+}
+V {}
+S {}
+E {}
+L 4 -80 -62 80 -62 {}
+L 4 -80 62 80 62 {}
+L 4 -80 -62 -80 62 {}
+L 4 80 -62 80 62 {}
+T {lo_uhf_top} -60 -10 0 0 0.3 0.3 {}
+T {@name} 40 -30 0 0 0.2 0.2 {}
+B 5 -82.5 -54.5 -77.5 -49.5 {name=tp dir=inout}
+T {tp} -75 -52 0 0 0.15 0.15 {}
+B 5 -82.5 -46.5 -77.5 -41.5 {name=tn dir=inout}
+T {tn} -75 -44 0 0 0.15 0.15 {}
+B 5 -82.5 -38.5 -77.5 -33.5 {name=nbias dir=inout}
+T {nbias} -75 -36 0 0 0.15 0.15 {}
+B 5 -82.5 -30.5 -77.5 -25.5 {name=en_lodiv dir=inout}
+T {en_lodiv} -75 -28 0 0 0.15 0.15 {}
+B 5 -82.5 -22.5 -77.5 -17.5 {name=x_p0 dir=inout}
+T {x_p0} -75 -20 0 0 0.15 0.15 {}
+B 5 -82.5 -14.5 -77.5 -9.5 {name=x_p1 dir=inout}
+T {x_p1} -75 -12 0 0 0.15 0.15 {}
+B 5 -82.5 -6.5 -77.5 -1.5 {name=x_p2 dir=inout}
+T {x_p2} -75 -4 0 0 0.15 0.15 {}
+B 5 -82.5 1.5 -77.5 6.5 {name=x_p3 dir=inout}
+T {x_p3} -75 4 0 0 0.15 0.15 {}
+B 5 -82.5 9.5 -77.5 14.5 {name=vbuf dir=inout}
+T {vbuf} -75 12 0 0 0.15 0.15 {}
+B 5 -82.5 17.5 -77.5 22.5 {name=vdv dir=inout}
+T {vdv} -75 20 0 0 0.15 0.15 {}
+B 5 -82.5 25.5 -77.5 30.5 {name=vcv dir=inout}
+T {vcv} -75 28 0 0 0.15 0.15 {}
+B 5 -82.5 33.5 -77.5 38.5 {name=vdg dir=inout}
+T {vdg} -75 36 0 0 0.15 0.15 {}
+B 5 -82.5 41.5 -77.5 46.5 {name=vdd dir=inout}
+T {vdd} -75 44 0 0 0.15 0.15 {}
+B 5 -82.5 49.5 -77.5 54.5 {name=0 dir=inout}
+T {0} -75 52 0 0 0.15 0.15 {}
