@@ -1,0 +1,20 @@
+# P2.7.4a3 step 1 — VHF ss stage diag [SCH]
+
+Corner: mos_ss / VDD=1.08 V / 125 C; f_VCO=3.12 GHz; I_latch=0.750 mA; MOSFET tails; real xschem netlist path.
+
+| Stage | Node | divide | f [Hz] | duty % | swing V | gate |
+|---|---|---|---|---|---|---|
+| VCO buffer (1_buffer) | ckp | — | 3.1200e+09 | 50.3 | 1.054 | OK |
+| CML ÷3 latch 1 (2_cml_ff1) | q1p | — | — | — | 1.080 | FAIL |
+| CML ÷3 latch 2 (2_cml_ff2) | q2p | — | — | — | 1.074 | FAIL |
+| CML ÷3 NOR out (2_cml_out) | orp | — | — | — | 1.086 | FAIL |
+| CML→CMOS converter (3_converter) | x_clk | — | 4.5031e+08 | 100.0 | 1.127 | FAIL |
+| Johnson ÷8 q1 (4_johnson_q1) | x_q1 | — | — | — | 1.153 | FAIL |
+| retimed 0° LO (5_retime_0) | x_r1 | — | — | — | 1.158 | FAIL |
+
+Chain analyse: ok=False max|φ−ideal|=999.00° duty=None/None gate=FAIL
+
+**First fail:** 2_cml_ff1 / CML ÷3 latch 1
+**Cause:** no edges at q1p; stuck -0.000..1.080 V (bias/tail/enable)
+
+STOP for owner (decisions.md: VHF ss checked first; redesign before current sizing if divide fails).
