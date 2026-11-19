@@ -1041,3 +1041,14 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   Cctl omitted) are explained, or the peak is re-run as in the schematic case.
 - P2.7.4 starts with a plan run; the UHF LO-chain noise floor (−150.1 dBc/Hz against −150 [SCH /
   HAND]) is estimated with layout parasitics before the divider is drawn.
+
+## 2026-11-19 — P2.7.3 VCO complete; divider noise floor
+- Transient peak accepted: measured mid-search (bit 3 / code 24), peak + 3σ 1.249 V ≤ 1.50 V
+  [PEX-RC lumped, MC N = 5; N = 20 re-run as a check]. Rtb_op only on the detector SF bias in the
+  test bench; Cctl included. P2.7.3 VCO post-layout complete.
+- Dividers are captured in xschem (real CML tails and bias, SVG / PDF) before layout; the
+  simulation netlist is generated from it.
+- UHF LO-chain floor with estimated clock wiring C (≈ 12–15 fF / side) fails (≈ −147.8 dBc/Hz
+  [HAND scale] against ≤ −150). Fix chosen from a per-stage noise breakdown on the xschem
+  netlist; current added only to the dominant stage(s). Target ≤ −151 dBc/Hz with C_ck 15 fF;
+  total LO current reported against D7 (≤ 10 mA).
