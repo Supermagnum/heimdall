@@ -1,0 +1,42 @@
+# P2.7.4a3 — CML ÷3 headroom budget at failing ss [SCH]
+
+Source raw: `out_sole/lo_eq_vhf_ss_3.12_a3diag.tr.raw` (last 25 % of stuck transient).
+VDD mean=1.080 V; nb_lo=0.665 V; Vt≈0.45 V [HAND].
+
+## Device table (÷3 latch 1 + NOR tail)
+
+| Stage | Device | V_D | V_S | V_GS | V_DS | V_dsat≈ | V_DS−V_dsat | note |
+|---|---|---:|---:|---:|---:|---:|---:|---|
+| ÷3 latch1 master | tail mtam | 0.083 | 0.000 | 0.665 | 0.083 | 0.215 | -132 mV | MOSFET tail |
+| ÷3 latch1 master | ck pair→s1 | 0.420 | 0.083 | 0.434 | 0.337 | 0.050 | 287 mV | clock switch |
+| ÷3 latch1 master | ck pair→s2 | 0.503 | 0.083 | 0.435 | 0.420 | 0.050 | 370 mV | clock switch |
+| ÷3 latch1 slave | tail mtas | 0.085 | 0.000 | 0.665 | 0.085 | 0.215 | -130 mV | MOSFET tail |
+| ÷3 latch1 slave | ck→s1 | 0.471 | 0.085 | 0.433 | 0.385 | 0.050 | 335 mV | ckn track |
+| ÷3 latch1 slave | ck→s2 | 0.498 | 0.085 | 0.432 | 0.413 | 0.050 | 363 mV | ckp hold |
+| ÷3 latch1 slave | load side q1p | 0.890 | 0.471 | — | 0.419 | — | — | drain of data/regen |
+| ÷3 latch1 slave | load side q1n | 1.032 | 0.498 | — | 0.533 | — | — | drain of data/regen |
+| ÷3 NOR | tail mtg | 0.245 | 0.000 | 0.665 | 0.245 | 0.215 | 30 mV | gate tail |
+
+Load drop at q1p/q1n: 190 / 48 mV (want ~I·R_L/2 ≈ 250 mV for balanced CML) [SCH].
+
+## Stack budget (saturated track path)
+
+| Term | Value |
+|---|---:|
+| Target swing I·R_L | 500 mV |
+| V_dsat tail (Vgs−Vt) | 215 mV |
+| V_dsat clock (rough) | 414 mV |
+| V_dsat data (target) | 150 mV |
+| Sum needed | 1279 mV |
+| VDD | 1080 mV |
+| **Shortfall** | **199 mV** |
+
+Measured stuck state: both q1p and q1n near VDD (load drop 190/48 mV) → current starved / triode tail–clock stack; differential frozen (~140 mV) [SCH].
+
+## Supply (step 2)
+
+Rail: **VR_ANA1 pad** (D21) — feeds VCO + LO + CP. Not an external bench rail.
+Pad ss min = **1.108 V** [HAND] (`summary_vrana1_pad_corners.txt` / D21).
+No separate SCH LDO OP at mos_ss / 125 °C found; LDO verify table is typ Vin [SCH].
+LO decks historically used **1.08 V** as a conservative floor (≤ pad min).
+This job: budget at failing 1.08 V raw; fix checks at **1.108 V** then margin at 1.08 V.
