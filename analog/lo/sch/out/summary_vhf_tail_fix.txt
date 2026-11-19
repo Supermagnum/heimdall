@@ -1,0 +1,18 @@
+# P2.7.4a3 step 3a — MOSFET tail widen for VHF ss [SCH]
+
+I_latch=0.750 mA; SWING=0.5; L=0.13u.
+
+| µm/mA | VDD | divide | max|φ| | duty |
+|---:|---:|---|---:|---|
+| 20 | 1.108 | FAIL | 999.00 | — |
+| 20 | 1.080 | FAIL | 999.00 | — |
+| 40 | 1.108 | FAIL | 999.00 | — |
+| 40 | 1.080 | FAIL | 999.00 | — |
+| 60 | 1.108 | FAIL | 999.00 | — |
+| 60 | 1.080 | FAIL | 999.00 | — |
+| 80 | 1.108 | FAIL | 999.00 | — |
+| 80 | 1.080 | FAIL | 999.00 | — |
+| 120 | 1.108 | FAIL | 999.00 | — |
+| 120 | 1.080 | FAIL | 999.00 | — |
+
+**No PASS** in density sweep — try R_L (step 3b).

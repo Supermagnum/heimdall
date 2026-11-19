@@ -24,6 +24,10 @@ B2 = 4.0
 # Short-L 1:1 with TB diode (UHF/VHF smoke PASS). Do not widen to 500u@2u —
 # that slows VHF and was only a TB OP hack [SCH].
 TAIL_L = "0.13u"
+# µm per mA of I_latch for MOSFET tails. 20 was headroom-starved at ss
+# (tail V_DS≪V_dsat) [SCH summary_vhf_headroom_budget]. Wider → lower V_DS
+# in linear region at fixed Id.
+TAIL_UM_PER_MA = 20.0
 
 
 def _load_step3():
@@ -48,10 +52,10 @@ L1 = L3.L1
 def tail_w(i=None):
     """NMOS tail / diode width (um) at TAIL_L for ~I_latch [HAND].
 
-    20 µm/mA at L=0.13u keeps Vgs well above Vt so CML swings [SCH].
+    Default 20 µm/mA; raise TAIL_UM_PER_MA to cut linear-region V_DS at ss.
     """
     i = I_LATCH if i is None else i
-    return max(5.0, 20.0 * i / 1e-3)
+    return max(5.0, TAIL_UM_PER_MA * i / 1e-3)
 
 
 def lo_bias_netlist(vdd_name="vdd"):
@@ -138,12 +142,17 @@ def _sync_cml_params():
     )
 
 
-def apply_knobs(i_latch=None, b2=None, k=None, swing=None):
-    global I_LATCH, B2, SWING, K_REGEN
+def apply_knobs(i_latch=None, b2=None, k=None, swing=None,
+                tail_um_per_ma=None, tail_l=None):
+    global I_LATCH, B2, SWING, K_REGEN, TAIL_UM_PER_MA, TAIL_L
     if i_latch is not None:
         I_LATCH = i_latch
     if swing is not None:
         SWING = swing
+    if tail_um_per_ma is not None:
+        TAIL_UM_PER_MA = float(tail_um_per_ma)
+    if tail_l is not None:
+        TAIL_L = str(tail_l)
     # Always resync — module default I_LATCH alone does not update L1.
     _sync_cml_params()
     if b2 is not None:
