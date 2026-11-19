@@ -1120,3 +1120,12 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   every latch. First the tail-less current is simulated and latch / converter / logic currents
   are sized down to the floor targets with ≈ 1 dB margin; the owner decides D7 only if VHF is
   still over 10 mA.
+## 2026-11-19 — Divider current sizing accepted
+- Measured currents and sizing accepted [SCH]: VHF I_latch 0.30 mA, UHF 0.75 mA, B2 = 4. LO
+  totals UHF 8.18 mA, VHF ss 8.66 mA (D7 ≤ 10 mA met). Floors UHF −154.7, VHF −159.1 dBc/Hz.
+  f_max at ss ≈ 4.8 GHz. Noise test bench fixed (60 ps was a test-bench error).
+- Before layout: VHF ff / 125 °C re-checked at the final currents; the Monte Carlo phase error
+  (max 0.51° against 0.46° from P2.4) is assigned to its path (UHF I/Q or VHF 8-phase) and
+  compared with the derived image / harmonic-rejection requirement.
+- Divider layout gate: extracted wiring C per clock net ≤ 15 fF / side (the floor assumption).
+
