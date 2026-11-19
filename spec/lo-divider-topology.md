@@ -1,6 +1,6 @@
 # LO divider and phase-generation topology memo (P2.4)
 
-Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1 done 2026-10-20 (§7): TSPC and the converter pass; the CML ÷2 / ÷3 need a clock of ≥ 0.5 V per side at the slow corner, which becomes the VCO-buffer requirement. Step 2 (buffer and both chains with the VCO, `analog/lo/step2/`) done 2026-10-20 (§8): all 8 cases divide, phase errors ≤ 0.46°, with the CML divider enabled after VCO start-up (D15); LO current at the 10 mA limit. Step 3 (corners, temperature, Monte Carlo) done 2026-10-21 (§9): four circuit fixes; every corner and all 100 Monte Carlo samples divide; noise floor ≈ −157 / −161 dBc/Hz (UHF / VHF) by hand estimate — the pss/pnoise attempt was not usable, verification in P2.6. **P2.4 accepted by the owner 2026-10-21** (open items carried forward: noise-floor simulation in P2.6, the −40 °C bottom-band margin, layout in P2.7).** Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
+Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1–3 done; P2.4 accepted 2026-10-21.** P2.6 UHF floor −150.1 dBc/Hz [SCH]. **P2.7.4a (2026-11-19):** inventory §10; UHF floor with layout C_ck **FAIL ≈ −147.8** [HAND] — stop before layout. Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
 
 ---
 
@@ -173,3 +173,53 @@ LO total at typical, VHF 4.20 GHz: 4.56 + VCO 3.59 + PLL ≈ 1.5 (`[HAND]`) ≈ 
 Hand estimate instead `[HAND]`: edge jitter of the path ≈ 25 fs per CMOS gate (about 10 gates incl. buffer, converter, driver, flip-flop) and ≈ 50 fs per CML latch (2), σ ≈ 0.1 ps rms, white. With one sampled edge per LO period, L ≈ 4π² f_LO σ²: **≈ −157 dBc/Hz at 480 MHz (UHF), ≈ −161 dBc/Hz at 175 MHz (VHF)**; with twice the jitter −151 / −155. Below the target, and 9–16 dB under the divided VCO noise at the 1 MHz and duplex offsets (UHF −139.7, VHF −147.6 dBc/Hz at 1 MHz); beyond about 5–10 MHz the divider floor dominates the LO. The kT/C noise of the 50 fF / 50 kΩ AC-coupled stages adds about 45 fs (−158 dBc/Hz at 480 MHz alone). **Verification by simulation moves to P2.6** (closed loop with transistor-level dividers), with a sampled-edge jitter method or transient noise on the edge path.
 
 **Final circuit** (step-3 defaults in `analog/lo/step3/run_step3.py`, on top of `analog/lo/step2/run_step2.py`): buffer 2/4 → AC-coupled self-biased 3/6 → 4/8 µm per side, anti-phase cross-coupling; CML ÷2 / ÷3 0.5 mA per latch, swing 0.5 V, regenerative pair 1.5×, enabled after VCO start-up (D15); AC-coupled self-biased converter with 3/6 → 9/18 µm clock driver; TSPC flip-flops size 2; all outputs retimed (UHF retiming output PMOS 2×).
+
+## 10. P2.7.4a — divider inventory and layout gate (2026-11-19)
+
+### Hierarchy completeness [TOOL]
+
+| Item | Status |
+|---|---|
+| xschem `.sch` hierarchy | **Missing** — only Python netlist builders (`step1/2/3`) |
+| Sim netlist source | Flat VACASK decks from those scripts [SCH] |
+| Ideal parts (list) | CML latch **isource** tails; step3 **ideal tank sine**; TSPC **1 GΩ** node holds; ideal VDD domains; step1 `clk.va`; start-up kick **off** (`nokick`) |
+| Real MOSFET tails / LO buffers to mixers | Not yet — tails stay ideal until xschem + bias cell |
+
+**Found, not done:** capture hierarchical xschem (prompt 06 / P2.7.4) so layout
+LVS matches a flattened sch, as for the VCO.
+
+### Sub-block inventory
+
+Counts from `cml_latch` / `cml_dff` / `tspc` / `buffer` / `converter_ac` source
+templates [SCH]. Multifinger `ng` not used (single finger widths).
+
+| Sub-block | MOS | R / C / I (on-chip) | Accepted performance |
+|---|---:|---|---|
+| CML latch | 6 NMOS | 2×RL, 1×Itail | building block |
+| CML ÷2 (1 MS DFF) | **12** NMOS | 4×RL, 2×Itail (1.0 mA) | Slow: divides with ≥0.5 V/side; f_max ≫ 4.41 GHz [SCH] §7 |
+| CML ÷3 (2 DFF + NOR) | **27** NMOS | ~6×RL, 5×I (2.5 mA) | Same; regenerative k=1.5, swing 0.5 V [SCH] §9 |
+| LO buffer (final) | ≈ **16–20** | 100 fF + 50 kΩ AC; anti-phase | ≥0.5 V/side into CML; duty fixed by AC middle [SCH] §8–9 |
+| CML→CMOS converter (AC) | ≈ **20–24** | 50 fF / 50 kΩ stages; ck drv 3/6→9/18 | Duty 47–52 % [SCH] §9 |
+| TSPC FF (size 2) | **9** | — | Toggle ≥4 GHz slow [SCH] §7 |
+| UHF Johnson ÷4 + 25 % + retimes | 2×TSPC + 2 inv + 4×(NAND+TSPC) ≈ **70** | 20 fF loads | Phase err ≤0.46°; duty ~24–26 % [SCH] §8–9 |
+| VHF Johnson ÷8 + retimes | 4×TSPC + invs + 8×TSPC ≈ **120** | 10 fF loads | Phase ≤0.13°; duty ~48–51 % [SCH] §8–9 |
+| Bias / enables | D15 `en_lodiv` in deck | Ideal Itail until bias cell | Sequencer 1 µs after `en_vco` [D15] |
+| LO output buffers to mixers | **not sized** | Phase 3 | — |
+
+**Noise floors (pre-layout):** UHF **−150.1** dBc/Hz (3–10 MHz) [SCH]; VHF
+**−154.0 … −155.5** [SCH]; P2.4 HAND −157 / −161. I/Q phase ≤0.46°; 8-phase
+σ ≤0.28° ss [SCH] §9.
+
+### UHF floor with layout parasitics [HAND / SCH]
+
+See `analog/lo/step3/out/summary_p274a_uhf_floor_layout_c.txt`. Compact C_ck ≈
+12–15 fF/side → scaled floor **≈ −147.8 dBc/Hz FAIL** vs ≤ −150. **Stop before
+layout.** Fixes: raise CML I_latch and/or buffer drive (current cost); shorten
+clock. Owner decision required.
+
+### Floorplan sketch [HAND] (Option A)
+
+LO buffer input faces VCO tank south; CML ÷2/÷3 next; converter + TSPC south
+toward mixers; away from inductor and V_tune (NE). Symmetric clock trees for
+I/Q and 8-phase. Area estimate: buffer+CML+conv+TSPC **≈ 0.05–0.08 mm²**
+(`p27-floorplan` §2); die re-total §8 unchanged until GDS.

@@ -1,0 +1,51 @@
+# P2.7.4a — UHF LO-chain floor with layout wiring C [HAND / SCH]
+
+PDK `a49358cc` (container `hpretl/iic-osic-tools:2026.10`, `/foss/pdks/ihp-sg13g2/COMMIT`).
+Base floor: full UHF chain −150.1 dBc/Hz @ 3–10 MHz [SCH] (`run_uhf_floor.py`,
+`reports/sch-rerun-2026-10-31.md`). Limit ≤ −150 dBc/Hz. Margin **0.1 dB**.
+
+## Wiring C on CML clock nets [HAND]
+
+Compact Option-A place: LO buffer on VCO south face; CML ÷2 adjacent south;
+matched `ckp`/`ckn` ~50–80 µm, M2 width 2 µm.
+
+| Item | Value | Source |
+|---|---|---|
+| C′ (M2, 2 µm) | 0.10 fF/µm | `p27-layout-notes` island C′ [HAND] |
+| Route length / side | 50–80 µm | compact pack [HAND] |
+| Wiring C | 5–8 fF | L×C′ |
+| Via / pin fan-out | ≈ 5 fF | [HAND] |
+| **C_ck / side** | **≈ 12–15 fF** | sum [HAND] |
+| Buffer out C before wire (est.) | ≈ 25–40 fF | last inv + CML ck gates [HAND] |
+| Fractional load add | ≈ +30–50 % | C_ck / C_buf [HAND] |
+
+Full transient-noise re-sim with C_ck **not run** this session (UHF floor needs
+≈1 µs ZOH at noisefmax 5 GHz; multi-hour). Scale used instead.
+
+## Scale to floor [HAND]
+
+White edge-jitter floor L ∝ σ². Extra C slows buffer→CML edges; take σ scale
+≈ 1.30 (mid of 1.2–1.4 for +30–50 % load) [HAND].
+
+ΔL = 20 log10(1.30²) ≈ **+2.3 dB**.
+
+| Band | Pre-layout [SCH] | With C_ck [HAND] | Limit | Gate |
+|---|---|---|---|---|
+| UHF 3–10 MHz | −150.1 | **≈ −147.8** | ≤ −150 | **FAIL** |
+| UHF 1–3 / 10–30 | −149.4 / −151.4 | ≈ −147.1 / −149.1 | ≤ −150 | FAIL / marginal |
+| VHF (ref) | −154.0 … −155.5 | not scaled here | ≤ −150 | — |
+
+## Fix options (stop before layout) [HAND]
+
+| Fix | Effect | Cost |
+|---|---|---|
+| A. CML latch current 0.5 → 0.65–0.8 mA | Faster regeneration; ~1–2 dB floor | +0.3–0.6 mA UHF CML (D7 typ margin ~0.1–0.35 mA — tight) |
+| B. Buffer last stage 4/8 → 6/12 µm | Drive C_ck; ~0.5–1 dB | +~0.2–0.4 mA buffer |
+| C. Shorten/widen clock (M3, ≤40 µm, 4 µm) | Cut C_ck ~half | Area / layer; small |
+| A+B together | Target recover ≥ 2.5 dB | ~0.5–1.0 mA LO; re-check D7 |
+
+**Recommendation:** owner pick A and/or B, then re-run `run_uhf_floor.py` with
+C_ck=15 fF on ckp/ckn before any divider GDS. Do not start CML layout until
+floor ≤ −150 with the chosen parasitics.
+
+Gate: **FAIL — stop for owner before layout.**

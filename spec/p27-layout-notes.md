@@ -1,10 +1,9 @@
 # P2.7 layout notes
 
-Status: **P2.7.3a** accepted; **P2.7.3b** PN PASS; **P2.7.3c** swing / D22 /
-wake accepted **[PEX-RC lumped / MODEL]**; transient peak **not yet accepted**
-(`decisions.md` 2026-11-19). Sign-off flattened `vco_top.sch` + `lvs_setup.tcl`.
-Full-cell bbox 0.4624 mm² [GDS]. Next: close peak, then **P2.7.4**. Chip art
-PASS. Blocks PASS.
+Status: **P2.7.3a–c** VCO post-layout **complete** **[PEX-RC lumped / MODEL]**
+(peak sch-style PASS). **P2.7.4a** plan: UHF floor with C_ck **FAIL** [HAND] —
+stop before divider GDS. Sign-off flattened `vco_top.sch` + `lvs_setup.tcl`.
+Full-cell bbox 0.4624 mm² [GDS]. Chip art PASS. Blocks PASS.
 
 ---
 
@@ -939,15 +938,36 @@ Rtail=10 Ω; `Rtb_op`=1 MΩ on det tb (85 °C OP).
 - Swing: bottom ff/wcs/85 ≥0.54 V (0.658); all ≤1.40 V; det C ≈4.6 fF/side.
 - D22 SAR 30/30; bottoms code 31+tnr; tops in window or tnr.
 - Wake max 130 ≤ 150 µs [MODEL].
-**Open:** Peak MC reported 1.250 V at bit=−1 / code 31 (vs 1.4935 [SCH] at
-bit3 / code 24). Measure point and Rtb_op / Cctl not yet accepted.
-**Next:** close peak, then P2.7.4.
+**Peak closed (2026-11-19):** sch-style re-run with Cctl on; Rtb_op on det `tb`
+only; peak+3σ **1.249 ≤ 1.50** (`summary_pex_vco_peak_mc_schstyle.txt`).
+**P2.7.3 VCO complete.**
 
 ### P2.7.4 — xschem + layout: LO buffer, CML ÷2/÷3, converter, TSPC/Johnson
 **Inputs:** `analog/lo/step3/`; floorplan.  
 **Outputs:** sch + gds.gz + DRC/LVS + renders; `out/summary_xsch_lo.txt`.  
 **Pass:** equivalence to LO decks; DRC/LVS clean; D15 enable pins present.  
 **Re-run after PEX (same or next run if short):** corner divide (tt/ss/ff, −40/27/85); phase error ≤ 0.46° (P2.4); LO current with VCO inside D7 ≤ 10 mA typ.
+
+#### P2.7.4a — plan / inventory / UHF floor with layout C (2026-11-19)
+**Hierarchy [TOOL]:** no xschem `.sch` yet — sims from Python flat decks
+(`analog/lo/step1|2|3`). Ideal except TB: CML `isource` tails; step3 ideal tank
+sine; TSPC 1 GΩ holds; supplies. D15 enable present in decks.
+**Device inventory:** see `spec/lo-divider-topology.md` §10.
+**UHF floor + C_ck:** compact clock wire ≈12–15 fF/side [HAND]; scale from
+−150.1 [SCH] → **≈ −147.8 FAIL** vs −150 (`summary_p274a_uhf_floor_layout_c.txt`).
+Full noisy re-sim **not run** (tool time). **Stop before divider GDS** — owner
+picks current/sizing fix.
+**Floorplan / routing (plan only):** § below and `p27-floorplan.md` §8; no cell
+GDS this run.
+
+#### P2.7.4a routing method (plan — apply VCO flow)
+Same as VCO: pcells / scripted fingers; named net groups; pin fan-out check;
+KLayout + netgen unique vs flattened xschem (once captured); density DRC waived.
+**Layers [HAND]:** M1 local SD/gate exit; M2 E–W clocks; M3 N–S power / long
+clock; TM1 shield over matched `ckp`/`ckn` where over substrate. Matched-length
+diff pairs (±1 µm). Shield grounded M1/M2 beside clocks. Power: VR_ANA1 star
+from pad side; local MIM at each CML/TSPC tap (GHz return). Away from tank and
+V_tune.
 
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  
