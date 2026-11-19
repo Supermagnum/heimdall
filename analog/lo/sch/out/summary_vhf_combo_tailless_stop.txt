@@ -1,0 +1,36 @@
+# P2.7.4a3 — combo FAIL; tailless partial; STOP for folded [SCH]
+
+## Step 1 — wide tail × raised CM (ideal shift)
+
+All 12 cases FAIL (dens 60/120 µm/mA × CM 0.60/0.70/0.80 × VDD 1.108/1.08).
+See `summary_vhf_combo_fix.txt`. No schematic AC+tail (step 2) — combination did not pass.
+
+## Step 3 — tail-less clock on ÷3 only
+
+`L1.VARIANT['tailless']=True` for band=vhf; NOR MOSFET tail kept; latch clock to gnd.
+
+| Corner | VDD | f_VCO | divide | max|φ| | buf V/side |
+|---|---:|---:|---|---:|---:|
+| ss | 1.108 | 3.12 | OK | 0.09° | 0.484 |
+| ss | 1.080 | 3.12 | OK | 0.10° | 0.429 |
+| ss | 1.050 | 3.12 | FAIL | 999° | 0.356 |
+| ss | 1.080 | 4.20 | FAIL | 999° | 0.382 |
+| tt | 1.200 | 3.12 / 4.20 | OK | ≤0.09° | ≥0.61 |
+
+Extra smokes [SCH]: B2=6 + tank amp 0.75 V → 4.20 ss **PASS** (phase 0.13°, sw 0.45 V/side);
+default tank amp 0.55 and B2=8 smokes still **FAIL** at 4.20 ss. So tailless needs an
+unrealistic tank drive or a stronger buffer redesign to cover the full VHF window at ss —
+not closed here.
+
+**30 mV margin @ 1.05 V:** FAIL. **ss 4.20 @ 1.08 V (accepted band edge):** FAIL with
+production buffer/tank_amp.
+
+## STOP
+
+Per owner preference order after combo fail: try tailless; if it cannot hold the window /
+margin without breaking the buffer or D7/floor path, **folded PMOS-load is next**.
+
+Tailless is **not accepted** as-is (4.20 ss + margin open). Floor sizing / D7 / peak **not run**.
+
+**Decision needed:** approve folded PMOS-load ÷3 (or allow buffer upsize + higher VCO swing
+budget to finish tailless).
