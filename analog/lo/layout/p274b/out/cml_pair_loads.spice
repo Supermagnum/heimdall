@@ -1,0 +1,8 @@
+* P2.7.4b cml_pair_loads flat [SCH]
+.subckt cml_pair_loads d1 d2 g1 g2 s gnd vdd
+Mm1 d1 g1 s gnd sg13_lv_nmos w=7.5u l=0.13u
+Mm2 d2 g2 s gnd sg13_lv_nmos w=7.5u l=0.13u
+Mdum gnd gnd gnd gnd sg13_lv_nmos w=3.0u l=0.13u
+Rrlp vdd d1 gnd rppd w=2.0u l=5.334u ps=0u b=0 m=1
+Rrln vdd d2 gnd rppd w=2.0u l=5.334u ps=0u b=0 m=1
+.ends

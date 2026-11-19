@@ -1044,6 +1044,12 @@ DRC clean (density waived); KLayout LVS PASS; netgen unique PASS; fingers
 PASS (2×5 + 2×1); C ≈ **2.29 fF/side** of 15 fF [HAND/GDS]; PNG render.
 `out/cml_diff_pair.gds.gz`. Next: loads → tail → regen XC, then full latch.
 
+##### `cml_pair_loads` (2026-11-19) — PASS [TOOL]
+
+Step 3b1: pair + two rppd 666.7 Ω. DRC / KLayout LVS / netgen all **PASS**
+(`ps=0u` on spice to match extract). Next: MOSFET tail on `s`, then regen
+XC pair (W=11.25), then assemble `cml_latch_uhf`.
+
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  
 **Outputs:** sch + gds.gz + DRC/LVS; LF MOS area ≈ 0.062 mm².  
