@@ -1,0 +1,60 @@
+Netgen 1.5.324 compiled on Thu Oct 15 02:24:51 PM CEST 2026
+Warning: netgen command 'format' use fully-qualified name '::netgen::format'
+Warning: netgen command 'global' use fully-qualified name '::netgen::global'
+Reading netlist file /work/analog/lo/layout/p274b/out/cml_latch_uhf.spice for /work/analog/lo/layout/p274b/out/cml_latch_uhf.spice cml_latch_uhf
+Reading netlist file /work/analog/lo/layout/p274b/out/lvs_cml_latch_uhf/cml_latch_uhf_extracted.cir for /work/analog/lo/layout/p274b/out/lvs_cml_latch_uhf/cml_latch_uhf_extracted.cir cml_latch_uhf
+
+Reading setup file /foss/pdks/ihp-sg13g2/libs.tech/netgen/ihp-sg13g2_setup.tcl
+
+No property as found for device sg13_lv_nmos
+No property ad found for device sg13_lv_nmos
+No property ps found for device sg13_lv_nmos
+No property pd found for device sg13_lv_nmos
+No such pin 1 in model sg13_lv_nmos
+Unable to permute model sg13_lv_nmos pins 1, 3.
+No property ng found for device sg13_lv_nmos
+No property as found for device sg13_lv_nmos
+No property ad found for device sg13_lv_nmos
+No property pd found for device sg13_lv_nmos
+No property ps found for device sg13_lv_nmos
+No property trise found for device sg13_lv_nmos
+No property z1 found for device sg13_lv_nmos
+No property z2 found for device sg13_lv_nmos
+No property wmin found for device sg13_lv_nmos
+No property rfmode found for device sg13_lv_nmos
+No property pre_layout found for device sg13_lv_nmos
+No such pin 1 in model sg13_lv_nmos
+Unable to permute model sg13_lv_nmos pins 1, 3.
+No property ng found for device sg13_lv_nmos
+No property as found for device sg13_lv_nmos
+No property ad found for device sg13_lv_nmos
+No property pd found for device sg13_lv_nmos
+No property ps found for device sg13_lv_nmos
+No property trise found for device sg13_lv_nmos
+No property z1 found for device sg13_lv_nmos
+No property z2 found for device sg13_lv_nmos
+No property wmin found for device sg13_lv_nmos
+No property pre_layout found for device sg13_lv_nmos
+Comparison output logged to file /work/analog/lo/layout/p274b/out/netgen_cml_latch_uhf.json
+Logging to file "/work/analog/lo/layout/p274b/out/netgen_cml_latch_uhf.json" enabled
+
+Contents of circuit 1:  Circuit: 'cml_latch_uhf'
+Circuit cml_latch_uhf contains 9 device instances.
+  Class: sg13_lv_nmos          instances:   7
+  Class: gnd                   instances:   2
+Circuit contains 12 nets.
+Contents of circuit 2:  Circuit: 'cml_latch_uhf'
+Circuit cml_latch_uhf contains 4 device instances.
+  Class: sg13_lv_nmos          instances:   3
+  Class: \$1                   instances:   1
+Circuit contains 4 nets.
+
+Circuit 1 contains 9 devices, Circuit 2 contains 4 devices. *** MISMATCH ***
+Circuit 1 contains 12 nets,    Circuit 2 contains 4 nets. *** MISMATCH ***
+
+
+Final result: 
+Netlists do not match.
+Port matching may fail to disambiguate symmetries.
+Logging to file "/work/analog/lo/layout/p274b/out/netgen_cml_latch_uhf.json" disabled
+LVS Done.

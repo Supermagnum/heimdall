@@ -1,0 +1,11 @@
+* Extracted by KLayout with SG13G2 LVS runset on : 19/11/2026 16:16
+
+.SUBCKT cml_latch_uhf ckn|ckp|dn|dp|qn gnd|nb_lo vdd
+M$1 gnd|nb_lo gnd|nb_lo gnd|nb_lo \$1 sg13_lv_nmos L=0.13u W=15u AS=3.075p
++ AD=3.075p PS=20.6u PD=20.6u rfmode=0
+M$11 ckn|ckp|dn|dp|qn ckn|ckp|dn|dp|qn gnd|nb_lo \$1 sg13_lv_nmos L=0.13u W=15u
++ AS=3.3p AD=3.3p PS=22.4u PD=22.4u rfmode=0
+M$21 ckn|ckp|dn|dp|qn ckn|ckp|dn|dp|qn ckn|ckp|dn|dp|qn \$1 sg13_lv_nmos
++ L=0.13u W=37.5u AS=8.25p AD=8.25p PS=53.8u PD=53.8u rfmode=0
+R$41 ckn|ckp|dn|dp|qn vdd \$1 rppd w=2u l=5.334u ps=0u b=0 m=2
+.ENDS cml_latch_uhf
