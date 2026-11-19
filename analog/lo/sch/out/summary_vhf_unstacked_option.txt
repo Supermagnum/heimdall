@@ -1,0 +1,60 @@
+# P2.7.4a3 step 3c — unstacked ÷3 option (STOP for owner) [PROP]
+
+## What failed (3a / 3b)
+
+| Fix | Result [SCH] |
+|---|---|
+| 3a Tail widen 20→120 µm/mA @ 1.108 / 1.08 V | All FAIL (phase 999°) |
+| 3b Lower swing 0.50→0.25 V (R_L↓) @ dens 60, 1.108 V | All FAIL; CML side swing collapses to ≤0.08 V |
+
+Buffer remains ≥0.99 V/side (P2.4 OK). Headroom budget: tail in triode
+(V_DS≈83 mV vs V_dsat≈215 mV); stack shortfall ≈199 mV at 1.08 V
+(`summary_vhf_headroom_budget.txt`). Ideal `isource` tails still the only
+known PASS for VHF ss MOSFET-path comparison [SCH a2].
+
+## Current ÷3 topology (stacked)
+
+From `analog/lo/step1` `cml_latch` / `div_body(3)`:
+
+- Each latch: load R_L → data/regen pair → clock pair → **tail** to gnd
+  (3-high NMOS stack + R_L).
+- ÷3 = two CML DFFs (4 latches) + single-level NOR of q1p/q2p vs vref,
+  NOR also on a shared MOSFET tail (`tg`).
+- At VR_ANA1 pad ss (1.108 V [HAND] / 1.08 V floor) the MOSFET tail
+  V_DS sits in deep triode; widening W and cutting R_L did not restore
+  toggling [SCH].
+
+## Unstacked option (needs owner approval)
+
+**Idea:** remove one series device from the critical path so
+V_DD ≥ swing + 2×V_dsat fits in ≈1.11 V.
+
+Concrete variants (pick one if approved):
+
+1. **Tail-less clock pair (already in step1 VARIANT['tailless']):**
+   clock devices source to gnd; bias by device W only. Stack becomes
+   R_L → data → clock-to-gnd (2-high). Used historically as a speed
+   experiment; current and matching change; must re-check noise and
+   UHF ÷2 sharing.
+
+2. **Folded / PMOS-load CML latch:** NMOS data+clock over a single
+   tail, PMOS active load — classic low-V CML. New cell; more devices;
+   needs bias for PMOS; LVS/xschem redo.
+
+3. **Pseudo-diff / current-mode logic with resistive only one switch
+   level** (e.g. MCML with fewer stacked gates): larger redesign.
+
+4. **Keep ideal / cascode-biased tail current** from a higher headroom
+   bias (e.g. thick-oxide or boosted nbias) so the latch stack sees an
+   ideal-like current sink with V_min ≈ 50–80 mV — closer to the
+   known-PASS ideal-`isource` case without changing the latch graph.
+
+**Not done here:** no schematic change for (1)–(4) without owner pick.
+
+## STOP
+
+Per decisions.md “VHF ÷3 headroom at ss”: topology change only with
+owner approval. Divider current sizing (floor / D7) **paused**.
+
+**Decision needed:** which unstacked / bias option (1–4) to implement,
+or another owner directive.
