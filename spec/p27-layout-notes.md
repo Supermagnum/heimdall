@@ -1079,61 +1079,51 @@ fingers): `cml_diff_pair`, `cml_pair_loads` (`s`=S X≈0, `d1`/`d2`=E,
 `gnd`=W), `cml_tail` (`drain`=N X≈0, `gnd`=W, `nb_lo`=E). Join: 3 µm gap,
 straight M1 stub `s`↔`drain`, west gnd rail outside bboxes. Extract: `s` =
 tail drain; d1/d2/gnd/nb_lo distinct. DRC (density waived) / KLayout LVS /
-netgen unique **PASS**. ##### `cml_regen_xc` (2026-11-20) — PASS [TOOL]
+netgen unique **PASS**.
+
+##### `cml_regen_xc` (2026-11-20) — PASS [TOOL]
 
 W=11.25 ng=5, XC g1≡d2 / g2≡d1 on separate M2 tracks to east lanes.
 DRC (density waived) / KLayout LVS / netgen unique **PASS**. Pins: `s`=S,
-`d1`/`d2`=E (plan wanted **W** for pair_loads join — re-face before full
-latch), `gnd`=W. Fingers 2×5+2×1. Full latch / `cml_clk_pair` / VHF tl **not
-started**.
+`d1`/`d2`=E, `gnd`=W. Fingers 2×5+2×1. Cell kept as-is (no W re-face).
 
-##### `cml_latch_uhf` pin plan (2026-11-20) — before drawing [HAND]
+##### `cml_latch_uhf` pin plan (2026-11-20, revised) [HAND]
 
 Owner rule: each shared net on one face + layer of each sub-cell; joins by
 abutment or straight stubs in the gaps; **no metal through a child cell**.
 
-**Full-latch cells** (sch `cml_latch_uhf.spice`):
+**Placement (revised — keep regen E pins):**
 
 | Cell | Role | Placement |
 |---|---|---|
-| `cml_pair_loads` | data pair + rppd (d1/d2 = qp/qn) | North |
-| `cml_regen_xc` | regen XC W=11.25 (d1/d2 = qp/qn) | North of clock, east of data drains or stacked |
-| `cml_clk_pair` | clock pair (new; same method as `cml_diff_pair`) | Middle |
-| `cml_tail` | MOSFET tail W=15 | South |
+| `cml_pair_loads` | data + rppd (d1/d2 = qp/qn) | Origin; d1/d2 on **E** |
+| `cml_regen_xc` | regen XC W=11.25 | **East** of pair_loads, **M90** so cell E-face
+  d1/d2 face pair_loads E; short stubs (ΔL≲3.5 µm from lane offset) [GDS] |
+| `cml_clk_pair` | clock pair W=7.5 | South of both; wide so N-face d1/d2 X-align
+  under pair.`s` and regen.`s` |
+| `cml_tail` | MOSFET tail W=15 | South of clock; drain N under clk.`s` |
 
-**Stack (N→S):** pair_loads (+ regen sharing qp/qn) → clock pair → tail.
+**Check before drawing joins [HAND]:** d1/d2 stubs short + same Y (symmetric);
+clk/tail stubs X-aligned in gaps only; qp/qn exit on the abutting E corridor
+(toward next stage east). If any check fails → re-face regen to W instead.
 
-**Shared-net pin plan** (face = cell boundary; layer M1 pin + M1 stub unless noted):
+**Shared-net pin plan** (layer M1 pin + M1 stub unless noted):
 
 | Net | Cell A | Face | Cell B | Face | Join |
 |---|---|---|---|---|---|
-| `s1` (data src) | `cml_pair_loads`.`s` | **S** | `cml_clk_pair`.`d1` | **N** | gap stub, X-aligned |
-| `s2` (regen src) | `cml_regen_xc`.`s` | **S** | `cml_clk_pair`.`d2` | **N** | gap stub, X-aligned |
-| `ta` (tail node) | `cml_clk_pair`.`s` | **S** | `cml_tail`.`drain` | **N** | gap stub, X-aligned |
-| `qp` | `cml_pair_loads`.`d1` | **E** | `cml_regen_xc`.`d1` | **W** | abut / short stub |
-| `qn` | `cml_pair_loads`.`d2` | **E** | `cml_regen_xc`.`d2` | **W** | abut / short stub |
-| `gnd` | every cell | **W** | — | **W** | west M1 rail in gaps only |
-| `vdd` | `cml_pair_loads` | **N** | top port | — | |
-| `nb_lo` | `cml_tail` | **E** | top port | — | |
+| `s1` | `cml_pair_loads`.`s` | **S** | `cml_clk_pair`.`d1` | **N** | gap stub, X-align |
+| `s2` | `cml_regen_xc`.`s` (after M90) | **S** | `cml_clk_pair`.`d2` | **N** | gap stub, X-align |
+| `ta` | `cml_clk_pair`.`s` | **S** | `cml_tail`.`drain` | **N** | gap stub, X-align |
+| `qp` | `cml_pair_loads`.`d1` | **E** | `cml_regen_xc`.`d1` (M90→faces W) | cell **E** | abut / short stub |
+| `qn` | `cml_pair_loads`.`d2` | **E** | `cml_regen_xc`.`d2` (M90→faces W) | cell **E** | abut / short stub |
+| `gnd` | pair/clk/tail | **W** | regen (M90→instance E) | outer rail | rail outside bboxes |
+| `vdd` | `cml_pair_loads` | **N** | top | — | |
+| `nb_lo` | `cml_tail` | **E** | top | — | |
 | `dp`/`dn` | `cml_pair_loads` `g1`/`g2` | **N** | top | — | |
 | `ckp`/`ckn` | `cml_clk_pair` `g1`/`g2` | **E** | top | — | |
+| `qp`/`qn` out | abut corridor | **E** | next stage | — | re-export |
 
-**Intermediate prove** (`cml_pair_loads_tail` = pair_loads + tail only, before
-clock/regen): treat pair_loads.`s` as the tail node (same face plan as `ta`
-above). Pin moves required vs current GDS:
-
-| Cell | Pin | Current (nearest face) | Plan |
-|---|---|---|---|
-| `cml_pair_loads` | `s` | interior / E | **S**, X≈0 |
-| `cml_pair_loads` | `d1`,`d2` | S | **N** or **E** (off join face) |
-| `cml_pair_loads` | `gnd` | S | **W** |
-| `cml_tail` | `drain` | E | **N**, X≈0 |
-| `cml_tail` | `gnd` | S | **W** |
-| `cml_tail` | `nb_lo` | N | **E** (keep clear of drain) |
-
-Gap for pair_loads↔tail: ≥ 2 µm; stub M1 only in the gap; gnd on west rail
-outside both bboxes. Regen XC and clock pair built to the same face rules
-before full-latch join.
+`cml_clk_pair` faces: d1/d2 **N**, s **S**, g1/g2 **E**, gnd **W**.
 
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  

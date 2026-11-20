@@ -1154,3 +1154,10 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   layer of each sub-cell, joins by abutment or straight stubs in the gaps, no metal through
   child cells.
 
+## 2026-11-20 — CML latch sub-cells
+- Pin plan accepted; cml_diff_pair, cml_pair_loads, cml_tail re-proven; pair_loads + tail join
+  clean (s = tail drain, no merges, pin fan-out unique); cml_regen_xc proven.
+- Regenerative pair placed so its E-face d1 / d2 pins meet pair_loads directly; pin plan updated.
+  Re-face to W only if that placement breaks output symmetry, the 15 fF budget, or the tail /
+  clock / output access.
+
