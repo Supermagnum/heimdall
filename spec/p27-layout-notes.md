@@ -1153,28 +1153,36 @@ DRC (density waived) / KLayout LVS / netgen unique **PASS**. Fingers: seven
 ng=5 + dummies [TOOL]. Render `out/cml_latch_uhf.png`. Connectivity accepted
 (`decisions.md` 2026-11-20).
 
-##### `cml_latch_uhf` wiring C (2026-11-20) — PASS ≤ 15 fF/side [PEX-RC]
+##### `cml_latch_uhf` / `cml_latch_vhf_tl` wiring C (2026-11-20) — PASS [PEX-RC]
 
-Magic flatten + `.ext` bank-method **wiring add** (coupling only; substrate/node
-and device C excluded) — same as VCO bank. `extresist` not run [TOOL].
+**Method (corrected):** Magic flatten + `.ext`; **wiring C** = substrate/node C +
+coupling (wire-to-substrate + coupling). Device gate/junction C stays in PDK
+MOSFET models. No MIM — substrate term kept (unlike VCO bank). `extresist` not
+run [TOOL]. `decisions.md` 2026-11-20 Divider latches accepted.
 
-| net | wiring add | unit | tag |
-|---|---:|---|---|
-| ckp / ckn | 0.63 / 0.70 | fF | [PEX-RC] |
-| qp / qn | 4.54 / 6.04 | fF | [PEX-RC] |
-| ta (internal `a_n5476_0#`) | 3.12 | fF | [PEX-RC] |
+| cell | ckp | ckn | qp | qn | ta | clock+asm | tag |
+|---|---:|---:|---:|---:|---:|---:|---|
+| `cml_latch_uhf` | 8.38 | 3.54 | 19.49 | 23.33 | 17.53 | **9.25** | [PEX-RC]+[HAND] |
+| `cml_latch_vhf_tl` | 8.28 | 3.44 | 18.42 | 22.24 | — | **9.15** | [PEX-RC]+[HAND] |
 
-Clock max + assembly HAND (latch↔latch 0.27 + buffer→latch 0.60) = **1.57 fF**
-vs ≤ 15 fF/side → **PASS** [PEX-RC]+[HAND]. Summary:
-`analog/lo/layout/p274b/out/summary_pex_wiring_cml_latch_uhf.txt`.
+Both ≤ 15 fF/side with assembly HAND 0.87 fF. Legacy coupling-only headline
+(≈0.7 fF) superseded.
 
-##### `cml_latch_vhf_tl` (2026-11-20) — PASS [TOOL]
+##### `cml_latch_vhf_tl` layout (2026-11-20) — PASS [TOOL]
 
 Pin plan first (tailless: clk.s → gnd; no `cml_tail` / `nb_lo`). Face-pin leaves
 W_data=3.0 / W_regen=4.5 / W_clk=3.0 / RL=1666.7 [SCH]; prove after each join.
 DRC (density waived) / KLayout LVS / netgen unique / fingers **PASS** [TOOL].
-qn/qp stub 1.5 µm [GDS]. Wiring C: clock max 0.58 + assembly 0.87 = **1.45 fF**
-≤ 15 → **PASS** [PEX-RC]+[HAND]. Render `out/cml_latch_vhf_tl.png`.
+qn/qp stub 1.5 µm [GDS]. Render `out/cml_latch_vhf_tl.png`. Area ≈ 0.001 mm²
+class [GDS].
+
+##### `cml_nor_vhf` (2026-11-20) — sch leaf PASS; layout FAIL [TOOL]
+
+xschem leaf + SVG/PDF + LVS spice (W_in=3×3, W_tail=6, RL=1666.7) [SCH].
+Pin plan: orp/orn/nb_lo=E; q1p/q2p/vref/vdd=N; gnd=W. First layout: DRC M1.b /
+V1.*; extract mega-short `gnd|nb_lo|orn|orp|q1p|vdd|vref` — same M1-through-array
+class as early latch. **Not accepted.** Next: rebuild with VCO/latch S/D column
+rules (no M1 across opposite terminals).
 
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  

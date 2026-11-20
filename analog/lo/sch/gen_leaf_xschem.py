@@ -123,6 +123,24 @@ def main():
         ["dp", "dn", "ckp", "ckn", "qp", "qn", "vdd", "0"],
         body, "cml_latch_vhf_tl_0p30mA"))
 
+    # --- VHF CML NOR (÷3 gate; MOSFET tail 0.30 mA) ---
+    C.apply_knobs(i_latch=0.30e-3, vhf_i_latch=0.30e-3, k=1.5, swing=0.5,
+                  vhf_tailless=True)
+    _i, rl, w = C.L1.cml_params(0.30e-3, 1.2)
+    tw = C.tail_w(0.30e-3)
+    nor = (
+        f"rgp (vdd orp) resistor r={rl:.1f}\n"
+        f"rgn (vdd orn) resistor r={rl:.1f}\n"
+        f"mga (orn q1p tg 0) sg13_lv_nmos w={w:.2f}u l=0.13u\n"
+        f"mgb (orn q2p tg 0) sg13_lv_nmos w={w:.2f}u l=0.13u\n"
+        f"mgr (orp vref tg 0) sg13_lv_nmos w={w:.2f}u l=0.13u\n"
+        f"mtg (tg nb_lo 0 0) sg13_lv_nmos w={tw:g}u l={C.TAIL_L}\n"
+    )
+    rows.append(write_leaf(
+        "cml_nor_vhf",
+        ["q1p", "q2p", "vref", "orp", "orn", "nb_lo", "vdd", "0"],
+        nor, "cml_nor_vhf_0p30mA"))
+
     # --- Diff pair leaf (clock/data pair only — layout step 3a) ---
     C.apply_knobs(i_latch=0.75e-3, swing=0.5, k=1.5)
     _, _, w = C.L1.cml_params(0.75e-3, 1.2)
