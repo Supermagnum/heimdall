@@ -1150,9 +1150,31 @@ flush (g1/g2 on bbox E; drain escape no longer past gates on the pin face).
 
 Gap stubs only after leaf face pins: qn/qp stub 1.5 µm, s2 dX ≈12 µm [GDS].
 DRC (density waived) / KLayout LVS / netgen unique **PASS**. Fingers: seven
-ng=5 + dummies [TOOL]. Render `out/cml_latch_uhf.png`. Whole-cell HAND C
-≈18.9 fF/side vs 15 fF budget — method not net-specific; **C uncertain**.
-`cml_latch_vhf_tl` not started.
+ng=5 + dummies [TOOL]. Render `out/cml_latch_uhf.png`. Connectivity accepted
+(`decisions.md` 2026-11-20).
+
+##### `cml_latch_uhf` wiring C (2026-11-20) — PASS ≤ 15 fF/side [PEX-RC]
+
+Magic flatten + `.ext` bank-method **wiring add** (coupling only; substrate/node
+and device C excluded) — same as VCO bank. `extresist` not run [TOOL].
+
+| net | wiring add | unit | tag |
+|---|---:|---|---|
+| ckp / ckn | 0.63 / 0.70 | fF | [PEX-RC] |
+| qp / qn | 4.54 / 6.04 | fF | [PEX-RC] |
+| ta (internal `a_n5476_0#`) | 3.12 | fF | [PEX-RC] |
+
+Clock max + assembly HAND (latch↔latch 0.27 + buffer→latch 0.60) = **1.57 fF**
+vs ≤ 15 fF/side → **PASS** [PEX-RC]+[HAND]. Summary:
+`analog/lo/layout/p274b/out/summary_pex_wiring_cml_latch_uhf.txt`.
+
+##### `cml_latch_vhf_tl` (2026-11-20) — PASS [TOOL]
+
+Pin plan first (tailless: clk.s → gnd; no `cml_tail` / `nb_lo`). Face-pin leaves
+W_data=3.0 / W_regen=4.5 / W_clk=3.0 / RL=1666.7 [SCH]; prove after each join.
+DRC (density waived) / KLayout LVS / netgen unique / fingers **PASS** [TOOL].
+qn/qp stub 1.5 µm [GDS]. Wiring C: clock max 0.58 + assembly 0.87 = **1.45 fF**
+≤ 15 → **PASS** [PEX-RC]+[HAND]. Render `out/cml_latch_vhf_tl.png`.
 
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  
