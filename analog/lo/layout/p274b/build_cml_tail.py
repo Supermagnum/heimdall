@@ -15,12 +15,14 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "out")
 sys.path[:0] = [
+    HERE,
     "/foss/pdks/ihp-sg13g2/libs.tech/klayout/python",
     "/foss/pdks/ihp-sg13g2/libs.tech/klayout/python/"
     "pycell4klayout-api/source/python",
 ]
 import pya  # noqa: E402
 import sg13g2_pycell_lib  # noqa: E402, F401
+import pin_face as PF  # noqa: E402
 
 DBU = 0.001
 W_TAIL, NG = "15.0u", 5
@@ -218,14 +220,12 @@ class Tail:
         self.place(top, vs12, x_drain - 0.05, y_north)
         self.box(top, self.m1, x_drain - 0.25, y_north - 0.5,
                  x_drain + 0.25, y_north + 0.40)
-        self.pin_m1(top, x_drain, y_north - 0.3, "drain")
 
-        # Gate → nb_lo on EAST face (exit in device–left-dummy gap first)
+        # Gate → nb_lo east approach (pin flush on E after geometry)
         self.gate_poly_strap(top, gates, at)
         x_gexit = 0.5 * (bb.left + bb_dL.right)
         y_g = at + 4.0
         self.gate_m1_exit(top, gates, at, x_gexit, y_g)
-        # M1 then M2 to east face; Y clear of drain north strap
         self.box(top, self.m1, x_gexit - 0.14, y_g, x_gexit + 0.14, y_nb + 0.20)
         self.place(top, vs12, x_gexit - 0.05, y_nb)
         self.box(top, self.m2, x_gexit - 0.20, y_nb - 0.15,
@@ -233,7 +233,6 @@ class Tail:
         self.place(top, vs12, x_nb_e - 0.05, y_nb)
         self.box(top, self.m1, x_nb_e - 0.25, y_nb - 0.5,
                  x_nb_e + 0.25, y_nb + 0.40)
-        self.pin_m1(top, x_nb_e, y_nb, "nb_lo")
 
         # Dummies → gnd (west)
         for bb_d, t_d, x_gd in ((bb_dL, t_dL, x_gL), (bb_dR, t_dR, x_gR)):
@@ -273,11 +272,24 @@ class Tail:
                  x_gL + 0.20, max(y_gnd + 0.50, y_gpin))
         self.box(top, self.m1, x_gL - 2.0, y_gpin - 0.25,
                  x_gL + 0.20, y_gpin + 0.25)
-        self.pin_m1(top, x_gL - 1.5, y_gpin, "gnd")
 
+        abb = top.bbox().to_dtype(self.ly.dbu)
+        PF.connect_and_pin_on_face(
+            top, self.m1, self.m1pin, self.m1txt, "drain", "N",
+            x_drain, y_north, abb)
+        PF.connect_and_pin_on_face(
+            top, self.m1, self.m1pin, self.m1txt, "nb_lo", "E",
+            x_nb_e, y_nb, abb)
+        PF.connect_and_pin_on_face(
+            top, self.m1, self.m1pin, self.m1txt, "gnd", "W",
+            x_gL - 1.5, y_gpin, abb)
+        fp = PF.parse_pins(top, self.m1txt)
         abb = top.bbox().to_dtype(self.ly.dbu)
         area = (abb.right - abb.left) * (abb.top - abb.bottom) * 1e-6
         self.say(f"bbox {abb}; area {area:.5f} mm² [GDS]")
+        self.say(f"face pins {fp}")
+        PF.assert_pins_on_faces(
+            top, fp, {"drain": "N", "nb_lo": "E", "gnd": "W"}, tol=0.05)
 
         gds = os.path.join(OUT, "cml_tail.gds")
         self.ly.write(gds)

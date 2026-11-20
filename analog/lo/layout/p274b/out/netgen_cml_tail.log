@@ -1,8 +1,8 @@
 Netgen 1.5.324 compiled on Thu Oct 15 02:24:51 PM CEST 2026
 Warning: netgen command 'format' use fully-qualified name '::netgen::format'
 Warning: netgen command 'global' use fully-qualified name '::netgen::global'
-Reading netlist file /work/analog/lo/layout/p274b/out/cml_tail.spice for /work/analog/lo/layout/p274b/out/cml_tail.spice cml_tail
-Reading netlist file /work/analog/lo/layout/p274b/out/lvs_cml_tail/cml_tail_extracted.cir for /work/analog/lo/layout/p274b/out/lvs_cml_tail/cml_tail_extracted.cir cml_tail
+Reading netlist file /foss/designs/analog/lo/layout/p274b/out/cml_tail.spice for /foss/designs/analog/lo/layout/p274b/out/cml_tail.spice cml_tail
+Reading netlist file /foss/designs/analog/lo/layout/p274b/out/lvs_cml_tail/cml_tail_extracted.cir for /foss/designs/analog/lo/layout/p274b/out/lvs_cml_tail/cml_tail_extracted.cir cml_tail
 
 Reading setup file /foss/pdks/ihp-sg13g2/libs.tech/netgen/ihp-sg13g2_setup.tcl
 
@@ -35,8 +35,8 @@ No property z1 found for device sg13_lv_nmos
 No property z2 found for device sg13_lv_nmos
 No property wmin found for device sg13_lv_nmos
 No property pre_layout found for device sg13_lv_nmos
-Comparison output logged to file /work/analog/lo/layout/p274b/out/netgen_cml_tail.json
-Logging to file "/work/analog/lo/layout/p274b/out/netgen_cml_tail.json" enabled
+Comparison output logged to file /foss/designs/analog/lo/layout/p274b/out/netgen_cml_tail.json
+Logging to file "/foss/designs/analog/lo/layout/p274b/out/netgen_cml_tail.json" enabled
 
 Contents of circuit 1:  Circuit: 'cml_tail'
 Circuit cml_tail contains 2 device instances.
@@ -54,5 +54,5 @@ Circuit 1 contains 3 nets,    Circuit 2 contains 3 nets.
 Final result: 
 Circuits match uniquely.
 .
-Logging to file "/work/analog/lo/layout/p274b/out/netgen_cml_tail.json" disabled
+Logging to file "/foss/designs/analog/lo/layout/p274b/out/netgen_cml_tail.json" disabled
 LVS Done.

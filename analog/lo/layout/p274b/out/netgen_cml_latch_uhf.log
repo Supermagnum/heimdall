@@ -44,17 +44,17 @@ Circuit cml_latch_uhf contains 10 device instances.
   Class: gnd                   instances:   2
 Circuit contains 12 nets.
 Contents of circuit 2:  Circuit: 'cml_latch_uhf'
-Circuit cml_latch_uhf contains 8 device instances.
-  Class: sg13_lv_nmos          instances:   7
-  Class: \$1                   instances:   1
-Circuit contains 13 nets.
+Circuit cml_latch_uhf contains 10 device instances.
+  Class: sg13_lv_nmos          instances:   8
+  Class: gnd                   instances:   2
+Circuit contains 12 nets.
 
-Circuit 1 contains 10 devices, Circuit 2 contains 8 devices. *** MISMATCH ***
-Circuit 1 contains 12 nets,    Circuit 2 contains 13 nets. *** MISMATCH ***
+Circuit 1 contains 10 devices, Circuit 2 contains 10 devices.
+Circuit 1 contains 12 nets,    Circuit 2 contains 12 nets.
 
 
 Final result: 
-Top level cell failed pin matching.
-
+Circuits match uniquely.
+.
 Logging to file "/foss/designs/analog/lo/layout/p274b/out/netgen_cml_latch_uhf.json" disabled
 LVS Done.

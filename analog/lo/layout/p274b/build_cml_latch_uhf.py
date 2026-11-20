@@ -85,32 +85,11 @@ def main():
     m1 = ly.layer(8, 0)
     m1pin = ly.layer(8, 2)
     m1txt = ly.layer(8, 25)
-    m2 = ly.layer(10, 0)
-    lib = pya.Library.library_by_name("SG13_dev", "sg13g2")
-    lib_ly = lib.layout()
-    vs12_decl = lib_ly.pcell_declaration("via_stack")
-    vs12 = ly.add_pcell_variant(lib, vs12_decl.id(), {
-        "b_layer": "Metal1", "t_layer": "Metal2",
-        "vn_columns": 1, "vn_rows": 1,
-    })
 
     pl_cid = load_cell(ly, "cml_pair_loads.gds", "cml_pair_loads")
     rg_cid = load_cell(ly, "cml_regen_xc.gds", "cml_regen_xc")
     ck_cid = load_cell(ly, "cml_clk_pair.gds", "cml_clk_pair")
     tl_cid = load_cell(ly, "cml_tail.gds", "cml_tail")
-
-    def rename_pin(cid, old, new):
-        for sh in list(ly.cell(cid).shapes(m1txt).each()):
-            if not sh.is_text():
-                continue
-            raw = sh.text
-            if isinstance(raw, tuple):
-                name = raw[0]
-            else:
-                m = re.match(r"\('([^']+)'", str(raw))
-                name = m.group(1) if m else str(raw)
-            if name == old:
-                sh.text = pya.DText(new, sh.text_dtrans)
 
     def strip_all_pin_texts(cid):
         """Remove M1txt recursively so only top-cell ports remain [netgen]."""
@@ -121,55 +100,16 @@ def main():
         for i in cell.each_inst():
             strip_all_pin_texts(i.cell_index)
 
-    # Pin coords from leaf names before strip; top re-exports leaf ports only.
+    # Leaves already have join pins on bbox faces; gap stubs only (no reach-in).
     pp0_raw = parse_pins(ly, pl_cid, m1txt)
     rp0_raw = parse_pins(ly, rg_cid, m1txt)
     cp0_raw = parse_pins(ly, ck_cid, m1txt)
     tp0_raw = parse_pins(ly, tl_cid, m1txt)
+    print("leaf face pins pair", pp0_raw, flush=True)
+    print("leaf face pins regen", rp0_raw, flush=True)
+    print("leaf face pins clk", cp0_raw, flush=True)
+    print("leaf face pins tail", tp0_raw, flush=True)
 
-    def extend_to_face(cid, pname, face, pins):
-        """M2 run from inset pin to bbox face (avoids M1 edge shorts) [LVS]."""
-        cell = ly.cell(cid)
-        bb = cell.bbox().to_dtype(ly.dbu)
-        x, y = pins[pname]
-        cell.insert(pya.CellInstArray(
-            vs12, pya.Trans(pya.Trans.R0, um(x - 0.05), um(y))))
-        if face == "E":
-            xf = bb.right
-            cell.shapes(m2).insert(pya.DBox(x - 0.20, y - 0.15, xf + 0.20, y + 0.40))
-            cell.insert(pya.CellInstArray(
-                vs12, pya.Trans(pya.Trans.R0, um(xf - 0.05), um(y))))
-            cell.shapes(m1).insert(pya.DBox(xf - 0.25, y - 0.25, xf + 0.25, y + 0.25))
-        elif face == "W":
-            xf = bb.left
-            cell.shapes(m2).insert(pya.DBox(xf - 0.20, y - 0.15, x + 0.20, y + 0.40))
-            cell.insert(pya.CellInstArray(
-                vs12, pya.Trans(pya.Trans.R0, um(xf - 0.05), um(y))))
-            cell.shapes(m1).insert(pya.DBox(xf - 0.25, y - 0.25, xf + 0.25, y + 0.25))
-        elif face == "N":
-            yf = bb.top
-            cell.shapes(m2).insert(pya.DBox(x - 0.20, y - 0.15, x + 0.20, yf + 0.40))
-            cell.insert(pya.CellInstArray(
-                vs12, pya.Trans(pya.Trans.R0, um(x - 0.05), um(yf))))
-            cell.shapes(m1).insert(pya.DBox(x - 0.25, yf - 0.25, x + 0.25, yf + 0.25))
-        elif face == "S":
-            yf = bb.bottom
-            cell.shapes(m2).insert(pya.DBox(x - 0.20, yf - 0.15, x + 0.20, y + 0.40))
-            cell.insert(pya.CellInstArray(
-                vs12, pya.Trans(pya.Trans.R0, um(x - 0.05), um(yf))))
-            cell.shapes(m1).insert(pya.DBox(x - 0.25, yf - 0.25, x + 0.25, yf + 0.25))
-
-    # Only abutment nets — do not extend top-only ports (shorts on shared faces).
-    for pname, face in (("d1", "E"), ("d2", "E"), ("s", "S"), ("gnd", "W")):
-        extend_to_face(pl_cid, pname, face, pp0_raw)
-    for pname, face in (("d1", "E"), ("d2", "E"), ("s", "S"), ("gnd", "W")):
-        extend_to_face(rg_cid, pname, face, rp0_raw)
-    for pname, face in (("d1", "N"), ("d2", "N"), ("s", "S"), ("gnd", "W")):
-        extend_to_face(ck_cid, pname, face, cp0_raw)
-    for pname, face in (("drain", "N"), ("gnd", "W")):
-        extend_to_face(tl_cid, pname, face, tp0_raw)
-
-    # Alias map used after strip (geometry unchanged)
     pp0 = {
         "qn": pp0_raw["d1"], "qp": pp0_raw["d2"], "s1a": pp0_raw["s"],
         "dp": pp0_raw["g1"], "dn": pp0_raw["g2"],
@@ -319,7 +259,9 @@ def main():
             ("vdd", pp["vdd"]), ("nb_lo", tp["nb_lo"]),
             ("qn", pp["qn"]), ("qp", pp["qp"])):
         pin(x, y, name)
-    pin(x_west - 1.5, 0.5 * (min(ys_g) + max(ys_g)), "gnd")
+    y_gnd_pin = 0.5 * (min(ys_g) + max(ys_g))
+    box(x_west - 2.0, y_gnd_pin - 0.20, x_west + 0.20, y_gnd_pin + 0.20)
+    pin(x_west - 1.5, y_gnd_pin, "gnd")
 
     qnL = abs(rp["qn"][0] - pp["qn"][0])
     qpL = abs(rp["qp"][0] - pp["qp"][0])

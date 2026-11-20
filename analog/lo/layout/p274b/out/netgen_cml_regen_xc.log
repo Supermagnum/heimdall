@@ -1,8 +1,8 @@
 Netgen 1.5.324 compiled on Thu Oct 15 02:24:51 PM CEST 2026
 Warning: netgen command 'format' use fully-qualified name '::netgen::format'
 Warning: netgen command 'global' use fully-qualified name '::netgen::global'
-Reading netlist file /work/analog/lo/layout/p274b/out/cml_regen_xc.spice for /work/analog/lo/layout/p274b/out/cml_regen_xc.spice cml_regen_xc
-Reading netlist file /work/analog/lo/layout/p274b/out/lvs_cml_regen_xc/cml_regen_xc_extracted.cir for /work/analog/lo/layout/p274b/out/lvs_cml_regen_xc/cml_regen_xc_extracted.cir cml_regen_xc
+Reading netlist file /foss/designs/analog/lo/layout/p274b/out/cml_regen_xc.spice for /foss/designs/analog/lo/layout/p274b/out/cml_regen_xc.spice cml_regen_xc
+Reading netlist file /foss/designs/analog/lo/layout/p274b/out/lvs_cml_regen_xc/cml_regen_xc_extracted.cir for /foss/designs/analog/lo/layout/p274b/out/lvs_cml_regen_xc/cml_regen_xc_extracted.cir cml_regen_xc
 
 Reading setup file /foss/pdks/ihp-sg13g2/libs.tech/netgen/ihp-sg13g2_setup.tcl
 
@@ -35,8 +35,8 @@ No property z1 found for device sg13_lv_nmos
 No property z2 found for device sg13_lv_nmos
 No property wmin found for device sg13_lv_nmos
 No property pre_layout found for device sg13_lv_nmos
-Comparison output logged to file /work/analog/lo/layout/p274b/out/netgen_cml_regen_xc.json
-Logging to file "/work/analog/lo/layout/p274b/out/netgen_cml_regen_xc.json" enabled
+Comparison output logged to file /foss/designs/analog/lo/layout/p274b/out/netgen_cml_regen_xc.json
+Logging to file "/foss/designs/analog/lo/layout/p274b/out/netgen_cml_regen_xc.json" enabled
 
 Contents of circuit 1:  Circuit: 'cml_regen_xc'
 Circuit cml_regen_xc contains 3 device instances.
@@ -54,5 +54,5 @@ Circuit 1 contains 4 nets,    Circuit 2 contains 4 nets.
 Final result: 
 Circuits match uniquely.
 .
-Logging to file "/work/analog/lo/layout/p274b/out/netgen_cml_regen_xc.json" disabled
+Logging to file "/foss/designs/analog/lo/layout/p274b/out/netgen_cml_regen_xc.json" disabled
 LVS Done.

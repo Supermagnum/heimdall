@@ -1,5 +1,5 @@
 # cml_clk_pair fingers [TOOL]
 
-ngs=[1, 1, 5, 5]
-expect two×ng=5 + two×ng=1 dummies
+ngs=[1, 1, 5, 5, 12]
+expect ng5>=2 ng1>=2 other={}
 gate: PASS

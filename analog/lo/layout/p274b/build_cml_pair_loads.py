@@ -14,11 +14,13 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "out")
 sys.path[:0] = [
+    HERE,
     "/foss/pdks/ihp-sg13g2/libs.tech/klayout/python",
     "/foss/pdks/ihp-sg13g2/libs.tech/klayout/python/pycell4klayout-api/source/python",
 ]
 import pya  # noqa: E402
 import sg13g2_pycell_lib  # noqa: E402, F401
+import pin_face as PF  # noqa: E402
 
 DBU = 0.001
 R_W, R_L = "2.0u", "5.334u"
@@ -93,33 +95,84 @@ def main():
     bb_rl = place(rh, x_rl - rloc.width() / 2 - rloc.left, y_r - rloc.bottom)
     bb_rr = place(rh, x_rr - rloc.width() / 2 - rloc.left, y_r - rloc.bottom)
 
-    # East drain pins → north on separate X, then west on separate Y
-    # (shared y_turn H-strap previously shorted d1|d2).
-    routes = (
-        (xd1, yd1, bb_rl, xd1 + 2.0, pbb.top + 1.0),
-        (xd2, yd2, bb_rr, xd2 + 4.0, pbb.top + 2.8),
-    )
-    for xd, yd, bb, x_lane, y_west in routes:
-        cx = 0.5 * (bb.left + bb.right)
-        box(xd - 0.14, yd - 0.14, xd + 0.14, yd + 0.14)
-        box(min(xd, x_lane) - 0.14, yd - 0.14,
-            max(xd, x_lane) + 0.14, yd + 0.14)
-        box(x_lane - 0.14, yd, x_lane + 0.14, y_west)
-        box(min(x_lane, cx) - 0.14, y_west - 0.14,
-            max(x_lane, cx) + 0.14, y_west + 0.14)
-        box(cx - 0.14, min(y_west, bb.bottom + 0.3),
-            cx + 0.14, max(y_west, bb.bottom + 0.5))
-        box(cx - 0.14, bb.bottom + 0.2, cx + 0.14, bb.bottom + 0.5)
-        box(cx - 0.14, bb.top - 0.3, cx + 0.14, bb.top + 2.0)
+    # East drains → north on separate X/Y. d2 north escape uses M2 so M1 at
+    # yd1 stays free for d1 H to the common E-face X [LVS].
+    lib = pya.Library.library_by_name("SG13_dev", "sg13g2")
+    lib_ly = lib.layout()
+    vs12 = ly.add_pcell_variant(
+        lib, lib_ly.pcell_declaration("via_stack").id(),
+        {"b_layer": "Metal1", "t_layer": "Metal2",
+         "vn_columns": 1, "vn_rows": 1})
+    m2 = ly.layer(10, 0)
+
+    def via(x, y):
+        top.insert(pya.CellInstArray(
+            vs12, pya.Trans(pya.Trans.R0, um(x - 0.05), um(y))))
+
+    def box2(x0, y0, x1, y1):
+        top.shapes(m2).insert(pya.DBox(
+            min(x0, x1), min(y0, y1), max(x0, x1), max(y0, y1)))
+
+    x_lane1, x_lane2 = xd1 + 2.0, xd2 + 4.0
+    x_face = x_lane2 + 2.5
+    y_west1, y_west2 = pbb.top + 1.0, pbb.top + 2.8
+
+    # d1: M1 lane vertical (yd1 is this net — OK)
+    cx1 = 0.5 * (bb_rl.left + bb_rl.right)
+    box(xd1 - 0.14, yd1 - 0.14, xd1 + 0.14, yd1 + 0.14)
+    box(min(xd1, x_lane1) - 0.14, yd1 - 0.14,
+        max(xd1, x_lane1) + 0.14, yd1 + 0.14)
+    box(x_lane1 - 0.14, yd1, x_lane1 + 0.14, y_west1)
+    box(min(x_lane1, cx1) - 0.14, y_west1 - 0.14,
+        max(x_lane1, cx1) + 0.14, y_west1 + 0.14)
+    box(cx1 - 0.14, min(y_west1, bb_rl.bottom + 0.3),
+        cx1 + 0.14, max(y_west1, bb_rl.bottom + 0.5))
+    box(cx1 - 0.14, bb_rl.bottom + 0.2, cx1 + 0.14, bb_rl.bottom + 0.5)
+    box(cx1 - 0.14, bb_rl.top - 0.3, cx1 + 0.14, bb_rl.top + 2.0)
+
+    # d2: H at yd2 to lane; M2 vertical (gap in M1 at yd1 for d1 face stub)
+    cx2 = 0.5 * (bb_rr.left + bb_rr.right)
+    box(xd2 - 0.14, yd2 - 0.14, xd2 + 0.14, yd2 + 0.14)
+    box(min(xd2, x_lane2) - 0.14, yd2 - 0.14,
+        max(xd2, x_lane2) + 0.14, yd2 + 0.14)
+    via(x_lane2, yd2)
+    box2(x_lane2 - 0.20, yd2 - 0.15, x_lane2 + 0.20, y_west2 + 0.40)
+    via(x_lane2, y_west2)
+    box(min(x_lane2, cx2) - 0.14, y_west2 - 0.14,
+        max(x_lane2, cx2) + 0.14, y_west2 + 0.14)
+    box(cx2 - 0.14, min(y_west2, bb_rr.bottom + 0.3),
+        cx2 + 0.14, max(y_west2, bb_rr.bottom + 0.5))
+    box(cx2 - 0.14, bb_rr.bottom + 0.2, cx2 + 0.14, bb_rr.bottom + 0.5)
+    box(cx2 - 0.14, bb_rr.top - 0.3, cx2 + 0.14, bb_rr.top + 2.0)
+
+    # H-only M1 to common E face (no V at x_face)
+    box(min(x_lane1, x_face) - 0.14, yd1 - 0.14,
+        max(x_lane1, x_face) + 0.14, yd1 + 0.14)
+    box(min(x_lane2, x_face) - 0.14, yd2 - 0.14,
+        max(x_lane2, x_face) + 0.14, yd2 + 0.14)
 
     y_vdd = max(bb_rl.top, bb_rr.top) + 2.0
     box(min(bb_rl.left, bb_rr.left), y_vdd,
         max(bb_rl.right, bb_rr.right), y_vdd + 0.28)
-    pin(0.5 * (bb_rl.left + bb_rr.right), y_vdd + 0.5, "vdd")
+    x_vdd = 0.5 * (bb_rl.left + bb_rr.right)
+    xg1, yg1 = pins["g1"]
+    xg2, yg2 = pins["g2"]
+    # vdd pin on N face; g1/g2 stay at child Y (top ports; N move later if needed)
+    y_n = y_vdd + 0.5
 
-    # Re-export face pins (same locations as child; no through-routing)
-    for name, (x, y) in pins.items():
-        pin(x, y, name)
+    PF.strip_pin_texts(ly.cell(pair_cid), m1txt)
+    pin(x_face, yd1, "d1")
+    pin(x_face, yd2, "d2")
+    pin(xs, ys, "s")
+    pin(xg, yg, "gnd")
+    pin(xg1, yg1, "g1")
+    pin(xg2, yg2, "g2")
+    pin(x_vdd, y_n, "vdd")
+    face_pins = PF.parse_pins(top, m1txt)
+    bb = top.bbox().to_dtype(ly.dbu)
+    print(f"bbox {bb} face pins {face_pins}", flush=True)
+    assert abs((face_pins["d1"][0] + PF.HALF) - bb.right) < 0.05
+    assert abs((face_pins["d2"][0] + PF.HALF) - bb.right) < 0.05
 
     gds = os.path.join(OUT, "cml_pair_loads.gds")
     ly.write(gds)

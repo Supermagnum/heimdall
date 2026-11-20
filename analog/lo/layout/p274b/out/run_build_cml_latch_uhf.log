@@ -1,15 +1,13 @@
-Technology SG13_dev is loaded.
-GRID : 0.01
-GRID inverse : 100.0
-EPSILON1  : 0.001
-EPSILON2  : 1e-9
-Success.
-bbox gaps NS pair-clk=5.250 regen-clk=5.250 clk-tail=4.850 [GDS]
-qn stub L=8.890 µm Y=33.200 corridor=1.000 [GDS]
-qp stub L=6.390 µm Y=29.200 corridor=1.000 [GDS]
-s1 gap-only dX=0.000 gapY=5.250 pinDY=7.500 [GDS]
-s2 gap-only dX=7.360 gapY=5.250 pinDY=7.500 [GDS]
-ta gap-only dX=0.000 gapY=4.850 pinDY=6.700 [GDS]
+leaf face pins pair {'d1': (32.160000000000004, -4.18), 'd2': (32.160000000000004, -8.18), 's': (0.0, -17.18), 'gnd': (-24.16, 0.75), 'g1': (-9.85, 7.5), 'g2': (9.85, 7.5), 'vdd': (0.313, 20.804000000000002)}
+leaf face pins regen {'s': (0.0, -17.18), 'd1': (31.16, -4.18), 'd2': (31.16, -8.18), 'gnd': (-24.16, 1.125)}
+leaf face pins clk {'s': (0.0, -17.43), 'd1': (-26.425, 13.15), 'd2': (26.425, 13.15), 'gnd': (-46.61, 0.75), 'g1': (52.11, 7.0), 'g2': (52.11, 9.0)}
+leaf face pins tail {'drain': (0.0, 14.15), 'nb_lo': (17.185, 9.0), 'gnd': (-12.985, 1.5)}
+bbox gaps NS pair-clk=3.750 regen-clk=3.750 clk-tail=3.500 [GDS]
+qn stub L=1.500 µm Y=30.650 corridor=1.000 [GDS]
+qp stub L=1.500 µm Y=26.650 corridor=1.000 [GDS]
+s1 gap-only dX=0.000 gapY=3.750 pinDY=4.500 [GDS]
+s2 gap-only dX=11.970 gapY=3.750 pinDY=4.500 [GDS]
+ta gap-only dX=0.000 gapY=3.500 pinDY=4.000 [GDS]
 CHECK PASS: qp/qn stub short (<12.0 µm)
 CHECK PASS: qp/qn Y-aligned
 CHECK PASS: s2 stub short (<12.0 µm)

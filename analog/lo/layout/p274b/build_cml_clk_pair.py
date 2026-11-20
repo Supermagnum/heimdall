@@ -23,11 +23,13 @@ OUT = os.path.join(HERE, "out")
 os.makedirs(OUT, exist_ok=True)
 
 sys.path[:0] = [
+    HERE,
     "/foss/pdks/ihp-sg13g2/libs.tech/klayout/python",
     "/foss/pdks/ihp-sg13g2/libs.tech/klayout/python/pycell4klayout-api/source/python",
 ]
 import pya  # noqa: E402
 import sg13g2_pycell_lib  # noqa: E402, F401
+import pin_face as PF  # noqa: E402
 
 DBU = 0.001
 W_PAIR = "7.5u"
@@ -257,7 +259,7 @@ class ClkPair:
         self.place(top, vs12, x_d1n - 0.05, y_north)
         self.box(top, self.m1, x_d1n - 0.25, y_north - 0.5,
                  x_d1n + 0.25, y_north + 0.40)
-        self.pin_m1(top, x_d1n, y_north - 0.3, "d1")
+        # N-face pin placed after all geometry (flush to bb.top)
 
         for c in drn2:
             self.box(top, self.m1, c.left, y_dr, c.right, c.bottom)
@@ -274,8 +276,7 @@ class ClkPair:
         self.place(top, vs12, x_d2n - 0.05, y_north)
         self.box(top, self.m1, x_d2n - 0.25, y_north - 0.5,
                  x_d2n + 0.25, y_north + 0.40)
-        self.pin_m1(top, x_d2n, y_north - 0.3, "d2")
-        self.say(f"N pins d1={x_d1n:.3f} d2={x_d2n:.3f} span={x_d2n - x_d1n:.3f} [GDS]")
+        self.say(f"N drains d1={x_d1n:.3f} d2={x_d2n:.3f} span={x_d2n - x_d1n:.3f} [GDS]")
 
         # Gates off Activ; east pins in V-break gap (below N drain face)
         self.gate_poly_strap(top, g1, at1)
@@ -290,14 +291,12 @@ class ClkPair:
         self.place(top, vs12, x_e_g1 - 0.05, y_g1e)
         self.box(top, self.m1, x_e_g1 - 0.25, y_g1e - 0.5,
                  x_e_g1 + 0.25, y_g1e + 0.40)
-        self.pin_m1(top, x_e_g1, y_g1e, "g1")
         self.place(top, vs12, x_g2 - 0.05, y_g2e)
         self.box(top, self.m2, x_g2 - 0.20, y_g2e - 0.15,
                  x_e_g2 + 0.20, y_g2e + 0.40)
         self.place(top, vs12, x_e_g2 - 0.05, y_g2e)
         self.box(top, self.m1, x_e_g2 - 0.25, y_g2e - 0.5,
                  x_e_g2 + 0.25, y_g2e + 0.40)
-        self.pin_m1(top, x_e_g2, y_g2e, "g2")
 
         # Dummies + gnd outboard; gnd pin on WEST face
         for bb_d, t_d, x_gnd_d in ((bb_dL, t_dL, x_gL), (bb_dR, t_dR, x_gR)):
@@ -334,11 +333,30 @@ class ClkPair:
                  x_gL + 0.20, max(y_gnd + 0.50, y_gpin))
         self.box(top, self.m1, x_gL - 2.0, y_gpin - 0.25,
                  x_gL + 0.20, y_gpin + 0.25)
-        self.pin_m1(top, x_gL - 1.5, y_gpin, "gnd")
 
+        # Flush face pins after geometry (own layer; pad outer = face) [HAND]
+        bb = top.bbox().to_dtype(self.ly.dbu)
+        PF.connect_and_pin_on_face(
+            top, self.m1, self.m1pin, self.m1txt, "d1", "N", x_d1n, y_north, bb)
+        PF.connect_and_pin_on_face(
+            top, self.m1, self.m1pin, self.m1txt, "d2", "N", x_d2n, y_north, bb)
+        PF.connect_and_pin_on_face(
+            top, self.m1, self.m1pin, self.m1txt, "s", "S", x_s_pin, y_s_pin, bb)
+        PF.connect_and_pin_on_face(
+            top, self.m1, self.m1pin, self.m1txt, "gnd", "W",
+            x_gL - 1.5, y_gpin, bb)
+        PF.connect_and_pin_on_face(
+            top, self.m1, self.m1pin, self.m1txt, "g1", "E", x_e_g1, y_g1e, bb)
+        PF.connect_and_pin_on_face(
+            top, self.m1, self.m1pin, self.m1txt, "g2", "E", x_e_g2, y_g2e, bb)
+        fp = PF.parse_pins(top, self.m1txt)
         bb = top.bbox().to_dtype(self.ly.dbu)
         area = (bb.right - bb.left) * (bb.top - bb.bottom) * 1e-6
         self.say(f"clk bbox {bb}; area {area:.5f} mm² [GDS]")
+        self.say(f"face pins {fp}")
+        PF.assert_pins_on_faces(top, fp, {
+            "d1": "N", "d2": "N", "s": "S", "gnd": "W", "g1": "E", "g2": "E"},
+            tol=0.05)
 
         gds = os.path.join(OUT, "cml_clk_pair.gds")
         self.ly.write(gds)

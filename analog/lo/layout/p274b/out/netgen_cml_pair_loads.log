@@ -1,8 +1,8 @@
 Netgen 1.5.324 compiled on Thu Oct 15 02:24:51 PM CEST 2026
 Warning: netgen command 'format' use fully-qualified name '::netgen::format'
 Warning: netgen command 'global' use fully-qualified name '::netgen::global'
-Reading netlist file /work/analog/lo/layout/p274b/out/cml_pair_loads.spice for /work/analog/lo/layout/p274b/out/cml_pair_loads.spice cml_pair_loads
-Reading netlist file /work/analog/lo/layout/p274b/out/lvs_cml_pair_loads/cml_pair_loads_extracted.cir for /work/analog/lo/layout/p274b/out/lvs_cml_pair_loads/cml_pair_loads_extracted.cir cml_pair_loads
+Reading netlist file /foss/designs/analog/lo/layout/p274b/out/cml_pair_loads.spice for /foss/designs/analog/lo/layout/p274b/out/cml_pair_loads.spice cml_pair_loads
+Reading netlist file /foss/designs/analog/lo/layout/p274b/out/lvs_cml_pair_loads/cml_pair_loads_extracted.cir for /foss/designs/analog/lo/layout/p274b/out/lvs_cml_pair_loads/cml_pair_loads_extracted.cir cml_pair_loads
 
 Reading setup file /foss/pdks/ihp-sg13g2/libs.tech/netgen/ihp-sg13g2_setup.tcl
 
@@ -35,8 +35,8 @@ No property z1 found for device sg13_lv_nmos
 No property z2 found for device sg13_lv_nmos
 No property wmin found for device sg13_lv_nmos
 No property pre_layout found for device sg13_lv_nmos
-Comparison output logged to file /work/analog/lo/layout/p274b/out/netgen_cml_pair_loads.json
-Logging to file "/work/analog/lo/layout/p274b/out/netgen_cml_pair_loads.json" enabled
+Comparison output logged to file /foss/designs/analog/lo/layout/p274b/out/netgen_cml_pair_loads.json
+Logging to file "/foss/designs/analog/lo/layout/p274b/out/netgen_cml_pair_loads.json" enabled
 
 Contents of circuit 1:  Circuit: 'cml_pair_loads'
 Circuit cml_pair_loads contains 5 device instances.
@@ -56,5 +56,5 @@ Circuit 1 contains 7 nets,    Circuit 2 contains 7 nets.
 Final result: 
 Circuits match uniquely.
 .
-Logging to file "/work/analog/lo/layout/p274b/out/netgen_cml_pair_loads.json" disabled
+Logging to file "/foss/designs/analog/lo/layout/p274b/out/netgen_cml_pair_loads.json" disabled
 LVS Done.

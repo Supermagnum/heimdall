@@ -1,6 +1,6 @@
-pair (-26.425,37.380) regen M90 (33.785,37.380)
-clk (0,0) tail (0.000,-37.580)
-qn stub 8.890 qp stub 6.390 s2 dX 7.360
+pair (-26.425,34.830) regen M90 (38.395,34.830)
+clk (0,0) tail (0.000,-35.580)
+qn stub 1.500 qp stub 1.500 s2 dX 11.970
 PASS qp/qn stub short (<12.0 µm)
 PASS qp/qn Y-aligned
 PASS s2 stub short (<12.0 µm)

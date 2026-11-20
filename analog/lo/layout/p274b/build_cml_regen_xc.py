@@ -23,11 +23,13 @@ OUT = os.path.join(HERE, "out")
 os.makedirs(OUT, exist_ok=True)
 
 sys.path[:0] = [
+    HERE,
     "/foss/pdks/ihp-sg13g2/libs.tech/klayout/python",
     "/foss/pdks/ihp-sg13g2/libs.tech/klayout/python/pycell4klayout-api/source/python",
 ]
 import pya  # noqa: E402
 import sg13g2_pycell_lib  # noqa: E402, F401
+import pin_face as PF  # noqa: E402
 
 DBU = 0.001
 W_PAIR = "11.25u"
@@ -248,9 +250,12 @@ class XC:
         self.place(top, vs12, x_d2 - 0.05, y_dr)
         self.box(top, self.m1, x_d2 - 0.20, y_dr, x_d2 + 0.20, y_dr + 0.40)
 
-        # East-face drain pins at distinct Y (d1 above d2)
+        # East drain lanes at distinct Y; d2 XC jog leaves M2 gap at y_d1e
+        # so d1 can H to a common E-face X [LVS].
         y_d1e = y_dr + 3.0
         y_d2e = y_dr - 1.0
+        x_face = x_e2 + 3.0
+        x_d2_jog = x_e2 + 1.5
         self.place(top, vs12, x_d1 - 0.05, y_d1e)
         self.box(top, self.m2, x_d1 - 0.20, y_dr - 0.15,
                  x_d1 + 0.20, y_d1e + 0.40)
@@ -259,7 +264,6 @@ class XC:
         self.place(top, vs12, x_e1 - 0.05, y_d1e)
         self.box(top, self.m1, x_e1 - 0.25, y_d1e - 0.5,
                  x_e1 + 0.25, y_d1e + 0.40)
-        self.pin_m1(top, x_e1, y_d1e, "d1")
 
         self.place(top, vs12, x_d2 - 0.05, y_d2e)
         self.box(top, self.m2, x_d2 - 0.20, min(y_dr, y_d2e) - 0.15,
@@ -269,33 +273,44 @@ class XC:
         self.place(top, vs12, x_e2 - 0.05, y_d2e)
         self.box(top, self.m1, x_e2 - 0.25, y_d2e - 0.5,
                  x_e2 + 0.25, y_d2e + 0.40)
-        self.pin_m1(top, x_e2, y_d2e, "d2")
 
-        # Gates off Activ; XC on east lanes so H tracks do not cross the
-        # other net's vertical (shared-X tall V previously shorted d1|d2).
+        # Gates off Activ; XC on east lanes
         self.gate_poly_strap(top, g1, at1)
         self.gate_poly_strap(top, g2, at2)
         y_g_exit = max(at1, at2) + 4.0
         self.gate_m1_exit(top, g1, at1, x_g1, y_g_exit)
         self.gate_m1_exit(top, g2, at2, x_g2, y_g_exit)
-        y_xc_d1 = y_g_exit + 3.0   # g2→d1 track
-        y_xc_d2 = y_xc_d1 + 2.5    # g1→d2 track (above; clears x_e1 V)
+        y_xc_d1 = y_g_exit + 3.0
+        y_xc_d2 = y_xc_d1 + 2.5
         self.place(top, vs12, x_g1 - 0.05, y_g_exit)
         self.place(top, vs12, x_g2 - 0.05, y_g_exit)
-        # g2 (right) → d1 east pin: H only to x_e1 (not past x_e2)
+        # g2 → d1 at x_e1
         self.box(top, self.m2, x_g2 - 0.20, y_g_exit - 0.15,
                  x_g2 + 0.20, y_xc_d1 + 0.40)
         self.box(top, self.m2, min(x_g2, x_e1) - 0.20, y_xc_d1 - 0.15,
                  max(x_g2, x_e1) + 0.20, y_xc_d1 + 0.40)
         self.box(top, self.m2, x_e1 - 0.20, y_d1e - 0.15,
                  x_e1 + 0.20, y_xc_d1 + 0.40)
-        # g1 (left) → d2 east pin: H at higher Y to x_e2
+        # g1 → d2: H at y_xc_d2 to x_e2; pin↔XC via x_d2_jog (gap at y_d1e on x_e2)
         self.box(top, self.m2, x_g1 - 0.20, y_g_exit - 0.15,
                  x_g1 + 0.20, y_xc_d2 + 0.40)
         self.box(top, self.m2, x_g1 - 0.20, y_xc_d2 - 0.15,
                  x_e2 + 0.20, y_xc_d2 + 0.40)
-        self.box(top, self.m2, x_e2 - 0.20, y_d2e - 0.15,
+        self.box(top, self.m2, x_e2 - 0.20, y_xc_d2 - 0.15,
                  x_e2 + 0.20, y_xc_d2 + 0.40)
+        self.box(top, self.m2, x_e2 - 0.20, y_d2e - 0.15,
+                 x_d2_jog + 0.20, y_d2e + 0.40)
+        self.box(top, self.m2, x_d2_jog - 0.20, y_d2e - 0.15,
+                 x_d2_jog + 0.20, y_xc_d2 + 0.40)
+        self.box(top, self.m2, x_e2 - 0.20, y_xc_d2 - 0.15,
+                 x_d2_jog + 0.20, y_xc_d2 + 0.40)
+        # H-only M1 to common E face
+        self.box(top, self.m1, x_e1 - 0.14, y_d1e - 0.14,
+                 x_face + 0.14, y_d1e + 0.14)
+        self.box(top, self.m1, x_e2 - 0.14, y_d2e - 0.14,
+                 x_face + 0.14, y_d2e + 0.14)
+        self.pin_m1(top, x_face, y_d1e, "d1")
+        self.pin_m1(top, x_face, y_d2e, "d2")
 
         # Dummies + gnd outboard; gnd pin on WEST face
         for bb_d, t_d, x_gnd_d in ((bb_dL, t_dL, x_gL), (bb_dR, t_dR, x_gR)):
@@ -337,6 +352,10 @@ class XC:
         bb = top.bbox().to_dtype(self.ly.dbu)
         area = (bb.right - bb.left) * (bb.top - bb.bottom) * 1e-6
         self.say(f"XC bbox {bb}; area {area:.5f} mm² [GDS]")
+        fp = PF.parse_pins(top, self.m1txt)
+        self.say(f"face pins {fp}")
+        assert abs((fp["d1"][0] + PF.HALF) - bb.right) < 0.05
+        assert abs((fp["d2"][0] + PF.HALF) - bb.right) < 0.05
 
         gds = os.path.join(OUT, "cml_regen_xc.gds")
         self.ly.write(gds)

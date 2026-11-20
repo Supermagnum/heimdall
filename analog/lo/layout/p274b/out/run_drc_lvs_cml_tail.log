@@ -1,14 +1,14 @@
-+ python3 /foss/pdks/ihp-sg13g2/libs.tech/klayout/tech/drc/run_drc.py --path=/work/analog/lo/layout/p274b/out/cml_tail.gds --topcell=cml_tail --minimum_drc --run_dir=/work/analog/lo/layout/p274b/out/drc_cml_tail --mp=2
-  exit 1; log /work/analog/lo/layout/p274b/out/drc_cml_tail.log
-+ python3 /foss/pdks/ihp-sg13g2/libs.tech/klayout/tech/lvs/run_lvs.py --layout=/work/analog/lo/layout/p274b/out/cml_tail.gds --netlist=/work/analog/lo/layout/p274b/out/cml_tail.spice --topcell=cml_tail --run_dir=/work/analog/lo/layout/p274b/out/lvs_cml_tail --disable_tap_extraction --ignore_top_ports_mismatch --combine_devices --top_lvl_pins
-  exit 0; log /work/analog/lo/layout/p274b/out/lvs_klayout_cml_tail.log
-+ netgen -batch source /work/analog/lo/layout/p274b/out/netgen_cml_tail.tcl
-  exit 0; log /work/analog/lo/layout/p274b/out/netgen_cml_tail.log
++ python3 /foss/pdks/ihp-sg13g2/libs.tech/klayout/tech/drc/run_drc.py --path=/foss/designs/analog/lo/layout/p274b/out/cml_tail.gds --topcell=cml_tail --minimum_drc --run_dir=/foss/designs/analog/lo/layout/p274b/out/drc_cml_tail --mp=2
+  exit 1; log /foss/designs/analog/lo/layout/p274b/out/drc_cml_tail.log
++ python3 /foss/pdks/ihp-sg13g2/libs.tech/klayout/tech/lvs/run_lvs.py --layout=/foss/designs/analog/lo/layout/p274b/out/cml_tail.gds --netlist=/foss/designs/analog/lo/layout/p274b/out/cml_tail.spice --topcell=cml_tail --run_dir=/foss/designs/analog/lo/layout/p274b/out/lvs_cml_tail --disable_tap_extraction --ignore_top_ports_mismatch --combine_devices --top_lvl_pins
+  exit 0; log /foss/designs/analog/lo/layout/p274b/out/lvs_klayout_cml_tail.log
++ netgen -batch source /foss/designs/analog/lo/layout/p274b/out/netgen_cml_tail.tcl
+  exit 0; log /foss/designs/analog/lo/layout/p274b/out/netgen_cml_tail.log
 # P2.7.4b DRC/LVS — cml_tail
 
 - DRC clean (density waived): **PASS** non-density=[]
 - KLayout LVS: **PASS**
 - netgen unique: **PASS**
-- extracted: `/work/analog/lo/layout/p274b/out/lvs_cml_tail/cml_tail_extracted.cir`
+- extracted: `/foss/designs/analog/lo/layout/p274b/out/lvs_cml_tail/cml_tail_extracted.cir`
 
-WROTE /work/analog/lo/layout/p274b/out/summary_drc_lvs_cml_tail.txt
+WROTE /foss/designs/analog/lo/layout/p274b/out/summary_drc_lvs_cml_tail.txt

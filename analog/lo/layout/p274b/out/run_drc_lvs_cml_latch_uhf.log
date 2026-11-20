@@ -6,9 +6,9 @@
   exit 0; log /foss/designs/analog/lo/layout/p274b/out/netgen_cml_latch_uhf.log
 # P2.7.4b DRC/LVS — cml_latch_uhf
 
-- DRC clean (density waived): **FAIL** non-density=['M1.b', 'V1.b']
-- KLayout LVS: **FAIL**
-- netgen unique: **FAIL**
+- DRC clean (density waived): **PASS** non-density=[]
+- KLayout LVS: **PASS**
+- netgen unique: **PASS**
 - extracted: `/foss/designs/analog/lo/layout/p274b/out/lvs_cml_latch_uhf/cml_latch_uhf_extracted.cir`
 
 WROTE /foss/designs/analog/lo/layout/p274b/out/summary_drc_lvs_cml_latch_uhf.txt

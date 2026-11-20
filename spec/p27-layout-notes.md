@@ -1125,21 +1125,34 @@ clk/tail stubs X-aligned in gaps only; qp/qn exit on the abutting E corridor
 
 `cml_clk_pair` faces: d1/d2 **N**, s **S**, g1/g2 **E**, gnd **W**.
 
+##### Pin-on-face rule (2026-11-20) [HAND]
+
+Join pins sit on the cell bounding-box face from the pin plan (own layer;
+nothing of that pin pad past the face). Parents join with gap stubs only —
+no metal into a child, no parent face-extend. Two nets on the same face use
+H-only stubs to a common face X (no shared vertical through the other net's
+Y). Longer qn/qp stubs (≈6–9 µm) OK if C stays in the 15 fF budget [SCH].
+
 ##### `cml_clk_pair` (2026-11-20) — PASS [TOOL]
 
 W=7.5 ng=5, wide gap so N drains X-align under pair.`s` / regen.`s`. Gate
 east exits inside device–dummy corridor; d2 north lane east of gates (no
 cross). DRC (density waived) / KLayout LVS / netgen unique **PASS**. Fingers
-2×5+2×1 [TOOL]. PNG `out/cml_clk_pair.png`.
+2×5+2×1 [TOOL]. PNG `out/cml_clk_pair.png`. Re-proven after N/S/W/E face
+flush (g1/g2 on bbox E; drain escape no longer past gates on the pin face).
 
-##### `cml_latch_uhf` assemble (2026-11-20) — FAIL LVS [TOOL]
+##### Leaf re-prove, pins on face (2026-11-20) — PASS [TOOL]
 
-E-face regen + M90: pin stubs short when bboxes clear east-lane overhang
-(qn≈8 µm, qp≈6 µm) [GDS]. W re-face of regen shorted d1|d2 in extract;
-east-face cell restored (2d52354). Gap-only M1 stubs + face-extend attempts
-leave qn|qp short or ports open; gnd extract as `$1`. DRC density-only clean
-in the no-extend build; LVS/netgen **FAIL**. Next: put abutment pins on the
-bbox face inside each leaf (no parent extend), then re-join.
+`cml_pair_loads`, `cml_regen_xc` (E kept), `cml_clk_pair`, `cml_tail`: DRC
+(density waived) / KLayout LVS / netgen unique / fingers **PASS** [TOOL].
+
+##### `cml_latch_uhf` assemble (2026-11-20) — PASS DRC/LVS/netgen [TOOL]
+
+Gap stubs only after leaf face pins: qn/qp stub 1.5 µm, s2 dX ≈12 µm [GDS].
+DRC (density waived) / KLayout LVS / netgen unique **PASS**. Fingers: seven
+ng=5 + dummies [TOOL]. Render `out/cml_latch_uhf.png`. Whole-cell HAND C
+≈18.9 fF/side vs 15 fF budget — method not net-specific; **C uncertain**.
+`cml_latch_vhf_tl` not started.
 
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  

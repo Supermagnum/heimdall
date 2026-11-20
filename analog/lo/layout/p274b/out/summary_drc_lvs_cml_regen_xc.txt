@@ -3,5 +3,5 @@
 - DRC clean (density waived): **PASS** non-density=[]
 - KLayout LVS: **PASS**
 - netgen unique: **PASS**
-- extracted: `/work/analog/lo/layout/p274b/out/lvs_cml_regen_xc/cml_regen_xc_extracted.cir`
+- extracted: `/foss/designs/analog/lo/layout/p274b/out/lvs_cml_regen_xc/cml_regen_xc_extracted.cir`
 
