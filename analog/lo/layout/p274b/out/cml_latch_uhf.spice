@@ -1,12 +1,13 @@
-* P2.7.4b cml_latch_uhf [SCH] I=0.75 mA tailed; rppd loads
-.subckt cml_latch_uhf vdd gnd dp dn ckp ckn qp qn nb_lo
-Rrlp vdd qp gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
-Rrln vdd qn gnd rppd w=2.0u l=5.334u ps=0.18u b=0 m=1
-Mm1 qn dp s1 gnd sg13_lv_nmos w=7.5u l=0.13u
-Mm2 qp dn s1 gnd sg13_lv_nmos w=7.5u l=0.13u
-Mm3 qn qp s2 gnd sg13_lv_nmos w=11.25u l=0.13u
-Mm4 qp qn s2 gnd sg13_lv_nmos w=11.25u l=0.13u
-Mm5 s1 ckp ta gnd sg13_lv_nmos w=7.5u l=0.13u
-Mm6 s2 ckn ta gnd sg13_lv_nmos w=7.5u l=0.13u
-Mmt ta nb_lo gnd gnd sg13_lv_nmos w=15.0u l=0.13u
+* P2.7.4b cml_latch_uhf flat LVS [SCH]
+.subckt cml_latch_uhf dp dn ckp ckn qp qn nb_lo vdd gnd
+Mma1 qn dp s1a gnd sg13_lv_nmos w=7.50u l=0.13u
+Mma2 qp dn s1a gnd sg13_lv_nmos w=7.50u l=0.13u
+Mma3 qn qp s2a gnd sg13_lv_nmos w=11.25u l=0.13u
+Mma4 qp qn s2a gnd sg13_lv_nmos w=11.25u l=0.13u
+Mma5 s1a ckp ta gnd sg13_lv_nmos w=7.50u l=0.13u
+Mma6 s2a ckn ta gnd sg13_lv_nmos w=7.50u l=0.13u
+Mmta ta nb_lo gnd gnd sg13_lv_nmos w=15.0u l=0.13u
+Rrlp vdd qn gnd rppd w=2.0u l=5.334u ps=0u b=0 m=1
+Rrln vdd qp gnd rppd w=2.0u l=5.334u ps=0u b=0 m=1
+Mdum gnd gnd gnd gnd sg13_lv_nmos w=16.5u l=0.13u
 .ends

@@ -2,111 +2,110 @@
 Subcircuit summary:
 Circuit 1: cml_latch_uhf                   |Circuit 2: cml_latch_uhf                   
 -------------------------------------------|-------------------------------------------
+sg13_lv_nmos (8)                           |sg13_lv_nmos (7) **Mismatch**              
 gnd (2)                                    |(no matching element)                      
-sg13_lv_nmos (7)                           |sg13_lv_nmos (3) **Mismatch**              
 (no matching element)                      |\$1 (2->1)                                 
-Number of devices: 9 **Mismatch**          |Number of devices: 4 **Mismatch**          
-Number of nets: 12 **Mismatch**            |Number of nets: 4 **Mismatch**             
+Number of devices: 10 **Mismatch**         |Number of devices: 8 **Mismatch**          
+Number of nets: 12 **Mismatch**            |Number of nets: 13 **Mismatch**            
 ---------------------------------------------------------------------------------------
 NET mismatches: Class fragments follow (with fanout counts):
 Circuit 1: cml_latch_uhf                   |Circuit 2: cml_latch_uhf                   
 
 ---------------------------------------------------------------------------------------
-Net: qp                                    |Net: gnd|nb_lo                             
-  gnd/(end_a|end_b) = 1                    |  sg13_lv_nmos/(drain|source) = 3          
-  sg13_lv_nmos/(drain|source) = 2          |  sg13_lv_nmos/gate = 1                    
+Net: qn                                    |Net: \$6                                   
+  sg13_lv_nmos/(drain|source) = 2          |  sg13_lv_nmos/(drain|source) = 1          
   sg13_lv_nmos/gate = 1                    |                                           
+  gnd/(end_a|end_b) = 1                    |                                           
+                                           |                                           
+Net: qp                                    |Net: \$21                                  
+  sg13_lv_nmos/(drain|source) = 2          |  sg13_lv_nmos/(drain|source) = 1          
+  sg13_lv_nmos/gate = 1                    |                                           
+  gnd/(end_a|end_b) = 1                    |                                           
+                                           |                                           
+Net: dp                                    |Net: dp                                    
+  sg13_lv_nmos/gate = 1                    |  sg13_lv_nmos/gate = 1                    
+                                           |                                           
+Net: dn                                    |Net: dn                                    
+  sg13_lv_nmos/gate = 1                    |  sg13_lv_nmos/gate = 1                    
+                                           |                                           
+Net: ckp                                   |Net: ckp                                   
+  sg13_lv_nmos/gate = 1                    |  sg13_lv_nmos/gate = 1                    
+                                           |                                           
+Net: ckn                                   |Net: ckn                                   
+  sg13_lv_nmos/gate = 1                    |  sg13_lv_nmos/gate = 1                    
+                                           |                                           
+Net: nb_lo                                 |Net: nb_lo                                 
+  sg13_lv_nmos/gate = 1                    |  sg13_lv_nmos/gate = 1                    
+                                           |                                           
+Net: s1a                                   |Net: \$43                                  
+  sg13_lv_nmos/(drain|source) = 3          |  sg13_lv_nmos/(drain|source) = 1          
+                                           |                                           
+Net: s2a                                   |Net: \$42                                  
+  sg13_lv_nmos/(drain|source) = 3          |  sg13_lv_nmos/(drain|source) = 2          
+                                           |                                           
+Net: ta                                    |Net: \$20                                  
+  sg13_lv_nmos/(drain|source) = 3          |  sg13_lv_nmos/(drain|source) = 2          
                                            |                                           
 Net: vdd                                   |Net: vdd                                   
   gnd/(end_a|end_b) = 2                    |  \$1/(end_a|end_b) = 1                    
                                            |                                           
-Net: qn                                    |Net: \$1                                   
-  gnd/(end_a|end_b) = 1                    |  sg13_lv_nmos/bulk = 3                    
-  sg13_lv_nmos/(drain|source) = 2          |                                           
-  sg13_lv_nmos/gate = 1                    |                                           
-                                           |                                           
-Net: dp                                    |Net: ckn|ckp|dn|dp|qn                      
-  sg13_lv_nmos/gate = 1                    |  sg13_lv_nmos/(drain|source) = 3          
-                                           |  sg13_lv_nmos/gate = 2                    
+(no matching net)                          |Net: qn|qp                                 
+                                           |  sg13_lv_nmos/(drain|source) = 3          
+                                           |  sg13_lv_nmos/gate = 1                    
                                            |  \$1/(end_a|end_b) = 1                    
-                                           |                                           
-Net: dn                                    |(no matching net)                          
-  sg13_lv_nmos/gate = 1                    |                                           
-                                           |                                           
-Net: ckp                                   |(no matching net)                          
-  sg13_lv_nmos/gate = 1                    |                                           
-                                           |                                           
-Net: ckn                                   |(no matching net)                          
-  sg13_lv_nmos/gate = 1                    |                                           
-                                           |                                           
-Net: nb_lo                                 |(no matching net)                          
-  sg13_lv_nmos/gate = 1                    |                                           
-                                           |                                           
-Net: s1                                    |(no matching net)                          
-  sg13_lv_nmos/(drain|source) = 3          |                                           
-                                           |                                           
-Net: s2                                    |(no matching net)                          
-  sg13_lv_nmos/(drain|source) = 3          |                                           
-                                           |                                           
-Net: ta                                    |(no matching net)                          
-  sg13_lv_nmos/(drain|source) = 3          |                                           
-                                           |                                           
-Net: gnd                                   |(no matching net)                          
-  sg13_lv_nmos/bulk = 7                    |                                           
-  sg13_lv_nmos/(drain|source) = 1          |                                           
+---------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------
+Net: gnd                                   |Net: \$1                                   
+  sg13_lv_nmos/bulk = 8                    |  sg13_lv_nmos/bulk = 7                    
+  sg13_lv_nmos/(drain|source) = 3          |  sg13_lv_nmos/(drain|source) = 4          
+  sg13_lv_nmos/gate = 1                    |  sg13_lv_nmos/gate = 1                    
 ---------------------------------------------------------------------------------------
 DEVICE mismatches: Class fragments follow (with node fanout counts):
 Circuit 1: cml_latch_uhf                   |Circuit 2: cml_latch_uhf                   
 
 ---------------------------------------------------------------------------------------
-Instance: gnd:rlp                          |Instance: sg13_lv_nmos:$1                  
-  (end_a,end_b) = (4,2)                    |  (drain,source) = (4,4)                   
-                                           |  gate = 4                                 
-                                           |  bulk = 3                                 
+Instance: sg13_lv_nmos:ma1                 |Instance: sg13_lv_nmos:$14                 
+  (drain,source) = (4,3)                   |  (drain,source) = (2,1)                   
+  gate = 1                                 |  gate = 1                                 
+  bulk = 12                                |  bulk = 12                                
                                            |                                           
-Instance: gnd:rln                          |Instance: sg13_lv_nmos:$11                 
-  (end_a,end_b) = (4,2)                    |  (drain,source) = (6,4)                   
-                                           |  gate = 6                                 
-                                           |  bulk = 3                                 
+Instance: sg13_lv_nmos:ma2                 |Instance: sg13_lv_nmos:$21                 
+  (drain,source) = (4,3)                   |  (drain,source) = (5,2)                   
+  gate = 1                                 |  gate = 1                                 
+  bulk = 12                                |  bulk = 12                                
                                            |                                           
-Instance: sg13_lv_nmos:m1                  |Instance: sg13_lv_nmos:$21                 
-  (drain,source) = (4,3)                   |  (drain,source) = (6,6)                   
-  gate = 1                                 |  gate = 6                                 
-  bulk = 8                                 |  bulk = 3                                 
+Instance: sg13_lv_nmos:ma3                 |Instance: sg13_lv_nmos:$26                 
+  (drain,source) = (4,3)                   |  (drain,source) = (5,2)                   
+  gate = 4                                 |  gate = 1                                 
+  bulk = 12                                |  bulk = 12                                
                                            |                                           
-Instance: sg13_lv_nmos:m2                  |Instance: \$1:$41                          
-  (drain,source) = (4,3)                   |  (end_a,end_b) = (6,1)                    
+Instance: sg13_lv_nmos:ma4                 |Instance: sg13_lv_nmos:$33                 
+  (drain,source) = (4,3)                   |  (drain,source) = (5,1)                   
+  gate = 4                                 |  gate = 5                                 
+  bulk = 12                                |  bulk = 12                                
+                                           |                                           
+Instance: sg13_lv_nmos:ma5                 |Instance: sg13_lv_nmos:$2                  
+  (drain,source) = (3,3)                   |  (drain,source) = (12,1)                  
+  gate = 1                                 |  gate = 1                                 
+  bulk = 12                                |  bulk = 12                                
+                                           |                                           
+Instance: sg13_lv_nmos:ma6                 |Instance: sg13_lv_nmos:$9                  
+  (drain,source) = (3,3)                   |  (drain,source) = (12,2)                  
+  gate = 1                                 |  gate = 1                                 
+  bulk = 12                                |  bulk = 12                                
+                                           |                                           
+Instance: sg13_lv_nmos:mta                 |Instance: \$1:$44                          
+  (drain,source) = (12,3)                  |  (end_a,end_b) = (5,1)                    
   gate = 1                                 |                                           
-  bulk = 8                                 |                                           
+  bulk = 12                                |                                           
                                            |                                           
-Instance: sg13_lv_nmos:m3                  |(no matching instance)                     
-  (drain,source) = (4,3)                   |                                           
-  gate = 4                                 |                                           
-  bulk = 8                                 |                                           
+Instance: gnd:rlp                          |(no matching instance)                     
+  (end_a,end_b) = (4,2)                    |                                           
                                            |                                           
                                            |                                           
-Instance: sg13_lv_nmos:m4                  |(no matching instance)                     
-  (drain,source) = (4,3)                   |                                           
-  gate = 4                                 |                                           
-  bulk = 8                                 |                                           
-                                           |                                           
-                                           |                                           
-Instance: sg13_lv_nmos:m5                  |(no matching instance)                     
-  (drain,source) = (3,3)                   |                                           
-  gate = 1                                 |                                           
-  bulk = 8                                 |                                           
-                                           |                                           
-                                           |                                           
-Instance: sg13_lv_nmos:m6                  |(no matching instance)                     
-  (drain,source) = (3,3)                   |                                           
-  gate = 1                                 |                                           
-  bulk = 8                                 |                                           
-                                           |                                           
-                                           |                                           
-Instance: sg13_lv_nmos:mt                  |(no matching instance)                     
-  (drain,source) = (8,3)                   |                                           
-  gate = 1                                 |                                           
-  bulk = 8                                 |                                           
+Instance: gnd:rln                          |(no matching instance)                     
+  (end_a,end_b) = (4,2)                    |                                           
                                            |                                           
 ---------------------------------------------------------------------------------------
 Netlists do not match.
@@ -115,12 +114,19 @@ Port matching may fail to disambiguate symmetries.
 Subcircuit pins:
 Circuit 1: cml_latch_uhf                   |Circuit 2: cml_latch_uhf                   
 -------------------------------------------|-------------------------------------------
-vdd                                        |gnd|nb_lo **Mismatch**                     
-qp                                         |vdd **Mismatch**                           
-qn                                         |(no pin, node is \$1)                      
-dp                                         |ckn|ckp|dn|dp|qn **Mismatch**              
-Cell pin lists are equivalent.
+qn                                         |ckn **Mismatch**                           
+qp                                         |dp **Mismatch**                            
+dp                                         |dn **Mismatch**                            
+dn                                         |nb_lo **Mismatch**                         
+ckp                                        |ckp                                        
+ckn                                        |(no pin, node is \$6)                      
+nb_lo                                      |(no pin, node is \$21)                     
+vdd                                        |(no pin, node is \$42)                     
+gnd                                        |(no pin, node is \$1)                      
+(no pin, node is vdd)                      |qn|qp                                      
+(no pin, node is vdd)                      |vdd                                        
+---------------------------------------------------------------------------------------
+Cell pin lists for cml_latch_uhf and cml_latch_uhf altered to match.
 Device classes cml_latch_uhf and cml_latch_uhf are equivalent.
 
-Final result: Netlists do not match.
-Port matching may fail to disambiguate symmetries.
+Final result: Top level cell failed pin matching.

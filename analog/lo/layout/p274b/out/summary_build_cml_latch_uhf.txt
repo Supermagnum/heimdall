@@ -1,8 +1,8 @@
-tail mt (-2.7,0;2.7,1.86) W=15.0u ng=10
-clock m5/m6 (-5.35,7.86;-2.5,9.72) (2.5,7.86;5.35,9.72)
-data m1/m2 (-5.35,15.72;-2.5,17.58) (2.5,15.72;5.35,17.58) W=7.5u ng=5
-regen m3/m4 (-5.35,23.58;-2.5,26.19) (2.5,23.58;5.35,26.19) W=11.25u ng=5
-loads rppd (-5.35,29.58;-2.95,36.134) (2.5,29.58;4.9,36.134) R=666.7 [SCH]
-bbox (-9.6,-6.25;9.6,38.884); area 0.00087 mm² [GDS]
-WROTE /work/analog/lo/layout/p274b/out/cml_latch_uhf.gds / .gz
-WROTE /work/analog/lo/layout/p274b/out/cml_latch_uhf.spice
+pair (-26.425,37.380) regen M90 (33.785,37.380)
+clk (0,0) tail (0.000,-37.580)
+qn stub 8.890 qp stub 6.390 s2 dX 7.360
+PASS qp/qn stub short (<12.0 µm)
+PASS qp/qn Y-aligned
+PASS s2 stub short (<12.0 µm)
+PASS E faces clear gap
+PASS bboxes no EW overlap

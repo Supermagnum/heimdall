@@ -1,6 +1,6 @@
 # cml_latch_uhf finger check [TOOL]
 
-mos_child_ngs=[5, 5, 5, 5, 5, 5, 10]
+mos_child_ngs=[7, 12, 12]
 expect: six×ng=5 (data+regen+clock), one×ng=10 (tail)
-gate: PASS
+gate: FAIL
 

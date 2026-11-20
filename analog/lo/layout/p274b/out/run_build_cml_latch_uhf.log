@@ -1,0 +1,18 @@
+Technology SG13_dev is loaded.
+GRID : 0.01
+GRID inverse : 100.0
+EPSILON1  : 0.001
+EPSILON2  : 1e-9
+Success.
+bbox gaps NS pair-clk=5.250 regen-clk=5.250 clk-tail=4.850 [GDS]
+qn stub L=8.890 µm Y=33.200 corridor=1.000 [GDS]
+qp stub L=6.390 µm Y=29.200 corridor=1.000 [GDS]
+s1 gap-only dX=0.000 gapY=5.250 pinDY=7.500 [GDS]
+s2 gap-only dX=7.360 gapY=5.250 pinDY=7.500 [GDS]
+ta gap-only dX=0.000 gapY=4.850 pinDY=6.700 [GDS]
+CHECK PASS: qp/qn stub short (<12.0 µm)
+CHECK PASS: qp/qn Y-aligned
+CHECK PASS: s2 stub short (<12.0 µm)
+CHECK PASS: E faces clear gap
+CHECK PASS: bboxes no EW overlap
+WROTE /foss/designs/analog/lo/layout/p274b/out/cml_latch_uhf.gds

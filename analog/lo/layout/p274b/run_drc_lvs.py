@@ -57,8 +57,13 @@ def prove(cell: str) -> dict:
     ], os.path.join(OUT, f"lvs_klayout_{cell}.log"))
     kl = open(os.path.join(OUT, f"lvs_klayout_{cell}.log"),
               errors="ignore").read()
-    res["klayout_pass"] = "| Status           | PASS" in kl or \
-        "Status           | PASS" in kl
+    # Prefer the last Outcome line (log can retain older Status rows).
+    outcomes = re.findall(
+        r"Outcome\s+\|\s+Comparison mode:\s+(PASS|FAIL)", kl)
+    if outcomes:
+        res["klayout_pass"] = outcomes[-1] == "PASS"
+    else:
+        res["klayout_pass"] = "Congratulations! Netlists match" in kl
 
     ext = None
     for root, _, files in os.walk(lvs_dir):

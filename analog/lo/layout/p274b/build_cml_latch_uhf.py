@@ -1,392 +1,372 @@
 #!/usr/bin/env python3
-"""P2.7.4b — UHF CML latch (0.75 mA, tailed) from PDK pcells [SCH].
+"""P2.7.4b — assemble cml_latch_uhf from proven sub-cells [SCH].
 
-Symmetric L/R: data pair, regen pair, clock pair, shared MOSFET tail,
-matched rppd loads. Ports: vdd gnd dp dn ckp ckn qp qn nb_lo.
+Placement (2026-11-20):
+  pair_loads left; regen M90 east so E-face d1/d2 meet pair E;
+  x_rg chosen so bboxes do not overlap (east-lane overhang);
+  clk_pair south; tail south of clk.
+No metal through child cells; gap stubs only.
 """
 from __future__ import annotations
 
 import gzip
 import os
+import re
 import shutil
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "out")
-os.makedirs(OUT, exist_ok=True)
-
-import sys
 sys.path[:0] = [
     "/foss/pdks/ihp-sg13g2/libs.tech/klayout/python",
-    "/foss/pdks/ihp-sg13g2/libs.tech/klayout/python/pycell4klayout-api/source/python",
+    "/foss/pdks/ihp-sg13g2/libs.tech/klayout/python/"
+    "pycell4klayout-api/source/python",
 ]
 import pya  # noqa: E402
-import sg13g2_pycell_lib  # noqa: E402
+import sg13g2_pycell_lib  # noqa: E402, F401
 
 DBU = 0.001
-# [SCH] circuit.py I_LATCH=0.75 mA, SWING=0.5 → RL=666.7, w=7.5, k=1.5
-W_DATA = "7.5u"
-W_REGEN = "11.25u"
-W_TAIL = "15.0u"
-NG_DATA = 5
-NG_REGEN = 5
-NG_TAIL = 10
-# rppd ≈ 250 Ω/sq [PDK]: L = 666.7 * 2 / 250 = 5.334 µm
+GAP_NS = 3.0
+GAP_EW = 1.0
+# qp/qn stub may exceed 5 µm when M90 clears east-lane bbox overhang [GDS]
+STUB_MAX = 12.0
 R_W, R_L = "2.0u", "5.334u"
 
 
 def um(x):
-    return int(round(x / DBU))
+    return int(round(float(x) / DBU))
 
 
-class B:
-    def __init__(self):
-        self.ly = pya.Layout()
-        self.ly.dbu = DBU
-        self.ly.technology_name = "sg13g2"
-        self.lib = pya.Library.library_by_name("SG13_dev", "sg13g2")
-        self.lib_ly = self.lib.layout()
-        self.m1 = self.ly.layer(8, 0)
-        self.m1pin = self.ly.layer(8, 2)
-        self.m1txt = self.ly.layer(8, 25)
-        self.m2 = self.ly.layer(10, 0)
-        self.poly = self.ly.layer(5, 0)
-        self.activ = self.ly.layer(1, 0)
-        self.cont = self.ly.layer(6, 0)
-        self.log = []
-
-    def say(self, s=""):
-        print(s, flush=True)
-        self.log.append(s)
-
-    def pcell(self, name, params):
-        return self.ly.add_pcell_variant(
-            self.lib, self.lib_ly.pcell_declaration(name).id(), params)
-
-    def place(self, parent, cid, x, y, mirror=False):
-        if mirror:
-            t = pya.Trans(pya.Trans.M90, um(x), um(y))
+def parse_pins(ly, cid, m1txt):
+    pins = {}
+    for s in ly.cell(cid).shapes(m1txt).each():
+        if not s.is_text():
+            continue
+        raw = s.text
+        if isinstance(raw, tuple):
+            name = raw[0]
         else:
-            t = pya.Trans(pya.Trans.R0, um(x), um(y))
-        parent.insert(pya.CellInstArray(cid, t))
-        return self.ly.cell(cid).bbox().transformed(t).to_dtype(self.ly.dbu), t
+            m = re.match(r"\('([^']+)'", str(raw))
+            name = m.group(1) if m else str(raw)
+        pins[name] = (s.text_dtrans.disp.x, s.text_dtrans.disp.y)
+    return pins
 
-    def box(self, cell, layer, x0, y0, x1, y1):
-        cell.shapes(layer).insert(pya.DBox(
+
+def load_cell(ly, gds_name, cell_name):
+    src = pya.Layout()
+    src.read(os.path.join(OUT, gds_name))
+    src_top = None
+    for c in src.each_cell():
+        if c.name == cell_name:
+            src_top = c
+            break
+    if src_top is None:
+        src_top = src.top_cell()
+    cid = ly.add_cell(cell_name + "_lib")
+    ly.cell(cid).copy_tree(src_top)
+    ly.cell(cid).name = cell_name
+    return cid
+
+
+def map_pins(pins0, x, y, mirror=False):
+    out = {}
+    for n, (px, py) in pins0.items():
+        if mirror:
+            out[n] = (x - px, y + py)
+        else:
+            out[n] = (x + px, y + py)
+    return out
+
+
+def main():
+    ly = pya.Layout()
+    ly.dbu = DBU
+    ly.technology_name = "sg13g2"
+    m1 = ly.layer(8, 0)
+    m1pin = ly.layer(8, 2)
+    m1txt = ly.layer(8, 25)
+    m2 = ly.layer(10, 0)
+    lib = pya.Library.library_by_name("SG13_dev", "sg13g2")
+    lib_ly = lib.layout()
+    vs12_decl = lib_ly.pcell_declaration("via_stack")
+    vs12 = ly.add_pcell_variant(lib, vs12_decl.id(), {
+        "b_layer": "Metal1", "t_layer": "Metal2",
+        "vn_columns": 1, "vn_rows": 1,
+    })
+
+    pl_cid = load_cell(ly, "cml_pair_loads.gds", "cml_pair_loads")
+    rg_cid = load_cell(ly, "cml_regen_xc.gds", "cml_regen_xc")
+    ck_cid = load_cell(ly, "cml_clk_pair.gds", "cml_clk_pair")
+    tl_cid = load_cell(ly, "cml_tail.gds", "cml_tail")
+
+    def rename_pin(cid, old, new):
+        for sh in list(ly.cell(cid).shapes(m1txt).each()):
+            if not sh.is_text():
+                continue
+            raw = sh.text
+            if isinstance(raw, tuple):
+                name = raw[0]
+            else:
+                m = re.match(r"\('([^']+)'", str(raw))
+                name = m.group(1) if m else str(raw)
+            if name == old:
+                sh.text = pya.DText(new, sh.text_dtrans)
+
+    def strip_all_pin_texts(cid):
+        """Remove M1txt recursively so only top-cell ports remain [netgen]."""
+        cell = ly.cell(cid)
+        for sh in list(cell.shapes(m1txt).each()):
+            if sh.is_text():
+                sh.delete()
+        for i in cell.each_inst():
+            strip_all_pin_texts(i.cell_index)
+
+    # Pin coords from leaf names before strip; top re-exports leaf ports only.
+    pp0_raw = parse_pins(ly, pl_cid, m1txt)
+    rp0_raw = parse_pins(ly, rg_cid, m1txt)
+    cp0_raw = parse_pins(ly, ck_cid, m1txt)
+    tp0_raw = parse_pins(ly, tl_cid, m1txt)
+
+    def extend_to_face(cid, pname, face, pins):
+        """M2 run from inset pin to bbox face (avoids M1 edge shorts) [LVS]."""
+        cell = ly.cell(cid)
+        bb = cell.bbox().to_dtype(ly.dbu)
+        x, y = pins[pname]
+        cell.insert(pya.CellInstArray(
+            vs12, pya.Trans(pya.Trans.R0, um(x - 0.05), um(y))))
+        if face == "E":
+            xf = bb.right
+            cell.shapes(m2).insert(pya.DBox(x - 0.20, y - 0.15, xf + 0.20, y + 0.40))
+            cell.insert(pya.CellInstArray(
+                vs12, pya.Trans(pya.Trans.R0, um(xf - 0.05), um(y))))
+            cell.shapes(m1).insert(pya.DBox(xf - 0.25, y - 0.25, xf + 0.25, y + 0.25))
+        elif face == "W":
+            xf = bb.left
+            cell.shapes(m2).insert(pya.DBox(xf - 0.20, y - 0.15, x + 0.20, y + 0.40))
+            cell.insert(pya.CellInstArray(
+                vs12, pya.Trans(pya.Trans.R0, um(xf - 0.05), um(y))))
+            cell.shapes(m1).insert(pya.DBox(xf - 0.25, y - 0.25, xf + 0.25, y + 0.25))
+        elif face == "N":
+            yf = bb.top
+            cell.shapes(m2).insert(pya.DBox(x - 0.20, y - 0.15, x + 0.20, yf + 0.40))
+            cell.insert(pya.CellInstArray(
+                vs12, pya.Trans(pya.Trans.R0, um(x - 0.05), um(yf))))
+            cell.shapes(m1).insert(pya.DBox(x - 0.25, yf - 0.25, x + 0.25, yf + 0.25))
+        elif face == "S":
+            yf = bb.bottom
+            cell.shapes(m2).insert(pya.DBox(x - 0.20, yf - 0.15, x + 0.20, y + 0.40))
+            cell.insert(pya.CellInstArray(
+                vs12, pya.Trans(pya.Trans.R0, um(x - 0.05), um(yf))))
+            cell.shapes(m1).insert(pya.DBox(x - 0.25, yf - 0.25, x + 0.25, yf + 0.25))
+
+    # Only abutment nets — do not extend top-only ports (shorts on shared faces).
+    for pname, face in (("d1", "E"), ("d2", "E"), ("s", "S"), ("gnd", "W")):
+        extend_to_face(pl_cid, pname, face, pp0_raw)
+    for pname, face in (("d1", "E"), ("d2", "E"), ("s", "S"), ("gnd", "W")):
+        extend_to_face(rg_cid, pname, face, rp0_raw)
+    for pname, face in (("d1", "N"), ("d2", "N"), ("s", "S"), ("gnd", "W")):
+        extend_to_face(ck_cid, pname, face, cp0_raw)
+    for pname, face in (("drain", "N"), ("gnd", "W")):
+        extend_to_face(tl_cid, pname, face, tp0_raw)
+
+    # Alias map used after strip (geometry unchanged)
+    pp0 = {
+        "qn": pp0_raw["d1"], "qp": pp0_raw["d2"], "s1a": pp0_raw["s"],
+        "dp": pp0_raw["g1"], "dn": pp0_raw["g2"],
+        "gnd": pp0_raw["gnd"], "vdd": pp0_raw["vdd"],
+    }
+    rp0 = {
+        "qn": rp0_raw["d1"], "qp": rp0_raw["d2"],
+        "s2a": rp0_raw["s"], "gnd": rp0_raw["gnd"],
+    }
+    cp0 = {
+        "s1a": cp0_raw["d1"], "s2a": cp0_raw["d2"], "ta": cp0_raw["s"],
+        "ckp": cp0_raw["g1"], "ckn": cp0_raw["g2"], "gnd": cp0_raw["gnd"],
+    }
+    tp0 = {
+        "ta": tp0_raw["drain"], "nb_lo": tp0_raw["nb_lo"], "gnd": tp0_raw["gnd"],
+    }
+    for cid in (pl_cid, rg_cid, ck_cid, tl_cid):
+        strip_all_pin_texts(cid)
+    pbb0 = ly.cell(pl_cid).bbox().to_dtype(ly.dbu)
+    rbb0 = ly.cell(rg_cid).bbox().to_dtype(ly.dbu)
+    cbb0 = ly.cell(ck_cid).bbox().to_dtype(ly.dbu)
+    tbb0 = ly.cell(tl_cid).bbox().to_dtype(ly.dbu)
+
+    top = ly.create_cell("cml_latch_uhf")
+
+    # clk at origin; N drains define s1/s2 X targets
+    x_ck, y_ck = 0.0, 0.0
+    top.insert(pya.CellInstArray(
+        ck_cid, pya.Trans(pya.Trans.R0, um(x_ck), um(y_ck))))
+    cp = map_pins(cp0, x_ck, y_ck)
+    cbb = cbb0  # at origin
+
+    # Place by bbox gap; N–S stubs only in the clear gap (no metal through children).
+    gap_ns = GAP_NS + max(0.0, cbb.top - cp["s1a"][1]) + max(
+        0.0, pp0["s1a"][1] - pbb0.bottom)
+    x_pl = cp["s1a"][0] - pp0["s1a"][0]
+    y_pl = cbb.top + gap_ns - pbb0.bottom
+    # Regen M90: E-face d1/d2 meet pair E. x_rg clears bbox overhang.
+    rbb0 = ly.cell(rg_cid).bbox().to_dtype(ly.dbu)
+    # After M90: world_x = x_rg - local_x; left = x_rg - rbb0.right
+    x_rg_pin = (x_pl + max(pp0["qn"][0], pp0["qp"][0]) + GAP_EW
+                + max(rp0["qn"][0], rp0["qp"][0]))
+    x_rg_bb = x_pl + pbb0.right + GAP_EW + rbb0.right
+    x_rg = max(x_rg_pin, x_rg_bb)
+    y_rg = y_pl + (pp0["qn"][1] - rp0["qn"][1])
+    rbb_try = ly.cell(rg_cid).bbox().transformed(
+        pya.Trans(pya.Trans.M90, um(x_rg), um(y_rg))).to_dtype(ly.dbu)
+    lift = (cbb.top + GAP_NS) - rbb_try.bottom
+    if lift > 0:
+        y_pl += lift
+        y_rg += lift
+    top.insert(pya.CellInstArray(
+        pl_cid, pya.Trans(pya.Trans.R0, um(x_pl), um(y_pl))))
+    pp = map_pins(pp0, x_pl, y_pl)
+    pbb = ly.cell(pl_cid).bbox().transformed(
+        pya.Trans(pya.Trans.R0, um(x_pl), um(y_pl))).to_dtype(ly.dbu)
+    top.insert(pya.CellInstArray(
+        rg_cid, pya.Trans(pya.Trans.M90, um(x_rg), um(y_rg))))
+    rp = map_pins(rp0, x_rg, y_rg, mirror=True)
+    rbb = ly.cell(rg_cid).bbox().transformed(
+        pya.Trans(pya.Trans.M90, um(x_rg), um(y_rg))).to_dtype(ly.dbu)
+
+    gap_ns_t = GAP_NS + max(0.0, cp["ta"][1] - cbb.bottom) + max(
+        0.0, tbb0.top - tp0["ta"][1])
+    x_tl = cp["ta"][0] - tp0["ta"][0]
+    y_tl = cbb.bottom - gap_ns_t - tbb0.top
+    top.insert(pya.CellInstArray(
+        tl_cid, pya.Trans(pya.Trans.R0, um(x_tl), um(y_tl))))
+    tp = map_pins(tp0, x_tl, y_tl)
+    tbb = ly.cell(tl_cid).bbox().transformed(
+        pya.Trans(pya.Trans.R0, um(x_tl), um(y_tl))).to_dtype(ly.dbu)
+
+    assert pbb.bottom >= cbb.top - 0.01, (pbb.bottom, cbb.top)
+    assert rbb.bottom >= cbb.top - 0.01, (rbb.bottom, cbb.top)
+    assert cbb.bottom >= tbb.top - 0.01, (cbb.bottom, tbb.top)
+    print(f"bbox gaps NS pair-clk={pbb.bottom - cbb.top:.3f} "
+          f"regen-clk={rbb.bottom - cbb.top:.3f} "
+          f"clk-tail={cbb.bottom - tbb.top:.3f} [GDS]", flush=True)
+
+    def box(x0, y0, x1, y1):
+        top.shapes(m1).insert(pya.DBox(
             min(x0, x1), min(y0, y1), max(x0, x1), max(y0, y1)))
 
-    def pin(self, cell, x, y, name):
-        self.box(cell, self.m1, x - 0.25, y - 0.25, x + 0.25, y + 0.25)
-        cell.shapes(self.m1pin).insert(
-            pya.DBox(x - 0.2, y - 0.2, x + 0.2, y + 0.2))
-        cell.shapes(self.m1txt).insert(pya.DText(name, pya.DTrans(x, y)))
+    def pin(x, y, name):
+        box(x - 0.25, y - 0.25, x + 0.25, y + 0.25)
+        top.shapes(m1pin).insert(pya.DBox(x - 0.2, y - 0.2, x + 0.2, y + 0.2))
+        top.shapes(m1txt).insert(pya.DText(name, pya.DTrans(x, y)))
 
-    def m1_sd_cols(self, cid, trans):
-        cell = self.ly.cell(cid)
-        boxes = []
-        for s in cell.shapes(self.m1).each():
-            if not s.is_box():
-                continue
-            b = s.bbox().transformed(trans).to_dtype(self.ly.dbu)
-            if b.width() < 0.20 and b.height() > 0.8:
-                boxes.append(b)
-        boxes.sort(key=lambda b: b.left)
-        return boxes
+    # --- gap stubs (M1 only, outside child bboxes) ---
+    for net in ("qn", "qp"):
+        xa, ya = pp[net]
+        xb, yb = rp[net]
+        assert abs(ya - yb) < 0.05, (net, ya, yb)
+        x_l = pbb.right
+        x_r = rbb.left
+        stub = abs(xb - xa)
+        print(f"{net} stub L={stub:.3f} µm Y={ya:.3f} "
+              f"corridor={x_r - x_l:.3f} [GDS]", flush=True)
+        assert x_r >= x_l - 0.01, (net, x_l, x_r)
+        box(x_l, ya - 0.20, x_r, ya + 0.20)
 
-    def poly_gates(self, cid, trans):
-        cell = self.ly.cell(cid)
-        boxes = []
-        for s in cell.shapes(self.poly).each():
-            if not s.is_box():
-                continue
-            b = s.bbox().transformed(trans).to_dtype(self.ly.dbu)
-            if b.width() < 0.20 and b.height() > 0.5:
-                boxes.append(b)
-        boxes.sort(key=lambda b: b.left)
-        # unique X centres
-        out, seen = [], set()
-        for b in boxes:
-            cx = round(0.5 * (b.left + b.right), 3)
-            if cx not in seen:
-                seen.add(cx)
-                out.append(b)
-        return out
+    # N–S: metal only in inter-bbox gap, touching faces (no intrusion) [M1.b].
+    def gap_only_ns(x_north, y_north, x_south, y_south, bb_n, bb_s, label):
+        y_hi = bb_n.bottom
+        y_lo = bb_s.top
+        print(f"{label} gap-only dX={abs(x_north - x_south):.3f} "
+              f"gapY={y_hi - y_lo:.3f} pinDY={abs(y_north - y_south):.3f} [GDS]",
+              flush=True)
+        assert y_hi >= y_lo + 0.5, (label, y_hi, y_lo)
+        x = 0.5 * (x_north + x_south)
+        box(x - 0.20, y_lo, x + 0.20, y_hi)
+        if abs(x_north - x) > 0.05:
+            box(min(x_north, x), y_hi - 0.40, max(x_north, x), y_hi)
+        if abs(x_south - x) > 0.05:
+            box(min(x_south, x), y_lo, max(x_south, x), y_lo + 0.40)
+        box(x_north - 0.20, y_hi - 0.40, x_north + 0.20, y_hi)
+        box(x_south - 0.20, y_lo, x_south + 0.20, y_lo + 0.40)
 
-    def activ_top(self, cid, trans):
-        cell = self.ly.cell(cid)
-        top = None
-        for s in cell.shapes(self.activ).each():
-            if s.is_box():
-                b = s.bbox().transformed(trans).to_dtype(self.ly.dbu)
-                top = b.top if top is None else max(top, b.top)
-        return top if top is not None else 0.0
+    xs, ys = pp["s1a"]
+    xd, yd = cp["s1a"]
+    gap_only_ns(xs, ys, xd, yd, pbb, cbb, "s1")
+    xs2, ys2 = rp["s2a"]
+    xd2, yd2 = cp["s2a"]
+    gap_only_ns(xs2, ys2, xd2, yd2, rbb, cbb, "s2")
+    xcs, ycs = cp["ta"]
+    xtd, ytd = tp["ta"]
+    gap_only_ns(xcs, ycs, xtd, ytd, cbb, tbb, "ta")
 
-    def gate_exit(self, cell, gates, activ_top, x_bus, y_bus):
-        y_pad0 = max(activ_top + 0.50, max(g.top for g in gates) + 0.30)
-        y_pad1 = y_pad0 + 0.50
-        gx0 = min(g.left for g in gates)
-        gx1 = max(g.right for g in gates)
-        for g in gates:
-            gx = 0.5 * (g.left + g.right)
-            half = 0.5 * (g.right - g.left)
-            self.box(cell, self.poly, gx - half, g.top - 0.05, gx + half, y_pad0 + 0.05)
-        self.box(cell, self.poly, gx0 - 0.05, y_pad0, gx1 + 0.05, y_pad1)
-        for g in gates:
-            gx = 0.5 * (g.left + g.right)
-            self.box(cell, self.cont, gx - 0.08, y_pad0 + 0.16, gx + 0.08, y_pad0 + 0.32)
-            self.box(cell, self.m1, gx - 0.08, y_pad0 + 0.16, gx + 0.08, y_pad1 + 0.16)
-        self.box(cell, self.m1, gx0 - 0.08, y_pad0 + 0.16, gx1 + 0.08, y_pad1 + 0.16)
-        g_exit = min(gates, key=lambda g: abs(0.5 * (g.left + g.right) - x_bus))
-        gx = 0.5 * (g_exit.left + g_exit.right)
-        y_rise = y_pad1 + 0.40
-        self.box(cell, self.m1, gx - 0.10, y_pad1, gx + 0.10, y_rise + 0.28)
-        self.box(cell, self.m1, min(x_bus, gx) - 0.14, y_rise,
-                 max(x_bus, gx) + 0.14, y_rise + 0.28)
-        self.box(cell, self.m1, x_bus - 0.14, min(y_rise, y_bus),
-                 x_bus + 0.14, max(y_rise + 0.28, y_bus))
-        return y_pad1
+    # gnd: west rail for pair/clk/tail; regen gnd on E — east drop, south, west.
+    x_west = min(pbb.left, cbb.left, tbb.left, rbb.left) - 3.0
+    for bb, (xg, yg) in (
+            (pbb, pp["gnd"]), (cbb, cp["gnd"]), (tbb, tp["gnd"])):
+        box(x_west - 0.20, yg - 0.20, bb.left, yg + 0.20)
+    xg_r, yg_r = rp["gnd"]
+    x_east_g = max(rbb.right, cbb.right) + 2.0
+    y_jog = min(rbb.bottom, cbb.bottom, tbb.bottom) - 2.0
+    box(rbb.right, yg_r - 0.20, x_east_g, yg_r + 0.20)
+    box(x_east_g - 0.20, y_jog - 0.20, x_east_g + 0.20, yg_r + 0.20)
+    box(x_west - 0.20, y_jog - 0.20, x_east_g + 0.20, y_jog + 0.20)
+    ys_g = [pp["gnd"][1], cp["gnd"][1], tp["gnd"][1], yg_r, y_jog]
+    box(x_west - 0.20, min(ys_g), x_west + 0.20, max(ys_g))
 
-    def join_cols_m1_below(self, cell, cols, y_bus):
-        """Drop each SD column to a bus *below* Activ — never fill the finger
-        height (that shorts D–S inside the device) [LVS lesson from vco_xc_pair]."""
-        for c in cols:
-            self.box(cell, self.m1, c.left, min(y_bus, c.bottom),
-                     c.right, c.bottom)
-        if cols:
-            self.box(cell, self.m1, cols[0].left, y_bus,
-                     cols[-1].right, y_bus + 0.28)
+    # Top ports (names already on children; re-export fan-out)
+    for name, (x, y) in (
+            ("dp", pp["dp"]), ("dn", pp["dn"]),
+            ("ckp", cp["ckp"]), ("ckn", cp["ckn"]),
+            ("vdd", pp["vdd"]), ("nb_lo", tp["nb_lo"]),
+            ("qn", pp["qn"]), ("qp", pp["qp"])):
+        pin(x, y, name)
+    pin(x_west - 1.5, 0.5 * (min(ys_g) + max(ys_g)), "gnd")
 
-    def join_cols_m1_above(self, cell, cols, y_bus):
-        """Rise each SD column to a bus *above* Activ."""
-        for c in cols:
-            self.box(cell, self.m1, c.left, c.top,
-                     c.right, max(y_bus + 0.28, c.top))
-        if cols:
-            self.box(cell, self.m1, cols[0].left, y_bus,
-                     cols[-1].right, y_bus + 0.28)
+    qnL = abs(rp["qn"][0] - pp["qn"][0])
+    qpL = abs(rp["qp"][0] - pp["qp"][0])
+    checks = [
+        (f"qp/qn stub short (<{STUB_MAX} µm)", max(qnL, qpL) < STUB_MAX),
+        ("qp/qn Y-aligned",
+         abs(pp["qn"][1] - rp["qn"][1]) < 0.05
+         and abs(pp["qp"][1] - rp["qp"][1]) < 0.05),
+        (f"s2 stub short (<{STUB_MAX} µm)", abs(xs2 - xd2) < STUB_MAX),
+        ("E faces clear gap",
+         min(rp["qn"][0], rp["qp"][0]) >= max(pp["qn"][0], pp["qp"][0])),
+        ("bboxes no EW overlap", rbb.left >= pbb.right - 0.01),
+    ]
+    for msg, ok in checks:
+        print(f"CHECK {'PASS' if ok else 'FAIL'}: {msg}", flush=True)
 
-    def build(self):
-        top = self.ly.create_cell("cml_latch_uhf")
-        n_data = self.pcell("nmos", {
-            "w": W_DATA, "l": "0.13u", "ng": NG_DATA, "m": 1,
-            "guardRingType": "none",
-        })
-        n_regen = self.pcell("nmos", {
-            "w": W_REGEN, "l": "0.13u", "ng": NG_REGEN, "m": 1,
-            "guardRingType": "none",
-        })
-        n_tail = self.pcell("nmos", {
-            "w": W_TAIL, "l": "0.13u", "ng": NG_TAIL, "m": 1,
-            "guardRingType": "none",
-        })
-        rload = self.pcell("rppd", {
-            "R": "666.7", "w": R_W, "l": R_L, "b": 0,
-            "Calculate": "R", "guardRingType": "none",
-        })
-        vs12 = self.pcell("via_stack", {
-            "b_layer": "Metal1", "t_layer": "Metal2",
-            "vn_columns": 1, "vn_rows": 1,
-        })
-        ptap = self.pcell("ptap1", {"w": "0.78u", "l": "0.78u"})
+    gds = os.path.join(OUT, "cml_latch_uhf.gds")
+    ly.write(gds)
+    with open(gds, "rb") as f, gzip.open(gds + ".gz", "wb") as z:
+        shutil.copyfileobj(f, z)
 
-        dloc = self.ly.cell(n_data).bbox().to_dtype(self.ly.dbu)
-        rloc = self.ly.cell(n_regen).bbox().to_dtype(self.ly.dbu)
-        tloc = self.ly.cell(n_tail).bbox().to_dtype(self.ly.dbu)
-        lloc = self.ly.cell(rload).bbox().to_dtype(self.ly.dbu)
-
-        gap = 5.0
-        x_m1 = -gap / 2 - dloc.right
-        x_m2 = gap / 2 + dloc.right
-
-        # Bottom→top stack: tail → clock → data → regen → loads
-        # so clock drains (=s1/s2) sit under data sources [LVS routing].
-        y_t = 0.0
-        bb_t, tt = self.place(top, n_tail, -tloc.width() / 2 - tloc.left,
-                              y_t - tloc.bottom)
-        self.say(f"tail mt {bb_t} W={W_TAIL} ng={NG_TAIL}")
-
-        y_ck = bb_t.top + 6.0
-        bb5, t5 = self.place(top, n_data, x_m1, y_ck - dloc.bottom, mirror=False)
-        bb6, t6 = self.place(top, n_data, x_m2, y_ck - dloc.bottom, mirror=True)
-        self.say(f"clock m5/m6 {bb5} {bb6}")
-
-        y_d = max(bb5.top, bb6.top) + 6.0
-        bb1, t1 = self.place(top, n_data, x_m1, y_d - dloc.bottom, mirror=False)
-        bb2, t2 = self.place(top, n_data, x_m2, y_d - dloc.bottom, mirror=True)
-        self.say(f"data m1/m2 {bb1} {bb2} W={W_DATA} ng={NG_DATA}")
-
-        y_rgn = max(bb1.top, bb2.top) + 6.0
-        bb3, t3 = self.place(top, n_regen, x_m1, y_rgn - rloc.bottom,
-                             mirror=False)
-        bb4, t4 = self.place(top, n_regen, x_m2, y_rgn - rloc.bottom,
-                             mirror=True)
-        self.say(f"regen m3/m4 {bb3} {bb4} W={W_REGEN} ng={NG_REGEN}")
-
-        y_r = max(bb3.top, bb4.top) + 4.0
-        bb_rl, trl = self.place(top, rload, bb1.left - lloc.left, y_r)
-        bb_rr, trr = self.place(top, rload, bb2.left - lloc.left, y_r)
-        self.say(f"loads rppd {bb_rl} {bb_rr} R=666.7 [SCH]")
-
-        def sd(cid, tr):
-            cols = self.m1_sd_cols(cid, tr)
-            assert len(cols) >= 2, len(cols)
-            drn = [cols[i] for i in range(0, len(cols), 2)]
-            src = [cols[i] for i in range(1, len(cols), 2)]
-            return drn, src, cols
-
-        d1, s1a, _ = sd(n_data, t1)
-        d2, s2a, _ = sd(n_data, t2)
-        d3, s3, _ = sd(n_regen, t3)
-        d4, s4, _ = sd(n_regen, t4)
-        d5, s5, _ = sd(n_data, t5)  # clock drains = s1 / sources = ta
-        d6, s6, _ = sd(n_data, t6)
-        dt, st, _ = sd(n_tail, tt)
-
-        # Mid-gap buses (clear of Activ)
-        y_ta = 0.5 * (bb_t.top + bb5.bottom)
-        y_s1 = 0.5 * (bb5.top + bb1.bottom)   # clock drain ↔ data source
-        y_s2 = y_s1 + 1.5                     # separate M1 for s2 (ckn side)
-        # Keep s1/s2 buses on opposite X halves to avoid M1.b merge
-        y_qn = max(bb1.top, bb3.top) + 1.5
-        y_qp = y_qn + 2.0
-        y_vdd = max(bb_rl.top, bb_rr.top) + 2.0
-        y_gnd = bb_t.bottom - 3.0
-        y_nb = y_gnd - 3.0
-
-        # --- ta: clock sources + tail drain ---
-        self.join_cols_m1_below(top, s5 + s6, y_ta)
-        self.join_cols_m1_above(top, dt, y_ta)
-        self.box(top, self.m1,
-                 min(min(c.left for c in s5 + s6), min(c.left for c in dt)),
-                 y_ta,
-                 max(max(c.right for c in s5 + s6), max(c.right for c in dt)),
-                 y_ta + 0.28)
-        self.join_cols_m1_below(top, st, y_gnd)
-        self.place(top, ptap, bb_t.left - 2.0, y_gnd - 0.4)
-        self.place(top, ptap, bb_t.right + 1.2, y_gnd - 0.4)
-
-        # --- s1: clock-L drain + data-L/R sources (m1/m2 share s1) ---
-        self.join_cols_m1_above(top, d5, y_s1)
-        self.join_cols_m1_below(top, s1a + s2a, y_s1)
-        self.box(top, self.m1,
-                 min(c.left for c in d5 + s1a + s2a), y_s1,
-                 max(c.right for c in d5 + s1a + s2a), y_s1 + 0.28)
-
-        # --- s2: clock-R drain + regen sources ---
-        self.join_cols_m1_above(top, d6, y_s2)
-        self.join_cols_m1_below(top, s3 + s4, y_s2)
-        # vertical M2 stem on right outboard for s2 (avoid crossing s1 M1)
-        x_s2 = bb6.right + 2.5
-        for c in d6:
-            self.place(top, vs12, 0.5 * (c.left + c.right), y_s2)
-        for c in s3 + s4:
-            self.place(top, vs12, 0.5 * (c.left + c.right),
-                       min(bb3.bottom, bb4.bottom) - 0.5)
-        self.box(top, self.m2, x_s2 - 0.2,
-                 min(y_s2, min(bb3.bottom, bb4.bottom) - 0.5),
-                 x_s2 + 0.2,
-                 max(y_s2 + 0.4, max(bb3.bottom, bb4.bottom)))
-        self.box(top, self.m2,
-                 min(c.left for c in d6), y_s2,
-                 x_s2 + 0.2, y_s2 + 0.4)
-        self.box(top, self.m2,
-                 min(c.left for c in s3 + s4),
-                 min(bb3.bottom, bb4.bottom) - 0.7,
-                 x_s2 + 0.2,
-                 min(bb3.bottom, bb4.bottom) - 0.3)
-
-        # --- qp / qn drains ---
-        self.join_cols_m1_above(top, d1 + d3, y_qn)
-        self.join_cols_m1_above(top, d2 + d4, y_qp)
-
-        def r_terms(bb):
-            cx = 0.5 * (bb.left + bb.right)
-            return (cx, bb.bottom + 0.3), (cx, bb.top - 0.3)
-
-        (rl_b, rl_by), (rl_t, rl_ty) = r_terms(bb_rl)
-        (rr_b, rr_by), (rr_t, rr_ty) = r_terms(bb_rr)
-        self.box(top, self.m1, rl_b - 0.14, min(y_qn, rl_by),
-                 rl_b + 0.14, max(y_qn + 0.28, rl_by))
-        self.box(top, self.m1, min(rl_b, d1[0].left) - 0.14, y_qn,
-                 max(rl_b, d1[-1].right) + 0.14, y_qn + 0.28)
-        self.box(top, self.m1, rr_b - 0.14, min(y_qp, rr_by),
-                 rr_b + 0.14, max(y_qp + 0.28, rr_by))
-        self.box(top, self.m1, min(rr_b, d2[0].left) - 0.14, y_qp,
-                 max(rr_b, d2[-1].right) + 0.14, y_qp + 0.28)
-        self.box(top, self.m1, rl_t - 0.14, rl_ty, rl_t + 0.14, y_vdd + 0.28)
-        self.box(top, self.m1, rr_t - 0.14, rr_ty, rr_t + 0.14, y_vdd + 0.28)
-        self.box(top, self.m1, min(rl_t, rr_t) - 0.14, y_vdd,
-                 max(rl_t, rr_t) + 0.14, y_vdd + 0.28)
-
-        # Gates — exit outboard; regen cross-couple to qp/qn
-        g1 = self.poly_gates(n_data, t1)
-        g2 = self.poly_gates(n_data, t2)
-        g3 = self.poly_gates(n_regen, t3)
-        g4 = self.poly_gates(n_regen, t4)
-        g5 = self.poly_gates(n_data, t5)
-        g6 = self.poly_gates(n_data, t6)
-        gt = self.poly_gates(n_tail, tt)
-        x_dp = bb1.left - 4.0
-        x_dn = bb2.right + 4.0
-        x_ckp = bb5.left - 4.0
-        x_ckn = bb6.right + 4.0
-        x_nb = 0.5 * (bb_t.left + bb_t.right)
-        y_dp = 0.5 * (bb1.bottom + bb1.top)
-        y_ckp = 0.5 * (bb5.bottom + bb5.top)
-
-        self.gate_exit(top, g1, self.activ_top(n_data, t1), x_dp, y_dp)
-        self.gate_exit(top, g2, self.activ_top(n_data, t2), x_dn, y_dp)
-        self.gate_exit(top, g3, self.activ_top(n_regen, t3),
-                       bb3.left - 3.0, y_qp)
-        self.box(top, self.m1, bb3.left - 3.14, y_qp,
-                 max(d2[-1].right, bb3.left) + 0.14, y_qp + 0.28)
-        self.gate_exit(top, g4, self.activ_top(n_regen, t4),
-                       bb4.right + 3.0, y_qn)
-        self.box(top, self.m1, min(d1[0].left, bb4.right) - 0.14, y_qn,
-                 bb4.right + 3.14, y_qn + 0.28)
-        self.gate_exit(top, g5, self.activ_top(n_data, t5), x_ckp, y_ckp)
-        self.gate_exit(top, g6, self.activ_top(n_data, t6), x_ckn, y_ckp)
-        self.gate_exit(top, gt, self.activ_top(n_tail, tt), x_nb, y_nb)
-
-        self.pin(top, 0.5 * (rl_t + rr_t), y_vdd + 0.5, "vdd")
-        self.pin(top, x_nb, y_gnd - 0.5, "gnd")
-        self.pin(top, x_dp, y_dp, "dp")
-        self.pin(top, x_dn, y_dp, "dn")
-        self.pin(top, x_ckp, y_ckp, "ckp")
-        self.pin(top, x_ckn, y_ckp, "ckn")
-        self.pin(top, bb1.left - 2.0, y_qn, "qn")
-        self.pin(top, bb2.right + 2.0, y_qp, "qp")
-        self.pin(top, x_nb, y_nb, "nb_lo")
-
-        bb = top.bbox().to_dtype(self.ly.dbu)
-        area = bb.width() * bb.height() * 1e-6
-        self.say(f"bbox {bb}; area {area:.5f} mm² [GDS]")
-
-        gds = os.path.join(OUT, "cml_latch_uhf.gds")
-        self.ly.write(gds)
-        with open(gds, "rb") as f, gzip.open(gds + ".gz", "wb") as z:
-            shutil.copyfileobj(f, z)
-        self.say(f"WROTE {gds} / .gz")
-
-        spice = os.path.join(OUT, "cml_latch_uhf.spice")
-        open(spice, "w").write(
-            "* P2.7.4b cml_latch_uhf [SCH] I=0.75 mA tailed; rppd loads\n"
-            ".subckt cml_latch_uhf vdd gnd dp dn ckp ckn qp qn nb_lo\n"
-            f"Rrlp vdd qp gnd rppd w={R_W} l={R_L} ps=0.18u b=0 m=1\n"
-            f"Rrln vdd qn gnd rppd w={R_W} l={R_L} ps=0.18u b=0 m=1\n"
-            f"Mm1 qn dp s1 gnd sg13_lv_nmos w={W_DATA} l=0.13u\n"
-            f"Mm2 qp dn s1 gnd sg13_lv_nmos w={W_DATA} l=0.13u\n"
-            f"Mm3 qn qp s2 gnd sg13_lv_nmos w={W_REGEN} l=0.13u\n"
-            f"Mm4 qp qn s2 gnd sg13_lv_nmos w={W_REGEN} l=0.13u\n"
-            f"Mm5 s1 ckp ta gnd sg13_lv_nmos w={W_DATA} l=0.13u\n"
-            f"Mm6 s2 ckn ta gnd sg13_lv_nmos w={W_DATA} l=0.13u\n"
-            f"Mmt ta nb_lo gnd gnd sg13_lv_nmos w={W_TAIL} l=0.13u\n"
-            ".ends\n"
-        )
-        self.say(f"WROTE {spice}")
-        open(os.path.join(OUT, "summary_build_cml_latch_uhf.txt"), "w").write(
-            "\n".join(self.log) + "\n")
-        return 0
+    # Flat LVS vs xschem leaf; dummies combine 3+4.5+3+6 = 16.5
+    open(os.path.join(OUT, "cml_latch_uhf.spice"), "w").write(
+        "* P2.7.4b cml_latch_uhf flat LVS [SCH]\n"
+        ".subckt cml_latch_uhf dp dn ckp ckn qp qn nb_lo vdd gnd\n"
+        "Mma1 qn dp s1a gnd sg13_lv_nmos w=7.50u l=0.13u\n"
+        "Mma2 qp dn s1a gnd sg13_lv_nmos w=7.50u l=0.13u\n"
+        "Mma3 qn qp s2a gnd sg13_lv_nmos w=11.25u l=0.13u\n"
+        "Mma4 qp qn s2a gnd sg13_lv_nmos w=11.25u l=0.13u\n"
+        "Mma5 s1a ckp ta gnd sg13_lv_nmos w=7.50u l=0.13u\n"
+        "Mma6 s2a ckn ta gnd sg13_lv_nmos w=7.50u l=0.13u\n"
+        "Mmta ta nb_lo gnd gnd sg13_lv_nmos w=15.0u l=0.13u\n"
+        f"Rrlp vdd qn gnd rppd w={R_W} l={R_L} ps=0u b=0 m=1\n"
+        f"Rrln vdd qp gnd rppd w={R_W} l={R_L} ps=0u b=0 m=1\n"
+        "Mdum gnd gnd gnd gnd sg13_lv_nmos w=16.5u l=0.13u\n"
+        ".ends\n"
+    )
+    open(os.path.join(OUT, "summary_build_cml_latch_uhf.txt"), "w").write(
+        f"pair ({x_pl:.3f},{y_pl:.3f}) regen M90 ({x_rg:.3f},{y_rg:.3f})\n"
+        f"clk (0,0) tail ({x_tl:.3f},{y_tl:.3f})\n"
+        f"qn stub {qnL:.3f} qp stub {qpL:.3f} s2 dX {abs(xs2 - xd2):.3f}\n"
+        + "\n".join(f"{'PASS' if ok else 'FAIL'} {m}" for m, ok in checks)
+        + "\n"
+    )
+    print("WROTE", gds, flush=True)
+    return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(B().build())
+    raise SystemExit(main())

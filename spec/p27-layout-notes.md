@@ -1132,6 +1132,15 @@ east exits inside device–dummy corridor; d2 north lane east of gates (no
 cross). DRC (density waived) / KLayout LVS / netgen unique **PASS**. Fingers
 2×5+2×1 [TOOL]. PNG `out/cml_clk_pair.png`.
 
+##### `cml_latch_uhf` assemble (2026-11-20) — FAIL LVS [TOOL]
+
+E-face regen + M90: pin stubs short when bboxes clear east-lane overhang
+(qn≈8 µm, qp≈6 µm) [GDS]. W re-face of regen shorted d1|d2 in extract;
+east-face cell restored (2d52354). Gap-only M1 stubs + face-extend attempts
+leave qn|qp short or ports open; gnd extract as `$1`. DRC density-only clean
+in the no-extend build; LVS/netgen **FAIL**. Next: put abutment pins on the
+bbox face inside each leaf (no parent extend), then re-join.
+
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  
 **Outputs:** sch + gds.gz + DRC/LVS; LF MOS area ≈ 0.062 mm².  
