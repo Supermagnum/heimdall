@@ -1,0 +1,15 @@
+# P2.7.4b per-stage LO floor with extracted latch C [SCH + PEX-RC]
+
+## Prior assumption (accepted floor)
+- C_ck = **15 fF/side** on clock nets only (buffer ckp/ckn, CML ckp/ckn, converter/logic clocks) [SCH `run_stage_noise.py`].
+- **No** extra C on latch qp/qn or tail in that run [SCH].
+- Reported: UHF **−154.7**, VHF **−158.6 / −159.1** dBc/Hz [SCH `summary_a3_floor_d7.txt` / `summary_stage_noise.txt`].
+
+## This run (extracted)
+| band | ckp+asm | ckn+asm | qp | qn | ta | unit | tag |
+|---|---:|---:|---:|---:|---:|---|---|
+| uhf | 9.25 | 4.41 | 19.49 | 23.33 | 17.53 | fF | [PEX-RC]+[HAND] |
+| vhf | 9.15 | 4.31 | 18.42 | 22.24 | 0.00 | fF | [PEX-RC]+[HAND] |
+
+Assembly on clock only: **0.87 fF** [HAND]. VHF NOR `tg` uses UHF ta as stand-in until NOR PEX [HAND].
+

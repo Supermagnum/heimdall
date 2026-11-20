@@ -1,0 +1,17 @@
+# cml_nor_vhf — pre-draw checklist vs p27-layout-notes [HAND]
+
+| Rule | How this cell meets it |
+|---|---|
+| PDK nmos PCell; `guardRingType=none` + hand ptap | Same as latch leaves; ptap on west/east gnd rails only |
+| Even M1 cols = drain, odd = source [LVS] | `m1_sd_cols` + assert; never swap |
+| Never M1 across Activ at a Y that hits another terminal | Source drops stop at y_s (south of Activ); drain drops only at y_dr (further south); join same-net cols on M2 |
+| Join same-net columns via side spurs + M2 | Source bus and drain buses are M2; M1 only local column stubs + via |
+| Gate Cont on poly pads above Activ; poly strap at Activ top | `gate_poly_strap` + `gate_m1_exit` (Cont off active) |
+| Gate exit not through dummy / not across drain V | Gate M1 in device–dummy corridor; east/north lanes clear of drain tracks |
+| End dummies G=S=D=gnd local only | Two ng=1 dummies; tied to gnd rail only |
+| Sub-cells with pins on the face | Core (`cml_nor_core_vhf`), loads, tail: face pins; parent gap stubs only |
+| Gap stubs only; no metal through a child | Assemble: stub core.s ↔ tail.drain; stub loads ↔ orp/orn; gnd rail outside bboxes |
+| Both LVS tools + fingers by script | Prove each sub-cell then top |
+| Wiring C = substrate + coupling | Magic .ext after prove [PEX-RC] |
+
+Prior FAIL: monolithic fill drew M1 through S/D (mega-short). Rebuild is bottom-up.
