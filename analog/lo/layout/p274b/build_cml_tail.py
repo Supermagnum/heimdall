@@ -177,52 +177,65 @@ class Tail:
         sources = [cols[i] for i in range(1, n_col, 2)]
         self.say(f"even=D odd=S; nD={len(drains)} nS={len(sources)} [LVS]")
 
-        # Both S and D exit SOUTH at different Y (gates NORTH) — same as
-        # cml_diff_pair. Never route D north into the gate Cont zone.
+        # Internal S/D still exit SOUTH (never into gate Cont zone).
+        # Face pins per 2026-11-20 plan: drain=N, gnd=W, nb_lo=E.
         y_s = bb.bottom - 3.0
         y_dr = y_s - 4.0
         y_gnd = y_dr - 5.0
-        y_port = y_gnd - 4.0
         x_gL = min(bb_dL.left, bb.left) - 4.0
         x_gR = max(bb_dR.right, bb.right) + 4.0
-        x_d = x_gR + 3.0  # drain pin outboard east
+        x_nb_e = x_gR + 3.0          # nb_lo east face (M1)
+        x_d_e = x_gR + 6.0           # drain east escape (M2, outside nb_lo)
+        x_drain = 0.0                # north-face drain pin X
+        # Keep drain north strap well above nb_lo M2 (same-Y shorted drain|nb_lo)
+        y_nb = at + 6.0
+        y_north = max(at, bb.top, bb_dL.top, bb_dR.top, y_nb) + 5.0
 
-        # Sources → gnd via M2 at y_s
+        # Sources → gnd via M2 at y_s, then west face
         for c in sources:
             self.box(top, self.m1, c.left, y_s, c.right, c.bottom)
             self.place(top, vs12, 0.5 * (c.left + c.right) - 0.05, y_s)
         self.box(top, self.m2, sources[0].left - 0.3, y_s - 0.15,
                  sources[-1].right + 0.3, y_s + 0.55)
         self.box(top, self.m2, x_gL - 0.20, y_s - 0.15,
-                 x_gR + 0.20, y_s + 0.55)
+                 sources[-1].right + 0.3, y_s + 0.55)
         self.place(top, vs12, x_gL - 0.05, y_s)
-        self.place(top, vs12, x_gR - 0.05, y_s)
         self.box(top, self.m1, x_gL - 0.20, y_gnd, x_gL + 0.20, y_s + 0.40)
-        self.box(top, self.m1, x_gR - 0.20, y_gnd, x_gR + 0.20, y_s + 0.40)
 
-        # Drains → outboard then south pin via M2 at y_dr (no M1 H)
+        # Drains → south bus → east lane → north face (M2 outside body)
         for c in drains:
             self.box(top, self.m1, c.left, y_dr, c.right, c.bottom)
             self.place(top, vs12, 0.5 * (c.left + c.right) - 0.05, y_dr)
         self.box(top, self.m2, drains[0].left - 0.3, y_dr - 0.15,
-                 x_d + 0.20, y_dr + 0.55)
-        self.place(top, vs12, x_d - 0.05, y_dr)
-        self.box(top, self.m1, x_d - 0.20, y_dr, x_d + 0.20, y_dr + 0.40)
-        self.place(top, vs12, x_d - 0.05, y_port)
-        self.box(top, self.m2, x_d - 0.20, y_port, x_d + 0.20, y_dr + 0.40)
-        self.box(top, self.m1, x_d - 0.25, y_port - 0.5, x_d + 0.25, y_port + 0.40)
-        self.pin_m1(top, x_d, y_port - 0.3, "drain")
+                 x_d_e + 0.20, y_dr + 0.55)
+        self.place(top, vs12, x_d_e - 0.05, y_dr)
+        # vertical M2 on outer east lane up to north
+        self.box(top, self.m2, x_d_e - 0.20, y_dr - 0.15,
+                 x_d_e + 0.20, y_north + 0.40)
+        self.place(top, vs12, x_d_e - 0.05, y_north)
+        self.box(top, self.m2, min(x_drain, x_d_e) - 0.20, y_north - 0.15,
+                 max(x_drain, x_d_e) + 0.20, y_north + 0.40)
+        self.place(top, vs12, x_drain - 0.05, y_north)
+        self.box(top, self.m1, x_drain - 0.25, y_north - 0.5,
+                 x_drain + 0.25, y_north + 0.40)
+        self.pin_m1(top, x_drain, y_north - 0.3, "drain")
 
-        # Gate → nb_lo: exit in the gap between device and LEFT dummy
-        # (not through the right dummy — that shorted nb_lo≡gnd [LVS]).
+        # Gate → nb_lo on EAST face (exit in device–left-dummy gap first)
         self.gate_poly_strap(top, gates, at)
-        x_nb = 0.5 * (bb.left + bb_dL.right)
+        x_gexit = 0.5 * (bb.left + bb_dL.right)
         y_g = at + 4.0
-        self.gate_m1_exit(top, gates, at, x_nb, y_g)
-        self.box(top, self.m1, x_nb - 0.14, y_g, x_nb + 0.14, y_g + 2.0)
-        self.pin_m1(top, x_nb, y_g + 2.0, "nb_lo")
+        self.gate_m1_exit(top, gates, at, x_gexit, y_g)
+        # M1 then M2 to east face; Y clear of drain north strap
+        self.box(top, self.m1, x_gexit - 0.14, y_g, x_gexit + 0.14, y_nb + 0.20)
+        self.place(top, vs12, x_gexit - 0.05, y_nb)
+        self.box(top, self.m2, x_gexit - 0.20, y_nb - 0.15,
+                 x_nb_e + 0.20, y_nb + 0.40)
+        self.place(top, vs12, x_nb_e - 0.05, y_nb)
+        self.box(top, self.m1, x_nb_e - 0.25, y_nb - 0.5,
+                 x_nb_e + 0.25, y_nb + 0.40)
+        self.pin_m1(top, x_nb_e, y_nb, "nb_lo")
 
-        # Dummies → gnd
+        # Dummies → gnd (west)
         for bb_d, t_d, x_gd in ((bb_dL, t_dL, x_gL), (bb_dR, t_dR, x_gR)):
             dcols = self.m1_sd_cols(dum, t_d)
             dg = self.poly_gates(dum, t_d)
@@ -247,16 +260,20 @@ class Tail:
             self.place(top, ptap, x, y)
             self.box(top, self.m1, x, y, x + 0.78, y + 0.78)
 
-        y_gj = y_gnd - 3.0
-        self.box(top, self.m1, x_gL - 0.20, y_gj, x_gL + 0.20, y_gnd + 0.50)
-        self.box(top, self.m1, x_gR - 0.20, y_gj, x_gR + 0.20, y_gnd + 0.50)
-        self.place(top, vs12, x_gL - 0.05, y_gj)
-        self.place(top, vs12, x_gR - 0.05, y_gj)
-        self.box(top, self.m2, x_gL - 0.20, y_gj - 0.15,
-                 x_gR + 0.20, y_gj + 0.55)
-        self.place(top, vs12, -0.05, y_gj)
-        self.box(top, self.m1, -0.25, y_gj - 2.0, 0.25, y_gj + 0.40)
-        self.pin_m1(top, 0.0, y_gj - 1.8, "gnd")
+        # Tie east gnd rail to west via M2 below body (no child-through)
+        self.box(top, self.m1, x_gR - 0.20, y_gnd, x_gR + 0.20, y_s + 0.40)
+        self.place(top, vs12, x_gL - 0.05, y_gnd)
+        self.place(top, vs12, x_gR - 0.05, y_gnd)
+        self.box(top, self.m2, x_gL - 0.20, y_gnd - 0.15,
+                 x_gR + 0.20, y_gnd + 0.55)
+
+        # gnd pin on WEST face
+        y_gpin = 0.5 * (bb.bottom + bb.top)
+        self.box(top, self.m1, x_gL - 0.20, min(y_gnd, y_gpin),
+                 x_gL + 0.20, max(y_gnd + 0.50, y_gpin))
+        self.box(top, self.m1, x_gL - 2.0, y_gpin - 0.25,
+                 x_gL + 0.20, y_gpin + 0.25)
+        self.pin_m1(top, x_gL - 1.5, y_gpin, "gnd")
 
         abb = top.bbox().to_dtype(self.ly.dbu)
         area = (abb.right - abb.left) * (abb.top - abb.bottom) * 1e-6

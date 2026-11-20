@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""P2.7.4b step 3b1 — cml_diff_pair + matched rppd loads [SCH].
+"""P2.7.4b — cml_diff_pair + matched rppd loads [SCH].
 
-Instantiates proven cml_diff_pair GDS and adds two rppd (666.7 Ω) from
-d1/d2 to vdd. Prove DRC/LVS before adding tail / regen.
+Face pins follow 2026-11-20 latch plan: s=S, d1/d2=E, gnd=W, g1/g2/vdd=N.
 """
 from __future__ import annotations
 
 import gzip
 import os
+import re as _re
 import shutil
 import sys
 
@@ -35,7 +35,6 @@ def main():
     lib = pya.Library.library_by_name("SG13_dev", "sg13g2")
     lib_ly = lib.layout()
 
-    # load proven pair as library cell
     pair_ly = pya.Layout()
     pair_ly.read(os.path.join(OUT, "cml_diff_pair.gds"))
     pair_top = pair_ly.top_cell()
@@ -70,8 +69,6 @@ def main():
         top.insert(pya.CellInstArray(cid, tr))
         return ly.cell(cid).bbox().transformed(tr).to_dtype(ly.dbu)
 
-    # Find pin texts — KLayout may stringify as "('d1',r0 …)"
-    import re as _re
     pins = {}
     for s in ly.cell(pair_cid).shapes(m1txt).each():
         if not s.is_text():
@@ -86,17 +83,32 @@ def main():
     print("pair pins", pins, flush=True)
     xd1, yd1 = pins["d1"]
     xd2, yd2 = pins["d2"]
+    xs, ys = pins["s"]
+    xg, yg = pins["gnd"]
 
+    # Resistors north of pair body; X near device centers (not east pins)
     y_r = pbb.top + 4.0
-    bb_rl = place(rh, xd1 - rloc.width() / 2 - rloc.left, y_r - rloc.bottom)
-    bb_rr = place(rh, xd2 - rloc.width() / 2 - rloc.left, y_r - rloc.bottom)
+    x_rl = 0.5 * (pbb.left + 0.0)   # left half
+    x_rr = 0.5 * (0.0 + pbb.right)  # right half
+    bb_rl = place(rh, x_rl - rloc.width() / 2 - rloc.left, y_r - rloc.bottom)
+    bb_rr = place(rh, x_rr - rloc.width() / 2 - rloc.left, y_r - rloc.bottom)
 
-    # connect d pins up to resistor bottoms; tops to vdd
-    for (xd, yd), bb in (((xd1, yd1), bb_rl), ((xd2, yd2), bb_rr)):
+    # East drain pins → north on separate X, then west on separate Y
+    # (shared y_turn H-strap previously shorted d1|d2).
+    routes = (
+        (xd1, yd1, bb_rl, xd1 + 2.0, pbb.top + 1.0),
+        (xd2, yd2, bb_rr, xd2 + 4.0, pbb.top + 2.8),
+    )
+    for xd, yd, bb, x_lane, y_west in routes:
         cx = 0.5 * (bb.left + bb.right)
-        box(xd - 0.14, yd, xd + 0.14, bb.bottom + 0.3)
-        box(min(xd, cx) - 0.14, bb.bottom + 0.2,
-            max(xd, cx) + 0.14, bb.bottom + 0.5)
+        box(xd - 0.14, yd - 0.14, xd + 0.14, yd + 0.14)
+        box(min(xd, x_lane) - 0.14, yd - 0.14,
+            max(xd, x_lane) + 0.14, yd + 0.14)
+        box(x_lane - 0.14, yd, x_lane + 0.14, y_west)
+        box(min(x_lane, cx) - 0.14, y_west - 0.14,
+            max(x_lane, cx) + 0.14, y_west + 0.14)
+        box(cx - 0.14, min(y_west, bb.bottom + 0.3),
+            cx + 0.14, max(y_west, bb.bottom + 0.5))
         box(cx - 0.14, bb.bottom + 0.2, cx + 0.14, bb.bottom + 0.5)
         box(cx - 0.14, bb.top - 0.3, cx + 0.14, bb.top + 2.0)
 
@@ -105,47 +117,25 @@ def main():
         max(bb_rl.right, bb_rr.right), y_vdd + 0.28)
     pin(0.5 * (bb_rl.left + bb_rr.right), y_vdd + 0.5, "vdd")
 
-    # re-export pair ports
+    # Re-export face pins (same locations as child; no through-routing)
     for name, (x, y) in pins.items():
-        if name != "d1" and name != "d2":
-            pin(x, y, name)
-        else:
-            # d1/d2 still available as mid-net labels for LVS (internal to loads)
-            pass
-    pin(xd1, yd1 - 2.0, "d1")  # keep for debug; spice uses internal
-    pin(xd2, yd2 - 2.0, "d2")
+        pin(x, y, name)
 
     gds = os.path.join(OUT, "cml_pair_loads.gds")
     ly.write(gds)
     with open(gds, "rb") as f, gzip.open(gds + ".gz", "wb") as z:
         shutil.copyfileobj(f, z)
-    # LVS: pair + loads; expose d1/d2 as loaded outputs (qp/qn style)
-    open(os.path.join(OUT, "cml_pair_loads.spice"), "w").write(
-        "* P2.7.4b cml_pair_loads = diff pair + rppd [SCH]\n"
-        ".subckt cml_pair_loads d1 d2 g1 g2 s gnd vdd\n"
-        "Xpair d1 d2 g1 g2 s gnd cml_diff_pair\n"
-        f"Rrlp vdd d1 gnd rppd w={R_W} l={R_L} ps=0.18u b=0 m=1\n"
-        f"Rrln vdd d2 gnd rppd w={R_W} l={R_L} ps=0.18u b=0 m=1\n"
-        ".ends\n"
-        "* inline pair for flat LVS (no hierarchy in spice reader)\n"
-        ".subckt cml_diff_pair d1 d2 g1 g2 s gnd\n"
-        "Mm1 d1 g1 s gnd sg13_lv_nmos w=7.5u l=0.13u\n"
-        "Mm2 d2 g2 s gnd sg13_lv_nmos w=7.5u l=0.13u\n"
-        "Mdum gnd gnd gnd gnd sg13_lv_nmos w=3.0u l=0.13u\n"
-        ".ends\n"
-    )
-    # Flat spice preferred for IHP LVS
     open(os.path.join(OUT, "cml_pair_loads.spice"), "w").write(
         "* P2.7.4b cml_pair_loads flat [SCH]\n"
         ".subckt cml_pair_loads d1 d2 g1 g2 s gnd vdd\n"
         "Mm1 d1 g1 s gnd sg13_lv_nmos w=7.5u l=0.13u\n"
         "Mm2 d2 g2 s gnd sg13_lv_nmos w=7.5u l=0.13u\n"
         "Mdum gnd gnd gnd gnd sg13_lv_nmos w=3.0u l=0.13u\n"
-        f"Rrlp vdd d1 gnd rppd w={R_W} l={R_L} ps=0.18u b=0 m=1\n"
-        f"Rrln vdd d2 gnd rppd w={R_W} l={R_L} ps=0.18u b=0 m=1\n"
+        f"Rrlp vdd d1 gnd rppd w={R_W} l={R_L} ps=0u b=0 m=1\n"
+        f"Rrln vdd d2 gnd rppd w={R_W} l={R_L} ps=0u b=0 m=1\n"
         ".ends\n"
     )
-    print("WROTE", gds, flush=True)
+    print("WROTE", gds, "s=", (xs, ys), "gnd=", (xg, yg), flush=True)
     return 0
 
 

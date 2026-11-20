@@ -1070,8 +1070,16 @@ through dummy — that shorted nb_lo≡gnd).
 Instantiating proven pair_loads + cml_tail: first joins shorted d2|gnd|s
 (M2/M1 through child bboxes; M1 east from `s` crossed d2 vertical strap).
 Latest: nets separated but `s` not tied to `drain`; DRC M1.b/M2.b/V1.b on
-escape. Need gap-only corridor with face pins. Regen XC / full latch **not
-started**.
+escape. Need gap-only corridor with face pins.
+
+##### Pin moves + `cml_pair_loads_tail` join (2026-11-20) — PASS [TOOL]
+
+Sub-cells re-pinned to plan and re-proven (DRC / KLayout LVS / netgen /
+fingers): `cml_diff_pair`, `cml_pair_loads` (`s`=S X≈0, `d1`/`d2`=E,
+`gnd`=W), `cml_tail` (`drain`=N X≈0, `gnd`=W, `nb_lo`=E). Join: 3 µm gap,
+straight M1 stub `s`↔`drain`, west gnd rail outside bboxes. Extract: `s` =
+tail drain; d1/d2/gnd/nb_lo distinct. DRC (density waived) / KLayout LVS /
+netgen unique **PASS**. Regen XC / full latch next.
 
 ##### `cml_latch_uhf` pin plan (2026-11-20) — before drawing [HAND]
 

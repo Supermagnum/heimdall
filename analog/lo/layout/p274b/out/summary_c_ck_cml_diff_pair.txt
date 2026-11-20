@@ -1,4 +1,4 @@
 # cml_diff_pair C [HAND/GDS]
 
-M1 54.7 M2 64.0 poly 5.3 µm²
-C gate-ish /side ≈ 2.29 fF of 15 fF (15.3%)
+M1 60.6 M2 84.8 poly 5.3 µm²
+C gate-ish /side ≈ 2.72 fF of 15 fF (18.1%)

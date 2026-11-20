@@ -6,9 +6,9 @@
   exit 0; log /work/analog/lo/layout/p274b/out/netgen_cml_pair_loads_tail.log
 # P2.7.4b DRC/LVS — cml_pair_loads_tail
 
-- DRC clean (density waived): **FAIL** non-density=['M1.b', 'M2.b', 'V1.b']
-- KLayout LVS: **FAIL**
-- netgen unique: **FAIL**
+- DRC clean (density waived): **PASS** non-density=[]
+- KLayout LVS: **PASS**
+- netgen unique: **PASS**
 - extracted: `/work/analog/lo/layout/p274b/out/lvs_cml_pair_loads_tail/cml_pair_loads_tail_extracted.cir`
 
 WROTE /work/analog/lo/layout/p274b/out/summary_drc_lvs_cml_pair_loads_tail.txt

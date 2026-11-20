@@ -5,35 +5,26 @@ Circuit 1: cml_pair_loads_tail             |Circuit 2: cml_pair_loads_tail
 sg13_lv_nmos (4)                           |sg13_lv_nmos (4)                           
 gnd (2)                                    |gnd (2)                                    
 Number of devices: 6                       |Number of devices: 6                       
-Number of nets: 8 **Mismatch**             |Number of nets: 9 **Mismatch**             
+Number of nets: 8                          |Number of nets: 8                          
 ---------------------------------------------------------------------------------------
-NET mismatches: Class fragments follow (with fanout counts):
-Circuit 1: cml_pair_loads_tail             |Circuit 2: cml_pair_loads_tail             
-
----------------------------------------------------------------------------------------
-Net: s                                     |Net: s                                     
-  sg13_lv_nmos/(drain|source) = 3          |  sg13_lv_nmos/(drain|source) = 2          
-                                           |                                           
-(no matching net)                          |Net: drain                                 
-                                           |  sg13_lv_nmos/(drain|source) = 1          
----------------------------------------------------------------------------------------
-Netlists do not match.
-Port matching may fail to disambiguate symmetries.
+Resolving symmetries by property value.
+Resolving symmetries by pin name.
+Netlists match uniquely.
 
 Subcircuit pins:
 Circuit 1: cml_pair_loads_tail             |Circuit 2: cml_pair_loads_tail             
 -------------------------------------------|-------------------------------------------
+gnd                                        |gnd                                        
 s                                          |s                                          
 nb_lo                                      |nb_lo                                      
 g2                                         |g2                                         
 g1                                         |g1                                         
-vdd                                        |vdd                                        
 d2                                         |d2                                         
 d1                                         |d1                                         
-gnd                                        |gnd                                        
-(no pin, node is s)                        |drain                                      
+vdd                                        |vdd                                        
 ---------------------------------------------------------------------------------------
-Cell pin lists for cml_pair_loads_tail and cml_pair_loads_tail altered to match.
+Cell pin lists are equivalent.
 Device classes cml_pair_loads_tail and cml_pair_loads_tail are equivalent.
 
-Final result: Top level cell failed pin matching.
+Final result: Circuits match uniquely.
+.

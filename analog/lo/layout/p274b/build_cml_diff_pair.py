@@ -211,22 +211,26 @@ class Pair:
         x_g1 = 0.5 * (bb1.left + x_d1)
         x_g2 = 0.5 * (bb2.right + x_d2)
 
-        # Sources → s: M1 drop + via; M2 bus (no M1 across array)
+        # Face pins per 2026-11-20 plan: s=S X≈0; d1/d2=E; gnd=W; g1/g2=N.
+        x_gL = min(bb_dL.left, x_d1) - 4.0
+        x_gR = max(bb_dR.right, x_d2) + 4.0
+        x_east = x_gR + 3.0
+
+        # Sources → s on SOUTH face at X≈0: M1 drop + via; M2 bus
         for c in src1 + src2:
             self.box(top, self.m1, c.left, y_s, c.right, c.bottom)
             self.place(top, vs12, 0.5 * (c.left + c.right) - 0.05, y_s)
-        x_s_pin = src2[-1].right + 2.0
+        x_s_pin = 0.0
         self.box(top, self.m2,
-                 src1[0].left - 0.3, y_s - 0.15,
-                 x_s_pin + 0.3, y_s + 0.55)
-        self.place(top, vs12, x_s_pin - 0.05, y_s - 1.5)
-        self.box(top, self.m2, x_s_pin - 0.25, y_s - 1.5,
-                 x_s_pin + 0.25, y_s + 0.55)
-        self.box(top, self.m1, x_s_pin - 0.25, y_s - 2.5,
-                 x_s_pin + 0.25, y_s - 1.3)
-        self.pin_m1(top, x_s_pin, y_s - 2.3, "s")
+                 min(src1[0].left - 0.3, x_s_pin - 0.3), y_s - 0.15,
+                 max(src2[-1].right + 0.3, x_s_pin + 0.3), y_s + 0.55)
+        y_s_pin = y_port - 1.0
+        self.place(top, vs12, x_s_pin - 0.05, y_s)
+        self.box(top, self.m1, x_s_pin - 0.25, y_s_pin - 0.5,
+                 x_s_pin + 0.25, y_s + 0.40)
+        self.pin_m1(top, x_s_pin, y_s_pin, "s")
 
-        # Drains → d1 / d2: M1 drop; M2 outboard (no M1 horizontal at y_dr)
+        # Drains → east face (off south join face); M2 outboard then east
         for c in drn1:
             self.box(top, self.m1, c.left, y_dr, c.right, c.bottom)
             self.place(top, vs12, 0.5 * (c.left + c.right) - 0.05, y_dr)
@@ -243,15 +247,28 @@ class Pair:
         self.place(top, vs12, x_d2 - 0.05, y_dr)
         self.box(top, self.m1, x_d2 - 0.20, y_dr, x_d2 + 0.20, y_dr + 0.40)
 
-        # Port stubs south
-        self.place(top, vs12, x_d1 - 0.05, y_port)
-        self.place(top, vs12, x_d2 - 0.05, y_port)
-        self.box(top, self.m2, x_d1 - 0.20, y_port, x_d1 + 0.20, y_dr + 0.40)
-        self.box(top, self.m2, x_d2 - 0.20, y_port, x_d2 + 0.20, y_dr + 0.40)
-        self.box(top, self.m1, x_d1 - 0.25, y_port - 0.5, x_d1 + 0.25, y_port + 0.40)
-        self.box(top, self.m1, x_d2 - 0.25, y_port - 0.5, x_d2 + 0.25, y_port + 0.40)
-        self.pin_m1(top, x_d1, y_port - 0.3, "d1")
-        self.pin_m1(top, x_d2, y_port - 0.3, "d2")
+        # East-face drain pins at distinct Y (d1 above d2)
+        y_d1e = y_dr + 3.0
+        y_d2e = y_dr - 1.0
+        self.place(top, vs12, x_d1 - 0.05, y_d1e)
+        self.box(top, self.m2, x_d1 - 0.20, y_dr - 0.15,
+                 x_d1 + 0.20, y_d1e + 0.40)
+        self.box(top, self.m2, x_d1 - 0.20, y_d1e - 0.15,
+                 x_east + 0.20, y_d1e + 0.40)
+        self.place(top, vs12, x_east - 0.05, y_d1e)
+        self.box(top, self.m1, x_east - 0.25, y_d1e - 0.5,
+                 x_east + 0.25, y_d1e + 0.40)
+        self.pin_m1(top, x_east, y_d1e, "d1")
+
+        self.place(top, vs12, x_d2 - 0.05, y_d2e)
+        self.box(top, self.m2, x_d2 - 0.20, min(y_dr, y_d2e) - 0.15,
+                 x_d2 + 0.20, max(y_dr, y_d2e) + 0.40)
+        self.box(top, self.m2, x_d2 - 0.20, y_d2e - 0.15,
+                 x_east + 0.20, y_d2e + 0.40)
+        self.place(top, vs12, x_east - 0.05, y_d2e)
+        self.box(top, self.m1, x_east - 0.25, y_d2e - 0.5,
+                 x_east + 0.25, y_d2e + 0.40)
+        self.pin_m1(top, x_east, y_d2e, "d2")
 
         # Gates — contacted off active; open ports g1/g2 (not XC)
         self.gate_poly_strap(top, g1, at1)
@@ -259,16 +276,13 @@ class Pair:
         y_g_exit = max(at1, at2) + 4.0
         self.gate_m1_exit(top, g1, at1, x_g1, y_g_exit)
         self.gate_m1_exit(top, g2, at2, x_g2, y_g_exit)
-        # gate pins north of exit
         y_g_pin = y_g_exit + 2.0
         self.box(top, self.m1, x_g1 - 0.14, y_g_exit, x_g1 + 0.14, y_g_pin)
         self.box(top, self.m1, x_g2 - 0.14, y_g_exit, x_g2 + 0.14, y_g_pin)
         self.pin_m1(top, x_g1, y_g_pin, "g1")
         self.pin_m1(top, x_g2, y_g_pin, "g2")
 
-        # Dummies + gnd outboard
-        x_gL = min(bb_dL.left, x_d1) - 4.0
-        x_gR = max(bb_dR.right, x_d2) + 4.0
+        # Dummies + gnd outboard; gnd pin on WEST face
         for bb_d, t_d, x_gnd_d in ((bb_dL, t_dL, x_gL), (bb_dR, t_dR, x_gR)):
             dcols = self.m1_sd_cols(dum, t_d)
             dg = self.poly_gates(dum, t_d)
@@ -293,16 +307,17 @@ class Pair:
                      (x_gL - 0.4, y_gnd), (x_gR - 0.4, y_gnd)):
             self.place(top, ptap, x, y)
             self.box(top, self.m1, x, y, x + 0.78, y + 0.78)
-        y_gnd_join = y_port - 3.0
-        self.box(top, self.m1, x_gL - 0.20, y_gnd_join, x_gL + 0.20, y_gnd + 0.50)
-        self.box(top, self.m1, x_gR - 0.20, y_gnd_join, x_gR + 0.20, y_gnd + 0.50)
-        self.place(top, vs12, x_gL - 0.05, y_gnd_join)
-        self.place(top, vs12, x_gR - 0.05, y_gnd_join)
-        self.box(top, self.m2, x_gL - 0.20, y_gnd_join - 0.15,
-                 x_gR + 0.20, y_gnd_join + 0.55)
-        self.place(top, vs12, -0.05, y_gnd_join)
-        self.box(top, self.m1, -0.25, y_gnd_join - 2.0, 0.25, y_gnd_join + 0.40)
-        self.pin_m1(top, 0.0, y_gnd_join - 1.8, "gnd")
+        # Tie L/R gnd rails
+        self.place(top, vs12, x_gL - 0.05, y_gnd)
+        self.place(top, vs12, x_gR - 0.05, y_gnd)
+        self.box(top, self.m2, x_gL - 0.20, y_gnd - 0.15,
+                 x_gR + 0.20, y_gnd + 0.55)
+        y_gpin = 0.5 * (min(bb1.bottom, bb2.bottom) + max(bb1.top, bb2.top))
+        self.box(top, self.m1, x_gL - 0.20, min(y_gnd, y_gpin),
+                 x_gL + 0.20, max(y_gnd + 0.50, y_gpin))
+        self.box(top, self.m1, x_gL - 2.0, y_gpin - 0.25,
+                 x_gL + 0.20, y_gpin + 0.25)
+        self.pin_m1(top, x_gL - 1.5, y_gpin, "gnd")
 
         bb = top.bbox().to_dtype(self.ly.dbu)
         area = (bb.right - bb.left) * (bb.top - bb.bottom) * 1e-6

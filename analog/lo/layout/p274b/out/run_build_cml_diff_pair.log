@@ -1,0 +1,13 @@
+Technology SG13_dev is loaded.
+GRID : 0.01
+GRID inverse : 100.0
+EPSILON1  : 0.001
+EPSILON2  : 1e-9
+Success.
+M1 (-6.85,-0.18;-4,1.68); M2 (4,-0.18;6.85,1.68) [SCH W=7.5u ng=5]
+S/D order: even=D odd=S; nS=3 nD=3 [LVS]
+pair bbox (-24.66,-17.68;25.91,7.75); area 0.00129 mm² [GDS]
+wrote /work/analog/lo/layout/p274b/out/cml_diff_pair.gds
+fingers [1, 1, 5, 5] PASS
+C≈2.72 fF/side
+PNG True

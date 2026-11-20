@@ -1,9 +1,9 @@
-* Extracted by KLayout with SG13G2 LVS runset on : 19/11/2026 22:42
+* Extracted by KLayout with SG13G2 LVS runset on : 20/11/2026 11:27
 
-.SUBCKT cml_pair_loads_tail d1 d2 drain g1 g2 gnd nb_lo s vdd
+.SUBCKT cml_pair_loads_tail d1 d2 g1 g2 gnd nb_lo s vdd
 M$1 gnd gnd gnd gnd sg13_lv_nmos L=0.13u W=9u AS=3.06p AD=3.06p PS=20.72u
 + PD=20.72u rfmode=0
-M$2 drain nb_lo gnd gnd sg13_lv_nmos L=0.13u W=15u AS=3.3p AD=3.3p PS=20.2u
+M$2 s nb_lo gnd gnd sg13_lv_nmos L=0.13u W=15u AS=3.3p AD=3.3p PS=20.2u
 + PD=20.2u rfmode=0
 M$9 d1 g1 s gnd sg13_lv_nmos L=0.13u W=7.5u AS=1.65p AD=1.65p PS=11.2u PD=11.2u
 + rfmode=0
