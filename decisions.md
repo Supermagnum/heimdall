@@ -1189,3 +1189,14 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
 - Remaining divider cells in order: cml_nor_vhf, cml_conv, tspc_dff, Johnson / phase, lo_buffer,
   then the band tops; same method (xschem leaf, pin plan, pins on face, gap stubs, both LVS tools,
   fingers, wiring C per net, render).
+
+
+## 2026-11-20 — Divider wiring C, NOR rebuild
+- Wiring C with substrate + coupling accepted as the method [PEX-RC]: latch clock nets
+  ≈ 3.4–8.4 fF / side (+ 0.87 fF assembly [HAND]) within 15 fF; qp / qn ≈ 18–23 fF, ta ≈ 17.5 fF.
+- The UHF / VHF floors are re-simulated with the extracted wiring C on all latch nets (clock,
+  qp / qn, tail), since latch outputs drive the next stage. Pass: UHF ≤ −151 dBc/Hz (≥ 1 dB
+  margin to −150), VHF at its requirement; otherwise the latch outputs are tightened before more
+  cells are drawn.
+- cml_nor_vhf rebuilt with the latch method; each new cell starts with a written check against
+  the rules in spec/p27-layout-notes.md.
