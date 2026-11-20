@@ -1125,6 +1125,13 @@ clk/tail stubs X-aligned in gaps only; qp/qn exit on the abutting E corridor
 
 `cml_clk_pair` faces: d1/d2 **N**, s **S**, g1/g2 **E**, gnd **W**.
 
+##### `cml_clk_pair` (2026-11-20) — PASS [TOOL]
+
+W=7.5 ng=5, wide gap so N drains X-align under pair.`s` / regen.`s`. Gate
+east exits inside device–dummy corridor; d2 north lane east of gates (no
+cross). DRC (density waived) / KLayout LVS / netgen unique **PASS**. Fingers
+2×5+2×1 [TOOL]. PNG `out/cml_clk_pair.png`.
+
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  
 **Outputs:** sch + gds.gz + DRC/LVS; LF MOS area ≈ 0.062 mm².  
