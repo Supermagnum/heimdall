@@ -1178,3 +1178,14 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
 - Wiring C on the clock, qn / qp and tail nets is extracted per net (wiring only, devices
   excluded) before more divider cells are drawn. Clock nets must leave room within ≤ 15 fF / side
   for the assembly; otherwise the latch is tightened first.
+
+
+## 2026-11-20 — Divider latches accepted
+- cml_latch_uhf and cml_latch_vhf_tl accepted: DRC (density waived), KLayout LVS, netgen,
+  fingers, render. Clock wiring C ≈ 0.6–0.7 fF / side per latch, + ≈ 0.9 fF assembly [PEX-RC /
+  HAND], within 15 fF / side.
+- Wiring C for divider cells includes wire-to-substrate and coupling C; only device C
+  (gate / junction, in the schematic) is excluded.
+- Remaining divider cells in order: cml_nor_vhf, cml_conv, tspc_dff, Johnson / phase, lo_buffer,
+  then the band tops; same method (xschem leaf, pin plan, pins on face, gap stubs, both LVS tools,
+  fingers, wiring C per net, render).
