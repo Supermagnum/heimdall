@@ -1,0 +1,1 @@
+lvs {/foss/designs/analog/lo/layout/p274b/out/cml_nor_vhf.spice cml_nor_vhf} {/foss/designs/analog/lo/layout/p274b/out/lvs_cml_nor_vhf/cml_nor_vhf_extracted.cir cml_nor_vhf} /foss/pdks/ihp-sg13g2/libs.tech/netgen/ihp-sg13g2_setup.tcl /foss/designs/analog/lo/layout/p274b/out/netgen_cml_nor_vhf.json

@@ -1,0 +1,12 @@
+* Extracted by KLayout with SG13G2 LVS runset on : 20/11/2026 20:35
+
+.SUBCKT cml_nor_core_vhf d_orn d_orp g_q1p g_q2p g_vref gnd s
+M$1 gnd gnd gnd gnd sg13_lv_nmos L=0.13u W=1.2u AS=0.408p AD=0.408p PS=3.76u
++ PD=3.76u rfmode=0
+M$2 d_orp g_vref s gnd sg13_lv_nmos L=0.13u W=3u AS=0.66p AD=0.66p PS=5.8u
++ PD=5.8u rfmode=0
+M$7 d_orn g_q1p s gnd sg13_lv_nmos L=0.13u W=3u AS=0.66p AD=0.66p PS=5.8u
++ PD=5.8u rfmode=0
+M$12 d_orn g_q2p s gnd sg13_lv_nmos L=0.13u W=3u AS=0.66p AD=0.66p PS=5.8u
++ PD=5.8u rfmode=0
+.ENDS cml_nor_core_vhf

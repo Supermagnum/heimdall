@@ -1,0 +1,14 @@
+# cml_nor_vhf wiring C — substrate + coupling [PEX-RC]
+
+- **Wiring C** = substrate/node C + coupling to other nets (wire-to-substrate + coupling). Device gate/junction C stays in PDK MOSFET models and is excluded [PEX-RC / decisions 2026-11-20].
+- No MIM on divider cells — substrate term is kept (unlike VCO bank) [PEX-RC].
+- Units: Magic `.ext` aF / 1000 = fF. `extresist` not run unless noted [TOOL].
+| net | substrate | coupling | **wiring C** | unit | tag |
+|---|---:|---:|---:|---|---|
+| orp | 9.44 | 2.91 | **12.34** | fF | [PEX-RC] |
+| orn | 7.72 | 3.38 | **11.10** | fF | [PEX-RC] |
+| q1p | 3.89 | 0.13 | **4.02** | fF | [PEX-RC] |
+| q2p | 3.35 | 0.12 | **3.47** | fF | [PEX-RC] |
+| vref | 3.36 | 0.12 | **3.47** | fF | [PEX-RC] |
+| nb_lo | 7.52 | 0.22 | **7.74** | fF | [PEX-RC] |
+| tg | 0.00 | 0.00 | **0.00** | fF | [PEX-RC] |

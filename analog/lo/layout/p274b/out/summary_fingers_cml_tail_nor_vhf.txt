@@ -1,0 +1,5 @@
+# cml_tail_nor_vhf fingers [TOOL]
+
+ngs=[1, 1, 5, 7]
+expect ng5>=0 ng1>=2 other={5: 1}
+gate: PASS

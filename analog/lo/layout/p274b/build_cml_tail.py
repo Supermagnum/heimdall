@@ -27,6 +27,7 @@ import pin_face as PF  # noqa: E402
 DBU = 0.001
 W_TAIL, NG = "15.0u", 5
 W_DUM = "3.0u"
+CELL = "cml_tail"
 
 
 def um(x: float) -> int:
@@ -145,7 +146,7 @@ class Tail:
         return y_pad1
 
     def build(self):
-        top = self.ly.create_cell("cml_tail")
+        top = self.ly.create_cell(CELL)
         nmos = self.pcell("nmos", {
             "w": W_TAIL, "l": "0.13u", "ng": NG, "m": 1,
             "guardRingType": "none",
@@ -291,22 +292,33 @@ class Tail:
         PF.assert_pins_on_faces(
             top, fp, {"drain": "N", "nb_lo": "E", "gnd": "W"}, tol=0.05)
 
-        gds = os.path.join(OUT, "cml_tail.gds")
+        gds = os.path.join(OUT, f"{CELL}.gds")
         self.ly.write(gds)
         with open(gds, "rb") as f, gzip.open(gds + ".gz", "wb") as z:
             shutil.copyfileobj(f, z)
-        open(os.path.join(OUT, "cml_tail.spice"), "w").write(
-            "* P2.7.4b cml_tail MOSFET [SCH]\n"
-            ".subckt cml_tail drain nb_lo gnd\n"
+        dum_w = 2.0 * float(W_DUM.rstrip("u"))
+        open(os.path.join(OUT, f"{CELL}.spice"), "w").write(
+            f"* P2.7.4b {CELL} MOSFET [SCH]\n"
+            f".subckt {CELL} drain nb_lo gnd\n"
             f"Mmt drain nb_lo gnd gnd sg13_lv_nmos w={W_TAIL} l=0.13u\n"
-            "Mdum gnd gnd gnd gnd sg13_lv_nmos w=6.0u l=0.13u\n"
+            f"Mdum gnd gnd gnd gnd sg13_lv_nmos w={dum_w:g}u l=0.13u\n"
             ".ends\n"
         )
-        open(os.path.join(OUT, "summary_build_cml_tail.txt"), "w").write(
+        open(os.path.join(OUT, f"summary_build_{CELL}.txt"), "w").write(
             "\n".join(self.log) + "\n")
         self.say(f"WROTE {gds}")
         return 0
 
 
 if __name__ == "__main__":
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--w", default="15.0")
+    ap.add_argument("--cell", default="cml_tail")
+    ap.add_argument("--ng", type=int, default=5)
+    args = ap.parse_args()
+    W_TAIL = f"{float(args.w):g}u"
+    NG = args.ng
+    W_DUM = f"{float(args.w) / NG:g}u"
+    CELL = args.cell
     raise SystemExit(Tail().build())

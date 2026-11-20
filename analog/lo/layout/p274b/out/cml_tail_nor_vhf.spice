@@ -1,0 +1,5 @@
+* P2.7.4b cml_tail_nor_vhf MOSFET [SCH]
+.subckt cml_tail_nor_vhf drain nb_lo gnd
+Mmt drain nb_lo gnd gnd sg13_lv_nmos w=6u l=0.13u
+Mdum gnd gnd gnd gnd sg13_lv_nmos w=2.4u l=0.13u
+.ends

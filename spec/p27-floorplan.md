@@ -217,4 +217,11 @@ currents; MC 0.51° = VHF 8-phase OK vs ~1° HR. First latch GDS WIP —
 DRC/LVS FAIL (M1 shorts); area ≈ 0.00087 mm² [GDS]; clock C leaf ≈ 2.5 fF
 of 15 fF/side. Die re-total unchanged.
 
+**P2.7.4b latches + NOR (2026-11-20) [GDS/SCH+PEX-RC]:** `cml_latch_uhf`
+**0.01286**, `cml_latch_vhf_tl` **0.01019**, `cml_nor_vhf` **0.00669** mm²
+[GDS]; running divider cell-sum **≈ 0.0297 mm²** (buffer/conv/TSPC/Johnson
+not drawn). Floors with extracted C on ck/qp/qn/ta: UHF **−155.6** / VHF
+**−159.7** PASS vs ≤ −151. LO area still inside **≈ 0.05–0.09 mm²** [HAND]
+sketch. Die re-total unchanged (VCO **0.4624** [GDS]).
+
 **Flag:** the §1 sketch of a **1.6 × 1.6 mm** active core **does not fit** the Phase 3/4 RX+TX + synth + digital + pads tally. Before Phase 5, plan on a die closer to **≥ ~2.2 × 2.2 mm** (≈ 4.8 mm²) or tighten RX/TX area after topology.

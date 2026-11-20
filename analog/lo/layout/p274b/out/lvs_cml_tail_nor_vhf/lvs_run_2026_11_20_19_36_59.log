@@ -1,0 +1,16 @@
+20-Nov-2026 20:36:59 | INFO    | Your Klayout version is: KLayout 0.30.12 (required >= 0.30.5)
+20-Nov-2026 20:36:59 | INFO    | Running SG13G2 LVS checks on design /foss/designs/analog/lo/layout/p274b/out/cml_tail_nor_vhf.gds on cell cml_tail_nor_vhf
+20-Nov-2026 20:37:04 | INFO    | ==============================================================================
+20-Nov-2026 20:37:04 | INFO    | Important Summary
+20-Nov-2026 20:37:04 | INFO    | +------------------+---------------------------------------------------------------+
+20-Nov-2026 20:37:04 | INFO    | | Status           | PASS                                                          |
+20-Nov-2026 20:37:04 | INFO    | | Mode             | COMPARE                                                       |
+20-Nov-2026 20:37:04 | INFO    | | Outcome          | Comparison mode: PASS (netlists match).                       |
+20-Nov-2026 20:37:04 | INFO    | | Layout           | cml_tail_nor_vhf.gds                                          |
+20-Nov-2026 20:37:04 | INFO    | | Top Cell         | cml_tail_nor_vhf                                              |
+20-Nov-2026 20:37:04 | INFO    | | Results Dir      | /foss/designs/analog/lo/layout/p274b/out/lvs_cml_tail_nor_vhf |
+20-Nov-2026 20:37:04 | INFO    | | Warnings         | 0                                                             |
+20-Nov-2026 20:37:04 | INFO    | | Errors           | 0                                                             |
+20-Nov-2026 20:37:04 | INFO    | | Run Time (s)     | 4.987                                                         |
+20-Nov-2026 20:37:04 | INFO    | +------------------+---------------------------------------------------------------+
+20-Nov-2026 20:37:04 | INFO    | ==============================================================================

@@ -9,8 +9,8 @@
 | Gate Cont on poly pads above Activ; poly strap at Activ top | `gate_poly_strap` + `gate_m1_exit` (Cont off active) |
 | Gate exit not through dummy / not across drain V | Gate M1 in device–dummy corridor; east/north lanes clear of drain tracks |
 | End dummies G=S=D=gnd local only | Two ng=1 dummies; tied to gnd rail only |
-| Sub-cells with pins on the face | Core (`cml_nor_core_vhf`), loads, tail: face pins; parent gap stubs only |
-| Gap stubs only; no metal through a child | Assemble: stub core.s ↔ tail.drain; stub loads ↔ orp/orn; gnd rail outside bboxes |
+| Sub-cells with pins on the face | Core (`cml_nor_core_vhf`) + `cml_tail_nor_vhf`: face pins; rppd placed in parent (pair_loads method) |
+| Gap stubs only; no metal through a child | Assemble: stub core.s ↔ tail.drain; stub rppd bottoms ↔ core drains; gnd rail outside bboxes |
 | Both LVS tools + fingers by script | Prove each sub-cell then top |
 | Wiring C = substrate + coupling | Magic .ext after prove [PEX-RC] |
 

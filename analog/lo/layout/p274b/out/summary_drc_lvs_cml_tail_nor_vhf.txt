@@ -1,0 +1,7 @@
+# P2.7.4b DRC/LVS — cml_tail_nor_vhf
+
+- DRC clean (density waived): **PASS** non-density=[]
+- KLayout LVS: **PASS**
+- netgen unique: **PASS**
+- extracted: `/foss/designs/analog/lo/layout/p274b/out/lvs_cml_tail_nor_vhf/cml_tail_nor_vhf_extracted.cir`
+

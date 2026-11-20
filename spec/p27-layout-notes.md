@@ -1176,13 +1176,28 @@ DRC (density waived) / KLayout LVS / netgen unique / fingers **PASS** [TOOL].
 qn/qp stub 1.5 µm [GDS]. Render `out/cml_latch_vhf_tl.png`. Area ≈ 0.001 mm²
 class [GDS].
 
-##### `cml_nor_vhf` (2026-11-20) — sch leaf PASS; layout FAIL [TOOL]
+##### `cml_nor_vhf` (2026-11-20) — PASS [TOOL / PEX-RC]
 
-xschem leaf + SVG/PDF + LVS spice (W_in=3×3, W_tail=6, RL=1666.7) [SCH].
-Pin plan: orp/orn/nb_lo=E; q1p/q2p/vref/vdd=N; gnd=W. First layout: DRC M1.b /
-V1.*; extract mega-short `gnd|nb_lo|orn|orp|q1p|vdd|vref` — same M1-through-array
-class as early latch. **Not accepted.** Next: rebuild with VCO/latch S/D column
-rules (no M1 across opposite terminals).
+Pre-draw checklist vs layout-notes rules: `out/summary_checklist_cml_nor_vhf.txt`.
+Bottom-up: `cml_nor_core_vhf` (3× NMOS) + `cml_tail_nor_vhf` (W=6) proven; rppd in
+parent (pair_loads method). E-face orp/orn use **M2** H so they do not cross the
+other net’s M1 lane. DRC (density waived) / KLayout LVS / netgen unique / fingers
+**PASS** [TOOL]. Area **0.00669 mm²** [GDS]. Render `out/cml_nor_vhf.png`.
+
+| net | sub | coup | **wiring C** | tag |
+|---|---:|---:|---:|---|
+| orp | 9.44 | 2.91 | **12.34** | [PEX-RC] |
+| orn | 7.72 | 3.38 | **11.10** | [PEX-RC] |
+| q1p / q2p / vref | — | — | **3.5–4.0** | [PEX-RC] |
+| nb_lo | 7.52 | 0.22 | **7.74** | [PEX-RC] |
+| tg | — | — | **0.00** (unnamed in .ext) | [PEX-RC] |
+
+##### Floors with extracted latch C (2026-11-20) — PASS [SCH+PEX-RC]
+
+Prior accepted floors used C_ck=15 fF on **clock nets only** (no qp/qn/ta)
+→ UHF −154.7 / VHF −158.6 [SCH]. Re-run with latch PEX C on ck (+0.87 fF asm),
+qp/qn, ta: UHF **−155.6**, VHF **−159.7** dBc/Hz vs ≤ −151 → **PASS**
+(`summary_floor_pex_c.txt`). Latch outputs need not be tightened before more cells.
 
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  

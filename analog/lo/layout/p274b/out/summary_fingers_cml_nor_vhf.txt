@@ -1,0 +1,5 @@
+# cml_nor_vhf fingers [TOOL]
+
+ngs=[1, 1, 1, 1, 5, 5, 5, 5, 7, 17]
+expect ng5>=4 ng1>=4 other={}
+gate: PASS

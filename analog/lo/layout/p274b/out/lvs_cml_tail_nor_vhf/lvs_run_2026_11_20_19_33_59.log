@@ -1,0 +1,23 @@
+20-Nov-2026 20:33:59 | INFO    | Your Klayout version is: KLayout 0.30.12 (required >= 0.30.5)
+20-Nov-2026 20:33:59 | INFO    | Running SG13G2 LVS checks on design /foss/designs/analog/lo/layout/p274b/out/cml_tail_nor_vhf.gds on cell cml_tail_nor_vhf
+20-Nov-2026 20:34:02 | ERROR   | KLayout run failed with exit code 1.
+20-Nov-2026 20:34:02 | ERROR   | KLayout stderr: ERROR: In /foss/pdks/ihp-sg13g2/libs.tech/klayout/tech/lvs/sg13g2.lvs: 'source': Cell name cml_tail_nor_vhf not found in input layout
+20-Nov-2026 20:34:02 | ERROR   | KLayout stderr: ERROR: RuntimeError: 'source': Cell name cml_tail_nor_vhf not found in input layout in Executable::execute
+20-Nov-2026 20:34:02 | INFO    | ==============================================================================
+20-Nov-2026 20:34:02 | INFO    | Important Summary
+20-Nov-2026 20:34:02 | INFO    | +------------------+---------------------------------------------------------------------+
+20-Nov-2026 20:34:02 | INFO    | | Status           | PASS                                                                |
+20-Nov-2026 20:34:02 | INFO    | | Mode             | COMPARE                                                             |
+20-Nov-2026 20:34:02 | INFO    | | Outcome          | Comparison mode: completed (no explicit PASS/FAIL signature found). |
+20-Nov-2026 20:34:02 | INFO    | | Layout           | cml_tail_nor_vhf.gds                                                |
+20-Nov-2026 20:34:02 | INFO    | | Top Cell         | cml_tail_nor_vhf                                                    |
+20-Nov-2026 20:34:02 | INFO    | | Results Dir      | /foss/designs/analog/lo/layout/p274b/out/lvs_cml_tail_nor_vhf       |
+20-Nov-2026 20:34:02 | INFO    | | Warnings         | 0                                                                   |
+20-Nov-2026 20:34:02 | INFO    | | Errors           | 3                                                                   |
+20-Nov-2026 20:34:02 | INFO    | | Run Time (s)     | 3.626                                                               |
+20-Nov-2026 20:34:02 | INFO    | +------------------+---------------------------------------------------------------------+
+20-Nov-2026 20:34:02 | ERROR   | Key errors:
+20-Nov-2026 20:34:02 | ERROR   |   - KLayout run failed with exit code 1.
+20-Nov-2026 20:34:02 | ERROR   |   - KLayout stderr: ERROR: In /foss/pdks/ihp-sg13g2/libs.tech/klayout/tech/lvs/sg13g2.lvs: 'source': Cell name cml_tail_nor_vhf not found in input layout
+20-Nov-2026 20:34:02 | ERROR   |   - KLayout stderr: ERROR: RuntimeError: 'source': Cell name cml_tail_nor_vhf not found in input layout in Executable::execute
+20-Nov-2026 20:34:02 | INFO    | ==============================================================================

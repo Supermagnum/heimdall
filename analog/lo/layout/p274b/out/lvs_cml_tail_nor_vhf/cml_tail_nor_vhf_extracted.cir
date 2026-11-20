@@ -1,0 +1,8 @@
+* Extracted by KLayout with SG13G2 LVS runset on : 20/11/2026 20:37
+
+.SUBCKT cml_tail_nor_vhf drain gnd nb_lo
+M$1 gnd gnd gnd gnd sg13_lv_nmos L=0.13u W=2.4u AS=0.816p AD=0.816p PS=6.16u
++ PD=6.16u rfmode=0
+M$2 drain nb_lo gnd gnd sg13_lv_nmos L=0.13u W=6u AS=1.32p AD=1.32p PS=9.4u
++ PD=9.4u rfmode=0
+.ENDS cml_tail_nor_vhf

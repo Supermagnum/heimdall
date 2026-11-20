@@ -1,0 +1,7 @@
+* P2.7.4b cml_nor_core_vhf [SCH]
+.subckt cml_nor_core_vhf d_orp d_orn g_vref g_q1p g_q2p s gnd
+Mmgr d_orp g_vref s gnd sg13_lv_nmos w=3.0u l=0.13u
+Mmga d_orn g_q1p s gnd sg13_lv_nmos w=3.0u l=0.13u
+Mmgb d_orn g_q2p s gnd sg13_lv_nmos w=3.0u l=0.13u
+Mdum gnd gnd gnd gnd sg13_lv_nmos w=1.2u l=0.13u
+.ends

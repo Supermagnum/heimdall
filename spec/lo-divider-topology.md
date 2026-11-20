@@ -1,6 +1,6 @@
 # LO divider and phase-generation topology memo (P2.4)
 
-Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1–3 done; P2.4 accepted 2026-10-21.** P2.6 UHF floor −150.1 dBc/Hz [SCH]. **P2.7.4a3 sizing accepted** (D7 PASS 8.18 / 8.66 mA). **P2.7.4b** hierarchy tops from leaf symbols (converter, TSPC, Johnson); flat netlist **superseded**. Sanity VHF tt/ss 4.20 matches a3 [SCH]. Leaf CML cells pin-on-face **PASS**; `cml_latch_uhf` and `cml_latch_vhf_tl` DRC/LVS/netgen/fingers **PASS**; clock wiring C (substrate+coupling) + assembly ≤ 15 fF/side **PASS** [PEX-RC]+[HAND] (UHF 9.25 fF, VHF 9.15 fF). `cml_nor_vhf` xschem leaf done; layout FAIL (M1 short). Remaining: NOR layout fix, conv, TSPC, Johnson, buffer, tops. Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
+Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1–3 done; P2.4 accepted 2026-10-21.** P2.6 UHF floor −150.1 dBc/Hz [SCH]. **P2.7.4a3 sizing accepted** (D7 PASS 8.18 / 8.66 mA). **P2.7.4b** latches + `cml_nor_vhf` layout **PASS**; floors with extracted wiring C on all latch nets **PASS** (UHF −155.6 / VHF −159.7 dBc/Hz vs ≤ −151) [SCH+PEX-RC]. Remaining: conv, TSPC, Johnson, buffer, band tops / assembly (P2.7.4c). Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
 
 ---
 
@@ -226,6 +226,7 @@ See `analog/lo/step3/out/summary_p274a_uhf_floor_layout_c.txt`. Compact C_ck ≈
 | Equiv ss | UHF PASS at I_latch=0.75 mA + RL sync [SCH]. VHF ss **FAIL** with MOSFET tails (CML ÷3 dead at 1.08 V); **PASS** with ideal `isource` tails [SCH]. Headroom-limited — owner redesign before VHF GDS |
 | MC / f_max slow | **Not completed** (docker races) |
 | Per-stage noise C_ck=15 fF | ZOH→TIE L(f) avg 3–10 MHz (p26 HAND scale): UHF **−154.7 PASS**; VHF **−158.6** [SCH] |
+| Floors + extracted latch C (ck/qp/qn/ta) | UHF **−155.6 PASS**; VHF **−159.7 PASS** vs ≤ −151 [SCH+PEX-RC] |
 | Dominant stage | **logic** (−157.5 → LO) [SCH] |
 | Fix | I_latch **0.5 → 0.75 mA**; B2 unchanged; keepers as above |
 | D7 | UHF LO ≈ **8.44 mA OK**; VHF LO ≈ **10.69 mA over** by ~0.69 mA [HAND] |

@@ -25,6 +25,10 @@ EXPECT = {
     "cml_clk_pair_vhf": (2, 2, {}),
     # latch: 6× ng=5 (data+regen+clk), no tail; dummies ng=1
     "cml_latch_vhf_tl": (6, 2, {}),
+    # NOR: 3× ng=5 input + 1× ng=5 tail; dummies ng=1 (core 2 + tail 2)
+    "cml_nor_core_vhf": (3, 2, {}),
+    "cml_tail_nor_vhf": (0, 2, {5: 1}),
+    "cml_nor_vhf": (4, 4, {}),  # 3 input + 1 tail ng=5; 4 dummies ng=1
 }
 
 

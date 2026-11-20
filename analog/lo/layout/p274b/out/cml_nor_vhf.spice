@@ -1,0 +1,10 @@
+* P2.7.4b cml_nor_vhf flat LVS [SCH]
+.subckt cml_nor_vhf q1p q2p vref orp orn nb_lo vdd gnd
+Mmga orn q1p tg gnd sg13_lv_nmos w=3.00u l=0.13u
+Mmgb orn q2p tg gnd sg13_lv_nmos w=3.00u l=0.13u
+Mmgr orp vref tg gnd sg13_lv_nmos w=3.00u l=0.13u
+Mmtg tg nb_lo gnd gnd sg13_lv_nmos w=6u l=0.13u
+Rrp vdd orp gnd rppd w=2.0u l=13.334u ps=0u b=0 m=1
+Rrn vdd orn gnd rppd w=2.0u l=13.334u ps=0u b=0 m=1
+Mdum gnd gnd gnd gnd sg13_lv_nmos w=3.6u l=0.13u
+.ends
