@@ -1161,3 +1161,12 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   Re-face to W only if that placement breaks output symmetry, the 15 fF budget, or the tail /
   clock / output access.
 
+
+## 2026-11-20 — Divider cells: pins on the cell boundary
+- cml_clk_pair accepted (DRC, KLayout LVS, netgen, fingers). cml_latch_uhf not yet accepted
+  (qn | qp merge on join).
+- Leaf cells get their join pins on the bounding-box face given by the pin plan; parents join
+  with short gap stubs only, no reach-in. cml_pair_loads, cml_regen_xc (E face kept), cml_clk_pair
+  and cml_tail are updated and re-proven. All remaining divider cells are drawn this way from the
+  start.
+- Longer qn / qp stubs (≈ 6–9 µm) accepted if the latch stays within the 15 fF budget.
