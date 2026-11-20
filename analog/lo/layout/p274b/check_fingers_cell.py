@@ -19,6 +19,12 @@ EXPECT = {
     "cml_regen_xc": (2, 2, {}),
     "cml_clk_pair": (2, 2, {}),
     "cml_tail": (0, 2, {5: 1}),         # one ng=5 device + 2 dummies
+    "cml_diff_pair_vhf": (2, 2, {}),
+    "cml_pair_loads_vhf": (2, 2, {}),
+    "cml_regen_xc_vhf": (2, 2, {}),
+    "cml_clk_pair_vhf": (2, 2, {}),
+    # latch: 6× ng=5 (data+regen+clk), no tail; dummies ng=1
+    "cml_latch_vhf_tl": (6, 2, {}),
 }
 
 

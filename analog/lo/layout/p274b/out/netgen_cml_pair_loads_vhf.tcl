@@ -1,0 +1,1 @@
+lvs {/foss/designs/analog/lo/layout/p274b/out/cml_pair_loads_vhf.spice cml_pair_loads_vhf} {/foss/designs/analog/lo/layout/p274b/out/lvs_cml_pair_loads_vhf/cml_pair_loads_vhf_extracted.cir cml_pair_loads_vhf} /foss/pdks/ihp-sg13g2/libs.tech/netgen/ihp-sg13g2_setup.tcl /foss/designs/analog/lo/layout/p274b/out/netgen_cml_pair_loads_vhf.json

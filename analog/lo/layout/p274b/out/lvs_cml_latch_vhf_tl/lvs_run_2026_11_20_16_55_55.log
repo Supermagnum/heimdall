@@ -1,0 +1,16 @@
+20-Nov-2026 17:55:55 | INFO    | Your Klayout version is: KLayout 0.30.12 (required >= 0.30.5)
+20-Nov-2026 17:55:55 | INFO    | Running SG13G2 LVS checks on design /foss/designs/analog/lo/layout/p274b/out/cml_latch_vhf_tl.gds on cell cml_latch_vhf_tl
+20-Nov-2026 17:55:59 | INFO    | ==============================================================================
+20-Nov-2026 17:55:59 | INFO    | Important Summary
+20-Nov-2026 17:55:59 | INFO    | +------------------+---------------------------------------------------------------+
+20-Nov-2026 17:55:59 | INFO    | | Status           | PASS                                                          |
+20-Nov-2026 17:55:59 | INFO    | | Mode             | COMPARE                                                       |
+20-Nov-2026 17:55:59 | INFO    | | Outcome          | Comparison mode: PASS (netlists match).                       |
+20-Nov-2026 17:55:59 | INFO    | | Layout           | cml_latch_vhf_tl.gds                                          |
+20-Nov-2026 17:55:59 | INFO    | | Top Cell         | cml_latch_vhf_tl                                              |
+20-Nov-2026 17:55:59 | INFO    | | Results Dir      | /foss/designs/analog/lo/layout/p274b/out/lvs_cml_latch_vhf_tl |
+20-Nov-2026 17:55:59 | INFO    | | Warnings         | 0                                                             |
+20-Nov-2026 17:55:59 | INFO    | | Errors           | 0                                                             |
+20-Nov-2026 17:55:59 | INFO    | | Run Time (s)     | 3.932                                                         |
+20-Nov-2026 17:55:59 | INFO    | +------------------+---------------------------------------------------------------+
+20-Nov-2026 17:55:59 | INFO    | ==============================================================================

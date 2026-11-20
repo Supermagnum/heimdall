@@ -1,0 +1,20 @@
+* Extracted by KLayout with SG13G2 LVS runset on : 20/11/2026 17:55
+
+.SUBCKT cml_latch_vhf_tl ckn ckp dn dp gnd qn qp vdd
+M$1 gnd gnd gnd gnd sg13_lv_nmos L=0.13u W=4.2u AS=1.428p AD=1.428p PS=12.48u
++ PD=12.48u rfmode=0
+M$2 \$6 ckp gnd gnd sg13_lv_nmos L=0.13u W=3u AS=0.66p AD=0.66p PS=5.8u PD=5.8u
++ rfmode=0
+M$7 \$7 ckn gnd gnd sg13_lv_nmos L=0.13u W=3u AS=0.66p AD=0.66p PS=5.8u PD=5.8u
++ rfmode=0
+M$14 qn dp \$6 gnd sg13_lv_nmos L=0.13u W=3u AS=0.66p AD=0.66p PS=5.8u PD=5.8u
++ rfmode=0
+M$19 qp dn \$6 gnd sg13_lv_nmos L=0.13u W=3u AS=0.66p AD=0.66p PS=5.8u PD=5.8u
++ rfmode=0
+M$26 \$7 qn qp gnd sg13_lv_nmos L=0.13u W=4.5u AS=0.99p AD=0.99p PS=7.6u
++ PD=7.6u rfmode=0
+M$31 \$7 qp qn gnd sg13_lv_nmos L=0.13u W=4.5u AS=0.99p AD=0.99p PS=7.6u
++ PD=7.6u rfmode=0
+R$37 qn vdd gnd rppd w=2u l=13.335u ps=0u b=0 m=1
+R$38 qp vdd gnd rppd w=2u l=13.335u ps=0u b=0 m=1
+.ENDS cml_latch_vhf_tl

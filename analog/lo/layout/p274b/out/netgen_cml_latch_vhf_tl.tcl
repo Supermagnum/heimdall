@@ -1,0 +1,1 @@
+lvs {/foss/designs/analog/lo/layout/p274b/out/cml_latch_vhf_tl.spice cml_latch_vhf_tl} {/foss/designs/analog/lo/layout/p274b/out/lvs_cml_latch_vhf_tl/cml_latch_vhf_tl_extracted.cir cml_latch_vhf_tl} /foss/pdks/ihp-sg13g2/libs.tech/netgen/ihp-sg13g2_setup.tcl /foss/designs/analog/lo/layout/p274b/out/netgen_cml_latch_vhf_tl.json

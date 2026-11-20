@@ -1,0 +1,8 @@
+pair (-26.425,33.930) regen M90 (38.395,33.930)
+clk (0,0) tailless ta→gnd
+qn stub 1.500 qp stub 1.500 s2 dX 11.970
+PASS qp/qn stub short (<12.0 µm)
+PASS qp/qn Y-aligned
+PASS s2 stub short (<12.0 µm)
+PASS E faces clear gap
+PASS bboxes no EW overlap

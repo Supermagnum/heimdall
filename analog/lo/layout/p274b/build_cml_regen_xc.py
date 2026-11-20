@@ -35,6 +35,7 @@ DBU = 0.001
 W_PAIR = "11.25u"
 NG = 5
 W_DUM = "2.25u"  # = W/ng
+CELL = "cml_regen_xc"
 
 
 def um(x: float) -> int:
@@ -89,7 +90,8 @@ class XC:
             if not s.is_box():
                 continue
             b = s.bbox().transformed(trans).to_dtype(self.ly.dbu)
-            if b.width() > 0.25 or b.height() < 1.0:
+            # Height floor 0.4 µm so W=4.5 VHF fingers still count [TOOL]
+            if b.width() > 0.25 or b.height() < 0.4:
                 continue
             cx = round((b.left + b.right) / 2, 3)
             uniq[cx] = b
@@ -157,7 +159,7 @@ class XC:
         return y_pad1
 
     def build(self):
-        top = self.ly.create_cell("cml_regen_xc")
+        top = self.ly.create_cell(CELL)
         nmos = self.pcell("nmos", {
             "w": W_PAIR, "l": "0.13u", "ng": NG, "m": 1,
             "guardRingType": "none",
@@ -357,26 +359,36 @@ class XC:
         assert abs((fp["d1"][0] + PF.HALF) - bb.right) < 0.05
         assert abs((fp["d2"][0] + PF.HALF) - bb.right) < 0.05
 
-        gds = os.path.join(OUT, "cml_regen_xc.gds")
+        gds = os.path.join(OUT, f"{CELL}.gds")
         self.ly.write(gds)
         with open(gds, "rb") as f, gzip.open(gds + ".gz", "wb") as z:
             shutil.copyfileobj(f, z)
-        spice = os.path.join(OUT, "cml_regen_xc.spice")
-        # Dummies combine → W=3.0 [LVS]; ng omitted
+        spice = os.path.join(OUT, f"{CELL}.spice")
+        # Dummies combine [LVS]; ng omitted
         open(spice, "w").write(
-            "* P2.7.4b cml_regen_xc — cross-coupled regen pair k=1.5 [SCH]\n"
-            ".subckt cml_regen_xc d1 d2 s gnd\n"
+            f"* P2.7.4b {CELL} — cross-coupled regen pair k=1.5 [SCH]\n"
+            f".subckt {CELL} d1 d2 s gnd\n"
             f"Mm3 d1 d2 s gnd sg13_lv_nmos w={W_PAIR} l=0.13u\n"
             f"Mm4 d2 d1 s gnd sg13_lv_nmos w={W_PAIR} l=0.13u\n"
-            f"Mdum gnd gnd gnd gnd sg13_lv_nmos w={2 * float(W_DUM[:-1]):.2f}u "
+            f"Mdum gnd gnd gnd gnd sg13_lv_nmos w={2 * float(W_DUM[:-1]):g}u "
             f"l=0.13u\n"
             ".ends\n"
         )
-        open(os.path.join(OUT, "summary_build_cml_regen_xc.txt"), "w").write(
+        open(os.path.join(OUT, f"summary_build_{CELL}.txt"), "w").write(
             "\n".join(self.log) + "\n")
         self.say(f"wrote {gds}")
         return 0
 
 
 if __name__ == "__main__":
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--w", default="11.25")
+    ap.add_argument("--cell", default="cml_regen_xc")
+    ap.add_argument("--ng", type=int, default=5)
+    args = ap.parse_args()
+    W_PAIR = f"{float(args.w):g}u"
+    NG = args.ng
+    W_DUM = f"{float(args.w) / NG:g}u"
+    CELL = args.cell
     sys.exit(XC().build())

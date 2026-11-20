@@ -1,0 +1,29 @@
+
+Subcircuit summary:
+Circuit 1: cml_pair_loads_vhf              |Circuit 2: cml_pair_loads_vhf              
+-------------------------------------------|-------------------------------------------
+sg13_lv_nmos (3)                           |sg13_lv_nmos (3)                           
+gnd (2)                                    |gnd (2)                                    
+Number of devices: 5                       |Number of devices: 5                       
+Number of nets: 7                          |Number of nets: 7                          
+---------------------------------------------------------------------------------------
+Resolving symmetries by property value.
+Resolving symmetries by pin name.
+Netlists match uniquely.
+
+Subcircuit pins:
+Circuit 1: cml_pair_loads_vhf              |Circuit 2: cml_pair_loads_vhf              
+-------------------------------------------|-------------------------------------------
+gnd                                        |gnd                                        
+g2                                         |g2                                         
+g1                                         |g1                                         
+s                                          |s                                          
+d2                                         |d2                                         
+d1                                         |d1                                         
+vdd                                        |vdd                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes cml_pair_loads_vhf and cml_pair_loads_vhf are equivalent.
+
+Final result: Circuits match uniquely.
+.

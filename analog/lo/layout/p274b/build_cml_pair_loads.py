@@ -24,6 +24,11 @@ import pin_face as PF  # noqa: E402
 
 DBU = 0.001
 R_W, R_L = "2.0u", "5.334u"
+R_OHM = "666.7"
+CELL = "cml_pair_loads"
+PAIR_GDS = "cml_diff_pair.gds"
+PAIR_W = "7.5u"
+DUM_W = "3.0u"
 
 
 def um(x):
@@ -38,19 +43,19 @@ def main():
     lib_ly = lib.layout()
 
     pair_ly = pya.Layout()
-    pair_ly.read(os.path.join(OUT, "cml_diff_pair.gds"))
+    pair_ly.read(os.path.join(OUT, PAIR_GDS))
     pair_top = pair_ly.top_cell()
     pair_cid = ly.add_cell(pair_top.name)
     ly.cell(pair_cid).copy_tree(pair_top)
 
-    top = ly.create_cell("cml_pair_loads")
+    top = ly.create_cell(CELL)
     t = pya.Trans(pya.Trans.R0, 0, 0)
     top.insert(pya.CellInstArray(pair_cid, t))
     pbb = ly.cell(pair_cid).bbox().to_dtype(ly.dbu)
 
     rh = ly.add_pcell_variant(
         lib, lib_ly.pcell_declaration("rppd").id(),
-        {"R": "666.7", "w": R_W, "l": R_L, "b": 0,
+        {"R": R_OHM, "w": R_W, "l": R_L, "b": 0,
          "Calculate": "R", "guardRingType": "none"})
     rloc = ly.cell(rh).bbox().to_dtype(ly.dbu)
     m1 = ly.layer(8, 0)
@@ -174,16 +179,16 @@ def main():
     assert abs((face_pins["d1"][0] + PF.HALF) - bb.right) < 0.05
     assert abs((face_pins["d2"][0] + PF.HALF) - bb.right) < 0.05
 
-    gds = os.path.join(OUT, "cml_pair_loads.gds")
+    gds = os.path.join(OUT, f"{CELL}.gds")
     ly.write(gds)
     with open(gds, "rb") as f, gzip.open(gds + ".gz", "wb") as z:
         shutil.copyfileobj(f, z)
-    open(os.path.join(OUT, "cml_pair_loads.spice"), "w").write(
-        "* P2.7.4b cml_pair_loads flat [SCH]\n"
-        ".subckt cml_pair_loads d1 d2 g1 g2 s gnd vdd\n"
-        "Mm1 d1 g1 s gnd sg13_lv_nmos w=7.5u l=0.13u\n"
-        "Mm2 d2 g2 s gnd sg13_lv_nmos w=7.5u l=0.13u\n"
-        "Mdum gnd gnd gnd gnd sg13_lv_nmos w=3.0u l=0.13u\n"
+    open(os.path.join(OUT, f"{CELL}.spice"), "w").write(
+        f"* P2.7.4b {CELL} flat [SCH]\n"
+        f".subckt {CELL} d1 d2 g1 g2 s gnd vdd\n"
+        f"Mm1 d1 g1 s gnd sg13_lv_nmos w={PAIR_W} l=0.13u\n"
+        f"Mm2 d2 g2 s gnd sg13_lv_nmos w={PAIR_W} l=0.13u\n"
+        f"Mdum gnd gnd gnd gnd sg13_lv_nmos w={DUM_W} l=0.13u\n"
         f"Rrlp vdd d1 gnd rppd w={R_W} l={R_L} ps=0u b=0 m=1\n"
         f"Rrln vdd d2 gnd rppd w={R_W} l={R_L} ps=0u b=0 m=1\n"
         ".ends\n"
@@ -193,4 +198,21 @@ def main():
 
 
 if __name__ == "__main__":
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--cell", default="cml_pair_loads")
+    ap.add_argument("--pair-gds", default="cml_diff_pair.gds")
+    ap.add_argument("--pair-w", default="7.5")
+    ap.add_argument("--dum-w", default="3.0")
+    ap.add_argument("--r", default="666.7")
+    ap.add_argument("--rw", default="2.0")
+    ap.add_argument("--rl", default="5.334")
+    args = ap.parse_args()
+    CELL = args.cell
+    PAIR_GDS = args.pair_gds
+    PAIR_W = f"{float(args.pair_w):g}u"
+    DUM_W = f"{float(args.dum_w):g}u"
+    R_OHM = str(args.r)
+    R_W = f"{float(args.rw):g}u"
+    R_L = f"{float(args.rl):g}u"
     raise SystemExit(main())

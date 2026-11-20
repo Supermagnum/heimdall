@@ -1,0 +1,1 @@
+lvs {/foss/designs/analog/lo/layout/p274b/out/cml_regen_xc_vhf.spice cml_regen_xc_vhf} {/foss/designs/analog/lo/layout/p274b/out/lvs_cml_regen_xc_vhf/cml_regen_xc_vhf_extracted.cir cml_regen_xc_vhf} /foss/pdks/ihp-sg13g2/libs.tech/netgen/ihp-sg13g2_setup.tcl /foss/designs/analog/lo/layout/p274b/out/netgen_cml_regen_xc_vhf.json

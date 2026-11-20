@@ -1,0 +1,25 @@
+
+Subcircuit summary:
+Circuit 1: cml_regen_xc_vhf                |Circuit 2: cml_regen_xc_vhf                
+-------------------------------------------|-------------------------------------------
+sg13_lv_nmos (3)                           |sg13_lv_nmos (3)                           
+Number of devices: 3                       |Number of devices: 3                       
+Number of nets: 4                          |Number of nets: 4                          
+---------------------------------------------------------------------------------------
+Resolving symmetries by property value.
+Resolving symmetries by pin name.
+Netlists match uniquely.
+
+Subcircuit pins:
+Circuit 1: cml_regen_xc_vhf                |Circuit 2: cml_regen_xc_vhf                
+-------------------------------------------|-------------------------------------------
+gnd                                        |gnd                                        
+d2                                         |d2                                         
+d1                                         |d1                                         
+s                                          |s                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes cml_regen_xc_vhf and cml_regen_xc_vhf are equivalent.
+
+Final result: Circuits match uniquely.
+.

@@ -1,0 +1,16 @@
+20-Nov-2026 17:53:40 | INFO    | Your Klayout version is: KLayout 0.30.12 (required >= 0.30.5)
+20-Nov-2026 17:53:40 | INFO    | Running SG13G2 LVS checks on design /foss/designs/analog/lo/layout/p274b/out/cml_pair_loads_vhf.gds on cell cml_pair_loads_vhf
+20-Nov-2026 17:53:43 | INFO    | ==============================================================================
+20-Nov-2026 17:53:43 | INFO    | Important Summary
+20-Nov-2026 17:53:43 | INFO    | +------------------+-----------------------------------------------------------------+
+20-Nov-2026 17:53:43 | INFO    | | Status           | PASS                                                            |
+20-Nov-2026 17:53:43 | INFO    | | Mode             | COMPARE                                                         |
+20-Nov-2026 17:53:43 | INFO    | | Outcome          | Comparison mode: PASS (netlists match).                         |
+20-Nov-2026 17:53:43 | INFO    | | Layout           | cml_pair_loads_vhf.gds                                          |
+20-Nov-2026 17:53:43 | INFO    | | Top Cell         | cml_pair_loads_vhf                                              |
+20-Nov-2026 17:53:43 | INFO    | | Results Dir      | /foss/designs/analog/lo/layout/p274b/out/lvs_cml_pair_loads_vhf |
+20-Nov-2026 17:53:43 | INFO    | | Warnings         | 0                                                               |
+20-Nov-2026 17:53:43 | INFO    | | Errors           | 0                                                               |
+20-Nov-2026 17:53:43 | INFO    | | Run Time (s)     | 3.392                                                           |
+20-Nov-2026 17:53:43 | INFO    | +------------------+-----------------------------------------------------------------+
+20-Nov-2026 17:53:43 | INFO    | ==============================================================================

@@ -1,0 +1,13 @@
+# cml_latch_vhf_tl pin plan [HAND]
+
+| Net | Cell A | Face | Cell B | Face | Join |
+|---|---|---|---|---|---|
+| s1 | pair_loads_vhf.s | S | clk_pair_vhf.d1 | N | gap stub |
+| s2 | regen_xc_vhf.s (M90) | S | clk_pair_vhf.d2 | N | gap stub |
+| ta≡gnd | clk_pair_vhf.s | S | gnd rail | W | stub (tailless) |
+| qp/qn | pair E | E | regen (M90) | E corridor | short stub |
+| gnd | pair/clk W | W | regen E | rail | outside bboxes |
+| vdd/dp/dn | pair | N | top | — | |
+| ckp/ckn | clk | E | top | — | |
+
+Sizes [SCH]: W_data=3.0 W_regen=4.5 W_clk=3.0 RL=1666.7 rppd w=2.0u l=13.335u. No nb_lo / cml_tail.

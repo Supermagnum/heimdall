@@ -1,0 +1,12 @@
+* P2.7.4b cml_latch_vhf_tl flat LVS [SCH] 0.30 mA tailless
+.subckt cml_latch_vhf_tl dp dn ckp ckn qp qn vdd gnd
+Mma1 qn dp s1a gnd sg13_lv_nmos w=3.00u l=0.13u
+Mma2 qp dn s1a gnd sg13_lv_nmos w=3.00u l=0.13u
+Mma3 qn qp s2a gnd sg13_lv_nmos w=4.50u l=0.13u
+Mma4 qp qn s2a gnd sg13_lv_nmos w=4.50u l=0.13u
+Mma5 s1a ckp gnd gnd sg13_lv_nmos w=3.00u l=0.13u
+Mma6 s2a ckn gnd gnd sg13_lv_nmos w=3.00u l=0.13u
+Rrlp vdd qn gnd rppd w=2.0u l=13.335u ps=0u b=0 m=1
+Rrln vdd qp gnd rppd w=2.0u l=13.335u ps=0u b=0 m=1
+Mdum gnd gnd gnd gnd sg13_lv_nmos w=4.2u l=0.13u
+.ends
