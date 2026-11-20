@@ -1170,3 +1170,11 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   and cml_tail are updated and re-proven. All remaining divider cells are drawn this way from the
   start.
 - Longer qn / qp stubs (≈ 6–9 µm) accepted if the latch stays within the 15 fF budget.
+
+
+## 2026-11-20 — cml_latch_uhf accepted (connectivity)
+- cml_latch_uhf accepted for DRC, KLayout LVS, netgen and fingers; gap stubs only, qn / qp stub
+  1.5 µm [GDS]. Leaf face-pin cells re-proven.
+- Wiring C on the clock, qn / qp and tail nets is extracted per net (wiring only, devices
+  excluded) before more divider cells are drawn. Clock nets must leave room within ≤ 15 fF / side
+  for the assembly; otherwise the latch is tightened first.
