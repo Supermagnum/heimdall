@@ -49,13 +49,11 @@ def write_leaf(name, ports, body, title):
     # LVS spice (M-prefix; rppd fab loads where ideal R was CML RL)
     spice_path = os.path.join(HERE, "netlists", f"{name}.spice")
     spice = body
+    # rppd L from R·w/ρ with ρ≈250 Ω/sq [PDK/HAND]; 666.7→5.334u, 1666.7→13.334u
     spice = re.sub(
         r"^(\S+) \((\S+) (\S+)\) resistor r=([\d.]+)\s*$",
         lambda m: (
             f"R{m.group(1)} {m.group(2)} {m.group(3)} gnd rppd "
-            f"w=2.0u l={666.7 * 2.0 / 250.0:.3f}u ps=0.18u b=0 m=1"
-            if abs(float(m.group(4)) - 666.7) < 1 or abs(float(m.group(4)) - 1666.7) < 2
-            else f"R{m.group(1)} {m.group(2)} {m.group(3)} gnd rppd "
             f"w=2.0u l={float(m.group(4)) * 2.0 / 250.0:.3f}u ps=0.18u b=0 m=1"
         ),
         spice,

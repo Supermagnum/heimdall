@@ -1,27 +1,28 @@
-# cml_latch_vhf_tl wiring C — Magic RC [PEX-RC]
+# cml_latch_vhf_tl wiring C — corrected method [PEX-RC]
 
 ## Method
-- Same bank-method wiring add as `cml_latch_uhf` / VCO (coupling only; device C excluded) [PEX-RC].
-- Tailless: no separate `ta` net (clk sources ≡ gnd) [SCH].
-- Series R: `extresist` not run [TOOL].
+- **Wiring C** = substrate/node C + coupling to other nets (wire-to-substrate + coupling). Device gate/junction C stays in PDK MOSFET models and is excluded [PEX-RC / decisions 2026-11-20].
+- No MIM on divider cells — substrate term is kept (unlike VCO bank) [PEX-RC].
+- Units: Magic `.ext` aF / 1000 = fF. `extresist` not run unless noted [TOOL].
+- Tailless: no separate ta (clk sources ≡ gnd) [SCH].
 
-## Wiring C per net
+## Wiring C per net (substrate + coupling; device C excluded)
 
-| net | substrate node C | all + substrate | **wiring add** | unit | tag |
+| net | substrate | coupling | **wiring C** | unit | tag |
 |---|---:|---:|---:|---|---|
-| ckp | 7.78 | 8.28 | **0.50** | fF | [PEX-RC] |
-| ckn | 2.86 | 3.44 | **0.58** | fF | [PEX-RC] |
-| qp | 14.67 | 18.42 | **3.75** | fF | [PEX-RC] |
-| qn | 16.99 | 22.24 | **5.25** | fF | [PEX-RC] |
+| ckp | 7.78 | 0.50 | **8.28** | fF | [PEX-RC] |
+| ckn | 2.86 | 0.58 | **3.44** | fF | [PEX-RC] |
+| qp | 14.67 | 3.75 | **18.42** | fF | [PEX-RC] |
+| qn | 16.99 | 5.25 | **22.24** | fF | [PEX-RC] |
 
-## Clock budget vs ≤ 15 fF / side
+## Clock vs ≤ 15 fF / side
 
 | quantity | value | unit | tag |
 |---|---:|---|---|
-| clock wiring max(ckp, ckn) | 0.58 | fF | [PEX-RC] |
-| assembly total add | 0.87 | fF | [HAND] |
-| **clock + assembly** | **1.45** | fF | [PEX-RC]+[HAND] |
+| clock max(ckp,ckn) | 8.28 | fF | [PEX-RC] |
+| assembly add | 0.87 | fF | [HAND] |
+| **clock + assembly** | **9.15** | fF | [PEX-RC]+[HAND] |
 | budget | 15.0 | fF/side | [SCH] |
 | gate | **PASS** | | |
 
-| qp/qn max wiring | 5.25 | fF | [PEX-RC] |
+Legacy coupling-only headline superseded (was 0.58 fF clock) [PEX-RC].
