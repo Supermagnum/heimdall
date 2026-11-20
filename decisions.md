@@ -1147,3 +1147,10 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   the accepted flat netlist, which then stops being a source.
 - Latch continues bottom-up: tail, regenerative pair, full latch; then the tail-less ÷3 latch.
 
+## 2026-11-20 — CML latch join method
+- cml_tail accepted standalone (DRC, KLayout LVS, netgen). Divider hierarchy accepted: tops
+  built from leaf cells, flat netlist superseded; VHF tt / ss sanity |φ| 0.09° / 0.11° [SCH].
+- Latch sub-cell joins use a pin plan made before drawing: each shared net on one face and
+  layer of each sub-cell, joins by abutment or straight stubs in the gaps, no metal through
+  child cells.
+
