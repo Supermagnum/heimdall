@@ -1,0 +1,6 @@
+* P2.7.4b cml_regen_xc — cross-coupled regen pair k=1.5 [SCH]
+.subckt cml_regen_xc d1 d2 s gnd
+Mm3 d1 d2 s gnd sg13_lv_nmos w=11.25u l=0.13u
+Mm4 d2 d1 s gnd sg13_lv_nmos w=11.25u l=0.13u
+Mdum gnd gnd gnd gnd sg13_lv_nmos w=4.50u l=0.13u
+.ends

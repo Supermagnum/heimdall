@@ -1079,7 +1079,13 @@ fingers): `cml_diff_pair`, `cml_pair_loads` (`s`=S X≈0, `d1`/`d2`=E,
 `gnd`=W), `cml_tail` (`drain`=N X≈0, `gnd`=W, `nb_lo`=E). Join: 3 µm gap,
 straight M1 stub `s`↔`drain`, west gnd rail outside bboxes. Extract: `s` =
 tail drain; d1/d2/gnd/nb_lo distinct. DRC (density waived) / KLayout LVS /
-netgen unique **PASS**. Regen XC / full latch next.
+netgen unique **PASS**. ##### `cml_regen_xc` (2026-11-20) — PASS [TOOL]
+
+W=11.25 ng=5, XC g1≡d2 / g2≡d1 on separate M2 tracks to east lanes.
+DRC (density waived) / KLayout LVS / netgen unique **PASS**. Pins: `s`=S,
+`d1`/`d2`=E (plan wanted **W** for pair_loads join — re-face before full
+latch), `gnd`=W. Fingers 2×5+2×1. Full latch / `cml_clk_pair` / VHF tl **not
+started**.
 
 ##### `cml_latch_uhf` pin plan (2026-11-20) — before drawing [HAND]
 

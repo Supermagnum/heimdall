@@ -1,0 +1,10 @@
+Technology SG13_dev is loaded.
+GRID : 0.01
+GRID inverse : 100.0
+EPSILON1  : 0.001
+EPSILON2  : 1e-9
+Success.
+M1 (-6.85,-0.18;-4,2.43); M2 (4,-0.18;6.85,2.43) [SCH W=11.25u ng=5]
+S/D order: even=D odd=S; nS=3 nD=3 [LVS]
+XC bbox (-24.66,-17.68;28.41,12.15); area 0.00158 mm² [GDS]
+wrote /work/analog/lo/layout/p274b/out/cml_regen_xc.gds

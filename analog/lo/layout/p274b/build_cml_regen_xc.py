@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
-"""P2.7.4b step 3b3 — regenerative cross-coupled pair (W=11.25, k=1.5) [SCH].
+"""P2.7.4b step 3a — regenerative cross-coupled pair (W=11.25, k=1.5) [SCH].
 
-Same VCO / cml_diff_pair method. Ports: d1 d2 (drains=qp/qn), g1=d2, g2=d1
-cross-coupled on-chip; s (shared source s2); gnd. Open gates first for LVS,
-then short g1↔d2 and g2↔d1 via M2 (no M1 across S/D).
+Copied method from vco_xc_pair [spec/p27-layout-notes.md]:
+- PCell guardRingType=none; hand ptap
+- Never M1 across opposite S/D; join same-net cols via M2
+- Gate Cont on poly pads above Activ; poly strap at Activ top
+- End dummies G=S=D=gnd local only
+- even M1 cols = drain; odd = source [LVS]
+
+XC: g1≡d2, g2≡d1 on M2 above. Ports d1 d2 s gnd.
+Face plan: s=S, d1/d2=W (routed via east then west lanes), gnd=W.
 """
 from __future__ import annotations
 
@@ -14,19 +20,19 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "out")
+os.makedirs(OUT, exist_ok=True)
+
 sys.path[:0] = [
     "/foss/pdks/ihp-sg13g2/libs.tech/klayout/python",
-    "/foss/pdks/ihp-sg13g2/libs.tech/klayout/python/"
-    "pycell4klayout-api/source/python",
+    "/foss/pdks/ihp-sg13g2/libs.tech/klayout/python/pycell4klayout-api/source/python",
 ]
 import pya  # noqa: E402
 import sg13g2_pycell_lib  # noqa: E402, F401
 
-# Import proven Pair helpers by executing the pair builder module pattern
 DBU = 0.001
 W_PAIR = "11.25u"
 NG = 5
-W_DUM = "2.25u"  # 11.25/5
+W_DUM = "2.25u"  # = W/ng
 
 
 def um(x: float) -> int:
@@ -172,7 +178,7 @@ class XC:
         x_m2 = gap / 2 + loc.right
         bb1, t1 = self.place(top, nmos, x_m1, y0, mirror=False)
         bb2, t2 = self.place(top, nmos, x_m2, y0, mirror=True)
-        self.say(f"XC M1 {bb1}; M2 {bb2} [SCH W={W_PAIR} ng={NG}]")
+        self.say(f"M1 {bb1}; M2 {bb2} [SCH W={W_PAIR} ng={NG}]")
 
         x_d1 = bb1.left - 6.0
         x_d2 = bb2.right + 6.0
@@ -189,34 +195,43 @@ class XC:
         at2 = self.activ_top(nmos, t2)
         n_col = len(cols1)
         assert n_col == NG + 1, (n_col, NG)
+        assert len(g1) == NG and len(g2) == NG, (len(g1), len(g2))
         drn1 = [cols1[i] for i in range(0, n_col, 2)]
         src1 = [cols1[i] for i in range(1, n_col, 2)]
         drn2 = [cols2[i] for i in range(0, n_col, 2)]
         src2 = [cols2[i] for i in range(1, n_col, 2)]
-        self.say(f"S/D even=D odd=S; nS={len(src1)} nD={len(drn1)} [LVS]")
+        self.say(f"S/D order: even=D odd=S; nS={len(src1)} nD={len(drn1)} [LVS]")
 
         y_s = min(bb1.bottom, bb2.bottom) - 3.0
         y_dr = y_s - 4.0
         y_gnd = y_dr - 5.0
         y_port = y_gnd - 4.0
+
+        # Gate exits between device and drain spur (not through dummy)
         x_g1 = 0.5 * (bb1.left + x_d1)
         x_g2 = 0.5 * (bb2.right + x_d2)
 
-        # Sources → s via M2
+        # Face pins per 2026-11-20 plan: s=S X≈0; d1/d2=E; gnd=W; g1/g2=N.
+        x_gL = min(bb_dL.left, x_d1) - 4.0
+        x_gR = max(bb_dR.right, x_d2) + 4.0
+        x_e1 = x_gR + 3.0   # d1 east lane
+        x_e2 = x_gR + 5.5   # d2 east lane (separate — shared X shorts)
+
+        # Sources → s on SOUTH face at X≈0: M1 drop + via; M2 bus
         for c in src1 + src2:
             self.box(top, self.m1, c.left, y_s, c.right, c.bottom)
             self.place(top, vs12, 0.5 * (c.left + c.right) - 0.05, y_s)
-        x_s_pin = src2[-1].right + 2.0
-        self.box(top, self.m2, src1[0].left - 0.3, y_s - 0.15,
-                 x_s_pin + 0.3, y_s + 0.55)
-        self.place(top, vs12, x_s_pin - 0.05, y_s - 1.5)
-        self.box(top, self.m2, x_s_pin - 0.25, y_s - 1.5,
-                 x_s_pin + 0.25, y_s + 0.55)
-        self.box(top, self.m1, x_s_pin - 0.25, y_s - 2.5,
-                 x_s_pin + 0.25, y_s - 1.3)
-        self.pin_m1(top, x_s_pin, y_s - 2.3, "s")
+        x_s_pin = 0.0
+        self.box(top, self.m2,
+                 min(src1[0].left - 0.3, x_s_pin - 0.3), y_s - 0.15,
+                 max(src2[-1].right + 0.3, x_s_pin + 0.3), y_s + 0.55)
+        y_s_pin = y_port - 1.0
+        self.place(top, vs12, x_s_pin - 0.05, y_s)
+        self.box(top, self.m1, x_s_pin - 0.25, y_s_pin - 0.5,
+                 x_s_pin + 0.25, y_s + 0.40)
+        self.pin_m1(top, x_s_pin, y_s_pin, "s")
 
-        # Drains → d1 / d2 via M2
+        # Drains → east face (off south join face); M2 outboard then east
         for c in drn1:
             self.box(top, self.m1, c.left, y_dr, c.right, c.bottom)
             self.place(top, vs12, 0.5 * (c.left + c.right) - 0.05, y_dr)
@@ -233,46 +248,56 @@ class XC:
         self.place(top, vs12, x_d2 - 0.05, y_dr)
         self.box(top, self.m1, x_d2 - 0.20, y_dr, x_d2 + 0.20, y_dr + 0.40)
 
-        self.place(top, vs12, x_d1 - 0.05, y_port)
-        self.place(top, vs12, x_d2 - 0.05, y_port)
-        self.box(top, self.m2, x_d1 - 0.20, y_port, x_d1 + 0.20, y_dr + 0.40)
-        self.box(top, self.m2, x_d2 - 0.20, y_port, x_d2 + 0.20, y_dr + 0.40)
-        self.box(top, self.m1, x_d1 - 0.25, y_port - 0.5, x_d1 + 0.25,
-                 y_port + 0.40)
-        self.box(top, self.m1, x_d2 - 0.25, y_port - 0.5, x_d2 + 0.25,
-                 y_port + 0.40)
-        self.pin_m1(top, x_d1, y_port - 0.3, "d1")
-        self.pin_m1(top, x_d2, y_port - 0.3, "d2")
+        # East-face drain pins at distinct Y (d1 above d2)
+        y_d1e = y_dr + 3.0
+        y_d2e = y_dr - 1.0
+        self.place(top, vs12, x_d1 - 0.05, y_d1e)
+        self.box(top, self.m2, x_d1 - 0.20, y_dr - 0.15,
+                 x_d1 + 0.20, y_d1e + 0.40)
+        self.box(top, self.m2, x_d1 - 0.20, y_d1e - 0.15,
+                 x_e1 + 0.20, y_d1e + 0.40)
+        self.place(top, vs12, x_e1 - 0.05, y_d1e)
+        self.box(top, self.m1, x_e1 - 0.25, y_d1e - 0.5,
+                 x_e1 + 0.25, y_d1e + 0.40)
+        self.pin_m1(top, x_e1, y_d1e, "d1")
 
-        # Gates off Activ, then XC: g1→d2, g2→d1 on M2 above devices
+        self.place(top, vs12, x_d2 - 0.05, y_d2e)
+        self.box(top, self.m2, x_d2 - 0.20, min(y_dr, y_d2e) - 0.15,
+                 x_d2 + 0.20, max(y_dr, y_d2e) + 0.40)
+        self.box(top, self.m2, x_d2 - 0.20, y_d2e - 0.15,
+                 x_e2 + 0.20, y_d2e + 0.40)
+        self.place(top, vs12, x_e2 - 0.05, y_d2e)
+        self.box(top, self.m1, x_e2 - 0.25, y_d2e - 0.5,
+                 x_e2 + 0.25, y_d2e + 0.40)
+        self.pin_m1(top, x_e2, y_d2e, "d2")
+
+        # Gates off Activ; XC on east lanes so H tracks do not cross the
+        # other net's vertical (shared-X tall V previously shorted d1|d2).
         self.gate_poly_strap(top, g1, at1)
         self.gate_poly_strap(top, g2, at2)
         y_g_exit = max(at1, at2) + 4.0
         self.gate_m1_exit(top, g1, at1, x_g1, y_g_exit)
         self.gate_m1_exit(top, g2, at2, x_g2, y_g_exit)
-        y_xc = y_g_exit + 3.0
-        # via to M2 at gate exits, cross on M2, drop to drain ports via M2
+        y_xc_d1 = y_g_exit + 3.0   # g2→d1 track
+        y_xc_d2 = y_xc_d1 + 2.5    # g1→d2 track (above; clears x_e1 V)
         self.place(top, vs12, x_g1 - 0.05, y_g_exit)
         self.place(top, vs12, x_g2 - 0.05, y_g_exit)
+        # g2 (right) → d1 east pin: H only to x_e1 (not past x_e2)
+        self.box(top, self.m2, x_g2 - 0.20, y_g_exit - 0.15,
+                 x_g2 + 0.20, y_xc_d1 + 0.40)
+        self.box(top, self.m2, min(x_g2, x_e1) - 0.20, y_xc_d1 - 0.15,
+                 max(x_g2, x_e1) + 0.20, y_xc_d1 + 0.40)
+        self.box(top, self.m2, x_e1 - 0.20, y_d1e - 0.15,
+                 x_e1 + 0.20, y_xc_d1 + 0.40)
+        # g1 (left) → d2 east pin: H at higher Y to x_e2
         self.box(top, self.m2, x_g1 - 0.20, y_g_exit - 0.15,
-                 x_g1 + 0.20, y_xc + 0.40)
-        self.box(top, self.m2, x_g2 - 0.20, y_g_exit - 0.15,
-                 x_g2 + 0.20, y_xc + 0.40)
-        # g1 (left) → d2 (right): M2 H at y_xc
-        self.box(top, self.m2, x_g1 - 0.20, y_xc - 0.15,
-                 x_d2 + 0.20, y_xc + 0.40)
-        self.box(top, self.m2, x_d2 - 0.20, y_port, x_d2 + 0.20, y_xc + 0.40)
-        # g2 (right) → d1 (left): M2 H at y_xc+1.2 (separate track)
-        y_xc2 = y_xc + 1.5
-        self.box(top, self.m2, x_g2 - 0.20, y_g_exit - 0.15,
-                 x_g2 + 0.20, y_xc2 + 0.40)
-        self.box(top, self.m2, x_d1 - 0.20, y_xc2 - 0.15,
-                 x_g2 + 0.20, y_xc2 + 0.40)
-        self.box(top, self.m2, x_d1 - 0.20, y_port, x_d1 + 0.20, y_xc2 + 0.40)
+                 x_g1 + 0.20, y_xc_d2 + 0.40)
+        self.box(top, self.m2, x_g1 - 0.20, y_xc_d2 - 0.15,
+                 x_e2 + 0.20, y_xc_d2 + 0.40)
+        self.box(top, self.m2, x_e2 - 0.20, y_d2e - 0.15,
+                 x_e2 + 0.20, y_xc_d2 + 0.40)
 
-        # Dummies + gnd
-        x_gL = min(bb_dL.left, x_d1) - 4.0
-        x_gR = max(bb_dR.right, x_d2) + 4.0
+        # Dummies + gnd outboard; gnd pin on WEST face
         for bb_d, t_d, x_gnd_d in ((bb_dL, t_dL, x_gL), (bb_dR, t_dR, x_gR)):
             dcols = self.m1_sd_cols(dum, t_d)
             dg = self.poly_gates(dum, t_d)
@@ -283,8 +308,7 @@ class XC:
             if dcols:
                 self.box(top, self.m1,
                          min(min(c.left for c in dcols), x_gnd_d), y_gnd + 1.0,
-                         max(max(c.right for c in dcols), x_gnd_d),
-                         y_gnd + 1.35)
+                         max(max(c.right for c in dcols), x_gnd_d), y_gnd + 1.35)
             if dg:
                 self.gate_poly_strap(top, dg, at_d)
                 self.gate_m1_exit(top, dg, at_d, x_gnd_d, y_dg)
@@ -298,40 +322,42 @@ class XC:
                      (x_gL - 0.4, y_gnd), (x_gR - 0.4, y_gnd)):
             self.place(top, ptap, x, y)
             self.box(top, self.m1, x, y, x + 0.78, y + 0.78)
-        y_gnd_join = y_port - 3.0
-        self.box(top, self.m1, x_gL - 0.20, y_gnd_join, x_gL + 0.20, y_gnd + 0.50)
-        self.box(top, self.m1, x_gR - 0.20, y_gnd_join, x_gR + 0.20, y_gnd + 0.50)
-        self.place(top, vs12, x_gL - 0.05, y_gnd_join)
-        self.place(top, vs12, x_gR - 0.05, y_gnd_join)
-        self.box(top, self.m2, x_gL - 0.20, y_gnd_join - 0.15,
-                 x_gR + 0.20, y_gnd_join + 0.55)
-        self.place(top, vs12, -0.05, y_gnd_join)
-        self.box(top, self.m1, -0.25, y_gnd_join - 2.0, 0.25, y_gnd_join + 0.40)
-        self.pin_m1(top, 0.0, y_gnd_join - 1.8, "gnd")
+        # Tie L/R gnd rails
+        self.place(top, vs12, x_gL - 0.05, y_gnd)
+        self.place(top, vs12, x_gR - 0.05, y_gnd)
+        self.box(top, self.m2, x_gL - 0.20, y_gnd - 0.15,
+                 x_gR + 0.20, y_gnd + 0.55)
+        y_gpin = 0.5 * (min(bb1.bottom, bb2.bottom) + max(bb1.top, bb2.top))
+        self.box(top, self.m1, x_gL - 0.20, min(y_gnd, y_gpin),
+                 x_gL + 0.20, max(y_gnd + 0.50, y_gpin))
+        self.box(top, self.m1, x_gL - 2.0, y_gpin - 0.25,
+                 x_gL + 0.20, y_gpin + 0.25)
+        self.pin_m1(top, x_gL - 1.5, y_gpin, "gnd")
 
         bb = top.bbox().to_dtype(self.ly.dbu)
         area = (bb.right - bb.left) * (bb.top - bb.bottom) * 1e-6
-        self.say(f"bbox {bb}; area {area:.5f} mm² [GDS]")
+        self.say(f"XC bbox {bb}; area {area:.5f} mm² [GDS]")
 
         gds = os.path.join(OUT, "cml_regen_xc.gds")
         self.ly.write(gds)
         with open(gds, "rb") as f, gzip.open(gds + ".gz", "wb") as z:
             shutil.copyfileobj(f, z)
-        # XC: g1≡d2, g2≡d1 → only d1 d2 s gnd in LVS
-        open(os.path.join(OUT, "cml_regen_xc.spice"), "w").write(
+        spice = os.path.join(OUT, "cml_regen_xc.spice")
+        # Dummies combine → W=3.0 [LVS]; ng omitted
+        open(spice, "w").write(
             "* P2.7.4b cml_regen_xc — cross-coupled regen pair k=1.5 [SCH]\n"
             ".subckt cml_regen_xc d1 d2 s gnd\n"
             f"Mm3 d1 d2 s gnd sg13_lv_nmos w={W_PAIR} l=0.13u\n"
             f"Mm4 d2 d1 s gnd sg13_lv_nmos w={W_PAIR} l=0.13u\n"
-            f"Mdum gnd gnd gnd gnd sg13_lv_nmos w={2*float(W_DUM[:-1]):.2f}u "
+            f"Mdum gnd gnd gnd gnd sg13_lv_nmos w={2 * float(W_DUM[:-1]):.2f}u "
             f"l=0.13u\n"
             ".ends\n"
         )
         open(os.path.join(OUT, "summary_build_cml_regen_xc.txt"), "w").write(
             "\n".join(self.log) + "\n")
-        self.say(f"WROTE {gds}")
+        self.say(f"wrote {gds}")
         return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(XC().build())
+    sys.exit(XC().build())

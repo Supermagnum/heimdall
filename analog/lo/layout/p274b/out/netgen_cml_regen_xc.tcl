@@ -1,0 +1,1 @@
+lvs {/work/analog/lo/layout/p274b/out/cml_regen_xc.spice cml_regen_xc} {/work/analog/lo/layout/p274b/out/lvs_cml_regen_xc/cml_regen_xc_extracted.cir cml_regen_xc} /foss/pdks/ihp-sg13g2/libs.tech/netgen/ihp-sg13g2_setup.tcl /work/analog/lo/layout/p274b/out/netgen_cml_regen_xc.json

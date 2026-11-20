@@ -1,0 +1,10 @@
+* Extracted by KLayout with SG13G2 LVS runset on : 20/11/2026 11:36
+
+.SUBCKT cml_regen_xc d1 d2 gnd s
+M$1 gnd gnd gnd gnd sg13_lv_nmos L=0.13u W=4.5u AS=1.53p AD=1.53p PS=10.36u
++ PD=10.36u rfmode=0
+M$2 d1 d2 s gnd sg13_lv_nmos L=0.13u W=11.25u AS=2.475p AD=2.475p PS=15.7u
++ PD=15.7u rfmode=0
+M$7 d2 d1 s gnd sg13_lv_nmos L=0.13u W=11.25u AS=2.475p AD=2.475p PS=15.7u
++ PD=15.7u rfmode=0
+.ENDS cml_regen_xc
