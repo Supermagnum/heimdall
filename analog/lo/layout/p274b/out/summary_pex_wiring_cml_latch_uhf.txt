@@ -1,0 +1,80 @@
+# cml_latch_uhf wiring C — Magic RC [PEX-RC]
+
+## Method
+- Tool: Magic + `ihp-sg13g2.magicrc`; flatten cell; `extract all`; keep `.ext` [TOOL].
+- Units: Magic `.ext` aF / 1000 = fF.
+- **Wiring add** = sum of coupling caps to other nets (= all partners + substrate − substrate/node C). Same bank-method as VCO (`summary_pex_bank`) [PEX-RC].
+- Substrate/node C includes diffusion/gate area Magic attributes to the net; device C is in PDK MOSFET / rppd models and is **excluded** from wiring add [PEX-RC / PDK].
+- Series R: `extresist` not run [TOOL].
+- GDS: `out/cml_latch_uhf.gds` cell `cml_latch_uhf`.
+
+## Wiring C per net (device C excluded)
+
+| net | .ext name | substrate node C | all + substrate | **wiring add** | unit | tag |
+|---|---|---:|---:|---:|---|---|
+| ckp | `ckp` | 7.75 | 8.38 | **0.63** | fF | [PEX-RC] |
+| ckn | `ckn` | 2.83 | 3.54 | **0.70** | fF | [PEX-RC] |
+| qp | `qp` | 14.94 | 19.49 | **4.54** | fF | [PEX-RC] |
+| qn | `qn` | 17.29 | 23.33 | **6.04** | fF | [PEX-RC] |
+| ta (internal) | `a_n5476_0#` | 14.41 | 17.53 | **3.12** | fF | [PEX-RC] |
+
+Tail is not a top-level pin; mapped to Magic node `a_n5476_0#` (clk-pair common source / tail MOSFET drain) [PEX-RC].
+
+### Top coupling partners
+
+**ckp:**
+- `ckn`: 0.352 fF
+- `a_n6561_6966#`: 0.105 fF
+- `a_n5476_0#`: 0.095 fF
+- `a_5000_0#`: 0.076 fF
+
+**ckn:**
+- `ckp`: 0.352 fF
+- `a_5000_0#`: 0.257 fF
+- `a_n5476_0#`: 0.094 fF
+
+**qp:**
+- `a_5000_0#`: 1.659 fF
+- `qn`: 1.382 fF
+- `a_n6561_6966#`: 1.338 fF
+- `dn`: 0.082 fF
+- `a_n2894_9438#`: 0.078 fF
+- `vdd`: 0.005 fF
+
+**qn:**
+- `a_5000_0#`: 2.383 fF
+- `a_n6561_6966#`: 2.060 fF
+- `qp`: 1.382 fF
+- `dp`: 0.109 fF
+- `a_n7951_9438#`: 0.077 fF
+- `dn`: 0.025 fF
+- `vdd`: 0.005 fF
+- `a_n2894_9438#`: 0.000 fF
+
+**ta:**
+- `a_5000_0#`: 1.353 fF
+- `a_n6561_6966#`: 1.309 fF
+- `nb_lo`: 0.263 fF
+- `ckp`: 0.095 fF
+- `ckn`: 0.094 fF
+
+## Clock budget vs ≤ 15 fF / side
+
+| quantity | value | unit | tag |
+|---|---:|---|---|
+| clock wiring max(ckp, ckn) | 0.70 | fF | [PEX-RC] |
+| assembly latch↔latch (est.) | 0.27 | fF | [HAND] |
+| assembly buffer→latch (est.) | 0.60 | fF | [HAND] |
+| assembly total add | 0.87 | fF | [HAND] |
+| **clock + assembly** | **1.57** | fF | [PEX-RC]+[HAND] |
+| budget | 15.0 | fF/side | [SCH] |
+| gate | **PASS** | | |
+
+Assembly estimate: M2 15.0 µm × 0.4 µm × 0.03 ×1.5 + M3 40.0 µm × 0.4 µm × 0.025 ×1.5 [HAND].
+
+| other nets | wiring add | unit | tag |
+|---|---:|---|---|
+| qp/qn max | 6.04 | fF | [PEX-RC] |
+| ta (tail) | 3.12 | fF | [PEX-RC] |
+
+Clock + assembly ≤ 15 fF/side → continue to `cml_latch_vhf_tl`.
