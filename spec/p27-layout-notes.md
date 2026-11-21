@@ -1209,12 +1209,44 @@ a=W y=E vcv=N gnd=S; ntap in NWell; via landings off finger pitch.
 
 **Assembler guard:** `assembly_guard.py` — parent shapes / parent PCells must
 not penetrate a child inv bbox beyond face-pin allowance; build fails closed.
-Pin plan: `summary_pin_plan_cml_conv.txt`. Gap stubs only; TM1 cmim stubs
-w=2.0 µm (TM1.a ≥ 1.70 [DS]).
+Also fails on parent M1 longer than `M1_STUB_MAX` (2.5 µm) — no parent M1
+straps [VCO island rule]. Pin plan: `summary_pin_plan_cml_conv.txt`.
 
-`cml_conv` re-assemble **STOP**: guard PASS, TM1.a cleared; DRC M1.b/TM1.b;
-LVS extract `gnd|vcv` mega-net (`summary_cml_conv_stop.txt`). Bisect parent
-routing net-by-net next (not child invasion).
+**`cml_conv` parent routing plan [HAND] — VCO island join rules**
+
+| Layer | Direction | Use |
+|---|---|---|
+| M1 | — | Face stubs / via landings only (≤ 2.5 µm). **No** parent M1 straps. |
+| M2 | **horizontal only** | Signal H (gap stubs, feeds). |
+| M3 | **vertical only** | Signal V jogs. |
+| M4 | **horizontal only** | **Supplies:** vcv north rail, gnd south rail (own layer). |
+| M5 / TM1 | cmim | Series plates; TM1 w=2.0 µm, space ≥ 1.64 µm [DS]. |
+
+Power drops: face M1 stub → M2 → local M3 riser (per-child `x_side`, clear of
+signal M3) → M2 at `y_over`/`y_under` → M3 spine (x≤8) → M4 rail. Signal gap
+stubs: M1 pad + via12 → M2 H / M3 V (one direction per layer). AC pocket: cmim
+TM1 plate → rhigh → inv.a/y with M2/M3 jogs; M3 columns must miss supply risers
+(GAP=8 µm between inv and XC columns). Rebuild stages:
+`power` → `ac_p` → `ac_n` → `xc` → `taper`/`full`; LVS after each.
+
+##### `cml_conv` staged parent rebuild (2026-11-21) [TOOL]
+
+| Stage | Port merges | Notes |
+|---|---|---|
+| power | none; gnd≠vcv | M4 rails + west spines; guard PASS |
+| ac_p | none | AC-p pocket |
+| ac_n | none | after clearing supply M2 track / AC corridor Y; AC M3 off supply `x_side` |
+| xc | intentional `a_xca\|y_p\|y_xcb`, `a_xcb\|y_n\|y_xca` only | GAP=8; cross X clear of risers |
+| taper | none | full cell; y pin east of t9 |
+
+**Prove:** KLayout LVS **PASS**; netgen unique **PASS** (rhigh bulk dropped for
+netgen; cmim plate order matches extract) [TOOL]. DRC density waived; **FAIL**
+non-density M1.b / M2.b / TM1.b / V1.* / V2.* [TOOL]. Area **0.01589 mm²**
+[GDS]. Wiring C: `out/summary_pex_wiring_cml_conv.txt` [PEX-RC].
+`tspc_dff` / Johnson / `lo_buffer` **not started** this run.
+
+Prior M1-strap assemble **STOP** (`gnd|vcv` mega-net). Layered plan closed the
+merge; DRC cleanup remains.
 
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  

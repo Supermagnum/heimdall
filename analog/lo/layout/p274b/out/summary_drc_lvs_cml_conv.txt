@@ -1,7 +1,13 @@
 # P2.7.4b DRC/LVS — cml_conv
 
-- DRC clean (density waived): **FAIL** non-density=['M1.b', 'TM1.b']
-- KLayout LVS: **FAIL**
-- netgen unique: **FAIL**
-- extracted: `/foss/designs/analog/lo/layout/p274b/out/lvs_cml_conv/cml_conv_extracted.cir`
+- DRC clean (density waived): **FAIL** non-density=['M1.b','M2.b','TM1.b','V1.a','V1.b','V2.a','V2.b'] [TOOL]
+  - M1.b min space 0.18 um: 119 [TOOL]
+  - M2.b min space 0.21 um: 42 [TOOL]
+  - TM1.b min space 1.64 um: 4 [TOOL]
+  - V1.a/b via width/space: 19/18; V2.a/b: 2/2 [TOOL]
+- KLayout LVS: **PASS** (Congratulations! Netlists match) [TOOL]
+- netgen unique: **PASS** (Circuits match uniquely; property-name skew ps/A only) [TOOL]
+- extracted: `out/lvs_cml_conv/cml_conv_extracted.cir`
+- area: 0.01589 mm2 [GDS]; pins dp,dn,y,vcv,gnd [TOOL]
+- staged merges: power/ac_p/ac_n/xc/taper all no bad port merges [TOOL]
 

@@ -1,0 +1,14 @@
+# cml_conv wiring C — substrate + coupling [PEX-RC]
+
+- **Wiring C** = substrate/node C + coupling to other nets (wire-to-substrate + coupling). Device gate/junction C stays in PDK MOSFET models and is excluded [PEX-RC / decisions 2026-11-20].
+- No MIM on divider cells — substrate term is kept (unlike VCO bank) [PEX-RC].
+- Units: Magic `.ext` aF / 1000 = fF. `extresist` not run unless noted [TOOL].
+- Note: cell has series cmim; Magic may fold plate area into node C [PEX-RC].
+
+| net | substrate | coupling | wiring C | unit | tag |
+|---|---:|---:|---:|---|---|
+| dp | 3.093 | 0.584 | **3.676** | fF | [PEX-RC] |
+| dn | 3.093 | 0.584 | **3.676** | fF | [PEX-RC] |
+| y | 7.830 | 2.408 | **10.237** | fF | [PEX-RC] |
+| vcv | 41.297 | 10.489 | **51.786** | fF | [PEX-RC] |
+| gnd | 0.000 | 0.000 | **0.000** | fF | [PEX-RC] |

@@ -1,6 +1,5 @@
-area_mm2=0.01204
-cmim_side=5.774
+stage=taper
+area_mm2=0.01589
 tm1_w=2.0
-tm1_space=1.7
-guard=children=7 parent_boxes=229 parent_insts=12 face_allow=0.55
-pin_plan=summary_pin_plan_cml_conv.txt
+m1_stub_max=2.5
+guard=children=7 parent_boxes=794 parent_insts=161 face_allow=0.55 m1_stub_max=2.5 forbid_parent_m1=True

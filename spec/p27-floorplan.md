@@ -224,4 +224,9 @@ not drawn). Floors with extracted C on ck/qp/qn/ta: UHF **−155.6** / VHF
 **−159.7** PASS vs ≤ −151. LO area still inside **≈ 0.05–0.09 mm²** [HAND]
 sketch. Die re-total unchanged (VCO **0.4624** [GDS]).
 
+**P2.7.4b `cml_conv` (2026-11-21) [GDS/TOOL]:** area **0.01589 mm²** [GDS];
+LVS/netgen PASS; DRC non-density FAIL (M1.b/M2.b/TM1.b/V*). Running divider
+cell-sum **≈ 0.0456 mm²** [GDS] (0.0297 + 0.01589); TSPC/Johnson/buffer not
+drawn. Die re-total unchanged.
+
 **Flag:** the §1 sketch of a **1.6 × 1.6 mm** active core **does not fit** the Phase 3/4 RX+TX + synth + digital + pads tally. Before Phase 5, plan on a die closer to **≥ ~2.2 × 2.2 mm** (≈ 4.8 mm²) or tighten RX/TX area after topology.

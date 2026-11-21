@@ -1,20 +1,38 @@
-* Extracted by KLayout with SG13G2 LVS runset on : 21/11/2026 11:51
+* Extracted by KLayout with SG13G2 LVS runset on : 21/11/2026 12:41
 
-.SUBCKT cml_conv dn dp gnd|vcv y
-M$1 gnd|vcv gnd|vcv gnd|vcv gnd|vcv sg13_lv_nmos L=0.13u W=7u AS=2.38p AD=2.38p
-+ PS=17.4u PD=17.4u rfmode=0
-M$4 \$26 gnd|vcv gnd|vcv gnd|vcv sg13_lv_nmos L=0.13u W=3u AS=1.02p AD=1.02p
-+ PS=6.68u PD=6.68u rfmode=0
-M$5 y \$26 gnd|vcv gnd|vcv sg13_lv_nmos L=0.13u W=9u AS=3.06p AD=3.06p
-+ PS=19.36u PD=19.36u rfmode=0
-M$9 gnd|vcv gnd|vcv gnd|vcv gnd|vcv sg13_lv_pmos L=0.13u W=14u AS=4.76p
-+ AD=4.76p PS=31.4u PD=31.4u rfmode=0
-M$12 \$26 gnd|vcv gnd|vcv gnd|vcv sg13_lv_pmos L=0.13u W=6u AS=2.04p AD=2.04p
-+ PS=12.68u PD=12.68u rfmode=0
-M$13 y \$26 gnd|vcv gnd|vcv sg13_lv_pmos L=0.13u W=18u AS=6.12p AD=6.12p
-+ PS=37.36u PD=37.36u rfmode=0
-R$17 gnd|vcv gnd|vcv gnd|vcv rhigh w=0.5u l=17.58u ps=0u b=0 m=3
-C$20 gnd|vcv dn cap_cmim w=5.71u l=5.71u A=32.6041p P=22.84u m=1
-C$21 gnd|vcv gnd|vcv cap_cmim w=5.71u l=5.71u A=32.6041p P=22.84u m=1
-C$22 gnd|vcv dp cap_cmim w=5.71u l=5.71u A=32.6041p P=22.84u m=1
+.SUBCKT cml_conv dn dp gnd vcv y
+M$1 \$4 \$8 gnd gnd sg13_lv_nmos L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u
++ PD=4.68u rfmode=0
+M$2 \$46 \$4 gnd gnd sg13_lv_nmos L=0.13u W=0.5u AS=0.17p AD=0.17p PS=1.68u
++ PD=1.68u rfmode=0
+M$3 \$25 \$33 gnd gnd sg13_lv_nmos L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u
++ PD=4.68u rfmode=0
+M$4 \$30 \$25 gnd gnd sg13_lv_nmos L=0.13u W=3u AS=1.02p AD=1.02p PS=6.68u
++ PD=6.68u rfmode=0
+M$5 y \$30 gnd gnd sg13_lv_nmos L=0.13u W=9u AS=3.06p AD=3.06p PS=19.36u
++ PD=19.36u rfmode=0
+M$7 \$46 \$57 gnd gnd sg13_lv_nmos L=0.13u W=2u AS=0.68p AD=0.68p PS=4.68u
++ PD=4.68u rfmode=0
+M$8 \$4 \$46 gnd gnd sg13_lv_nmos L=0.13u W=0.5u AS=0.17p AD=0.17p PS=1.68u
++ PD=1.68u rfmode=0
+M$9 \$4 \$8 vcv vcv sg13_lv_pmos L=0.13u W=4u AS=1.36p AD=1.36p PS=8.68u
++ PD=8.68u rfmode=0
+M$10 \$46 \$4 vcv vcv sg13_lv_pmos L=0.13u W=1u AS=0.34p AD=0.34p PS=2.68u
++ PD=2.68u rfmode=0
+M$11 \$25 \$33 vcv vcv sg13_lv_pmos L=0.13u W=4u AS=1.36p AD=1.36p PS=8.68u
++ PD=8.68u rfmode=0
+M$12 \$30 \$25 vcv vcv sg13_lv_pmos L=0.13u W=6u AS=2.04p AD=2.04p PS=12.68u
++ PD=12.68u rfmode=0
+M$13 y \$30 vcv vcv sg13_lv_pmos L=0.13u W=18u AS=6.12p AD=6.12p PS=37.36u
++ PD=37.36u rfmode=0
+M$15 \$46 \$57 vcv vcv sg13_lv_pmos L=0.13u W=4u AS=1.36p AD=1.36p PS=8.68u
++ PD=8.68u rfmode=0
+M$16 \$4 \$46 vcv vcv sg13_lv_pmos L=0.13u W=1u AS=0.34p AD=0.34p PS=2.68u
++ PD=2.68u rfmode=0
+R$17 \$8 \$4 gnd rhigh w=0.5u l=17.58u ps=0u b=0 m=1
+R$18 \$33 \$25 gnd rhigh w=0.5u l=17.58u ps=0u b=0 m=1
+R$19 \$57 \$46 gnd rhigh w=0.5u l=17.58u ps=0u b=0 m=1
+C$20 \$8 dn cap_cmim w=5.71u l=5.71u A=32.6041p P=22.84u m=1
+C$21 \$33 \$46 cap_cmim w=5.71u l=5.71u A=32.6041p P=22.84u m=1
+C$22 \$57 dp cap_cmim w=5.71u l=5.71u A=32.6041p P=22.84u m=1
 .ENDS cml_conv

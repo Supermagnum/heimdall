@@ -1208,3 +1208,17 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
 - cml_conv assembly not accepted (parent stubs / rails across child faces; TM1.a / b on cmim stubs).
   Re-assembled by a pin plan with gap stubs only; MIM connections at legal TM1 width / spacing.
   Assembly scripts check that no parent shape overlaps a child cell's area.
+
+## 2026-11-21 — cml_conv parent routing
+- lo_inv_9_18 as m = 2 in schematic and layout; assembler guard accepted (no parent metal in
+  child areas).
+- cml_conv parent-to-parent shorts (gnd | vcv merge) are fixed by the VCO routing rule: no parent
+  M1; supplies on their own layer; one direction per signal layer; gap stubs down to child
+  pins. Then rebuilt net group by net group with LVS after each.
+
+## 2026-11-21 — cml_conv connectivity, DRC
+- cml_conv connectivity accepted: built power → ac_p → ac_n → xc → taper with no merges; KLayout LVS
+  and netgen unique; area 0.01589 mm² [GDS]; running divider ≈ 0.0456 mm².
+- Non-density DRC (M1.b, M2.b, TM1.b, V1 / V2 width / space) is fixed, not waived, before cml_conv
+  is accepted.
+- Wiring-C extraction fixed so gnd is bound (gnd showed 0 fF).
