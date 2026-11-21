@@ -1231,7 +1231,9 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
 - Running divider area 0.04565 mm² [GDS].
 
 ## 2026-11-21 — tspc_dff accepted
-- tspc_dff accepted: DRC clean (density waived), KLayout LVS and netgen unique, fingers 13×ng1
-  equality, render; 0.00600 mm² [GDS]. Wiring C [PEX-RC]: d 13.17 fF, ck 12.38 fF (≤ 15), q 22.37 fF,
-  vdg 41.20 fF, gnd 55.71 fF (substrate_ref). Phase re-run not needed (ck under budget).
-- Running divider area 0.05165 mm² [GDS].
+- tspc_dff accepted (6241dc7): DRC clean (density waived), KLayout LVS and netgen unique, fingers
+  (equality), render; 0.00600 mm² [GDS]; wiring C ck 12.4, d 13.2, q 22.4 fF [PEX-RC]. Running
+  divider 0.05165 mm².
+- At the Johnson / retimer assembly, the total extracted load on the converter output y (all TSPC
+  clock inputs + routing) is compared with the floor and phase-error simulations; if higher, the
+  UHF / VHF floors and the I/Q / 8-phase errors are re-run with it.
