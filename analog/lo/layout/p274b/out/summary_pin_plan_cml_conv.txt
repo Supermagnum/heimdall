@@ -1,0 +1,50 @@
+# cml_conv (lo_converter) pin plan [HAND]
+
+Topology unchanged [SCH]. Leaves accepted. Parent joins: gap stubs only;
+no parent metal through a child bbox (assembly_guard). Series cmim: M5=MINUS
+/ TM1=PLUS both signal; TM1 stubs w≥1.70 µm (TM1.a), space ≥1.64 µm (TM1.b)
+[DS / cbf·hold / bank_unit].
+
+## Floorplan (W→E)
+
+| Region | Cells |
+|---|---|
+| AC-p (north) | cmim_p → rhigh_p → inv_p (`lo_inv_2_4`) |
+| AC-n (south) | cmim_n → rhigh_n → inv_n (`lo_inv_2_4`) |
+| XC (east of inv_p/n) | xc_a (`lo_inv_05_1`) north; xc_b (`lo_inv_05_1`) south |
+| AC-b + taper | cmim_b → rhigh_b → inv_b (`lo_inv_2_4`) → inv_t3 (`lo_inv_3_6`) → inv_t9 (`lo_inv_9_18` = 2×45_9) |
+
+Gap between N and S rows ≥ 4 µm (corridor for cross stubs). Gap between
+east-adjacent bboxes ≥ 4 µm.
+
+## Face pins (children)
+
+| Cell | a | y | vcv | gnd |
+|---|---|---|---|---|
+| every `lo_inv_*` | W | E | N | S |
+
+## Net joins (parent)
+
+| net | from | face | to | face | join |
+|---|---|---|---|---|---|
+| dp | parent W pin | W | cmim_p M5 via | (parent) | M1→M5 outside plate |
+| x_cip | cmim_p TM1 via | (parent) | inv_p.a | W | gap stub + TM1≥1.70 |
+| x_cip | cmim_p TM1 via | (parent) | rhigh_p bot | (parent) | M1 |
+| x_o2p | rhigh_p top | (parent) | inv_p.y | E | M1 (same AC-p pocket) |
+| dn / x_cin / x_o2n | mirror of p on AC-n | | | | |
+| x_o2p | inv_p.y | E | xc_a.a | W | gap stub (align Y or jog in gap) |
+| x_o2n | xc_a.y | E | inv_n.y | E | corridor N–S then gap (outside bboxes) |
+| x_o2n | inv_n.y | E | xc_b.a | W | gap stub |
+| x_o2p | xc_b.y | E | inv_p.y | E | corridor (outside bboxes) |
+| x_o2p | inv_p.y / xc | — | cmim_b M5 | (parent) | M1 in corridor |
+| x_cbi | cmim_b TM1 | (parent) | inv_b.a + rhigh_b | W | gap + TM1 legal |
+| x_cy | inv_b.y | E | inv_t3.a | W | gap stub |
+| x_cz | inv_t3.y | E | inv_t9.a | W | gap stub |
+| y | inv_t9.y | E | parent E pin | E | face pin |
+| vcv | each inv.vcv | N | N rail above all children | — | stub face→rail only |
+| gnd | each inv.gnd | S | S rail below all children | — | stub face→rail only |
+
+## Guard
+
+`assembly_guard.ParentChildGuard`: fail if any parent shape / parent PCell
+bbox penetrates a child inv bbox by more than FACE_ALLOW (face-pin stub).

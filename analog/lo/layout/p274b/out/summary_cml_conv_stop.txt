@@ -1,45 +1,52 @@
-# P2.7.4b cml_conv — STOP (2026-11-21) [TOOL]
+# P2.7.4b cml_conv — STOP (2026-11-21, pin-plan re-assemble) [TOOL]
 
 ## Pass criteria vs this stop
 
 | Step | Result |
 |---|---|
-| Pre-draw checklist | **PASS** — `summary_checklist_cml_conv.txt` |
-| Inv leaves DRC / KLayout LVS / netgen | **PASS** (see below) |
-| `cml_conv` assemble DRC / LVS / netgen | **FAIL** — mega-short + TM1.a/b |
-| Wiring C / render / area vs §8 | **not run** (assemble FAIL) |
+| Inv leaves + checklist commit | **PASS** — `64541af` |
+| `lo_inv_9_18` sch m=2 + SVG/PDF; tops match | **PASS** [SCH] |
+| Pin plan written | **PASS** — `summary_pin_plan_cml_conv.txt` |
+| Assembler overlap guard | **PASS** (build refuses parent∩child) — `assembly_guard.py` |
+| TM1.a on cmim stubs | **cleared** (w=2.0 µm ≥ 1.70 [DS]) |
+| `cml_conv` DRC (density waived) | **FAIL** — M1.b, TM1.b remain [TOOL] |
+| KLayout LVS / netgen | **FAIL** — extract `gnd\|vcv` mega-net [TOOL] |
+| Wiring C / render / area vs §8 | **not run** (LVS FAIL) |
+| tspc_dff / Johnson / lo_buffer | **not started** |
 
-## Proven leaves [TOOL]
+## Extract symptom [TOOL]
 
-| cell | W_n/W_p | ng | DRC | KLayout | netgen | area mm² |
-|---|---|---:|---|---|---|---:|
-| `lo_inv_05_1` | 0.5/1 | 1 | PASS | PASS | PASS | 0.00029 |
-| `lo_inv_1_2` | 1/2 | 1 | PASS | PASS | PASS | 0.00031 |
-| `lo_inv_2_4` | 2/4 | 1 | PASS | PASS | PASS | 0.00034 |
-| `lo_inv_3_6` | 3/6 | 1 | PASS | PASS | PASS | 0.00038 |
-| `lo_inv_45_9` | 4.5/9 | 1 | PASS | PASS | PASS | 0.00044 |
-| `lo_inv_9_18` | 9/18 | 2×45_9 | PASS | PASS | PASS | 0.00098 |
+```
+.SUBCKT cml_conv dn dp gnd|vcv y
+… all MOS / 3× rhigh / 3× cmim mid nodes on gnd|vcv …
+```
 
-Method: CMOS inv (OTA + latch rules); face pins a=W y=E vcv=N gnd=S; ntap in NWell;
-ptap→gnd; via landings off finger pitch. `lo_inv_9_18` = 2× parallel `lo_inv_45_9`
-(single ng=3 mega-shorted).
+Only `dn`, `dp`, `y` stay off the mega-net. First merge to bisect: **gnd ↔ vcv**
+(and signal mids collapsed into that net). Guard proves no parent shape deep
+inside a child bbox; short is parent–parent (supply spines / signal wraps /
+rhigh parallels / shared corridors) — not child invasion.
 
-## Assemble FAIL [TOOL]
+## What was fixed vs first assemble
 
-`build_cml_conv.py` first cut: cmim 50 fF + rhigh 50 kΩ in parent + inv leaves.
-Extract: `dn|dp|gnd|vcv` mega-net — parent M1 stubs / supply rails cross child
-face pins (violates gap-stub-only rule). DRC: TM1.a/b on series-cmim TM1 stubs.
+- Pin plan first; gap stubs for inv|inv joins; separate XC cross corridors
+- TM1 stubs legal width (TM1.a); east jog for TM1.b plate clearance
+- `ParentChildGuard` before write; separate vcv/gnd spines
+- Top pins on rim (no `connect_and_pin_on_face` through children)
 
 ## Decision needed
 
-1. Accept proven inv leaves and continue `cml_conv` assemble in a dedicated pass
-   (pin-plan first; gap stubs only; no parent metal through children; series cmim
-   M5/TM1 vias outside plates) — **recommended**.
-2. Or change converter topology / cell split before more layout.
+1. Continue bisect of `cml_conv` parent routing (power-only → +AC-p → +AC-n →
+   +XC → +taper), net group at a time, until gnd and vcv separate — **recommended**.
+2. Or accept a different parent floorplan (e.g. M2 for supplies) before more M1.
 
 ## Found, not done
 
-- `cml_conv` DRC/LVS/PEX/render/area (this item, incomplete)
-- `tspc_dff`, Johnson/phase, `lo_buffer` (prompt 06 remaining cells; after conv)
-- Commit of this job’s files (ask owner — user rule)
-- Next run name when conv PASS: **P2.7.4c** divider band tops and assembly
+- Full `cml_conv` DRC/LVS/PEX/render/area
+- `tspc_dff`, Johnson/phase, `lo_buffer` (+ swing C)
+- Spec §8 area roll-up for these cells
+- Push to origin (ask owner)
+
+## Next run name
+
+**P2.7.4c** — after `cml_conv` PASS: divider band tops and assembly.
+(If this STOP is only mid-assemble: next prompt stays **P2.7.4b** bisect.)

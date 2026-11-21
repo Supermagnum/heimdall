@@ -1,0 +1,23 @@
+* P2.7.4b cml_conv = lo_converter [SCH]
+.subckt cml_conv dp dn y vcv gnd
+Cccap dp x_cip cap_cmim w=5.774u l=5.774u m=1
+Rrcap x_cip x_o2p gnd rhigh w=0.5u l=18.382u b=0 m=1
+Mxcapp x_o2p x_cip vcv vcv sg13_lv_pmos w=4u l=0.13u
+Mxcapn x_o2p x_cip gnd gnd sg13_lv_nmos w=2u l=0.13u
+Cccan dn x_cin cap_cmim w=5.774u l=5.774u m=1
+Rrcan x_cin x_o2n gnd rhigh w=0.5u l=18.382u b=0 m=1
+Mxcanp x_o2n x_cin vcv vcv sg13_lv_pmos w=4u l=0.13u
+Mxcann x_o2n x_cin gnd gnd sg13_lv_nmos w=2u l=0.13u
+Mxcxap x_o2n x_o2p vcv vcv sg13_lv_pmos w=1u l=0.13u
+Mxcxan x_o2n x_o2p gnd gnd sg13_lv_nmos w=0.5u l=0.13u
+Mxcxbp x_o2p x_o2n vcv vcv sg13_lv_pmos w=1u l=0.13u
+Mxcxbn x_o2p x_o2n gnd gnd sg13_lv_nmos w=0.5u l=0.13u
+Cccb x_o2p x_cbi cap_cmim w=5.774u l=5.774u m=1
+Rrcb x_cbi x_cy gnd rhigh w=0.5u l=18.382u b=0 m=1
+Mxcbp x_cy x_cbi vcv vcv sg13_lv_pmos w=4u l=0.13u
+Mxcbn x_cy x_cbi gnd gnd sg13_lv_nmos w=2u l=0.13u
+Mxcv3p x_cz x_cy vcv vcv sg13_lv_pmos w=6.0u l=0.13u
+Mxcv3n x_cz x_cy gnd gnd sg13_lv_nmos w=3.0u l=0.13u
+Mxcv4p y x_cz vcv vcv sg13_lv_pmos w=9.0u l=0.13u m=2
+Mxcv4n y x_cz gnd gnd sg13_lv_nmos w=4.5u l=0.13u m=2
+.ends

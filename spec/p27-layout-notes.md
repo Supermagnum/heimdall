@@ -1205,8 +1205,16 @@ Pre-draw checklist: `out/summary_checklist_cml_conv.txt`. CMOS inv leaves
 (`lo_inv_05_1` … `lo_inv_3_6`, `lo_inv_45_9`, `lo_inv_9_18`=2×45_9): DRC
 (density waived) / KLayout LVS / netgen unique **PASS** [TOOL]. Face pins
 a=W y=E vcv=N gnd=S; ntap in NWell; via landings off finger pitch.
-`cml_conv` first assemble **FAIL** (parent stub mega-short + TM1.a/b) —
-`summary_cml_conv_stop.txt`. Next: pin-plan gap-stub assemble only.
+`lo_inv_9_18` = 2× `lo_inv_45_9` in sch+layout (m=2) [SCH].
+
+**Assembler guard:** `assembly_guard.py` — parent shapes / parent PCells must
+not penetrate a child inv bbox beyond face-pin allowance; build fails closed.
+Pin plan: `summary_pin_plan_cml_conv.txt`. Gap stubs only; TM1 cmim stubs
+w=2.0 µm (TM1.a ≥ 1.70 [DS]).
+
+`cml_conv` re-assemble **STOP**: guard PASS, TM1.a cleared; DRC M1.b/TM1.b;
+LVS extract `gnd|vcv` mega-net (`summary_cml_conv_stop.txt`). Bisect parent
+routing net-by-net next (not child invasion).
 
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  
