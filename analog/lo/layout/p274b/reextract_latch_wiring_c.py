@@ -47,7 +47,7 @@ def ensure_ext(cell: str) -> str:
 
 
 def resolve_ta(ext: str) -> dict:
-    find, node_c, _ = W.parse_ext(
+    find, node_c, *_ = W.parse_ext(
         ext, ("ckp", "ckn", "qp", "qn", "ta", "nb_lo", "vdd", "gnd", "sub!", "0"))
     roots = {find(n) for n in node_c}
     if "ta" in roots:

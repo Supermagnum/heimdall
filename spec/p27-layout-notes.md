@@ -1240,13 +1240,19 @@ TM1 plate → rhigh → inv.a/y with M2/M3 jogs; M3 columns must miss supply ris
 | taper | none | full cell; y pin east of t9 |
 
 **Prove:** KLayout LVS **PASS**; netgen unique **PASS** (rhigh bulk dropped for
-netgen; cmim plate order matches extract) [TOOL]. DRC density waived; **FAIL**
-non-density M1.b / M2.b / TM1.b / V1.* / V2.* [TOOL]. Area **0.01589 mm²**
-[GDS]. Wiring C: `out/summary_pex_wiring_cml_conv.txt` [PEX-RC].
-`tspc_dff` / Johnson / `lo_buffer` **not started** this run.
+netgen; cmim plate order matches extract) [TOOL]. DRC density waived; non-density
+**PASS** after parent stub/via cleanup (face M1 overlap; no parent via12 on face
+pins; 1×1 vias; TM1 pad-on-bus) [TOOL]. Fingers **PASS**; render
+`out/cml_conv.png` [TOOL]. Area **0.01591 mm²** [GDS]. Wiring C:
+`out/summary_pex_wiring_cml_conv.txt` — gnd bound as Magic substrate ref,
+wiring C **55.1 fF** recovered from other nets' substrate terms; dp/dn ≈ 3.5 fF,
+y ≈ 10.2 fF, vcv ≈ 52.1 fF; cmim plate **50 fF** ×3 stated separately [PEX-RC].
+`tspc_dff` / Johnson / `lo_buffer` next.
 
-Prior M1-strap assemble **STOP** (`gnd|vcv` mega-net). Layered plan closed the
-merge; DRC cleanup remains.
+##### `cml_conv` accepted (2026-11-21) [TOOL]
+
+Connectivity + non-density DRC + LVS/netgen + fingers + render + wiring C with
+bound gnd. Running divider cell-sum **0.04565 mm²** [GDS].
 
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  

@@ -42,9 +42,15 @@ RHIGH_L_LVS = 17.58
 GAP = 8.0  # room for supply riser + signal M3 in inter-column gaps
 TM1_W = 2.00
 TM1_SPACE = 1.70
-MW = 0.40          # M2/M3/M4 wire half→ full width
+MW = 0.40          # M2/M3/M4 wire full width
 HW = 0.5 * MW
 M1_PAD = 0.50      # via landing on M1 (≤ M1_STUB_MAX)
+# Face-pad inset from pin toward child interior. Pins are often ~0.25 µm
+# inside the bbox, so keep ≤0.25 so total pen ≤ face_allow 0.55 [DS].
+FACE_IN = 0.25
+# Supply stubs measured from child bbox edge (not pin) — can go deeper.
+FACE_IN_BB = 0.45
+VIA_PITCH = 0.42   # edge space ≥ 0.22 with 0.19 via → pitch ≥ 0.41 [DS]
 
 
 def um(x):
@@ -136,12 +142,13 @@ def main():
     vs34 = pcell("via_stack", {
         "b_layer": "Metal3", "t_layer": "Metal4",
         "vn_columns": 1, "vn_rows": 1})
+    # 1×1 vias: 2×2 arrays were at pitch 0.41 (V1.b marginal) [DS]
     vs15 = pcell("via_stack", {
         "b_layer": "Metal1", "t_layer": "Metal5",
-        "vn_columns": 2, "vn_rows": 2})
+        "vn_columns": 1, "vn_rows": 1})
     vs1t = pcell("via_stack", {
         "b_layer": "Metal1", "t_layer": "TopMetal1",
-        "vn_columns": 2, "vn_rows": 2})
+        "vn_columns": 1, "vn_rows": 1})
     mim = pcell("cmim", {
         "w": f"{CMIM_SIDE:.3f}u", "l": f"{CMIM_SIDE:.3f}u",
         "C": "50f", "Calculate": "w&l", "guardRingType": "none"})
@@ -188,47 +195,99 @@ def main():
     def map_pins(pins0, x, y):
         return {n: (x + px, y + py) for n, (px, py) in pins0.items()}
 
+    _via_xy = []  # (x, y) — all stacks share Via1/Via2; pitch global [DS]
+
     def via(cid, x, y, tag, allow_face=True):
-        # Face vias may kiss the pin pad; allow_face=True [HAND]
+        """Place via_stack; return actual (x, y). Same-xy stacks OK; else pitch E."""
+        x = round(float(x), 2)
+        y = round(float(y), 2)
+        # Nudge if another via center is within pitch (same xy = stack, OK)
+        for _ in range(12):
+            clash = False
+            for (px, py) in _via_xy:
+                if abs(px - x) < 1e-6 and abs(py - y) < 1e-6:
+                    continue
+                if max(abs(px - x), abs(py - y)) < VIA_PITCH - 1e-9:
+                    x = round(px + VIA_PITCH, 2)
+                    clash = True
+                    break
+            if not clash:
+                break
+        if not any(abs(px - x) < 1e-6 and abs(py - y) < 1e-6
+                   for (px, py) in _via_xy):
+            _via_xy.append((x, y))
         tr = pya.Trans(pya.Trans.R0, um(x), um(y))
         top.insert(pya.CellInstArray(cid, tr))
         bb = ly.cell(cid).bbox().transformed(tr).to_dtype(ly.dbu)
         guard.add_parent_inst(tag, bb, allow_face=allow_face)
+        return x, y
 
-    def m1_pad(x, y, tag):
+    def m1_pad(x, y, tag, face=None):
         h = 0.5 * M1_PAD
-        box(m1, x - h, y - h, x + h, y + h, tag, "M1")
+        # Face pads: mostly into the child so they merge with pin M1; tiny
+        # outside lip only (closes 0.05–0.10 µm face gaps without >0.55 pen).
+        if face == "N":
+            box(m1, x - h, y - FACE_IN, x + h, y + 0.05, tag, "M1")
+        elif face == "S":
+            box(m1, x - h, y - 0.05, x + h, y + FACE_IN, tag, "M1")
+        elif face == "E":
+            box(m1, x - FACE_IN, y - h, x + 0.05, y + h, tag, "M1")
+        elif face == "W":
+            box(m1, x - 0.05, y - h, x + FACE_IN, y + h, tag, "M1")
+        else:
+            box(m1, x - h, y - h, x + h, y + h, tag, "M1")
 
-    def lift_to_m2(x, y, tag):
-        """Short M1 pad + via12 at (x,y) — pin or device contact up to M2."""
-        m1_pad(x, y, f"{tag}_m1")
-        via(vs12, x, y, f"{tag}_v12", allow_face=True)
+    def lift_to_m2(x, y, tag, face=None):
+        """M1+M2 at pin. Face pins: no parent via12 (child already has one;
+        a second via at/near the pin violates V1.b 0.22 µm) [DS]."""
+        m1_pad(x, y, f"{tag}_m1", face=face)
         box(m2, x - HW, y - HW, x + HW, y + HW, f"{tag}_m2p", "M2")
+        if face is not None:
+            return x, y
+        vx, vy = via(vs12, x, y, f"{tag}_v12", allow_face=True)
+        box(m2, vx - HW, vy - HW, vx + HW, vy + HW, f"{tag}_m2v", "M2")
+        if abs(vx - x) > 1e-6 or abs(vy - y) > 1e-6:
+            box(m1, min(x, vx) - HW, min(y, vy) - HW,
+                max(x, vx) + HW, max(y, vy) + HW, f"{tag}_m1b", "M1")
+            box(m2, min(x, vx) - HW, min(y, vy) - HW,
+                max(x, vx) + HW, max(y, vy) + HW, f"{tag}_m2b", "M2")
+        return vx, vy
 
     def drop_m2_to_m1(x, y, tag):
-        lift_to_m2(x, y, tag)  # same stack
+        return lift_to_m2(x, y, tag)
 
     def m2_h(x0, y, x1, tag):
-        box(m2, x0, y - HW, x1, y + HW, tag, "M2")
+        # Extend by HW past endpoints so pads at centers fully merge [DS]
+        xa, xb = min(x0, x1), max(x0, x1)
+        box(m2, xa - HW, y - HW, xb + HW, y + HW, tag, "M2")
 
     def m3_v(x, y0, y1, tag):
-        box(m3, x - HW, y0, x + HW, y1, tag, "M3")
+        ya, yb = min(y0, y1), max(y0, y1)
+        box(m3, x - HW, ya - HW, x + HW, yb + HW, tag, "M3")
 
     def m4_h(x0, y, x1, tag):
-        box(m4, x0, y - HW, x1, y + HW, tag, "M4")
+        xa, xb = min(x0, x1), max(x0, x1)
+        box(m4, xa - HW, y - HW, xb + HW, y + HW, tag, "M4")
 
     def m2_to_m3(x, y, tag):
-        via(vs23, x, y, f"{tag}_v23")
-        box(m3, x - HW, y - HW, x + HW, y + HW, f"{tag}_m3p", "M3")
+        vx, vy = via(vs23, x, y, f"{tag}_v23")
+        box(m2, vx - HW, vy - HW, vx + HW, vy + HW, f"{tag}_m2p", "M2")
+        box(m3, vx - HW, vy - HW, vx + HW, vy + HW, f"{tag}_m3p", "M3")
+        if abs(vx - x) > 1e-6 or abs(vy - y) > 1e-6:
+            box(m2, min(x, vx) - HW, min(y, vy) - HW,
+                max(x, vx) + HW, max(y, vy) + HW, f"{tag}_m2b", "M2")
+            box(m3, min(x, vx) - HW, min(y, vy) - HW,
+                max(x, vx) + HW, max(y, vy) + HW, f"{tag}_m3b", "M3")
+        return vx, vy
 
     def signal_ew(pin_a, bb_a, pin_b, bb_b, tag):
         """Gap stub E–W on M2; M1 pads + via12 at each face (outside/at face)."""
         ya, yb = pin_a[1], pin_b[1]
         x_lo, x_hi = bb_a.right, bb_b.left
         assert x_hi >= x_lo + 0.5, (tag, x_lo, x_hi)
-        # Lift at faces (pin coords are on face)
-        lift_to_m2(pin_a[0], ya, f"{tag}_a")
-        lift_to_m2(pin_b[0], yb, f"{tag}_b")
+        # a is E face of left cell, b is W face of right cell
+        lift_to_m2(pin_a[0], ya, f"{tag}_a", face="E")
+        lift_to_m2(pin_b[0], yb, f"{tag}_b", face="W")
         if abs(ya - yb) < 0.05:
             m2_h(pin_a[0], ya, pin_b[0], f"{tag}_h")
         else:
@@ -333,30 +392,36 @@ def main():
 
         Tall M3 lives only at x_side (per child). AC signal M3 must not share that X.
         """
+        # Keep M2 ≥ 0.21 µm outside child face M2 (M2.b) [DS]
         if face == "N":
-            y_via = bb.top + 0.35
+            y_via = bb.top + 0.55
             y_track = y_over
-            box(m1, x - HW, bb.top, x + HW, y_via + 0.25, f"{tag}_m1", "M1")
+            box(m1, x - HW, bb.top - FACE_IN_BB, x + HW, y_via + 0.25,
+                f"{tag}_m1", "M1")
         else:
-            y_via = bb.bottom - 0.35
+            y_via = bb.bottom - 0.55
             y_track = y_under
-            box(m1, x - HW, y_via - 0.25, x + HW, bb.bottom, f"{tag}_m1", "M1")
+            box(m1, x - HW, y_via - 0.25, x + HW, bb.bottom + FACE_IN_BB,
+                f"{tag}_m1", "M1")
         m1_pad(x, y_via, f"{tag}_pad")
-        via(vs12, x, y_via, f"{tag}_v12")
-        box(m2, x - HW, y_via - HW, x + HW, y_via + HW, f"{tag}_m2", "M2")
+        vx, vy = via(vs12, x, y_via, f"{tag}_v12")
+        box(m2, vx - HW, vy - HW, vx + HW, vy + HW, f"{tag}_m2", "M2")
+        if abs(vx - x) > 1e-6 or abs(vy - y_via) > 1e-6:
+            box(m1, min(x, vx) - HW, min(y_via, vy) - HW,
+                max(x, vx) + HW, max(y_via, vy) + HW, f"{tag}_m1b", "M1")
+            box(m2, min(x, vx) - HW, min(y_via, vy) - HW,
+                max(x, vx) + HW, max(y_via, vy) + HW, f"{tag}_m2b", "M2")
         x_side = x_side_of[id(bb)]
-        m2_h(min(x, x_side), y_via, max(x, x_side), f"{tag}_m2side")
-        via(vs23, x_side, y_via, f"{tag}_v23a")
-        m3_v(x_side, y_via, y_track, f"{tag}_m3loc")
-        via(vs23, x_side, y_track, f"{tag}_v23b")
-        box(m2, x_side - HW, y_track - HW, x_side + HW, y_track + HW,
-            f"{tag}_m2t", "M2")
-        m2_h(min(x_side, x_col), y_track, max(x_side, x_col), f"{tag}_m2h")
-        via(vs23, x_col, y_track, f"{tag}_v23c")
-        m3_v(x_col, y_track, y_rail, f"{tag}_m3")
-        via(vs34, x_col, y_rail, f"{tag}_v34")
-        box(m4, x_col - HW, y_rail - HW, x_col + HW, y_rail + HW,
-            f"{tag}_m4p", "M4")
+        m2_h(min(vx, x_side), vy, max(vx, x_side), f"{tag}_m2side")
+        sx, sy = via(vs23, x_side, vy, f"{tag}_v23a")
+        m3_v(sx, sy, y_track, f"{tag}_m3loc")
+        tx, ty = via(vs23, sx, y_track, f"{tag}_v23b")
+        box(m2, tx - HW, ty - HW, tx + HW, ty + HW, f"{tag}_m2t", "M2")
+        m2_h(min(tx, x_col), ty, max(tx, x_col), f"{tag}_m2h")
+        cx, cy = via(vs23, x_col, ty, f"{tag}_v23c")
+        m3_v(cx, cy, y_rail, f"{tag}_m3")
+        rx, ry = via(vs34, cx, y_rail, f"{tag}_v34")
+        box(m4, rx - HW, ry - HW, rx + HW, ry + HW, f"{tag}_m4p", "M4")
 
     for (x, y), bb in zip(vcv_pts, bbs_for):
         supply_drop(x, bb, y_vcv, "N", x_vcv_col, "vcv")
@@ -368,31 +433,30 @@ def main():
         m5p = biggest(lyr_boxes(mim, tr, m5))
         tmp = biggest(lyr_boxes(mim, tr, tm1))
         tw = TM1_W
-        # M5 → M1 pad south → lift to M2
+        # M5 → M1 pad south → lift to M2 (via centered on pad)
         mx = 0.5 * (m5p.left + m5p.right)
         y_via = m5p.bottom - 1.8
-        via(vs15, mx - 0.35, y_via - 0.15, f"{tag}_vs15")
         box(m5, mx - 0.50, y_via, mx + 0.50, m5p.bottom + 0.3, f"{tag}_m5", "M5")
         m1_pad(mx, y_via, f"{tag}_m1m")
-        lift_to_m2(mx, y_via, f"{tag}_m5up")
-        m5_xy = (mx, y_via)
-        # TM1 legal stub east → via → M1 → M2
+        vx15, vy15 = via(vs15, mx, y_via, f"{tag}_vs15")
+        lift_to_m2(vx15, vy15, f"{tag}_m5up")
+        m5_xy = (vx15, vy15)
+        # TM1: plate → bus (space ≥ 1.64) → east pad; via on pad center (no notch)
         tx = 0.5 * (tmp.left + tmp.right)
         y_bus = tmp.top + TM1_SPACE
-        y_via_t = y_bus + tw + 1.2
         x_jog = tmp.right + TM1_SPACE + 0.5 * tw
+        y_via_t = y_bus + 0.5 * tw
         box(tm1, tx - 0.5 * tw, tmp.top - 0.5, tx + 0.5 * tw, y_bus + tw,
             f"{tag}_tm1v", "TM1")
         box(tm1, min(tx, x_jog) - 0.5 * tw, y_bus,
             max(tx, x_jog) + 0.5 * tw, y_bus + tw, f"{tag}_tm1h", "TM1")
-        box(tm1, x_jog - 0.5 * tw, y_bus, x_jog + 0.5 * tw, y_via_t,
-            f"{tag}_tm1vj", "TM1")
-        box(tm1, x_jog - 0.5 * tw, y_via_t - 0.5 * tw,
-            x_jog + 0.5 * tw, y_via_t + 0.5 * tw, f"{tag}_tm1p", "TM1")
-        via(vs1t, x_jog - 0.35, y_via_t - 0.3, f"{tag}_vs1t")
-        m1_pad(x_jog, y_via_t, f"{tag}_m1t")
-        lift_to_m2(x_jog, y_via_t, f"{tag}_tmup")
-        return bb, m5_xy, (x_jog, y_via_t)
+        # Pad covers via landing even if via nudges east [DS]
+        box(tm1, x_jog - 0.5 * tw, y_bus,
+            x_jog + VIA_PITCH + 0.5 * tw, y_bus + tw, f"{tag}_tm1p", "TM1")
+        vtx, vty = via(vs1t, x_jog, y_via_t, f"{tag}_vs1t")
+        m1_pad(vtx, vty, f"{tag}_m1t")
+        lift_to_m2(vtx, vty, f"{tag}_tmup")
+        return bb, m5_xy, (vtx, vty)
 
     def place_rhigh(x, y, tag):
         bb, tr = place_inst(rhi, x, y, tag, is_child=False)
@@ -441,7 +505,7 @@ def main():
             m3_v(x_j, rbot[1], ya, f"{tag}_tm_v")
             m2_to_m3(x_j, ya, f"{tag}_tm_dn")
             m2_h(x_j, ya, xa, f"{tag}_tm_a1")
-        lift_to_m2(xa, ya, f"{tag}_a")
+        lift_to_m2(xa, ya, f"{tag}_a", face="W")
         # rtop → inv.y on corridor side (M2/M3); keep clear of supply y_over/y_under
         xy, yy = inv_pins["y"]
         y_out = (inv_bb.top + 1.5) if rtop_side == "N" else (inv_bb.bottom - 1.5)
@@ -457,7 +521,7 @@ def main():
         m3_v(x_east, y_out, yy, f"{tag}_rt_v2")
         m2_to_m3(x_east, yy, f"{tag}_rt_dn2")
         m2_h(x_east, yy, xy, f"{tag}_rt_y")
-        lift_to_m2(xy, yy, f"{tag}_y")
+        lift_to_m2(xy, yy, f"{tag}_y", face="E")
         return cm_bb, m5_xy, tm_xy, rh_bb
 
     m5_p = m5_n = m5_b = None
@@ -492,8 +556,9 @@ def main():
             assert all(abs(_xc - s) >= 1.5 for s in _sup), (_xc, _sup)
 
         def cross_m2m3(pin_xc, bb_xc, pin_inv, bb_inv, y_g, x_e, x_c, tag):
-            lift_to_m2(pin_xc[0], pin_xc[1], f"{tag}_xc")
-            lift_to_m2(pin_inv[0], pin_inv[1], f"{tag}_inv")
+            lift_to_m2(pin_xc[0], pin_xc[1], f"{tag}_xc", face="E")
+            lift_to_m2(pin_inv[0], pin_inv[1], f"{tag}_inv", face="E")
+            # Always start at pin X (not bb.right) so M2 merges with pad [DS]
             m2_h(pin_xc[0], pin_xc[1], x_e, f"{tag}_out")
             m2_to_m3(x_e, pin_xc[1], f"{tag}_eup")
             m3_v(x_e, pin_xc[1], y_g, f"{tag}_ev")
@@ -502,9 +567,7 @@ def main():
             m2_to_m3(x_c, y_g, f"{tag}_cup")
             m3_v(x_c, y_g, pin_inv[1], f"{tag}_cv")
             m2_to_m3(x_c, pin_inv[1], f"{tag}_cdn")
-            m2_h(bb_inv.right, pin_inv[1], x_c, f"{tag}_to")
-            # also connect from xc E face
-            m2_h(bb_xc.right, pin_xc[1], x_e, f"{tag}_out2")
+            m2_h(pin_inv[0], pin_inv[1], x_c, f"{tag}_to")
             print(f"  {tag} cross y={y_g:.3f} x_e={x_e:.3f}", flush=True)
 
         cross_m2m3(xca["y"], xca_bb, inn["y"], inv_n_bb, y_lo, x_e_a, x_c_a,
@@ -519,7 +582,7 @@ def main():
         # feed x_o2p → cmim_b.M5 on M2 above children, below vcv M4
         y_feed = max(inv_p_bb.top, xca_bb.top, inv_b_bb.top) + 1.5
         assert y_vcv >= y_feed + 2.0, (y_vcv, y_feed)
-        lift_to_m2(ip["y"][0], ip["y"][1], "feed_y")
+        lift_to_m2(ip["y"][0], ip["y"][1], "feed_y", face="E")
         x_f = inv_p_bb.right + 1.2
         m2_h(ip["y"][0], ip["y"][1], x_f, "feed_h0")
         m2_to_m3(x_f, ip["y"][1], "feed_up0")
@@ -545,14 +608,14 @@ def main():
     xp = 0.5 * (x_lo_r + x_hi_r)
     via(vs34, xp, y_vcv, "vcv_pin_v34")
     via(vs23, xp, y_vcv, "vcv_pin_v23")
-    via(vs12, xp, y_vcv, "vcv_pin_v12")
-    m1_pad(xp, y_vcv, "vcv_pin_m1")
-    pin_m1("vcv", xp, y_vcv)
+    vx, vy = via(vs12, xp, y_vcv, "vcv_pin_v12")
+    m1_pad(vx, vy, "vcv_pin_m1")
+    pin_m1("vcv", vx, vy)
     via(vs34, xp, y_gnd, "gnd_pin_v34")
     via(vs23, xp, y_gnd, "gnd_pin_v23")
-    via(vs12, xp, y_gnd, "gnd_pin_v12")
-    m1_pad(xp, y_gnd, "gnd_pin_m1")
-    pin_m1("gnd", xp, y_gnd)
+    gx, gy = via(vs12, xp, y_gnd, "gnd_pin_v12")
+    m1_pad(gx, gy, "gnd_pin_m1")
+    pin_m1("gnd", gx, gy)
 
     if stage_ge(stage, "ac_p") and m5_p:
         lift_to_m2(m5_p[0], m5_p[1], "dp_lift")
@@ -568,7 +631,7 @@ def main():
     if stage_ge(stage, "taper"):
         # east of t9 (top bbox.right still coincides with child face)
         x_y_pin = t9_bb.right + 2.0
-        lift_to_m2(t9["y"][0], t9["y"][1], "y_lift")
+        lift_to_m2(t9["y"][0], t9["y"][1], "y_lift", face="E")
         m2_h(t9["y"][0], t9["y"][1], x_y_pin, "y_m2")
         drop_m2_to_m1(x_y_pin, t9["y"][1], "y_drop")
         pin_m1("y", x_y_pin, t9["y"][1])

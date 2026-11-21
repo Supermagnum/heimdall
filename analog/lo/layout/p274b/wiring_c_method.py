@@ -48,6 +48,8 @@ def parse_ext(path: str, port_pref: tuple[str, ...]):
 
     node_c: dict[str, float] = {}
     caps: list[tuple[str, str, float]] = []
+    substrate_names: set[str] = set()
+    ports: set[str] = set()
     for ln in open(path):
         toks = ln.split()
         if not toks:
@@ -59,12 +61,24 @@ def parse_ext(path: str, port_pref: tuple[str, ...]):
             except ValueError:
                 continue
             node_c[name] = node_c.get(name, 0.0) + c
+        elif toks[0] == "substrate" and len(toks) >= 4:
+            # Magic substrate ref: C to substrate is 0 on this node; other
+            # nodes' node-C includes C to this name [PEX-RC].
+            name = toks[1].strip('"')
+            substrate_names.add(name)
+            try:
+                c = float(toks[3])
+            except ValueError:
+                c = 0.0
+            node_c[name] = node_c.get(name, 0.0) + c
+        elif toks[0] == "port" and len(toks) >= 2:
+            ports.add(toks[1].strip('"'))
         elif toks[0] in ("merge", "equiv") and len(toks) >= 3:
             union(toks[1].strip('"'), toks[2].strip('"'))
         elif toks[0] == "cap" and len(toks) >= 4:
             caps.append((toks[1].strip('"'), toks[2].strip('"'),
                          float(toks[3])))
-    return find, node_c, caps
+    return find, node_c, caps, substrate_names, ports
 
 
 def wiring_per_net(ext_path: str, interest: tuple[str, ...],
@@ -73,9 +87,14 @@ def wiring_per_net(ext_path: str, interest: tuple[str, ...],
     """Return per-net sub/coup/all (= wiring) in fF.
 
     alias maps logical name -> .ext root (e.g. ta -> a_n5476_0#).
+
+    If a port (typically gnd) is Magic's substrate reference, its own node C
+    is 0; C from other nets to it lives in those nets' substrate terms. We
+    then set that port's coupling = sum of the other interest nets' substrate
+    C so the row is non-zero and assembly-usable [PEX-RC].
     """
     pref = port_pref or interest + ("vdd", "gnd", "sub!", "0")
-    find, node_c, caps = parse_ext(ext_path, pref)
+    find, node_c, caps, substrate_names, ports = parse_ext(ext_path, pref)
     alias = dict(alias or {})
     for p in interest:
         alias.setdefault(p, p)
@@ -99,15 +118,30 @@ def wiring_per_net(ext_path: str, interest: tuple[str, ...],
             elif rb == root:
                 coup[p][ra] += c
 
+    # Ports that Magic declared as substrate (or equiv to one)
+    sub_roots = {find(n) for n in substrate_names}
     rows = {}
     for p in interest:
         coup_sum = sum(coup[p].values())
+        note = ""
+        sub_af = sub[p]
+        if find(alias[p]) in sub_roots:
+            # Bound as substrate ref: recover C-to-this-net from others' sub
+            for q in interest:
+                if q == p:
+                    continue
+                if sub[q] > 0:
+                    coup[p][f"{q}(sub)"] += sub[q]
+            coup_sum = sum(coup[p].values())
+            sub_af = 0.0
+            note = "substrate_ref"
         rows[p] = {
             "ext_name": alias[p],
-            "sub_ff": round(to_ff(sub[p]), 4),
+            "sub_ff": round(to_ff(sub_af), 4),
             "coup_ff": round(to_ff(coup_sum), 4),
-            # Corrected headline: substrate + coupling
-            "wire_ff": round(to_ff(sub[p] + coup_sum), 4),
+            "wire_ff": round(to_ff(sub_af + coup_sum), 4),
+            "bound": alias[p] in ports or p in ports or find(alias[p]) in sub_roots,
+            "note": note,
             "top_partners": [
                 (k, round(to_ff(v), 4))
                 for k, v in sorted(coup[p].items(), key=lambda x: -abs(x[1]))[:12]
@@ -120,8 +154,9 @@ METHOD_BLURB = (
     "- **Wiring C** = substrate/node C + coupling to other nets "
     "(wire-to-substrate + coupling). Device gate/junction C stays in PDK "
     "MOSFET models and is excluded [PEX-RC / decisions 2026-11-20].\n"
-    "- No MIM on divider cells — substrate term is kept (unlike VCO bank) "
-    "[PEX-RC].\n"
+    "- If Magic declares a port as `substrate` (typical for gnd+ptap), that "
+    "port's node C is 0 by definition; its wiring C is recovered as the sum "
+    "of other interest nets' substrate terms (C to that ref) [PEX-RC].\n"
     "- Units: Magic `.ext` aF / 1000 = fF. `extresist` not run unless noted "
     "[TOOL].\n"
 )

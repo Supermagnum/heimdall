@@ -62,7 +62,7 @@ def main():
         raise SystemExit(f"missing {GDS_SRC}")
     ext = run_magic()
     # tg may be unnamed internal — try resolve
-    find, node_c, _ = W.parse_ext(
+    find, node_c, *_ = W.parse_ext(
         ext, INTEREST + ("vdd", "gnd", "sub!", "0", "tg"))
     alias = {}
     if "tg" not in {find(n) for n in node_c} and "tg" not in node_c:

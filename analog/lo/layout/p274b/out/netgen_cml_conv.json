@@ -3,33 +3,27 @@ Subcircuit summary:
 Circuit 1: cml_conv                        |Circuit 2: cml_conv                        
 -------------------------------------------|-------------------------------------------
 cap_cmim (3)                               |cap_cmim (3)                               
-rhigh (3)                                  |rhigh (3)                                  
+gnd (3)                                    |gnd (3)                                    
 sg13_lv_pmos (8->7)                        |sg13_lv_pmos (7)                           
 sg13_lv_nmos (8->7)                        |sg13_lv_nmos (7)                           
 Number of devices: 20                      |Number of devices: 20                      
 Number of nets: 12                         |Number of nets: 12                         
 ---------------------------------------------------------------------------------------
 Netlists match uniquely with property errors.
-rhigh:rcan vs. rhigh:$17:
+gnd:rcan vs. gnd:$17:
 Property ps in circuit2 has no matching property in circuit1
-rhigh:rcb vs. rhigh:$18:
+gnd:rcb vs. gnd:$18:
 Property ps in circuit2 has no matching property in circuit1
-rhigh:rcap vs. rhigh:$19:
+gnd:rcap vs. gnd:$19:
 Property ps in circuit2 has no matching property in circuit1
-cap_cmim:ccb vs. cap_cmim:$21:
-Property area in circuit1 has no matching property in circuit2
 cap_cmim:ccb vs. cap_cmim:$21:
 Property P in circuit2 has no matching property in circuit1
 cap_cmim:ccb vs. cap_cmim:$21:
 Property A in circuit2 has no matching property in circuit1
 cap_cmim:ccan vs. cap_cmim:$20:
-Property area in circuit1 has no matching property in circuit2
-cap_cmim:ccan vs. cap_cmim:$20:
 Property P in circuit2 has no matching property in circuit1
 cap_cmim:ccan vs. cap_cmim:$20:
 Property A in circuit2 has no matching property in circuit1
-cap_cmim:ccap vs. cap_cmim:$22:
-Property area in circuit1 has no matching property in circuit2
 cap_cmim:ccap vs. cap_cmim:$22:
 Property P in circuit2 has no matching property in circuit1
 cap_cmim:ccap vs. cap_cmim:$22:

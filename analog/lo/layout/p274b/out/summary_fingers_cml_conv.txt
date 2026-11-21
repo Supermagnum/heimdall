@@ -1,0 +1,5 @@
+# cml_conv fingers [TOOL]
+
+ngs=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+expect ng5>=0 ng1>=12 other={}
+gate: PASS

@@ -1222,3 +1222,9 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
 - Non-density DRC (M1.b, M2.b, TM1.b, V1 / V2 width / space) is fixed, not waived, before cml_conv
   is accepted.
 - Wiring-C extraction fixed so gnd is bound (gnd showed 0 fF).
+
+## 2026-11-21 — cml_conv accepted
+- cml_conv accepted: non-density DRC PASS (density waived); KLayout LVS and netgen unique; fingers;
+  render; area 0.01591 mm² [GDS]; running divider 0.04565 mm² [GDS].
+- Wiring C: gnd is Magic substrate ref (bound); wiring C 55.1 fF recovered from other nets'
+  substrate terms; dp/dn ≈ 3.5 fF, y ≈ 10.2 fF, vcv ≈ 52.1 fF; cmim 50 fF ×3 separate [PEX-RC].

@@ -1,1 +1,1 @@
-lvs {/foss/designs/analog/lo/layout/p274b/out/cml_conv_ng.spice cml_conv} {/foss/designs/analog/lo/layout/p274b/out/lvs_cml_conv/cml_conv_extracted_ng.cir cml_conv} /foss/pdks/ihp-sg13g2/libs.tech/netgen/ihp-sg13g2_setup.tcl /foss/designs/analog/lo/layout/p274b/out/netgen_cml_conv.json
+lvs {/foss/designs/analog/lo/layout/p274b/out/cml_conv.spice cml_conv} {/foss/designs/analog/lo/layout/p274b/out/lvs_cml_conv/cml_conv_extracted.cir cml_conv} /foss/pdks/ihp-sg13g2/libs.tech/netgen/ihp-sg13g2_setup.tcl /foss/designs/analog/lo/layout/p274b/out/netgen_cml_conv.json

@@ -1,0 +1,7 @@
+# Running divider cell-sum [GDS]
+
+- cml_latch_uhf: 0.01286 mm2
+- cml_latch_vhf_tl: 0.01019 mm2
+- cml_nor_vhf: 0.00669 mm2
+- cml_conv: 0.01591 mm2
+- **sum = 0.04565 mm2** [GDS]
