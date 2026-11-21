@@ -1,0 +1,21 @@
+# tspc_dff (lo_tspc) — pre-draw checklist vs p27-layout-notes [HAND]
+
+Cell = plan name `tspc_dff`; sch leaf `lo_tspc` (size-2 TSPC + Q keepers).
+Ports: d ck q vdg gnd [SCH]. (sch pin `0` = gnd.)
+
+| Rule | How this cell meets it |
+|---|---|
+| PDK nmos/pmos PCell; `guardRingType=none` + hand ptap / ntap | Each MOS: no PCell GR; ptap→gnd, ntap+NWell→vdg [OTA/inv method] |
+| Even M1 cols = drain, odd = source [LVS] | `m1_sd_cols` + assert per MOS; never swap |
+| Never M1 across Activ at a Y that hits another terminal | Local M1 stubs only; nets join on M2 H / M3 V |
+| Join same-net columns via side spurs + M2 | Drain/source buses on M2; M1 stub + via12 only |
+| Gate Cont on poly pads above Activ | Cont off active; gate exit on M2 |
+| Sub-cells with pins on the face | d=W, ck=S, q=E, vdg=N, gnd=S (pin plan) |
+| Gap stubs only; no metal through a child | Flat leaf (no child logic cells); parent of Johnson uses stubs |
+| Both LVS tools + fingers by script (equality) | Prove top; `check_fingers_cell.py` exact multiset |
+| Wiring C = substrate + coupling; gnd bound | Magic .ext after prove [PEX-RC] |
+| Clock-input C vs 8-phase / I/Q assumption | Compare `ck` wiring C to 15 fF/side clock budget [SCH]; re-run phase if higher |
+
+Devices [SCH]: 4× pmos W=2, 5× nmos W=1, 2× pmos W=0.3, 2× nmos W=0.15 (all L=0.13, ng=1).
+100 Meg a/b holds are schematic sim aids only — not laid out; LVS spice omits rka/rkb [SCH/HAND].
+Q keepers (xkq*) are laid out.

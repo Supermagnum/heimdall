@@ -1,0 +1,25 @@
+  xp1 pmos W=2.0 bb=(0,0;1.43,2.62)
+  xp2 pmos W=2.0 bb=(10,0;11.43,2.62)
+  xn1 nmos W=1.0 bb=(20,0;20.81,1.36)
+  xp3 pmos W=2.0 bb=(30,0;31.43,2.62)
+  xn2 nmos W=1.0 bb=(40,0;40.81,1.36)
+  xn3 nmos W=1.0 bb=(50,0;50.81,1.36)
+  xp4 pmos W=2.0 bb=(60,0;61.43,2.62)
+  xn4 nmos W=1.0 bb=(70,0;70.81,1.36)
+  xn5 nmos W=1.0 bb=(80,0;80.81,1.36)
+  xkq1p pmos W=0.3 bb=(90,0;91.43,0.92)
+  xkq1n nmos W=0.15 bb=(100,0;100.87,0.51)
+  xkq2p pmos W=0.3 bb=(110,0;111.43,0.92)
+  xkq2n nmos W=0.15 bb=(120,0;120.87,0.51)
+  net gnd: 5 terms spine_x=124.9 y=-8.0
+  net ck: 4 terms spine_x=126.9 y=-10.0
+  net d: 2 terms spine_x=128.9 y=-12.0
+  net na: 3 terms spine_x=130.9 y=-14.0
+  net nx1: 2 terms spine_x=132.9 y=-16.0
+  net nx2: 2 terms spine_x=134.9 y=-18.0
+  net nb: 4 terms spine_x=136.9 y=-20.0
+  net nx3: 2 terms spine_x=138.9 y=-22.0
+  net nkq: 4 terms spine_x=140.9 y=-24.0
+  net q: 6 terms spine_x=142.9 y=-26.0
+  net vdg: 5 terms spine_x=144.9 y=-28.0
+tspc_dff bbox (-3.3,-31.3;148.17,8.31); area 0.00600 mm2 [GDS]

@@ -1,0 +1,7 @@
+# P2.7.4b DRC/LVS — tspc_dff
+
+- DRC clean (density waived): **PASS** non-density=[]
+- KLayout LVS: **PASS**
+- netgen unique: **PASS**
+- extracted: `/foss/designs/analog/lo/layout/p274b/out/lvs_tspc_dff/tspc_dff_extracted.cir`
+

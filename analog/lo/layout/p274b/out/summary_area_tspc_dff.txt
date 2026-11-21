@@ -1,0 +1,4 @@
+# tspc_dff area [GDS]
+
+bbox=(-3.3,-31.3;148.17,8.31)
+area=0.00600 mm2

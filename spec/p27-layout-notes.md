@@ -1247,12 +1247,26 @@ pins; 1×1 vias; TM1 pad-on-bus) [TOOL]. Fingers **PASS**; render
 `out/summary_pex_wiring_cml_conv.txt` — gnd bound as Magic substrate ref,
 wiring C **55.1 fF** recovered from other nets' substrate terms; dp/dn ≈ 3.5 fF,
 y ≈ 10.2 fF, vcv ≈ 52.1 fF; cmim plate **50 fF** ×3 stated separately [PEX-RC].
-`tspc_dff` / Johnson / `lo_buffer` next.
-
 ##### `cml_conv` accepted (2026-11-21) [TOOL]
 
 Connectivity + non-density DRC + LVS/netgen + fingers + render + wiring C with
 bound gnd. Running divider cell-sum **0.04565 mm²** [GDS].
+
+##### `tspc_dff` (2026-11-21) — PASS [TOOL]
+
+Pre-draw: `out/summary_checklist_tspc_dff.txt`, pin plan
+`out/summary_pin_plan_tspc_dff.txt`. Flat leaf from `lo_tspc` size-2 + Q
+keepers; 100 Meg a/b omitted from LVS spice [SCH/HAND]. Method: PCell
+`guardRingType=none`; per-PMOS NWell + north ntap (M2 H to vdg spine before
+M3); ptap→gnd; M1 stubs off Activ; M3 verticals / M2 tracks (ck/d without
+east spine spur). Face pins: d=W, q=E, ck=S, vdg=N, gnd=S.
+
+**Prove:** DRC density waived, non-density **PASS**; KLayout LVS **PASS**;
+netgen unique **PASS**; fingers **13×ng1** equality **PASS**; render
+`out/tspc_dff.png` [TOOL]. Area **0.00600 mm²** [GDS]. Wiring C
+`out/summary_pex_wiring_tspc_dff.txt`: ck **12.38 fF** (≤ 15), d **13.17**,
+q **22.37**, vdg **41.20**, gnd **55.71** (substrate_ref) fF [PEX-RC].
+Running divider cell-sum **0.05165 mm²** [GDS]. Johnson / `lo_buffer` next.
 
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  

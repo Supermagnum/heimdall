@@ -1,0 +1,5 @@
+# tspc_dff fingers [TOOL]
+
+ngs=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+expect=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1] (exact equality; MOSFET leaves only)
+gate: PASS

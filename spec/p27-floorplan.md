@@ -230,4 +230,10 @@ Running divider cell-sum **0.04565 mm²** [GDS]
 (0.01286 + 0.01019 + 0.00669 + 0.01591); TSPC/Johnson/buffer not drawn.
 Die re-total unchanged (VCO **0.4624** [GDS]).
 
+**P2.7.4b `tspc_dff` (2026-11-21) [GDS/TOOL]:** area **0.00600 mm²** [GDS];
+DRC (density waived) / KLayout LVS / netgen unique / fingers (13×ng1 equality) /
+render **PASS**. ck wiring C **12.38 fF** ≤ 15 fF/side [PEX-RC/SCH]. Running
+divider cell-sum **0.05165 mm²** [GDS]
+(0.04565 + 0.00600); Johnson / `lo_buffer` next. Die re-total unchanged.
+
 **Flag:** the §1 sketch of a **1.6 × 1.6 mm** active core **does not fit** the Phase 3/4 RX+TX + synth + digital + pads tally. Before Phase 5, plan on a die closer to **≥ ~2.2 × 2.2 mm** (≈ 4.8 mm²) or tighten RX/TX area after topology.

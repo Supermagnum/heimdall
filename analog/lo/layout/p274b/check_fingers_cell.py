@@ -46,6 +46,8 @@ EXPECT: dict[str, list[int]] = {
     "cml_latch_vhf_tl": [1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5],
     # 3×2_4 + 2×05_1 + 3_6 + 9_18(2×45_9) = 8 inv × 2 MOS = 16×ng1
     "cml_conv": [1] * 16,
+    # lo_tspc size-2 + Q keepers: 13 MOS × ng=1 [SCH]
+    "tspc_dff": [1] * 13,
 }
 
 

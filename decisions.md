@@ -1229,3 +1229,9 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   as substrate reference; cmim plate C (3 × 50 fF) listed separately.
 - Finger-count script counts each device once and compares for equality.
 - Running divider area 0.04565 mm² [GDS].
+
+## 2026-11-21 — tspc_dff accepted
+- tspc_dff accepted: DRC clean (density waived), KLayout LVS and netgen unique, fingers 13×ng1
+  equality, render; 0.00600 mm² [GDS]. Wiring C [PEX-RC]: d 13.17 fF, ck 12.38 fF (≤ 15), q 22.37 fF,
+  vdg 41.20 fF, gnd 55.71 fF (substrate_ref). Phase re-run not needed (ck under budget).
+- Running divider area 0.05165 mm² [GDS].

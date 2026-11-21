@@ -1,0 +1,14 @@
+# tspc_dff prove summary [TOOL]
+
+| Gate | Result | Source |
+|---|---|---|
+| DRC clean (density waived) | PASS | summary_drc_lvs_tspc_dff.txt |
+| KLayout LVS | PASS | summary_drc_lvs_tspc_dff.txt |
+| netgen unique | PASS | summary_drc_lvs_tspc_dff.txt |
+| fingers equality | PASS 13×ng1 | summary_fingers_tspc_dff.txt |
+| wiring C / gnd bound | PASS | summary_pex_wiring_tspc_dff.txt |
+| ck ≤ 15 fF/side | PASS 12.383 fF | summary_pex_wiring_tspc_dff.txt [PEX-RC] |
+| render | PASS | out/tspc_dff.png |
+| area | 0.00600 mm² | [GDS] |
+
+Running divider cell-sum: 0.05165 mm² [GDS] (= 0.04565 + 0.00600).

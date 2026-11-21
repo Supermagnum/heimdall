@@ -1,0 +1,15 @@
+# tspc_dff wiring C — substrate + coupling [PEX-RC]
+
+- **Wiring C** = substrate/node C + coupling to other nets (wire-to-substrate + coupling). Device gate/junction C stays in PDK MOSFET models and is excluded [PEX-RC / decisions 2026-11-20].
+- If Magic declares a port as `substrate` (typical for gnd+ptap), that port's node C is 0 by definition; its wiring C is recovered as the sum of other interest nets' substrate terms (C to that ref) [PEX-RC].
+- Units: Magic `.ext` aF / 1000 = fF. `extresist` not run unless noted [TOOL].
+
+| net | substrate | coupling | wiring C | unit | tag | note |
+|---|---:|---:|---:|---|---|---|
+| d | 7.353 | 5.812 | **13.165** | fF | [PEX-RC] | bound |
+| ck | 7.085 | 5.298 | **12.383** | fF | [PEX-RC] | bound |
+| q | 10.562 | 11.808 | **22.370** | fF | [PEX-RC] | bound |
+| vdg | 30.712 | 10.489 | **41.201** | fF | [PEX-RC] | bound |
+| gnd | 0.000 | 55.712 | **55.712** | fF | [PEX-RC] | substrate_ref |
+
+- ck wiring C **12.383 fF** vs budget **15.0 fF/side** [SCH]: PASS.

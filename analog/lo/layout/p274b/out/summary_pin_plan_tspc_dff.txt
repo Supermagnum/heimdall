@@ -1,0 +1,20 @@
+# tspc_dff pin plan [HAND]
+
+Face pins (flush on bbox; parents join with gap stubs only):
+
+| Port | Face | Layer at face | Notes |
+|---|---|---|---|
+| d | W | M1 | data in |
+| q | E | M1 | Q out (to next TSPC / AND) |
+| ck | S | M1 | clock (shared Johnson clock spine) |
+| vdg | N | M1→M4 in parent | digital supply (own layer at parent) |
+| gnd | S | M1→M4 in parent | bulk + sources; east of ck on S face |
+
+Internal nets (not pins): nx1, na, nb, nx2, nx3, nkq.
+
+Routing rules (VCO island / latch): no long parent M1; M2 H signals; M3 V;
+supplies on M4 when this cell is a child. This leaf may use M1 locally inside
+its own bbox only (≤ stub lengths between device and via).
+
+Clock-C budget: stage-noise decks use **15 fF/side** on logic clocks [SCH].
+Pass if extracted `ck` wiring C ≤ 15 fF (or document Δ and re-run phase).

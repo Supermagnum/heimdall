@@ -1,6 +1,6 @@
 # LO divider and phase-generation topology memo (P2.4)
 
-Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1–3 done; P2.4 accepted 2026-10-21.** P2.6 UHF floor −150.1 dBc/Hz [SCH]. **P2.7.4a3 sizing accepted** (D7 PASS 8.18 / 8.66 mA). **P2.7.4b** latches + `cml_nor_vhf` + `cml_conv` layout **PASS** (DRC density waived); floors with extracted wiring C on all latch nets **PASS** (UHF −155.6 / VHF −159.7 dBc/Hz vs ≤ −151) [SCH+PEX-RC]. Remaining: TSPC, Johnson, buffer, band tops / assembly (P2.7.4c). Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
+Status: **topology accepted by the owner, 2026-10-20 (§4: D12 VCO capped at 4 mA, D13 and D14 as proposed). Step 1–3 done; P2.4 accepted 2026-10-21.** P2.6 UHF floor −150.1 dBc/Hz [SCH]. **P2.7.4a3 sizing accepted** (D7 PASS 8.18 / 8.66 mA). **P2.7.4b** latches + `cml_nor_vhf` + `cml_conv` + `tspc_dff` layout **PASS** (DRC density waived); floors with extracted wiring C on all latch nets **PASS** (UHF −155.6 / VHF −159.7 dBc/Hz vs ≤ −151) [SCH+PEX-RC]; `tspc_dff` ck wiring C **12.38 fF** ≤ 15 fF/side [PEX-RC]. Remaining: Johnson, buffer, band tops / assembly (P2.7.4c). Numbers are hand estimates `[HAND]` unless marked. Inputs: the simulated VCO (`spec/vco-topology.md` §9), D4 and D7 (`spec/phase2-plan.md` §5), `spec/rf-frontend.md` §3–5, `spec/derived-limits.md` §7.3–7.4.
 
 ---
 
