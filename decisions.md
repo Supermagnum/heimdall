@@ -1224,7 +1224,8 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
 - Wiring-C extraction fixed so gnd is bound (gnd showed 0 fF).
 
 ## 2026-11-21 — cml_conv accepted
-- cml_conv accepted: non-density DRC PASS (density waived); KLayout LVS and netgen unique; fingers;
-  render; area 0.01591 mm² [GDS]; running divider 0.04565 mm² [GDS].
-- Wiring C: gnd is Magic substrate ref (bound); wiring C 55.1 fF recovered from other nets'
-  substrate terms; dp/dn ≈ 3.5 fF, y ≈ 10.2 fF, vcv ≈ 52.1 fF; cmim 50 fF ×3 separate [PEX-RC].
+- cml_conv accepted (72818ba): DRC clean (density waived), KLayout LVS and netgen unique, fingers,
+  render; 0.01591 mm² [GDS]. Wiring C [PEX-RC]: dp / dn 3.49 fF, y 10.24 fF, vcv 52.1 fF, gnd bound
+  as substrate reference; cmim plate C (3 × 50 fF) listed separately.
+- Finger-count script counts each device once and compares for equality.
+- Running divider area 0.04565 mm² [GDS].

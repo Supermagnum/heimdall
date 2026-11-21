@@ -1,9 +1,16 @@
 #!/usr/bin/env python3
-"""Generic finger-count check for a P2.7.4b leaf GDS [TOOL]."""
+"""Finger-count check for P2.7.4b GDS — one count per MOSFET leaf [TOOL].
+
+Walks the instance tree but only records ng on nmos/pmos (or sg13_*mos)
+leaves. Parent cells that also hold poly shapes are ignored so devices are
+not double-counted. Expectation is an exact multiset of ng values
+(equality), not a lower bound.
+"""
 from __future__ import annotations
 
 import os
 import sys
+from collections import Counter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "out")
@@ -13,35 +20,47 @@ sys.path[:0] = [
 ]
 import pya  # noqa: E402
 
-# cell -> (expect_ng5_count, expect_ng1_count, expect_other)
-EXPECT = {
-    "cml_pair_loads": (2, 2, {}),       # data + dummies via child
-    "cml_regen_xc": (2, 2, {}),
-    "cml_clk_pair": (2, 2, {}),
-    "cml_tail": (0, 2, {5: 1}),         # one ng=5 device + 2 dummies
-    "cml_diff_pair_vhf": (2, 2, {}),
-    "cml_pair_loads_vhf": (2, 2, {}),
-    "cml_regen_xc_vhf": (2, 2, {}),
-    "cml_clk_pair_vhf": (2, 2, {}),
-    # latch: 6× ng=5 (data+regen+clk), no tail; dummies ng=1
-    "cml_latch_vhf_tl": (6, 2, {}),
-    # NOR: 3× ng=5 input + 1× ng=5 tail; dummies ng=1 (core 2 + tail 2)
-    "cml_nor_core_vhf": (3, 2, {}),
-    "cml_tail_nor_vhf": (0, 2, {5: 1}),
-    "cml_nor_vhf": (4, 4, {}),  # 3 input + 1 tail ng=5; 4 dummies ng=1
-    # CMOS inv: nmos+pmos ng=1 each (9_18 is 2×45_9 → 4× ng=1)
-    "lo_inv_05_1": (0, 2, {}),
-    "lo_inv_1_2": (0, 2, {}),
-    "lo_inv_2_4": (0, 2, {}),
-    "lo_inv_3_6": (0, 2, {}),
-    "lo_inv_45_9": (0, 2, {}),
-    "lo_inv_9_18": (0, 4, {}),
-    # cml_conv: 3×lo_inv_2_4 + 2×05_1 + 3_6 + 9_18(=2×45_9) → 12× ng=1
-    "cml_conv": (0, 12, {}),
+# cell -> exact multiset of ng on MOSFET leaves (sorted for compare) [SCH/GDS]
+EXPECT: dict[str, list[int]] = {
+    "cml_diff_pair": [1, 1, 5, 5],
+    "cml_diff_pair_vhf": [1, 1, 5, 5],
+    "cml_pair_loads": [1, 1, 5, 5],
+    "cml_pair_loads_vhf": [1, 1, 5, 5],
+    "cml_regen_xc": [1, 1, 5, 5],
+    "cml_regen_xc_vhf": [1, 1, 5, 5],
+    "cml_clk_pair": [1, 1, 5, 5],
+    "cml_clk_pair_vhf": [1, 1, 5, 5],
+    "cml_tail": [1, 1, 5],
+    "cml_tail_nor_vhf": [1, 1, 5],
+    "cml_nor_core_vhf": [1, 1, 5, 5, 5],
+    "cml_nor_vhf": [1, 1, 1, 1, 5, 5, 5, 5],
+    "lo_inv_05_1": [1, 1],
+    "lo_inv_1_2": [1, 1],
+    "lo_inv_2_4": [1, 1],
+    "lo_inv_3_6": [1, 1],
+    "lo_inv_45_9": [1, 1],
+    "lo_inv_9_18": [1, 1, 1, 1],
+    # UHF latch: clk+loads+regen+tail = 4×(2×ng1+2×ng5) wait: 8×ng1 + 7×ng5
+    "cml_latch_uhf": [1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5, 5],
+    # VHF TL latch: no tail → 6×ng1 + 6×ng5
+    "cml_latch_vhf_tl": [1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5],
+    # 3×2_4 + 2×05_1 + 3_6 + 9_18(2×45_9) = 8 inv × 2 MOS = 16×ng1
+    "cml_conv": [1] * 16,
 }
 
 
-def poly_ng(cell):
+def is_mosfet_leaf(cell) -> bool:
+    n = cell.name.lower()
+    if n.startswith("nmos") or n.startswith("pmos"):
+        return True
+    if "sg13_lv_nmos" in n or "sg13_lv_pmos" in n:
+        return True
+    if "sg13_hv_nmos" in n or "sg13_hv_pmos" in n:
+        return True
+    return False
+
+
+def poly_ng(cell) -> int:
     poly = cell.layout().layer(5, 0)
     dbu = cell.layout().dbu
     xs = set()
@@ -54,36 +73,48 @@ def poly_ng(cell):
     return len(xs)
 
 
-def walk_ngs(cell, out):
-    ng = poly_ng(cell)
-    if ng > 0:
-        out.append(ng)
+def walk_mos_ngs(cell, out: list[int]) -> None:
+    """Record ng only on MOSFET leaves; do not count parent poly."""
+    if is_mosfet_leaf(cell):
+        ng = poly_ng(cell)
+        if ng > 0:
+            out.append(ng)
+        return
     for i in cell.each_inst():
-        walk_ngs(i.cell, out)
+        walk_mos_ngs(i.cell, out)
 
 
 def main():
     cell = sys.argv[1] if len(sys.argv) > 1 else "cml_clk_pair"
+    discover = "--discover" in sys.argv
     gds = os.path.join(OUT, f"{cell}.gds")
+    if not os.path.isfile(gds) and os.path.isfile(gds + ".gz"):
+        import gzip
+        import shutil
+        with gzip.open(gds + ".gz", "rb") as z, open(gds, "wb") as f:
+            shutil.copyfileobj(z, f)
     ly = pya.Layout()
     ly.read(gds)
     top = ly.top_cell()
-    raw = []
-    walk_ngs(top, raw)
+    raw: list[int] = []
+    walk_mos_ngs(top, raw)
     ngs = sorted(raw)
-    n5, n1, other = EXPECT.get(cell, (0, 0, {}))
-    ok = ngs.count(5) >= n5 and ngs.count(1) >= n1
-    for ng, cnt in other.items():
-        ok = ok and ngs.count(ng) >= cnt
+    if discover or cell not in EXPECT or not EXPECT[cell]:
+        print(f"DISCOVER {cell} ngs={ngs} counts={dict(Counter(ngs))}",
+              flush=True)
+        if discover:
+            return 0
+    expect = sorted(EXPECT[cell])
+    ok = ngs == expect
     gate = "PASS" if ok else "FAIL"
     path = os.path.join(OUT, f"summary_fingers_{cell}.txt")
     open(path, "w").write(
         f"# {cell} fingers [TOOL]\n\n"
         f"ngs={ngs}\n"
-        f"expect ng5>={n5} ng1>={n1} other={other}\n"
+        f"expect={expect} (exact equality; MOSFET leaves only)\n"
         f"gate: {gate}\n"
     )
-    print(f"fingers {cell} {ngs} {gate}", flush=True)
+    print(f"fingers {cell} {ngs} expect={expect} {gate}", flush=True)
     return 0 if ok else 1
 
 

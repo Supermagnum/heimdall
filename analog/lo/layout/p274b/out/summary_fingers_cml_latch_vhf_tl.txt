@@ -1,5 +1,5 @@
 # cml_latch_vhf_tl fingers [TOOL]
 
-ngs=[1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5, 12, 12, 12]
-expect ng5>=6 ng1>=2 other={}
+ngs=[1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5]
+expect=[1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5] (exact equality; MOSFET leaves only)
 gate: PASS

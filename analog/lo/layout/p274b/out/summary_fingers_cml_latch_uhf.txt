@@ -1,6 +1,5 @@
-# cml_latch_uhf finger check [TOOL]
+# cml_latch_uhf fingers [TOOL]
 
-mos_child_ngs=[1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5, 5] (raw=[1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5, 5, 7, 12, 12, 12])
-expect: ≥six×ng=5 (data+regen+clock) + tail ng=5
+ngs=[1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5, 5]
+expect=[1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5, 5] (exact equality; MOSFET leaves only)
 gate: PASS
-
