@@ -61,8 +61,8 @@ Mxcbp x_cy x_cbi vcv vcv sg13_lv_pmos w=4u l=0.13u
 Mxcbn x_cy x_cbi 0 0 sg13_lv_nmos w=2u l=0.13u
 Mxcv3p x_cz x_cy vcv vcv sg13_lv_pmos w=6.0u l=0.13u
 Mxcv3n x_cz x_cy 0 0 sg13_lv_nmos w=3.0u l=0.13u
-Mxcv4p y x_cz vcv vcv sg13_lv_pmos w=18.0u l=0.13u
-Mxcv4n y x_cz 0 0 sg13_lv_nmos w=9.0u l=0.13u
+Mxcv4p y x_cz vcv vcv sg13_lv_pmos w=9.0u l=0.13u m=2
+Mxcv4n y x_cz 0 0 sg13_lv_nmos w=4.5u l=0.13u m=2
 .ends
 
 * P2.7.4b cml_dff_uhf LVS reference [SCH]

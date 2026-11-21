@@ -270,10 +270,10 @@ C {devices/lab_pin.sym} 1120 270 0 0 {name=p59 sig_type=std_logic lab=0}
 N 1120 240 1120 240 {lab=0}
 C {devices/lab_pin.sym} 1120 240 0 0 {name=p60 sig_type=std_logic lab=0}
 C {sg13g2_pr/sg13_lv_pmos.sym} 0 360 0 0 {name=xcv4p
-w=18.0u
+w=9.0u
 l=0.13u
 ng=1
-m=1
+m=2
 model=sg13_lv_pmos
 spiceprefix=X
 }
@@ -286,10 +286,10 @@ C {devices/lab_pin.sym} 20 330 0 0 {name=p63 sig_type=std_logic lab=vcv}
 N 20 360 20 360 {lab=vcv}
 C {devices/lab_pin.sym} 20 360 0 0 {name=p64 sig_type=std_logic lab=vcv}
 C {sg13g2_pr/sg13_lv_nmos.sym} 220 360 0 0 {name=xcv4n
-w=9.0u
+w=4.5u
 l=0.13u
 ng=1
-m=1
+m=2
 model=sg13_lv_nmos
 spiceprefix=X
 }

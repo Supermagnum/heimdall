@@ -1200,3 +1200,11 @@ Accepted as proposed in `spec/vco-amplitude-cal.md` (option C), with two changes
   cells are drawn.
 - cml_nor_vhf rebuilt with the latch method; each new cell starts with a written check against
   the rules in spec/p27-layout-notes.md.
+
+
+## 2026-11-21 — cml_conv leaves
+- Inverter leaves accepted (lo_inv_05_1 … lo_inv_45_9, lo_inv_9_18 as 2 × 45_9): DRC, KLayout LVS,
+  netgen. The 9 / 18 inverter is two parallel half-size devices in schematic and layout.
+- cml_conv assembly not accepted (parent stubs / rails across child faces; TM1.a / b on cmim stubs).
+  Re-assembled by a pin plan with gap stubs only; MIM connections at legal TM1 width / spacing.
+  Assembly scripts check that no parent shape overlaps a child cell's area.

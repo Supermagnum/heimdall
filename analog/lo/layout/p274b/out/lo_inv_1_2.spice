@@ -1,0 +1,5 @@
+* P2.7.4b lo_inv_1_2 CMOS inv [SCH]
+.subckt lo_inv_1_2 a y vcv gnd
+Mxp y a vcv vcv sg13_lv_pmos w=2u l=0.13u
+Mxn y a gnd gnd sg13_lv_nmos w=1u l=0.13u
+.ends

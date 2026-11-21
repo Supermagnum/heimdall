@@ -1,0 +1,1 @@
+2× lo_inv_45_9 gap=3.0; area=0.00098 mm² [GDS]

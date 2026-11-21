@@ -1,0 +1,1 @@
+lvs {/foss/designs/analog/lo/layout/p274b/out/lo_inv_45_9.spice lo_inv_45_9} {/foss/designs/analog/lo/layout/p274b/out/lvs_lo_inv_45_9/lo_inv_45_9_extracted.cir lo_inv_45_9} /foss/pdks/ihp-sg13g2/libs.tech/netgen/ihp-sg13g2_setup.tcl /foss/designs/analog/lo/layout/p274b/out/netgen_lo_inv_45_9.json

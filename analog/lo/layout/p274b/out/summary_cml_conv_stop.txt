@@ -1,0 +1,45 @@
+# P2.7.4b cml_conv — STOP (2026-11-21) [TOOL]
+
+## Pass criteria vs this stop
+
+| Step | Result |
+|---|---|
+| Pre-draw checklist | **PASS** — `summary_checklist_cml_conv.txt` |
+| Inv leaves DRC / KLayout LVS / netgen | **PASS** (see below) |
+| `cml_conv` assemble DRC / LVS / netgen | **FAIL** — mega-short + TM1.a/b |
+| Wiring C / render / area vs §8 | **not run** (assemble FAIL) |
+
+## Proven leaves [TOOL]
+
+| cell | W_n/W_p | ng | DRC | KLayout | netgen | area mm² |
+|---|---|---:|---|---|---|---:|
+| `lo_inv_05_1` | 0.5/1 | 1 | PASS | PASS | PASS | 0.00029 |
+| `lo_inv_1_2` | 1/2 | 1 | PASS | PASS | PASS | 0.00031 |
+| `lo_inv_2_4` | 2/4 | 1 | PASS | PASS | PASS | 0.00034 |
+| `lo_inv_3_6` | 3/6 | 1 | PASS | PASS | PASS | 0.00038 |
+| `lo_inv_45_9` | 4.5/9 | 1 | PASS | PASS | PASS | 0.00044 |
+| `lo_inv_9_18` | 9/18 | 2×45_9 | PASS | PASS | PASS | 0.00098 |
+
+Method: CMOS inv (OTA + latch rules); face pins a=W y=E vcv=N gnd=S; ntap in NWell;
+ptap→gnd; via landings off finger pitch. `lo_inv_9_18` = 2× parallel `lo_inv_45_9`
+(single ng=3 mega-shorted).
+
+## Assemble FAIL [TOOL]
+
+`build_cml_conv.py` first cut: cmim 50 fF + rhigh 50 kΩ in parent + inv leaves.
+Extract: `dn|dp|gnd|vcv` mega-net — parent M1 stubs / supply rails cross child
+face pins (violates gap-stub-only rule). DRC: TM1.a/b on series-cmim TM1 stubs.
+
+## Decision needed
+
+1. Accept proven inv leaves and continue `cml_conv` assemble in a dedicated pass
+   (pin-plan first; gap stubs only; no parent metal through children; series cmim
+   M5/TM1 vias outside plates) — **recommended**.
+2. Or change converter topology / cell split before more layout.
+
+## Found, not done
+
+- `cml_conv` DRC/LVS/PEX/render/area (this item, incomplete)
+- `tspc_dff`, Johnson/phase, `lo_buffer` (prompt 06 remaining cells; after conv)
+- Commit of this job’s files (ask owner — user rule)
+- Next run name when conv PASS: **P2.7.4c** divider band tops and assembly

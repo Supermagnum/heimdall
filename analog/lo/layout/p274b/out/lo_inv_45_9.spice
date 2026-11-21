@@ -1,0 +1,5 @@
+* P2.7.4b lo_inv_45_9 CMOS inv [SCH]
+.subckt lo_inv_45_9 a y vcv gnd
+Mxp y a vcv vcv sg13_lv_pmos w=9u l=0.13u
+Mxn y a gnd gnd sg13_lv_nmos w=4.5u l=0.13u
+.ends

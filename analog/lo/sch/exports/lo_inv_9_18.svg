@@ -211,18 +211,18 @@ text {font-family: Sans-Serif;}
 <text fill="#00ddff"  xml:space="preserve" font-size="13.6296" transform="translate(31.7541, 328.47)" >y</text>
 <text fill="#00ddff"  xml:space="preserve" font-size="13.6296" transform="translate(31.7541, 296.7)" >vdd</text>
 <text fill="#00ddff"  xml:space="preserve" font-size="13.6296" transform="translate(31.7541, 264.929)" >0</text>
-<text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(361.499, 437.825)" >         /work/analog/lo/sch/lo_inv_9_18.sch</text>
-<text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(361.499, 413.997)" >HT13G-M P2.7.1</text>
-<text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(797, 413.997)" >2026-11-19  19:32:00</text>
+<text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(361.499, 437.825)" >         /foss/designs/analog/lo/sch/lo_inv_9_18.sch</text>
+<text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(361.499, 413.997)" >HT13G-M P2.7.4b</text>
+<text fill="#cccccc"  xml:space="preserve" font-size="16.5208" transform="translate(797, 413.997)" >2026-11-21  11:37:19</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="41.3019" transform="translate(178.818, 436.499)" >SCHEM</text>
-<text fill="#00ddff"  xml:space="preserve" font-size="13.6296" transform="translate(206.743, 424.775)" >lo_inv_wn9_wp18</text>
+<text fill="#00ddff"  xml:space="preserve" font-size="13.6296" transform="translate(175.743, 424.775)" >lo_inv_9_18_m2x45_9</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="8.26039" transform="translate(168.818, 370.755)" >xp</text>
 <text fill="#ff0000"  xml:space="preserve" font-size="6.19529" transform="translate(161.904, 384.765)" >G</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="8.26039" transform="translate(198.675, 409.929)" >sg13_lv_pmos</text>
-<text fill="#aaaa00"  xml:space="preserve" font-size="8.26039" transform="translate(199.667, 399.547)" >m=1</text>
+<text fill="#aaaa00"  xml:space="preserve" font-size="8.26039" transform="translate(199.667, 399.547)" >m=2</text>
 <text fill="#aaaa00"  xml:space="preserve" font-size="8.26039" transform="translate(199.667, 392.597)" >ng=1</text>
 <text fill="#aaaa00"  xml:space="preserve" font-size="8.26039" transform="translate(199.667, 382.669)" >l=0.13u</text>
-<text fill="#aaaa00"  xml:space="preserve" font-size="8.26039" transform="translate(199.667, 373.733)" >w=18u</text>
+<text fill="#aaaa00"  xml:space="preserve" font-size="8.26039" transform="translate(199.667, 373.733)" >w=9u</text>
 <text fill="#ff0000"  xml:space="preserve" font-size="6.19529" transform="translate(192.718, 406.607)" >D</text>
 <text fill="#ff0000"  xml:space="preserve" font-size="6.19529" transform="translate(192.718, 371.702)" >S</text>
 <text fill="#ff0000"  xml:space="preserve" font-size="6.19529" transform="translate(190.732, 384.765)" >B</text>
@@ -233,10 +233,10 @@ text {font-family: Sans-Serif;}
 <text fill="#cccccc"  xml:space="preserve" font-size="8.26039" transform="translate(343.557, 370.755)" >xn</text>
 <text fill="#ff0000"  xml:space="preserve" font-size="6.19529" transform="translate(336.643, 384.765)" >G</text>
 <text fill="#cccccc"  xml:space="preserve" font-size="8.26039" transform="translate(373.414, 409.929)" >sg13_lv_nmos</text>
-<text fill="#aaaa00"  xml:space="preserve" font-size="8.26039" transform="translate(374.406, 399.547)" >m=1</text>
+<text fill="#aaaa00"  xml:space="preserve" font-size="8.26039" transform="translate(374.406, 399.547)" >m=2</text>
 <text fill="#aaaa00"  xml:space="preserve" font-size="8.26039" transform="translate(374.406, 392.597)" >ng=1</text>
 <text fill="#aaaa00"  xml:space="preserve" font-size="8.26039" transform="translate(374.406, 382.669)" >l=0.13u</text>
-<text fill="#aaaa00"  xml:space="preserve" font-size="8.26039" transform="translate(374.406, 373.733)" >w=9u</text>
+<text fill="#aaaa00"  xml:space="preserve" font-size="8.26039" transform="translate(374.406, 373.733)" >w=4.5u</text>
 <text fill="#ff0000"  xml:space="preserve" font-size="6.19529" transform="translate(367.456, 406.607)" >S</text>
 <text fill="#ff0000"  xml:space="preserve" font-size="6.19529" transform="translate(367.456, 371.702)" >D</text>
 <text fill="#ff0000"  xml:space="preserve" font-size="6.19529" transform="translate(365.471, 384.765)" >B</text>

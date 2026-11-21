@@ -8,13 +8,13 @@ C {devices/iopin.sym} -200 -40 0 0 {name=a lab=a}
 C {devices/iopin.sym} -200 -80 0 0 {name=y lab=y}
 C {devices/iopin.sym} -200 -120 0 0 {name=vdd lab=vdd}
 C {devices/iopin.sym} -200 -160 0 0 {name=0 lab=0}
-C {devices/title.sym} 0 40 0 0 {name=t1 author="HT13G-M P2.7.1"}
-C {devices/lab_pin.sym} 200 40 0 0 {name=ttitle lab=lo_inv_wn9_wp18}
+C {devices/title.sym} 0 40 0 0 {name=t1 author="HT13G-M P2.7.4b"}
+C {devices/lab_pin.sym} 200 40 0 0 {name=ttitle lab=lo_inv_9_18_m2x45_9}
 C {sg13g2_pr/sg13_lv_pmos.sym} 0 0 0 0 {name=xp
-w=18u
+w=9u
 l=0.13u
 ng=1
-m=1
+m=2
 model=sg13_lv_pmos
 spiceprefix=X
 }
@@ -27,10 +27,10 @@ C {devices/lab_pin.sym} 20 -30 0 0 {name=p3 sig_type=std_logic lab=vdd}
 N 20 0 20 0 {lab=vdd}
 C {devices/lab_pin.sym} 20 0 0 0 {name=p4 sig_type=std_logic lab=vdd}
 C {sg13g2_pr/sg13_lv_nmos.sym} 220 0 0 0 {name=xn
-w=9u
+w=4.5u
 l=0.13u
 ng=1
-m=1
+m=2
 model=sg13_lv_nmos
 spiceprefix=X
 }

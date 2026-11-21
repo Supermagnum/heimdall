@@ -1,0 +1,20 @@
+# cml_conv (lo_converter) — pre-draw checklist vs p27-layout-notes [HAND]
+
+Cell = plan name `cml_conv`; sch leaf `lo_converter` (AC self-bias CML→CMOS).
+Ports: dp dn y vcv gnd [SCH].
+
+| Rule | How this cell meets it |
+|---|---|
+| PDK nmos/pmos PCell; `guardRingType=none` + hand ptap / ntap | Inv leaves: no PCell GR; ptap→gnd, ntap+NWell fill→vcv [OTA method] |
+| Even M1 cols = drain, odd = source [LVS] | `m1_sd_cols` + assert on each MOS; never swap |
+| Never M1 across Activ at a Y that hits another terminal | NMOS S drop south; PMOS S via at SD top to M2 vcv; shared Y drain on M2 between N/P (no M1 through gate-pad Y) |
+| Join same-net columns via side spurs + M2 | Drain out and vcv/gnd buses on M2; M1 local stubs + via only |
+| Gate Cont on poly pads above Activ; poly strap at Activ top | Shared gate strap N+P; Cont off active; exit west corridor |
+| Gate exit not through dummy / not across drain V | No end dummies on inv (single device each); gate M1 west of Activ |
+| Sub-cells with pins on the face | Inv leaves: a=W, y=E, vcv=N, gnd=S; AC/rhigh placed in parent (pair_loads method) |
+| Gap stubs only; no metal through a child | Assemble: stub face-to-face; cmim/rhigh in parent; no reach-in |
+| Both LVS tools + fingers by script | Prove each inv size then top; fingers by `check_fingers_cell.py` |
+| Wiring C = substrate + coupling | Magic .ext after prove [PEX-RC] |
+
+Devices [SCH]: 3× cmim 50 fF (series), 3× rhigh 50 kΩ, inv 2/4 ×3, XC 0.5/1 + 1/2, taper 3/6 → 9/18.
+Series cmim: MINUS=M5 / PLUS=TM1 both signal (not gnd) — via M1↔M5 and M1↔TM1 outside plates [cbf/hold lesson].

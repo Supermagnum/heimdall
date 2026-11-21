@@ -1,0 +1,7 @@
+# P2.7.4b DRC/LVS — lo_inv_1_2
+
+- DRC clean (density waived): **PASS** non-density=[]
+- KLayout LVS: **PASS**
+- netgen unique: **PASS**
+- extracted: `/foss/designs/analog/lo/layout/p274b/out/lvs_lo_inv_1_2/lo_inv_1_2_extracted.cir`
+

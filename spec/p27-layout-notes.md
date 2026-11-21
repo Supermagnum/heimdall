@@ -1199,6 +1199,15 @@ Prior accepted floors used C_ck=15 fF on **clock nets only** (no qp/qn/ta)
 qp/qn, ta: UHF **−155.6**, VHF **−159.7** dBc/Hz vs ≤ −151 → **PASS**
 (`summary_floor_pex_c.txt`). Latch outputs need not be tightened before more cells.
 
+##### `cml_conv` inv leaves (2026-11-21) — PASS leaves; assemble STOP [TOOL]
+
+Pre-draw checklist: `out/summary_checklist_cml_conv.txt`. CMOS inv leaves
+(`lo_inv_05_1` … `lo_inv_3_6`, `lo_inv_45_9`, `lo_inv_9_18`=2×45_9): DRC
+(density waived) / KLayout LVS / netgen unique **PASS** [TOOL]. Face pins
+a=W y=E vcv=N gnd=S; ntap in NWell; via landings off finger pitch.
+`cml_conv` first assemble **FAIL** (parent stub mega-short + TM1.a/b) —
+`summary_cml_conv_stop.txt`. Next: pin-plan gap-stub assemble only.
+
 ### P2.7.5 — xschem + layout: PFD, CP, bias, hold, window delay, V_tune monitors, loop filter
 **Inputs:** `analog/pll/step2|step4`, `vtune_mon/`; D19 values.  
 **Outputs:** sch + gds.gz + DRC/LVS; LF MOS area ≈ 0.062 mm².  

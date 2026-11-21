@@ -1,0 +1,3 @@
+nmos (-0.405,-0.18;0.405,4.68); pmos (-0.715,14.68;0.715,24.3) [SCH W=4.5u/9u ng=1]
+S/D order: even=D odd=S; nS=1 nD=1 pS=1 pD=1 [LVS]
+inv bbox (-6.205,-6.23;6.295,28.8); area 0.00044 mm² [GDS]

@@ -2,6 +2,29 @@
 
 | sch | spice | svg | pdf | rc |
 |---|---|---|---|---|
+| cml_dff_uhf.sch | no | yes | yes | net=10 print=0 |
+| cml_diff_pair.sch | no | yes | yes | net=10 print=0 |
+| cml_div3_vhf.sch | no | yes | yes | net=10 print=0 |
+| cml_latch_uhf.sch | no | yes | yes | net=10 print=0 |
+| cml_latch_vhf_tl.sch | no | yes | yes | net=10 print=0 |
+| cml_nor_vhf.sch | no | yes | yes | net=10 print=0 |
 | lo_bias.sch | no | yes | yes | net=10 print=0 |
+| lo_buffer.sch | no | yes | yes | net=10 print=0 |
+| lo_converter.sch | no | yes | yes | net=10 print=0 |
+| lo_inv_05_1.sch | no | yes | yes | net=10 print=0 |
+| lo_inv_1_2.sch | no | yes | yes | net=10 print=0 |
+| lo_inv_2_4.sch | no | yes | yes | net=10 print=0 |
+| lo_inv_3_6.sch | no | yes | yes | net=10 print=0 |
+| lo_inv_45_9.sch | no | yes | yes | net=10 print=0 |
+| lo_inv_4_8.sch | no | yes | yes | net=10 print=0 |
+| lo_inv_9_18.sch | no | yes | yes | net=10 print=0 |
+| lo_johnson_uhf.sch | no | yes | yes | net=10 print=0 |
+| lo_johnson_vhf.sch | no | yes | yes | net=10 print=0 |
+| lo_nand2.sch | no | yes | yes | net=10 print=0 |
+| lo_tspc.sch | no | yes | yes | net=10 print=0 |
+| lo_uhf_hier.sch | no | yes | yes | net=10 print=0 |
 | lo_uhf_top.sch | no | yes | yes | net=10 print=0 |
+| lo_vhf_hier.sch | no | yes | yes | net=10 print=0 |
 | lo_vhf_top.sch | no | yes | yes | net=10 print=0 |
+
+Export gate: PASS (24/24 svg, 24/24 pdf)

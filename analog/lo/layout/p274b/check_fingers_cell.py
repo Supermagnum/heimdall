@@ -29,6 +29,13 @@ EXPECT = {
     "cml_nor_core_vhf": (3, 2, {}),
     "cml_tail_nor_vhf": (0, 2, {5: 1}),
     "cml_nor_vhf": (4, 4, {}),  # 3 input + 1 tail ng=5; 4 dummies ng=1
+    # CMOS inv: nmos+pmos ng=1 each (9_18 is 2×45_9 → 4× ng=1)
+    "lo_inv_05_1": (0, 2, {}),
+    "lo_inv_1_2": (0, 2, {}),
+    "lo_inv_2_4": (0, 2, {}),
+    "lo_inv_3_6": (0, 2, {}),
+    "lo_inv_45_9": (0, 2, {}),
+    "lo_inv_9_18": (0, 4, {}),
 }
 
 

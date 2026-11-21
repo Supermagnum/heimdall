@@ -1,0 +1,16 @@
+21-Nov-2026 10:34:05 | INFO    | Your Klayout version is: KLayout 0.30.12 (required >= 0.30.5)
+21-Nov-2026 10:34:05 | INFO    | Running SG13G2 LVS checks on design /foss/designs/analog/lo/layout/p274b/out/lo_inv_3_6.gds on cell lo_inv_3_6
+21-Nov-2026 10:34:08 | INFO    | ==============================================================================
+21-Nov-2026 10:34:08 | INFO    | Important Summary
+21-Nov-2026 10:34:08 | INFO    | +------------------+--------------------------------------------------------------+
+21-Nov-2026 10:34:08 | INFO    | | Status           | PASS                                                         |
+21-Nov-2026 10:34:08 | INFO    | | Mode             | COMPARE                                                      |
+21-Nov-2026 10:34:08 | INFO    | | Outcome          | Comparison mode: PASS (netlists match).                      |
+21-Nov-2026 10:34:08 | INFO    | | Layout           | lo_inv_3_6.gds                                               |
+21-Nov-2026 10:34:08 | INFO    | | Top Cell         | lo_inv_3_6                                                   |
+21-Nov-2026 10:34:08 | INFO    | | Results Dir      | /foss/designs/analog/lo/layout/p274b/out/lvs_lo_inv_3_6      |
+21-Nov-2026 10:34:08 | INFO    | | Warnings         | 0                                                            |
+21-Nov-2026 10:34:08 | INFO    | | Errors           | 0                                                            |
+21-Nov-2026 10:34:08 | INFO    | | Run Time (s)     | 2.707                                                        |
+21-Nov-2026 10:34:08 | INFO    | +------------------+--------------------------------------------------------------+
+21-Nov-2026 10:34:08 | INFO    | ==============================================================================
